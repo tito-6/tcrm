@@ -1,0 +1,33 @@
+table.o_builder_matrix {
+    table-layout: fixed;
+    max-width: 100%;
+
+    td, th {
+        text-align: center;
+
+        > :is(div, button) {
+            width: 100% !important;
+        }
+
+        > div {
+            padding: 0;
+        
+            .o-hb-input-number {
+                padding: 0.15rem $o-we-sidebar-content-field-clickable-spacing;
+            }
+        }
+
+
+        .btn {
+            padding: unset;
+        }
+
+        .o-hb-input-number {
+            margin-right: 0;
+        }
+
+        &:last-child {
+            width: 28px;
+        }
+    }
+}

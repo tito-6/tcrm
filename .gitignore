@@ -1,6 +1,7 @@
 .env
 .venv/
-odoo/
+node_modules/
+packages/
 **/__pycache__/
 **/*.pyc
 postgres-data/

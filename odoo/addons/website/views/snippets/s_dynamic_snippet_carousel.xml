@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_dynamic_snippet_carousel" name="Dynamic Carousel">
+        <t t-call="website.s_dynamic_snippet_template"
+            snippet_name.f="s_dynamic_snippet_carousel"/>
+    </template>
+
+<record id="website.s_dynamic_snippet_carousel_000_scss" model="ir.asset">
+    <field name="name">Dynamic snippet carousel 000 SCSS</field>
+    <field name="bundle">web.assets_frontend</field>
+    <field name="path">website/static/src/snippets/s_dynamic_snippet_carousel/000.scss</field>
+</record>
+
+<record id="website.s_dynamic_snippet_carousel_000_xml" model="ir.asset">
+    <field name="name">Dynamic snippet carousel 000 XML</field>
+    <field name="bundle">web.assets_frontend</field>
+    <field name="path">website/static/src/snippets/s_dynamic_snippet_carousel/000.xml</field>
+</record>
+
+</odoo>

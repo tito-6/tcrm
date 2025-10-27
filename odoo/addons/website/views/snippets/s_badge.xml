@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template name="Badge" id="s_badge">
+    <span class="s_badge badge text-bg-secondary o_animable" data-name="Badge" data-vxml="001">
+        <i class="fa fa-fw fa-folder o_not-animable"/>Category
+    </span>
+</template>
+
+<record id="website.s_badge_000_variables_scss" model="ir.asset">
+    <field name="name">Badge 000 variables SCSS</field>
+    <field name="bundle">web._assets_primary_variables</field>
+    <field name="path">website/static/src/snippets/s_badge/000_variables.scss</field>
+</record>
+
+<record id="website.s_badge_000_scss" model="ir.asset">
+    <field name="name">Badge 000 SCSS</field>
+    <field name="bundle">web.assets_frontend</field>
+    <field name="path">website/static/src/snippets/s_badge/000.scss</field>
+</record>
+
+</odoo>
