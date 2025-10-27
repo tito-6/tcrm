@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:15
+    container_name: odoo-db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:17.0
+    container_name: odoo-web
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "8069:8069"
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      ADMIN_PASSWORD: ${ODOO_ADMIN_PASSWORD}
+      DB_FILTER: ${ODOO_DB_FILTER}
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
+      - ./addons:/mnt/extra-addons
+    command: ["odoo", "--config", "/etc/odoo/odoo.conf"]
+
+  ngrok:
+    image: ngrok/ngrok:3
+    container_name: odoo-ngrok
+    depends_on:
+      - odoo
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+      NGROK_REGION: ${NGROK_REGION}
+    command: ["http", "odoo:8069"]
+    ports:
+      - "4040:4040"
+    volumes:
+      - ./config/ngrok.yml:/etc/ngrok.yml:ro
+
+volumes:
+  odoo-web-data:
+  odoo-db-data:

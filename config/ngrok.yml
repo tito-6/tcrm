@@ -1,0 +1,11 @@
+version: 2
+authtoken: ${NGROK_AUTHTOKEN}
+region: ${NGROK_REGION}
+tunnels:
+  odoo:
+    proto: http
+    addr: odoo:8069
+    schemes:
+      - https
+      - http
+    inspect: true
