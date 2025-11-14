@@ -50,7 +50,7 @@ msgstr ""
 
 #. module: sms_twilio
 #: model_terms:ir.ui.view,arch_db:sms_twilio.sms_twilio_account_manage_view_form
-msgid "ACabcde12345abcde12345abcde12345ab"
+msgid "ACexampleAccountSID"
 msgstr ""
 
 #. module: sms_twilio
@@ -406,5 +406,5 @@ msgstr ""
 
 #. module: sms_twilio
 #: model_terms:ir.ui.view,arch_db:sms_twilio.sms_twilio_account_manage_view_form
-msgid "abcde12345abcde12345abcde12345ab"
+msgid "exampleAuthToken"
 msgstr ""

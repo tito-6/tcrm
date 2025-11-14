@@ -51,8 +51,8 @@ msgstr ""
 
 #. module: sms_twilio
 #: model_terms:ir.ui.view,arch_db:sms_twilio.sms_twilio_account_manage_view_form
-msgid "ACabcde12345abcde12345abcde12345ab"
-msgstr "ACabcde12345abcde12345abcde12345ab"
+msgid "ACexampleAccountSID"
+msgstr "ACexampleAccountSID"
 
 #. module: sms_twilio
 #: model:ir.model.fields,field_description:sms_twilio.field_res_company__sms_twilio_account_sid
@@ -407,8 +407,8 @@ msgstr ""
 
 #. module: sms_twilio
 #: model_terms:ir.ui.view,arch_db:sms_twilio.sms_twilio_account_manage_view_form
-msgid "abcde12345abcde12345abcde12345ab"
-msgstr "abcde12345abcde12345abcde12345ab"
+msgid "exampleAuthToken"
+msgstr "exampleAuthToken"
 
 #~ msgid ""
 #~ "Any number here that is not on Twilio will be deleted and the ordering "

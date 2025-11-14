@@ -3,8 +3,7 @@
 *.env
 !.env.example
 
-# Database and Storage
-odoo/
+# Database and Storage (keep Odoo core for self-contained deployment)
 postgres_data/
 postgres-data/
 odoo-web-data/

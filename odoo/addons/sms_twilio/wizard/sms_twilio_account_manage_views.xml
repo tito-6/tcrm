@@ -10,7 +10,7 @@
                     <field name="company_id" invisible="1"/>  <!-- Invisible to not be visible -->
                     <label for="sms_twilio_account_sid"/>
                     <div class="d-flex align-items-center">
-                        <field name="sms_twilio_account_sid" placeholder="ACabcde12345abcde12345abcde12345ab"
+                        <field name="sms_twilio_account_sid" placeholder="ACexampleAccountSID"
                             required="1"/>
                         <a target="_blank" class="btn btn-link ms-1 w-25"
                             role="button"
@@ -19,7 +19,7 @@
                             <i class="fa fa-external-link" aria-hidden="true"/>
                         </a>
                     </div>
-                    <field name="sms_twilio_auth_token" password="True" placeholder="abcde12345abcde12345abcde12345ab"
+                    <field name="sms_twilio_auth_token" password="True" placeholder="exampleAuthToken"
                         required="1"/>
                     <label for="test_number"/>
                     <div class="d-flex align-items-center">
