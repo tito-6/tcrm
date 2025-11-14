@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Add Meta fields to the CRM Lead list view -->
+    <record id="view_crm_lead_tree_meta" model="ir.ui.view">
+        <field name="name">crm.lead.tree.meta</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name="meta_submitted_on" string="Submitted On" optional="show"/>
+                <field name="meta_campaign_name" string="Campaign" optional="hide"/>
+                <field name="meta_source" string="Source" optional="show"/>
+                <field name="meta_medium" string="Medium" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add Meta fields to the CRM Lead form -->
+    <record id="view_crm_lead_form_meta" model="ir.ui.view">
+        <field name="name">crm.lead.form.meta</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Meta Lead Data">
+                    <group>
+                        <group string="Lead Information">
+                            <field name="meta_leadgen_id" readonly="1"/>
+                            <field name="meta_page_id" readonly="1"/>
+                            <field name="meta_form_id" readonly="1"/>
+                            <field name="meta_submitted_on" readonly="1"/>
+                        </group>
+                        <group string="Campaign Tracking">
+                            <field name="meta_campaign_id" readonly="1"/>
+                            <field name="meta_campaign_name" readonly="1"/>
+                            <field name="meta_adset_id" readonly="1"/>
+                            <field name="meta_adset_name" readonly="1"/>
+                            <field name="meta_ad_id" readonly="1"/>
+                            <field name="meta_ad_name" readonly="1"/>
+                            <field name="meta_source" readonly="1"/>
+                            <field name="meta_medium" readonly="1"/>
+                            <field name="meta_platform" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Form Responses">
+                        <field name="meta_form_answers" widget="text" readonly="1"/>
+                    </group>
+                    <group string="Ad Creative Details">
+                        <div class="oe_button_box" style="margin-bottom: 10px;">
+                            <button name="action_refresh_ad_creative" type="object" 
+                                    class="oe_stat_button" icon="fa-refresh"
+                                    invisible="meta_ad_id == False">
+                                <span>Refresh Creative</span>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="meta_creative_id" readonly="1"/>
+                            <field name="meta_creative_type" readonly="1"/>
+                            <field name="meta_creative_title" readonly="1"/>
+                            <field name="meta_creative_cta" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="meta_creative_media_url" widget="url" readonly="1"/>
+                            <field name="meta_creative_body" widget="text" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Creative Preview">
+                        <field name="meta_creative_preview" widget="html" readonly="1" nolabel="1"/>
+                    </group>
+                    <group string="Raw Data">
+                        <field name="meta_raw_payload" widget="text" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action for Meta leads -->
+    <record id="action_crm_lead_meta" model="ir.actions.act_window">
+        <field name="name">Meta Leads</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[("meta_leadgen_id","!=",False)]</field>
+    </record>
+
+</odoo>

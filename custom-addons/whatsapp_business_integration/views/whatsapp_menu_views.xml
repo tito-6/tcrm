@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Business Main Menu -->
+    <menuitem id="menu_whatsapp_business_root"
+              name="WhatsApp Business"
+              sequence="60"/>
+    
+    <!-- WhatsApp Conversations Menu -->
+    <menuitem id="menu_whatsapp_conversations"
+              name="Conversations"
+              parent="menu_whatsapp_business_root"
+              action="action_whatsapp_conversation"
+              sequence="10"/>
+    
+    <!-- WhatsApp Messages Menu -->
+    <menuitem id="menu_whatsapp_messages"
+              name="Messages"
+              parent="menu_whatsapp_business_root"
+              action="action_whatsapp_message"
+              sequence="20"/>
+    
+    <!-- WhatsApp Configuration Menu -->
+    <menuitem id="menu_whatsapp_config"
+              name="Configuration"
+              parent="menu_whatsapp_business_root"
+              sequence="90"/>
+</odoo>

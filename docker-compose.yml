@@ -33,10 +33,20 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       ADMIN_PASSWORD: ${ODOO_ADMIN_PASSWORD}
       DB_FILTER: ${ODOO_DB_FILTER}
+      # Meta/Facebook Ads Integration
+      META_APP_ID: ${META_APP_ID}
+      META_APP_SECRET: ${META_APP_SECRET}
+      META_USER_ACCESS_TOKEN: ${META_USER_ACCESS_TOKEN}
+      META_WEBHOOK_VERIFY_TOKEN: ${META_WEBHOOK_VERIFY_TOKEN:-my_secure_meta_webhook_token_2024}
+      # Google Ads Integration
+      GOOGLE_DEVELOPER_TOKEN: ${GOOGLE_DEVELOPER_TOKEN}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
       - ./addons:/mnt/extra-addons
+      - ./custom-addons:/mnt/custom-addons
     command: ["odoo", "--config", "/etc/odoo/odoo.conf"]
 
   ngrok:

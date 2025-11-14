@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Conversation Tree View -->
+    <record id="view_whatsapp_conversation_tree" model="ir.ui.view">
+        <field name="name">whatsapp.conversation.tree</field>
+        <field name="model">whatsapp.conversation</field>
+        <field name="arch" type="xml">
+            <tree string="WhatsApp Conversations" default_order="last_message_date desc">
+                <field name="display_name"/>
+                <field name="phone_number"/>
+                <field name="partner_id" optional="show"/>
+                <field name="lead_id" optional="show"/>
+                <field name="message_count"/>
+                <field name="unread_count" widget="badge" decoration-info="unread_count > 0"/>
+                <field name="last_message_date"/>
+                <field name="last_message_preview"/>
+                <field name="status" widget="badge" decoration-success="status == 'active'" decoration-muted="status == 'archived'" decoration-danger="status == 'blocked'"/>
+                <field name="user_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- WhatsApp Conversation Kanban View -->
+    <record id="view_whatsapp_conversation_kanban" model="ir.ui.view">
+        <field name="name">whatsapp.conversation.kanban</field>
+        <field name="model">whatsapp.conversation</field>
+        <field name="arch" type="xml">
+            <kanban default_order="last_message_date desc">
+                <field name="display_name"/>
+                <field name="phone_number"/>
+                <field name="partner_id"/>
+                <field name="lead_id"/>
+                <field name="message_count"/>
+                <field name="unread_count"/>
+                <field name="last_message_date"/>
+                <field name="last_message_preview"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="oe_kanban_details">
+                                    <strong><field name="display_name"/></strong>
+                                    <div>
+                                        <i class="fa fa-whatsapp text-success"/> 
+                                        <field name="phone_number"/>
+                                    </div>
+                                    <div t-if="record.partner_id.raw_value">
+                                        <i class="fa fa-user"/> 
+                                        <field name="partner_id"/>
+                                    </div>
+                                    <div t-if="record.lead_id.raw_value">
+                                        <i class="fa fa-star"/> 
+                                        <field name="lead_id"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <span t-if="record.unread_count.raw_value > 0" 
+                                              class="badge badge-info">
+                                            <t t-esc="record.unread_count.value"/> unread
+                                        </span>
+                                        <span class="text-muted">
+                                            <field name="last_message_date" widget="relative"/>
+                                        </span>
+                                    </div>
+                                    <div class="text-muted" style="margin-top: 5px;">
+                                        <field name="last_message_preview"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- WhatsApp Conversation Form View -->
+    <record id="view_whatsapp_conversation_form" model="ir.ui.view">
+        <field name="name">whatsapp.conversation.form</field>
+        <field name="model">whatsapp.conversation</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Conversation">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="active,archived,blocked"/>
+                    <button name="action_send_message" type="object" string="Send Message" class="btn-primary"/>
+                    <button name="mark_all_as_read" type="object" string="Mark All Read" 
+                            invisible="unread_count == 0"/>
+                    <button name="archive_conversation" type="object" string="Archive" 
+                            invisible="status != 'active'"/>
+                    <button name="unarchive_conversation" type="object" string="Unarchive" 
+                            invisible="status != 'archived'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_messages" type="object" class="oe_stat_button" icon="fa-comments">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="message_count"/></span>
+                                <span class="o_stat_text">Messages</span>
+                            </div>
+                        </button>
+                        <button name="%(action_whatsapp_message)d" type="action" class="oe_stat_button" icon="fa-envelope-o"
+                                context="{'search_default_conversation_id': id}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="unread_count"/></span>
+                                <span class="o_stat_text">Unread</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="display_name"/>
+                            <field name="phone_number"/>
+                            <field name="partner_id"/>
+                            <field name="lead_id"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="last_message_date"/>
+                            <field name="last_message_preview"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Messages" name="messages">
+                            <field name="message_ids" readonly="1">
+                                <tree editable="bottom" create="false" delete="false" default_order="timestamp desc">
+                                    <field name="direction" widget="badge"/>
+                                    <field name="message_type"/>
+                                    <field name="preview"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="timestamp"/>
+                                    <field name="user_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- WhatsApp Conversation Search View -->
+    <record id="view_whatsapp_conversation_search" model="ir.ui.view">
+        <field name="name">whatsapp.conversation.search</field>
+        <field name="model">whatsapp.conversation</field>
+        <field name="arch" type="xml">
+            <search string="Search Conversations">
+                <field name="display_name"/>
+                <field name="phone_number"/>
+                <field name="partner_id"/>
+                <field name="lead_id"/>
+                <field name="user_id"/>
+                
+                <filter string="Active" name="active" domain="[('status', '=', 'active')]"/>
+                <filter string="Archived" name="archived" domain="[('status', '=', 'archived')]"/>
+                <filter string="Blocked" name="blocked" domain="[('status', '=', 'blocked')]"/>
+                <separator/>
+                <!-- TODO: Fix search method for computed field -->
+                <!-- <filter string="With Unread" name="unread" domain="[('unread_count', '>', 0)]"/> -->
+                <filter string="With Contact" name="has_partner" domain="[('partner_id', '!=', False)]"/>
+                <filter string="With Lead" name="has_lead" domain="[('lead_id', '!=', False)]"/>
+                <separator/>
+                <filter string="My Conversations" name="my_conversations" domain="[('user_id', '=', uid)]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Assigned To" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Contact" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Lead" name="group_lead" context="{'group_by': 'lead_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- WhatsApp Conversation Action -->
+    <record id="action_whatsapp_conversation" model="ir.actions.act_window">
+        <field name="name">WhatsApp Conversations</field>
+        <field name="res_model">whatsapp.conversation</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_whatsapp_conversation_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No WhatsApp conversations yet!
+            </p>
+            <p>
+                Start sending WhatsApp messages to contacts and leads to see conversations here.
+            </p>
+        </field>
+    </record>
+</odoo>

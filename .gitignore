@@ -1,10 +1,117 @@
+# Environment and Dependencies
 .env
-.venv/
-node_modules/
-packages/
-**/__pycache__/
-**/*.pyc
+*.env
+!.env.example
+
+# Database and Storage
+odoo/
+postgres_data/
 postgres-data/
 odoo-web-data/
 odoo-db-data/
+**/filestore/
+**/sessions/
+
+# Docker volumes and containers
+docker-compose.override.yml
+.dockerignore
+
+# Logs
 *.log
+logs/
+**/*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+**/__pycache__/
+**/*.pyc
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Node modules
+node_modules/
+packages/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# ngrok
+ngrok
+ngrok.exe
+
+# Test coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Keep important files
+!custom-addons/
+!config/
+!scripts/
+!docs/
+!docker-compose.yml
+!README.md
+!LICENSE

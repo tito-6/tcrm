@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Message Wizard Form View -->
+    <record id="view_whatsapp_message_wizard_form" model="ir.ui.view">
+        <field name="name">whatsapp.message.wizard.form</field>
+        <field name="model">whatsapp.message.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send WhatsApp Message">
+                <group>
+                    <group>
+                        <field name="phone_number" readonly="1"/>
+                        <field name="partner_id" readonly="1" invisible="not partner_id"/>
+                        <field name="lead_id" readonly="1" invisible="not lead_id"/>
+                        <field name="conversation_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="message_type" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                </group>
+                
+                <group invisible="message_type != 'text'" string="Text Message">
+                    <field name="message_body" nolabel="1" placeholder="Enter your message..." 
+                           widget="text" required="message_type == 'text'"/>
+                </group>
+                
+                <group invisible="message_type != 'template'" string="Template Message">
+                    <field name="template_name" required="message_type == 'template'"/>
+                    <field name="template_language"/>
+                    <field name="template_parameters" placeholder="param1, param2, param3..."
+                           help="Enter template parameters separated by commas"/>
+                </group>
+                
+                <footer>
+                    <button name="action_send_and_close" string="Send Message" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <!-- WhatsApp Message Wizard Action -->
+    <record id="action_whatsapp_message_wizard" model="ir.actions.act_window">
+        <field name="name">Send WhatsApp Message</field>
+        <field name="res_model">whatsapp.message.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_whatsapp_message_wizard_form"/>
+    </record>
+</odoo>
