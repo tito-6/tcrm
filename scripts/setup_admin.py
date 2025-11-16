@@ -12,15 +12,15 @@ with registry.cursor() as cr:
     env = odoo.api.Environment(cr, odoo.SUPERUSER_ID, {})
     user = env.ref("base.user_admin")
     user.write({
-        "login": "admin",
+        "login": "queenvilla",
         "lang": "en_US",
-        "password": "admin",
+        "password": "QueenVilla2025!@#Strong",
     })
     # Update related partner info for completeness.
     user.partner_id.write({
-        "email": "admin@example.com",
-        "phone": "+1-555-0100",
-        "country_id": env.ref("base.us").id,
+        "email": "admin@queenvilla.com",
+        "phone": "+90-555-0100",
+        "country_id": env.ref("base.tr").id,
     })
     cr.commit()
-    print(f"Updated administrator (ID {user.id}) with login 'admin'.")
+    print(f"Updated administrator (ID {user.id}) with login 'queenvilla'.")

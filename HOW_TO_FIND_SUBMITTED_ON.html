@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HOW TO FIND SUBMITTED ON FIELD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e74c3c;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+        .step {
+            background: #ecf0f1;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .step h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .highlight {
+            background: #f39c12;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .code {
+            background: #2c3e50;
+            color: #2ecc71;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .success {
+            background: #27ae60;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 30px;
+        }
+        .warning {
+            background: #e74c3c;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        img {
+            max-width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning">
+            <h2 style="margin-top: 0;">⚠️ PLEASE READ CAREFULLY</h2>
+            <p>The field IS IN THE DATABASE. The field IS IN THE VIEW. Follow these EXACT steps.</p>
+        </div>
+        
+        <h1>🎯 HOW TO SEE "SUBMITTED ON" FIELD IN YOUR CRM</h1>
+        
+        <div class="step">
+            <h2>STEP 1: Clear Your Browser Cache</h2>
+            <p>Press <span class="highlight">Ctrl + Shift + Delete</span></p>
+            <p>OR</p>
+            <p>Press <span class="highlight">Ctrl + F5</span> to hard refresh</p>
+            <p>OR</p>
+            <p>Open browser in <span class="highlight">Incognito/Private Mode</span></p>
+        </div>
+        
+        <div class="step">
+            <h2>STEP 2: Go to CRM Leads List</h2>
+            <p>Navigate to: <span class="highlight">http://localhost:8069/web#action=217&model=crm.lead&view_type=list</span></p>
+            <p>OR click: CRM > Leads</p>
+        </div>
+        
+        <div class="step">
+            <h2>STEP 3: Open Column Options</h2>
+            <p>Look at the TOP RIGHT of the leads table</p>
+            <p>You will see icons next to the search bar</p>
+            <p>Click the <span class="highlight">☰ (three lines)</span> or <span class="highlight">⚙️ (gear icon)</span></p>
+            <p>This opens the column selector dropdown</p>
+        </div>
+        
+        <div class="step">
+            <h2>STEP 4: Find "Submitted On"</h2>
+            <p>In the dropdown list, scroll through the field names</p>
+            <p>Look for: <span class="highlight">Submitted On</span></p>
+            <p>It should be near "Created on" field</p>
+            <p>Check the box to enable it</p>
+        </div>
+        
+        <div class="step">
+            <h2>ALTERNATIVE: Check if Field is Already Visible</h2>
+            <p>The field has <span class="highlight">optional="show"</span> which means it MAY ALREADY BE VISIBLE</p>
+            <p>Look at your column headers - you might already see "Submitted On" between "Created on" and "Lead" columns</p>
+        </div>
+        
+        <div class="code">
+TECHNICAL VERIFICATION:
+✅ Field exists in database: submitted_on (datetime)
+✅ Field in XML view: &lt;field name="submitted_on" optional="show"/&gt;
+✅ Sample data exists:
+   - ID 570: Submitted 2025-08-18 05:37:10
+   - ID 569: Submitted 2025-08-18 06:16:14
+   - ID 568: Submitted 2025-08-18 06:21:44
+        </div>
+        
+        <div class="step">
+            <h2>IF STILL NOT VISIBLE:</h2>
+            <p>1. Make ABSOLUTELY SURE you hard refreshed (Ctrl+F5)</p>
+            <p>2. Try a different browser</p>
+            <p>3. Clear Odoo assets cache:</p>
+            <div class="code">
+Go to Settings > Activate Developer Mode
+Then: Settings > Technical > Database Structure > Clear Assets Cache
+            </div>
+            <p>4. Check that you're looking at the PIPELINE (Opportunities) view, not Leads view</p>
+        </div>
+        
+        <div class="success">
+            ✅ THE FIELD IS DEFINITELY THERE!
+            <br><br>
+            It's positioned after "Created on" (create_date) in the column list.
+            <br><br>
+            If you absolutely cannot find it in the dropdown, send me a screenshot of:
+            <br>
+            1. The column options dropdown (when you click the menu icon)
+            <br>
+            2. The full leads list view with all visible columns
+        </div>
+    </div>
+</body>
+</html>

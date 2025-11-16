@@ -17,12 +17,24 @@ class CrmLead(models.Model):
     meta_leadgen_id = fields.Char(string='Meta Leadgen ID', readonly=True)
     meta_page_id = fields.Char(string='Meta Page ID', readonly=True)
     meta_campaign_id = fields.Char(string='Meta Campaign ID', readonly=True)
+    meta_campaign_name = fields.Char(string='Campaign', readonly=True)
     meta_adset_id = fields.Char(string='Meta Adset ID', readonly=True)
+    meta_adset_name = fields.Char(string='Ad Set', readonly=True)
     meta_platform = fields.Selection([
         ('facebook', 'Facebook'),
         ('instagram', 'Instagram'),
         ('messenger', 'Messenger')
-    ], string='Meta Platform', readonly=True)
+    ], string='Platform', readonly=True)
+    
+    # Submission timestamp
+    submitted_on = fields.Datetime(string='Submitted On', readonly=True, help='Date and time when the lead was submitted on Facebook')
+    
+    # Computed field for form answers display
+    form_answers_display = fields.Html(
+        string='Form Answers',
+        compute='_compute_form_answers_display',
+        store=False
+    )
     
     # Creative fields
     meta_creative_id = fields.Char(string='Creative ID', readonly=True)
@@ -53,10 +65,75 @@ class CrmLead(models.Model):
         store=False
     )
 
+    @api.depends('description')
+    def _compute_form_answers_display(self):
+        """Extract and format form answers from description for better display"""
+        for record in self:
+            if not record.description:
+                record.form_answers_display = False
+                continue
+            
+            # Parse description to extract form answers
+            lines = record.description.split('\n')
+            form_answers = []
+            in_answers_section = False
+            
+            for line in lines:
+                if 'Form Answers:' in line:
+                    in_answers_section = True
+                    continue
+                
+                if in_answers_section and line.strip().startswith('•'):
+                    # Extract field and value
+                    answer = line.strip()[1:].strip()  # Remove bullet point
+                    if ':' in answer:
+                        parts = answer.split(':', 1)
+                        field_name = parts[0].strip()
+                        field_value = parts[1].strip()
+                        
+                        # Clean up field names (remove underscores, Turkish characters issues)
+                        field_name_clean = field_name.replace('_', ' ').replace('�', 'İ').title()
+                        
+                        # Determine if it's a contact field
+                        field_lower = field_name.lower()
+                        icon = '📧'
+                        if 'phone' in field_lower or 'telefon' in field_lower or 'numara' in field_lower:
+                            icon = '📱'
+                        elif 'email' in field_lower or 'posta' in field_lower:
+                            icon = '📧'
+                        elif 'name' in field_lower or 'ad' in field_lower or 'soyad' in field_lower:
+                            icon = '👤'
+                        else:
+                            icon = '💬'
+                        
+                        form_answers.append((icon, field_name_clean, field_value))
+            
+            if form_answers:
+                html = ['<div style=\"padding: 10px; background: #f8f9fa; border-radius: 8px;\">']
+                
+                for icon, field, value in form_answers:
+                    html.append(f'''
+                        <div style=\"margin-bottom: 12px; padding: 8px; background: white; border-left: 3px solid #1877f2; border-radius: 4px;\">
+                            <div style=\"display: flex; align-items: start;\">
+                                <span style=\"font-size: 20px; margin-right: 10px;\">{icon}</span>
+                                <div style=\"flex: 1;\">
+                                    <strong style=\"color: #555; font-size: 12px; text-transform: uppercase;\">{field}</strong>
+                                    <div style=\"color: #333; font-size: 14px; margin-top: 4px;\">{value}</div>
+                                </div>
+                            </div>
+                        </div>
+                    ''')
+                
+                html.append('</div>')
+                record.form_answers_display = ''.join(html)
+            else:
+                record.form_answers_display = '<p style=\"color: #999; font-style: italic;\">No form answers available</p>'
+
     @api.depends('meta_creative_id', 'meta_creative_high_res_url', 'meta_creative_media_url', 
                  'meta_creative_title', 'meta_creative_body', 'meta_creative_cta', 'meta_creative_type',
                  'meta_creative_video_embed_html', 'meta_creative_resolution_quality')
     def _compute_creative_preview(self):
+        """Generate HTML preview of the ad creative with high-resolution support"""
         """Generate HTML preview of the ad creative with high-resolution support"""
         for record in self:
             if not record.meta_creative_id:

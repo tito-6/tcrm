@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Add submitted_on to opportunities tree/list view -->
+    <record id="crm_lead_view_tree_inherit_meta_oppor" model="ir.ui.view">
+        <field name="name">crm.lead.tree.meta.inherit.oppor</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <field name="create_date" position="after">
+                <field name="submitted_on" optional="show"/>
+            </field>
+        </field>
+    </record>
+    
+    <!-- Add submitted_on to leads tree/list view -->
+    <record id="crm_lead_view_tree_inherit_meta_leads" model="ir.ui.view">
+        <field name="name">crm.lead.tree.meta.inherit.leads</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <field name="create_date" position="after">
+                <field name="submitted_on" optional="show"/>
+                <field name="meta_platform" optional="show"/>
+                <field name="meta_campaign_name" optional="hide"/>
+            </field>
+        </field>
+    </record>
+    
     <record id="crm_lead_view_form_inherit_meta" model="ir.ui.view">
         <field name="name">crm.lead.form.meta.inherit</field>
         <field name="model">crm.lead</field>
@@ -17,17 +43,22 @@
                     
                     <group string="Lead Information">
                         <group>
+                            <field name="submitted_on"/>
                             <field name="meta_form_id"/>
                             <field name="meta_leadgen_id"/>
                             <field name="meta_page_id"/>
-                            <field name="meta_platform"/>
                         </group>
                         <group>
+                            <field name="meta_platform"/>
                             <field name="meta_ad_id"/>
                             <field name="meta_ad_name"/>
                             <field name="meta_campaign_id"/>
                             <field name="meta_adset_id"/>
                         </group>
+                    </group>
+                    
+                    <group string="Form Answers" invisible="not form_answers_display">
+                        <field name="form_answers_display" nolabel="1" readonly="1" widget="html"/>
                     </group>
                     
                     <group string="Creative Status">

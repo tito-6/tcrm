@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron Job: Fetch Meta Leads Every 2 Minutes -->
+    <record id="ir_cron_fetch_meta_leads" model="ir.cron">
+        <field name="name">Fetch Facebook Leads</field>
+        <field name="model_id" ref="model_crm_lead_fetcher"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_fetch_meta_leads()</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+        <field name="doall" eval="False"/>
+    </record>
+</odoo>

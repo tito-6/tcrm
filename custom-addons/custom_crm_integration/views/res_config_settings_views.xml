@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Settings View -->
+    <record id="res_config_settings_view_form_inherit_meta" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.meta</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Meta Lead Integration" name="custom_crm_integration">
+                    <block title="Facebook Lead Integration">
+                        <setting>
+                            <field name="meta_auto_fetch_enabled"/>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="meta_auto_fetch_enabled" string="Auto-Fetch Leads"/>
+                                    <div class="text-muted">
+                                        Automatically fetch new leads from Facebook every 2 minutes
+                                    </div>
+                                </div>
+                            </div>
+                        </setting>
+                        
+                        <setting string="Facebook Configuration">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="meta_page_id" string="Page ID" class="col-lg-3 o_light_label"/>
+                                    <field name="meta_page_id" placeholder="542033395659747"/>
+                                </div>
+                                <div class="row">
+                                    <label for="meta_user_access_token" string="Access Token" class="col-lg-3 o_light_label"/>
+                                    <field name="meta_user_access_token" password="True" placeholder="EAAxxxx..."/>
+                                </div>
+                            </div>
+                        </setting>
+                        
+                        <setting string="Statistics" readonly="1">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="meta_last_fetch_time" string="Last Fetch" class="col-lg-3 o_light_label"/>
+                                    <field name="meta_last_fetch_time"/>
+                                </div>
+                                <div class="row">
+                                    <label for="meta_total_leads_fetched" string="Total Fetched" class="col-lg-3 o_light_label"/>
+                                    <field name="meta_total_leads_fetched"/>
+                                </div>
+                            </div>
+                        </setting>
+                        
+                        <setting>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <button name="action_fetch_meta_leads_now" 
+                                            string="Fetch Leads Now" 
+                                            type="object" 
+                                            class="btn-primary"
+                                            icon="fa-refresh"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
