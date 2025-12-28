@@ -1,6 +1,6 @@
 {
     'name': 'Meta Leads with Real-time Creative Integration',
-    'version': '17.0.2.0.0',
+    'version': '18.0.1.0.0',
     'summary': 'Complete Meta (Facebook/Instagram) leads integration with real-time ad creative fetching',
     'description': '''
     Enhanced Meta Lead Ads integration with:

@@ -42,14 +42,14 @@
                         </group>
                     </group>
                     <field name="whatsapp_conversation_ids" readonly="1">
-                        <tree>
+                        <list>
                             <field name="display_name"/>
                             <field name="phone_number"/>
                             <field name="message_count"/>
                             <field name="unread_count" widget="badge"/>
                             <field name="last_message_date"/>
                             <field name="status"/>
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </xpath>

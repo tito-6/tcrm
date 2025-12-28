@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="theme_tcrm.UserMenu.AboutDialog">
+        <div class="o_tcrm_about_dialog text-center">
+            <img src="/theme_tcrm/static/src/img/logo.png" alt="TCRM" style="height: 80px; margin-bottom: 20px;"/>
+            <h4>TCRM Enterprise</h4>
+            <p class="text-muted">Version 18.0</p>
+            <div class="mt-3">
+                <p>Copyright © 2025 TCRM. All rights reserved.</p>
+            </div>
+            <div class="mt-4 text-muted small">
+                Licensed to My Company
+            </div>
+        </div>
+    </t>
+</templates>

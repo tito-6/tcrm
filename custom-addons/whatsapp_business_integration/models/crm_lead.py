@@ -130,7 +130,7 @@ class CrmLead(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('WhatsApp Conversations'),
             'res_model': 'whatsapp.conversation',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('lead_id', '=', self.id)],
             'context': {
                 'default_lead_id': self.id,
@@ -144,7 +144,7 @@ class CrmLead(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('WhatsApp Messages'),
             'res_model': 'whatsapp.message',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('conversation_id', 'in', conversation_ids)],
             'context': {
                 'default_lead_id': self.id,

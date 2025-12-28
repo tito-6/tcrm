@@ -1,5 +1,0 @@
-<templates>
-    <t t-name="mass_mailing.BorderOption">
-        <BorderConfigurator label.translate="Border"/>
-    </t>
-</templates>

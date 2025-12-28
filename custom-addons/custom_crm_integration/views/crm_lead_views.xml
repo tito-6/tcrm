@@ -58,7 +58,7 @@
                     </group>
                     
                     <group string="Form Answers" invisible="not form_answers_display">
-                        <field name="form_answers_display" nolabel="1" readonly="1" widget="html"/>
+                        <field name="form_answers_display" nolabel="1" readonly="1" widget="html" class="d-block w-100"/>
                     </group>
                     
                     <group string="Creative Status">

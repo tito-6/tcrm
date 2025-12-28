@@ -59,7 +59,7 @@
                     
                     <separator string="Conversations"/>
                     <field name="whatsapp_conversation_ids" readonly="1">
-                        <tree>
+                        <list>
                             <field name="display_name"/>
                             <field name="phone_number"/>
                             <field name="message_count"/>
@@ -67,7 +67,7 @@
                             <field name="last_message_date"/>
                             <field name="last_message_preview"/>
                             <field name="status"/>
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </xpath>

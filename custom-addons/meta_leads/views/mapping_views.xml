@@ -4,14 +4,14 @@
         <field name="name">meta.lead.mapping.tree</field>
         <field name="model">meta.lead.mapping</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="active"/>
                 <field name="page_id"/>
                 <field name="form_id"/>
                 <field name="team_id"/>
                 <field name="user_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 

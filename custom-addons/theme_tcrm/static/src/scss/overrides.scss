@@ -1,0 +1,139 @@
+/* AGGRESSIVE NAVBAR REBRANDING - NUCLEAR OPTION */
+html body .o_web_client .o_main_navbar,
+html body .o_main_navbar,
+html body .o_menu_brand,
+html body .o_menu_sections,
+html body .o_nav_entry,
+html body .o_menu_systray {
+    background-color: var(--tcrm-deep-blue) !important;
+    background-image: none !important;
+    color: white !important;
+    border-bottom: none !important;
+}
+
+/* Fix specific purple overlay in Website Editor bar */
+html body nav.o_main_navbar .o_menu_sections .dropdown-toggle,
+html body nav.o_main_navbar .o_nav_entry {
+    background-color: transparent !important;
+}
+
+/* Active State in Navbar (Darker Blue) */
+html body .o_main_navbar .show .dropdown-toggle,
+html body .o_main_navbar .o_nav_entry.active,
+html body .o_main_navbar .o_menu_sections .show>.dropdown-toggle {
+    background-color: var(--tcrm-dark) !important;
+}
+
+/* Red Line at very bottom of navbar */
+html body .o_main_navbar {
+    border-bottom: 3px solid var(--tcrm-red) !important;
+}
+
+/* WEBSITE FRONTEND OVERRIDES */
+#wrapwrap {
+    font-family: 'Bricolage Grotesque', sans-serif !important;
+}
+
+#wrapwrap header,
+#wrapwrap footer {
+    background-color: var(--tcrm-dark) !important;
+    color: white !important;
+}
+
+#wrapwrap footer a:hover {
+    color: var(--tcrm-red) !important;
+}
+
+/* Frontend Buttons -> Now TCRM Dark Blue */
+#wrapwrap .btn-primary {
+    background-color: var(--tcrm-dark) !important;
+    border-color: var(--tcrm-dark) !important;
+    color: white !important;
+}
+
+#wrapwrap .btn-primary:hover {
+    background-color: var(--tcrm-red) !important;
+    border-color: var(--tcrm-red) !important;
+}
+
+#wrapwrap .navbar-light .navbar-nav .nav-link {
+    color: var(--tcrm-deep-blue) !important;
+}
+
+#wrapwrap .navbar-light .navbar-nav .nav-link:hover {
+    color: var(--tcrm-red) !important;
+}
+
+/* BACKEND BUTTONS */
+html body .btn-primary,
+html body .o_form_button_save,
+html body .o_list_button_add,
+html body .o_form_button_edit,
+html body .o_statusbar_buttons .btn-primary {
+    background-color: var(--tcrm-dark) !important;
+    border-color: var(--tcrm-dark) !important;
+    color: white !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+html body .btn-primary:hover,
+html body .o_form_button_save:hover,
+html body .o_list_button_add:hover,
+html body .o_form_button_edit:hover {
+    background-color: var(--tcrm-red) !important;
+    border-color: var(--tcrm-red) !important;
+    transform: translateY(-1px);
+}
+
+/* LINKS */
+html body a,
+html body .btn-link,
+html body .o_form_uri {
+    color: var(--tcrm-deep-blue) !important;
+}
+
+html body a:hover,
+html body .btn-link:hover {
+    color: var(--tcrm-red) !important;
+}
+
+/* DASHBOARD & CANVAS */
+html body .o_content,
+html body .o_canvas,
+html body .o_web_client,
+html body .o_view_controller {
+    background-color: var(--tcrm-gray) !important;
+}
+
+/* SETTINGS FOOTER HIDER */
+html body .o_settings_container~.app_settings_block .o_settings_footer,
+html body .o_configurator_container .o_footer_copyright,
+html body div[name="settings_footer"],
+html body .text-muted.text-center.small {
+    visibility: hidden !important;
+    height: 50px;
+    position: relative;
+    display: block !important;
+}
+
+html body div[name="settings_footer"]::after,
+html body .text-muted.text-center.small::after {
+    content: "TCRM Enterprise Edition \A Copyright © 2025 TCRM";
+    white-space: pre-wrap;
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: var(--tcrm-deep-blue);
+    font-weight: bold;
+    top: 10px;
+}
+
+/* CHECKBOXES & SWITCHES */
+html body .custom-control-input:checked~.custom-control-label::before,
+html body .form-check-input:checked,
+html body .o_checkbox input:checked+span {
+    background-color: var(--tcrm-red) !important;
+    border-color: var(--tcrm-red) !important;
+}

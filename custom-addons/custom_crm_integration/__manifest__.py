@@ -1,6 +1,6 @@
 {
     'name': 'Custom CRM Integration',
-    'version': '17.0.8.0.0',
+    'version': '18.0.1.0.0',
     'category': 'CRM',
     'summary': 'Webhook endpoints for Meta and Google lead integration',
     'description': """
@@ -36,7 +36,7 @@
         'views/crm_lead_views.xml',
         'views/res_config_settings_views.xml',
         'data/server_actions.xml',
-        'data/cron_jobs.xml',
+        # 'data/cron_jobs.xml',
     ],
     'installable': True,
     'application': False,

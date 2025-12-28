@@ -241,7 +241,7 @@ class WhatsAppConversation(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('WhatsApp Messages'),
             'res_model': 'whatsapp.message',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('conversation_id', '=', self.id)],
             'context': {
                 'default_conversation_id': self.id,

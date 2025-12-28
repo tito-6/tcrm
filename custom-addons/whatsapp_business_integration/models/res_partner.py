@@ -111,7 +111,7 @@ class ResPartner(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('WhatsApp Conversations'),
             'res_model': 'whatsapp.conversation',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('partner_id', '=', self.id)],
             'context': {
                 'default_partner_id': self.id,
@@ -124,7 +124,7 @@ class ResPartner(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('WhatsApp Messages'),
             'res_model': 'whatsapp.message',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('partner_id', '=', self.id)],
             'context': {
                 'default_partner_id': self.id,
