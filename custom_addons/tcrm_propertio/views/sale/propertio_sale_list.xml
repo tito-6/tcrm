@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_propertio_sale_tree" model="ir.ui.view">
+        <field name="name">propertio.sale.list</field>
+        <field name="model">propertio.sale</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_export_batch_word" string="Download Word" type="object" class="btn-primary"/>
+                </header>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="unit_id"/>
+                <field name="sale_price" sum="Total Sales"/>
+                <field name="state" widget="badge"
+                         decoration-muted="state == 'draft'"
+                         decoration-primary="state == 'confirmed'"
+                         decoration-danger="state == 'cancel'"
+                         decoration-warning="state == 'refund'"/>
+            </list>
+        </field>
+    </record>
+</odoo>

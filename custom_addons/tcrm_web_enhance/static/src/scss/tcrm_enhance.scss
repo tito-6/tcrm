@@ -1,0 +1,109 @@
+// TCRM Web Enhance — UI/UX polish (spacing, dark mode, utilities)
+// Loaded after web.assets_backend; uses existing TCRM vars where possible.
+
+:root {
+  --tcrm-primary: #101E55;
+  --tcrm-secondary: #0e142c;
+  --tcrm-action-red: #E00000;
+  --tcrm-card-radius: 8px;
+  --tcrm-transition: 0.2s ease;
+}
+
+// Navbar and primary buttons already use $o-brand-tcrm from primary_variables.
+// Reinforce for any overrides and add smooth transition.
+.o_main_navbar {
+  transition: background-color var(--tcrm-transition), border-color var(--tcrm-transition);
+}
+
+.btn-primary {
+  transition: background-color var(--tcrm-transition), border-color var(--tcrm-transition), opacity var(--tcrm-transition);
+  &:hover { opacity: 0.92; }
+}
+
+// Card-style panels and forms
+.o_form_sheet,
+.o_list_table {
+  border-radius: var(--tcrm-card-radius);
+}
+
+// Spacing utilities (use in views via class="tcrm-mt-2" etc.)
+.tcrm-mt-1 { margin-top: 0.25rem !important; }
+.tcrm-mt-2 { margin-top: 0.5rem !important; }
+.tcrm-mt-3 { margin-top: 1rem !important; }
+.tcrm-mb-2 { margin-bottom: 0.5rem !important; }
+.tcrm-mb-3 { margin-bottom: 1rem !important; }
+.tcrm-p-2 { padding: 0.5rem !important; }
+.tcrm-p-3 { padding: 1rem !important; }
+
+// List/table row hover
+.o_list_table tbody tr:hover {
+  background-color: rgba(16, 30, 85, 0.04);
+}
+
+// Form group spacing
+.o_group .o_td_label {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+// Dark mode (data-theme="dark" on body or .o_web_client)
+.o_web_client[data-theme="dark"] {
+  --tcrm-bg: #1a1d24;
+  --tcrm-surface: #242830;
+  --tcrm-text: #e9ecef;
+  --tcrm-text-muted: #adb5bd;
+}
+.o_web_client[data-theme="dark"] .o_web_client {
+  background-color: var(--tcrm-bg);
+}
+.o_web_client[data-theme="dark"] .o_content {
+  background-color: var(--tcrm-bg);
+}
+
+// Toast container (for Phase 3 toast_service.js)
+#tcrm_toast_container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+  max-width: 22rem;
+}
+.tcrm_toast {
+  pointer-events: auto;
+  padding: 0.75rem 1rem;
+  border-radius: var(--tcrm-card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: tcrm_toast_in 0.25s ease;
+  font-size: 0.9rem;
+}
+.tcrm_toast--success { background: #d4edda; color: #155724; }
+.tcrm_toast--error   { background: #f8d7da; color: #721c24; }
+.tcrm_toast--info    { background: #d1ecf1; color: #0c5460; }
+@keyframes tcrm_toast_in {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Loading overlay helper
+.tcrm-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+// Responsive: touch-friendly hit areas on small screens
+@media (max-width: 768px) {
+  .o_list_table .o_data_cell,
+  .o_list_table .o_list_button {
+    min-height: 44px;
+  }
+}

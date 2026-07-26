@@ -1,0 +1,7 @@
+<tcrm>
+    <data noupdate="1">
+        <record id="stage_lead3" model="crm.stage">
+            <field name="rotting_threshold_days">5</field>
+        </record>
+    </data>
+</tcrm>

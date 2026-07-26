@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sector_real_estate" model="tcrm.tenant.sector">
+            <field name="name">Real Estate</field>
+            <field name="code">real_estate</field>
+        </record>
+        <record id="sector_construction" model="tcrm.tenant.sector">
+            <field name="name">Construction</field>
+            <field name="code">construction</field>
+        </record>
+        <record id="sector_finance" model="tcrm.tenant.sector">
+            <field name="name">Finance</field>
+            <field name="code">finance</field>
+        </record>
+
+        <record id="package_starter" model="tcrm.saas.package">
+            <field name="sequence">10</field>
+            <field name="name">Starter</field>
+            <field name="code">starter</field>
+            <field name="monthly_price">249</field>
+            <field name="yearly_price">2490</field>
+            <field name="user_limit">5</field>
+            <field name="storage_limit_gb">20</field>
+            <field name="module_ids" eval="[(6, 0, [ref('base.module_tcrm_saas_core'), ref('base.module_tcrm_propertio')])]"/>
+        </record>
+
+        <record id="package_growth" model="tcrm.saas.package">
+            <field name="sequence">20</field>
+            <field name="name">Growth</field>
+            <field name="code">growth</field>
+            <field name="monthly_price">599</field>
+            <field name="yearly_price">5990</field>
+            <field name="user_limit">25</field>
+            <field name="storage_limit_gb">100</field>
+            <field name="module_ids" eval="[(6, 0, [ref('base.module_tcrm_saas_core'), ref('base.module_tcrm_propertio'), ref('base.module_tcrm_ai')])]"/>
+        </record>
+
+        <!-- Catalog package is filled at runtime via _ensure_all_apps_package(); stub ensures XML id exists -->
+        <record id="package_all_free_apps" model="tcrm.saas.package">
+            <field name="sequence">100</field>
+            <field name="name">All Free Apps</field>
+            <field name="code">all_free_apps</field>
+            <field name="monthly_price">0</field>
+            <field name="yearly_price">0</field>
+            <field name="user_limit">0</field>
+            <field name="storage_limit_gb">0</field>
+            <field name="description">Master catalog of installed official free apps. Super admin assigns subsets to tenant packages.</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

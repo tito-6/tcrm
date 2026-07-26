@@ -1,0 +1,44 @@
+<odoo>
+    <!-- Server Action for Export -->
+    <record id="action_server_export_word" model="ir.actions.server">
+        <field name="name">Sözleşmeleri Dışa Aktar (Word)</field>
+        <field name="model_id" search="[('model', '=', 'propertio.sale')]" model="ir.model"/>
+        <field name="binding_model_id" search="[('model', '=', 'propertio.sale')]" model="ir.model"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_export_batch_word()
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record id="action_propertio_sale" model="ir.actions.act_window">
+        <field name="name">Satış Sözleşmeleri</field>
+        <field name="res_model">propertio.sale</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_propertio_sale_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                İlk satış sözleşmenizi oluşturun
+            </p>
+        </field>
+    </record>
+
+    <record id="action_propertio_payment" model="ir.actions.act_window">
+        <field name="name">Ödemeler</field>
+        <field name="res_model">propertio.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- MENUS -->
+     <!-- Assuming parent menu_propertio_sales exists in another file (probably propertio_menus.xml or similar) - Wait, I should check where the ROOT menus are defined. 
+          If they were in propertio_sale_views.xml then I need to define them here or find where they are.
+          Checking file structure again implicitly. Usually menus are in `views/menus.xml` or similar. 
+          The original file had `menu_sale`, `menu_sale_wizard`, `menu_payment`.
+          I will assume `menu_propertio_sales` and `menu_propertio_collections` are defined in `views/propertio_menus.xml` if it exists, or likely `propertio_sale_views.xml` if it was monolithic.
+          I see `menu_propertio_sales` used as parent. I will check where it is defined. -->
+    
+    <menuitem id="menu_sale" action="action_propertio_sale" parent="menu_propertio_sales" sequence="10"/>
+    <menuitem id="menu_sale_wizard" action="action_propertio_sale_wizard" parent="menu_propertio_sales" sequence="5"/>
+    <menuitem id="menu_payment" action="action_propertio_payment" parent="menu_propertio_collections" sequence="10"/>
+
+</odoo>

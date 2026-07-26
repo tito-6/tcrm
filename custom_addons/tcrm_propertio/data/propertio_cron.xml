@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_expire_propertio_offers" model="ir.cron">
+            <field name="name">Propertio: Expire Offers</field>
+            <field name="model_id" search="[('model', '=', 'propertio.offer')]" model="ir.model"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_offers()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+
+        <!-- End of day: previous day's advanced CRM+Propertio leads report to admin emails -->
+        <record id="ir_cron_daily_advanced_leads_report" model="ir.cron">
+            <field name="name">Propertio: Daily Advanced Leads Report Email</field>
+            <field name="model_id" search="[('model', '=', 'propertio.report.engine')]" model="ir.model"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_send_daily_advanced_leads_report()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 18:00:00')"/>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

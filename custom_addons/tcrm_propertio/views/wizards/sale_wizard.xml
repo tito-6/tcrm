@@ -1,0 +1,90 @@
+<odoo>
+   <record id="view_propertio_sale_wizard_form" model="ir.ui.view">
+        <field name="name">propertio.sale.wizard.form</field>
+        <field name="model">propertio.sale.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Yeni Satış ve Ödeme Planı">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>Yeni Satış Sözleşmesi</h2>
+                    </div>
+                    <group>
+                         <group>
+                            <field name="partner_id" string="Müşteri"/>
+                            <field name="unit_id" string="Bağımsız Bölüm (Birim)"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" string="Para Birimi" readonly="0" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="price" string="Satış Fiyatı"/>
+                            <field name="list_price" string="Liste Fiyatı"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ödeme Koşulları" name="payment_terms">
+                             <div class="row">
+                                <div class="col-6">
+                                    <group string="Peşinat">
+                                        <field name="down_payment_mode" string="Peşinat Tipi" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="down_payment_pct" string="Peşinat %" invisible="down_payment_mode == 'fixed'"/>
+                                        <field name="down_payment_amount" string="Peşinat Tutarı"/>
+                                        <field name="date_down_payment" string="Peşinat Tarihi"/>
+                                    </group>
+                                </div>
+                                <div class="col-6">
+                                    <group string="Finansal">
+                                        <field name="maturity_diff" string="Vade Farkı (+)"/>
+                                        <field name="discount_amount" string="İndirim (-)"/>
+                                    </group>
+                                </div>
+                            </div>
+                            <group string="Taksit Planı">
+                                <group>
+                                    <field name="installment_count" string="Taksit Sayısı"/>
+                                    <field name="start_date" string="İlk Taksit Tarihi"/>
+                                </group>
+                                <group>
+                                    <field name="balloon_mode" string="Balon Ödeme Tipi" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="balloon_pct" string="Balon Ödeme %" invisible="balloon_mode == 'fixed'"/>
+                                    <field name="balloon_amount" string="Toplam Balon Tutarı"/>
+                                    <field name="balloon_strategy" string="Balon Zamanlaması"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Döviz Kurları" name="rates">
+                            <div class="row">
+                                <div class="col-md-6 mt-3">
+                                    <group>
+                                        <field name="exchange_rate_date" string="Kur Tarihi"/>
+                                    </group>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <field name="tcmb_rates_html" readonly="1" nolabel="1" widget="html"/>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fa fa-info-circle me-2"></i><b>Not:</b> Kurlar TCMB’den anlık olarak alınır.
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_generate_sale" string="Plan Oluştur ve Satışı Kaydet" type="object" class="btn-primary"/>
+                    <button string="İptal" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_propertio_sale_wizard" model="ir.actions.act_window">
+        <field name="name">Yeni Satış</field>
+        <field name="res_model">propertio.sale.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

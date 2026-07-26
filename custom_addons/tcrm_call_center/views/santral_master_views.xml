@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_tenant_santral_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.santral.list</field>
+        <field name="model">tcrm.tenant</field>
+        <field name="arch" type="xml">
+            <list string="Santral Yönetimi" create="0" delete="0">
+                <field name="name" string="Kiracı"/>
+                <field name="primary_domain" string="Alan adı"/>
+                <field name="santral_status_label" string="Durum"/>
+                <field name="santral_configured" string="Yapılandırıldı"/>
+                <field name="santral_provider"/>
+                <field name="santral_account_sid_masked"/>
+                <field name="santral_caller_id_masked"/>
+                <field name="santral_enabled"/>
+                <field name="santral_last_connection_test"/>
+                <field name="santral_last_call_time"/>
+                <field name="santral_last_error_status"/>
+                <button name="action_manage_santral_settings" type="object"
+                        string="Santral Ayarlarını Yönet" class="btn-primary"
+                        groups="base.group_system"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_santral_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.santral.form</field>
+        <field name="model">tcrm.tenant</field>
+        <field name="arch" type="xml">
+            <form string="Santral Yönetimi" create="0" delete="0">
+                <header>
+                    <button name="action_manage_santral_settings" type="object"
+                            string="Santral Ayarlarını Yönet" class="btn-primary"
+                            groups="base.group_system"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="primary_domain"/>
+                            <field name="db_name" readonly="1"/>
+                        </group>
+                        <group string="Santral (gizlilik korumalı)">
+                            <field name="santral_status_label"/>
+                            <field name="santral_configured"/>
+                            <field name="santral_enabled"/>
+                            <field name="santral_provider"/>
+                            <field name="santral_account_sid_masked"/>
+                            <field name="santral_caller_id_masked"/>
+                            <field name="santral_last_connection_test"/>
+                            <field name="santral_last_connection_status"/>
+                            <field name="santral_last_call_time"/>
+                            <field name="santral_last_error_status"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        Düz metin secret değerleri, çağrı kayıtları ve çağrı içerikleri burada gösterilmez.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_santral_yonetimi" model="ir.actions.act_window">
+        <field name="name">Santral Yönetimi</field>
+        <field name="res_model">tcrm.tenant</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_tcrm_tenant_santral_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_tcrm_tenant_santral_form')})]"/>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+
+    <menuitem id="menu_santral_yonetimi"
+              name="Santral Yönetimi"
+              parent="tcrm_saas_core.menu_tcrm_root"
+              action="action_santral_yonetimi"
+              sequence="55"
+              groups="base.group_system"/>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Repair app menus (e.g. Discuss / Mesajlaşma, Contacts) whose web_icon is set
+        but whose web_icon_data is empty, so their icon renders in the TCRM sidebar.
+        Idempotent: only affects menus actually missing their icon data. Runs on
+        every install/upgrade of tcrm_web_enhance.
+    -->
+    <function model="ir.ui.menu" name="_tcrm_fix_missing_web_icons"/>
+</odoo>

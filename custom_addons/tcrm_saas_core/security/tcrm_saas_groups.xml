@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_tcrm_tenant" model="ir.module.category">
+            <field name="name">TCRM Tenant</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="privilege_tcrm_tenant_roles" model="res.groups.privilege">
+            <field name="name">Tenant Role</field>
+            <field name="category_id" ref="tcrm_saas_core.module_category_tcrm_tenant"/>
+            <field name="sequence">50</field>
+        </record>
+
+        <!-- GOD-mode tenant role ladder (privilege implies exclusivity UX in Change Role) -->
+        <record id="group_tcrm_tenant_viewer" model="res.groups">
+            <field name="name">Tenant Viewer</field>
+            <field name="comment">Read-only access to tenant CRM data.</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_tcrm_tenant_sales" model="res.groups">
+            <field name="name">Tenant Sales</field>
+            <field name="comment">CRM and sales pipeline access.</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_tcrm_tenant_operations" model="res.groups">
+            <field name="name">Tenant Operations</field>
+            <field name="comment">Inventory, units, and property operations.</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_tcrm_tenant_finance" model="res.groups">
+            <field name="name">Tenant Finance</field>
+            <field name="comment">Collections, invoices, and financial reports.</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_tcrm_tenant_manager" model="res.groups">
+            <field name="name">Tenant Manager</field>
+            <field name="comment">Team lead: sales + ops oversight without full admin.</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('tcrm_saas_core.group_tcrm_tenant_sales')), (4, ref('tcrm_saas_core.group_tcrm_tenant_operations'))]"/>
+        </record>
+
+        <record id="group_tcrm_tenant_admin" model="res.groups">
+            <field name="name">Tenant Admin</field>
+            <field name="comment">Full tenant management access.</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('tcrm_saas_core.group_tcrm_tenant_manager')), (4, ref('tcrm_saas_core.group_tcrm_tenant_finance'))]"/>
+        </record>
+    </data>
+</odoo>

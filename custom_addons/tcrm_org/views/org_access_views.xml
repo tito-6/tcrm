@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_org_access_grant_list" model="ir.ui.view">
+        <field name="name">tcrm.org.access.grant.list</field>
+        <field name="model">tcrm.org.access.grant</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" create="0">
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="name"/>
+                <field name="granted" widget="boolean_toggle"/>
+                <field name="group_ids" widget="many2many_tags" optional="show"/>
+                <field name="menu_ids" widget="many2many_tags" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_org_access_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.org.access.wizard.form</field>
+        <field name="model">tcrm.org.access.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Modül / Ekran Erişimi">
+                <group>
+                    <field name="user_id" readonly="1"/>
+                </group>
+                <field name="line_ids">
+                    <list editable="bottom" create="0" delete="0">
+                        <field name="grant_id" column_invisible="1"/>
+                        <field name="code" column_invisible="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="granted" widget="boolean_toggle"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_apply" type="object" string="Kaydet" class="btn-primary"/>
+                    <button string="Vazgeç" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_org_access_wizard" model="ir.actions.act_window">
+        <field name="name">Modül / Ekran Erişimi</field>
+        <field name="res_model">tcrm.org.access.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_tcrm_org_access_grants" model="ir.actions.act_window">
+        <field name="name">Erişim Matrisi</field>
+        <field name="res_model">tcrm.org.access.grant</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Erişim satırı yok</p>
+            <p>Personel formundan «Erişim Satırlarını Yenile» ile matrisi oluşturun.</p>
+        </field>
+    </record>
+</odoo>

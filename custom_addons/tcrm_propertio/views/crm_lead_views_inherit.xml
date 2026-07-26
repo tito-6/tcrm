@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TCRM Propertio: 5-star priority on CRM form and kanban (Turkish market).
+     The priority field is redefined on crm.lead to 0-5 (6 levels); form and kanban
+     already use widget="priority", which will now display 5 stars.
+     Also hides AI/PLS probability UI while keeping fields for JS. -->
+<odoo>
+    <!-- Form: priority field already has widget="priority" in base; our model supplies 6 levels (0-5 stars). -->
+    <record id="crm_lead_view_form_propertio_priority" model="ir.ui.view">
+        <field name="name">crm.lead.form.propertio.priority</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='priority']" position="attributes">
+                <attribute name="widget">priority</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Hide AI / PLS probability UI; keep probability fields invisible for JS. -->
+    <record id="crm_lead_view_form_hide_ai_probability" model="ir.ui.view">
+        <field name="name">crm.lead.form.hide.ai.probability</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <!-- Replace the whole probability column with invisible fields only (JS-safe). -->
+            <xpath expr="//label[@for='probability']/.." position="replace">
+                <div class="col-auto" invisible="1">
+                    <field name="is_automated_probability" invisible="1"/>
+                    <field name="automated_probability" invisible="1" force_save="1"/>
+                    <div id="probability" class="d-flex align-items-baseline" invisible="1">
+                        <field name="probability" invisible="1"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- List (leads): hide probability column -->
+    <record id="crm_case_tree_view_leads_hide_probability" model="ir.ui.view">
+        <field name="name">crm.lead.list.lead.hide.probability</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- List (opportunities): hide probability column -->
+    <record id="crm_case_tree_view_oppor_hide_probability" model="ir.ui.view">
+        <field name="name">crm.lead.list.opportunity.hide.probability</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban: keep probability for JS but mark invisible -->
+    <record id="crm_case_kanban_view_leads_hide_probability" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.hide.probability</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Cross-module bridge: link opportunity to a Propertio project / unit and
+         expose the resulting property sale contracts. -->
+    <record id="crm_lead_view_form_propertio_bridge" model="ir.ui.view">
+        <field name="name">crm.lead.form.propertio.bridge</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">12</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_propertio_sales" type="object"
+                        class="oe_stat_button" icon="fa-building-o"
+                        invisible="propertio_sale_count == 0">
+                    <field name="propertio_sale_count" widget="statinfo" string="Sözleşmeler"/>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Gayrimenkul" name="propertio">
+                    <group>
+                        <group string="Hedef Gayrimenkul">
+                            <field name="propertio_project_id"/>
+                            <field name="propertio_unit_id"/>
+                        </group>
+                    </group>
+                    <field name="propertio_sale_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="unit_id"/>
+                            <field name="sale_price"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban: same; widget="priority" renders 5 stars with our selection. -->
+    <record id="view_crm_lead_kanban_propertio_priority" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.propertio.priority</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_lead_kanban"/>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='priority']" position="attributes">
+                <attribute name="widget">priority</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

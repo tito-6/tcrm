@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_santral" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.tcrm.santral</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Santral" name="tcrm_call_center"
+                     groups="tcrm_call_center.group_santral_admin,base.group_system">
+                    <field name="santral_config_id" invisible="1"/>
+                    <block title="Sağlayıcı" name="tcrm_santral_provider">
+                        <setting string="Yasal uyarı">
+                            <field name="santral_legal_warning" nolabel="1"/>
+                        </setting>
+                        <setting string="Sağlayıcı">
+                            <field name="santral_provider"/>
+                        </setting>
+                        <setting string="Etkin">
+                            <field name="santral_enabled"/>
+                        </setting>
+                    </block>
+                    <block title="Twilio" name="tcrm_santral_twilio">
+                        <setting string="Account SID">
+                            <field name="santral_account_sid"/>
+                        </setting>
+                        <setting string="API Key SID">
+                            <field name="santral_api_key_sid"/>
+                        </setting>
+                        <setting string="API Key Secret"
+                                 help="Kaydedildikten sonra tekrar gösterilmez.">
+                            <field name="santral_api_key_secret" password="True"/>
+                        </setting>
+                        <setting string="Auth Token"
+                                 help="Kaydedildikten sonra tekrar gösterilmez.">
+                            <field name="santral_auth_token" password="True"/>
+                        </setting>
+                        <setting string="TwiML App SID">
+                            <field name="santral_twiml_app_sid"/>
+                        </setting>
+                        <setting string="Doğrulanmış Caller ID">
+                            <field name="santral_verified_caller_id" placeholder="+90..."/>
+                        </setting>
+                        <setting string="Public Callback Base URL"
+                                 help="Örn. https://tcrm.online — imza doğrulaması için onaylı kiracı alanı.">
+                            <field name="santral_public_callback_base_url"/>
+                        </setting>
+                        <setting string="Twilio Edge Location"
+                                 help="Arama trafiğinin yönlendirileceği bölge sunucusu. En düşük gecikme olanı seçin.">
+                            <field name="santral_twilio_edge"/>
+                        </setting>
+                        <setting string="Bağlantı">
+                            <button name="action_santral_test_connection" type="object"
+                                    string="Bağlantıyı Test Et" class="btn-primary"/>
+                            <div class="text-muted">
+                                <field name="santral_last_connection_status"/>
+                                <field name="santral_last_connection_test"/>
+                                <field name="santral_last_error"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Kayıt Politikası" name="tcrm_santral_recording">
+                        <setting string="Kayıt açık">
+                            <field name="santral_recording_enabled"/>
+                        </setting>
+                        <setting string="Çift kanal">
+                            <field name="santral_dual_channel_recording"/>
+                        </setting>
+                        <setting string="Kayıt duyurusu">
+                            <field name="santral_recording_announcement_enabled"/>
+                        </setting>
+                        <setting string="Duyuru metni">
+                            <field name="santral_recording_announcement_text"/>
+                        </setting>
+                        <setting string="Saklama (gün)">
+                            <field name="santral_recording_retention_days"/>
+                        </setting>
+                        <setting string="İndirmeye izin ver">
+                            <field name="santral_allow_recording_download"/>
+                        </setting>
+                        <setting string="Depolama">
+                            <field name="santral_recording_storage"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Client Action for Command Center -->
+    <record id="action_tcrm_command_center" model="ir.actions.client">
+        <field name="name">TCRM Command Center</field>
+        <field name="tag">tcrm_master.command_center</field>
+    </record>
+
+    <record id="action_tcrm_advanced_analytics" model="ir.actions.client">
+        <field name="name">Advanced Analytics &amp; Reports</field>
+        <field name="tag">tcrm_master.advanced_analytics</field>
+    </record>
+
+    <!-- Command Center as the primary menu entry -->
+    <menuitem id="menu_tcrm_command_center"
+              name="Command Center"
+              parent="menu_tcrm_root"
+              action="action_tcrm_command_center"
+              sequence="1"
+              groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <menuitem id="menu_tcrm_analytics_root"
+              name="Analytics"
+              parent="menu_tcrm_root"
+              sequence="2"
+              groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <menuitem id="menu_tcrm_advanced_analytics"
+              name="Advanced Analytics &amp; Reports"
+              parent="menu_tcrm_analytics_root"
+              action="action_tcrm_advanced_analytics"
+              sequence="1"
+              groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+</odoo>

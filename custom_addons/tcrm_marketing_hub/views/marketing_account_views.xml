@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_marketing_account_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.account.list</field>
+        <field name="model">tcrm.marketing.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="display_name"/>
+                <field name="platform"/>
+                <field name="username"/>
+                <field name="status" decoration-success="status == 'connected'" decoration-danger="status == 'disconnected'" widget="badge"/>
+                <field name="sync_enabled"/>
+                <field name="follower_count"/>
+                <field name="profile_id"/>
+                <field name="last_sync_at"/>
+                <field name="sync_error" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_account_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.account.form</field>
+        <field name="model">tcrm.marketing.account</field>
+        <field name="arch" type="xml">
+            <form string="Sosyal Hesap">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="username"/>
+                            <field name="platform"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="zernio_id" readonly="1"/>
+                            <field name="profile_id"/>
+                            <field name="follower_count"/>
+                            <field name="avatar_url" widget="url"/>
+                            <field name="last_sync_at" readonly="1"/>
+                            <field name="active"/>
+                            <field name="sync_enabled"/>
+                            <field name="disabled_at" readonly="1"
+                                      invisible="sync_enabled"/>
+                            <field name="sync_error" readonly="1"
+                                      invisible="not sync_error"/>
+                        </group>
+                    </group>
+                    <group string="Teknik" groups="tcrm_marketing_hub.group_marketing_admin">
+                        <field name="raw_json" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_account_search" model="ir.ui.view">
+        <field name="name">tcrm.marketing.account.search</field>
+        <field name="model">tcrm.marketing.account</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="username"/>
+                <filter string="Instagram" name="instagram" domain="[('platform', '=', 'instagram')]"/>
+                <filter string="Facebook" name="facebook" domain="[('platform', '=', 'facebook')]"/>
+                <filter string="Bağlı" name="connected" domain="[('status', '=', 'connected')]"/>
+                <group>
+                    <filter string="Platform" name="group_platform" context="{'group_by': 'platform'}"/>
+                    <filter string="Durum" name="group_status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_account" model="ir.actions.act_window">
+        <field name="name">Sosyal Hesaplar</field>
+        <field name="res_model">tcrm.marketing.account</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_connected': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz bağlı hesap yok</p>
+            <p>Instagram veya Facebook bağlamak için menüdeki bağlama aksiyonlarını kullanın, ardından Senkronize Et’e tıklayın.</p>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_sync_all" model="ir.actions.server">
+        <field name="name">Senkronize Et</field>
+        <field name="model_id" ref="model_tcrm_marketing_profile"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_sync_from_zernio()</field>
+    </record>
+
+    <record id="action_tcrm_marketing_connect_instagram" model="ir.actions.server">
+        <field name="name">Instagram Bağla</field>
+        <field name="model_id" ref="model_tcrm_marketing_account"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_connect_instagram()</field>
+    </record>
+
+    <record id="action_tcrm_marketing_connect_facebook" model="ir.actions.server">
+        <field name="name">Facebook Bağla</field>
+        <field name="model_id" ref="model_tcrm_marketing_account"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_connect_facebook()</field>
+    </record>
+</odoo>

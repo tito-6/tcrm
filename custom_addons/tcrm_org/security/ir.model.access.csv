@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcrm_org_access_grant_user,tcrm.org.access.grant.user,model_tcrm_org_access_grant,base.group_user,1,0,0,0
+access_tcrm_org_access_grant_manager,tcrm.org.access.grant.manager,model_tcrm_org_access_grant,sales_team.group_sale_manager,1,1,1,1
+access_tcrm_org_access_grant_tenant_admin,tcrm.org.access.grant.tenant.admin,model_tcrm_org_access_grant,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,1
+access_tcrm_org_access_wizard_manager,tcrm.org.access.wizard.manager,model_tcrm_org_access_wizard,sales_team.group_sale_manager,1,1,1,1
+access_tcrm_org_access_wizard_tenant,tcrm.org.access.wizard.tenant,model_tcrm_org_access_wizard,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,1
+access_tcrm_org_access_wizard_line_manager,tcrm.org.access.wizard.line.manager,model_tcrm_org_access_wizard_line,sales_team.group_sale_manager,1,1,1,1
+access_tcrm_org_access_wizard_line_tenant,tcrm.org.access.wizard.line.tenant,model_tcrm_org_access_wizard_line,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,1
+access_hr_department_sale_manager,hr.department.sale.manager,hr.model_hr_department,sales_team.group_sale_manager,1,1,1,1
+access_hr_department_tenant_admin,hr.department.tenant.admin,hr.model_hr_department,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,1
+

@@ -1,61 +1,60 @@
-# Environment and Dependencies
+# =====================================================================
+# TCRM .gitignore — production baseline
+# Root-anchored (leading "/") patterns target repo-root junk only, so
+# legitimate files inside tcrm-src/ (e.g. its own web/ module, *.sql)
+# are NOT excluded.
+# =====================================================================
+
+# ---- Secrets / environment (NEVER commit) ----
 .env
 *.env
+**/.env
 !.env.example
+*.key
+*.pem
+*.secret
+*credentials*.json
 
-# Database and Storage (keep Odoo core for self-contained deployment)
-postgres_data/
-postgres-data/
-odoo-web-data/
-odoo-db-data/
-**/filestore/
-**/sessions/
-
-# Docker volumes and containers
-docker-compose.override.yml
-.dockerignore
-
-# Logs
-*.log
-logs/
-**/*.log
-
-# Python
+# ---- Python ----
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+/venv/
+/.venv/
+**/venv/
+
+# ---- Odoo / PostgreSQL runtime data (root only) ----
+/odoo-data/
+/odoo-addons/
+/odoo.conf/
+/tcrm_data/
+/db_data/
+/postgres-data/
+/filestore/
+/sessions/
+/web/
+/config/
+/nginx/
+
+# ---- Database dumps / SQL scratch (root only) ----
+/*.sql
+/*.dump
+/temp*.sql
+
+# ---- Logs (root only; keep any logs shipped inside source dirs) ----
+/*.log
+error.log
+
+# ---- Archives / packaging ----
+/*.tgz
+/*.tar.gz
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-**/__pycache__/
-**/*.pyc
 
-# Virtual environments
-.venv/
-venv/
-env/
-ENV/
-
-# Node modules
-node_modules/
-packages/
-
-# IDE and Editor files
+# ---- Editor / OS ----
 .vscode/
 .idea/
 *.swp
@@ -63,57 +62,18 @@ packages/
 *~
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Temporary files
-*.tmp
-*.temp
-tmp/
-temp/
-
-# Backup files
-*.backup
+# ---- Agent / scratch (root only) ----
+/.claude/
+/scratch/
+/_*.py
+/curl_body.json
+/curl_cookies.txt
+/vps_chat_test.json
 *.bak
-*.old
+*.backup
+*.tmp
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-
-# Certificates and keys
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
-
-# ngrok
-ngrok
-ngrok.exe
-
-# Test coverage
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Temporary and large repos
-temp_repo/
-    
-# Keep important files
-!custom-addons/
-!config/
-!scripts/
-!docs/
-!docker-compose.yml
-!README.md
-!LICENSE
+# ---- Node ----
+node_modules/

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_marketing_compose_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.compose.wizard.form</field>
+        <field name="model">tcrm.marketing.compose.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Yeni Gönderi">
+                <group>
+                    <field name="publish_mode" widget="radio"/>
+                    <field name="scheduled_for" invisible="publish_mode != 'schedule'" required="publish_mode == 'schedule'"/>
+                    <field name="timezone" invisible="publish_mode != 'schedule'"/>
+                    <field name="account_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <group string="İçerik">
+                    <field name="content" nolabel="1" colspan="2" placeholder="Gönderi metnini yazın…"/>
+                </group>
+                <group string="Medya URL’leri">
+                    <field name="media_urls" nolabel="1" colspan="2"
+                             placeholder="https://example.com/gorsel.jpg"/>
+                </group>
+                <footer>
+                    <button name="action_submit" type="object" string="Gönder" class="btn-primary"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_compose" model="ir.actions.act_window">
+        <field name="name">Yeni Gönderi</field>
+        <field name="res_model">tcrm.marketing.compose.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

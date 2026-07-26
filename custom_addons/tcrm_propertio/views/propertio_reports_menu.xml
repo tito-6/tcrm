@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Reports Menu -->
+    <menuitem id="menu_propertio_reports_center"
+              name="Rapor Merkezi"
+              parent="menu_propertio_reporting"
+              sequence="1"/>
+
+    <!-- Export All Reports -->
+    <menuitem id="menu_report_export_wizard"
+              name="Raporları Dışa Aktar"
+              action="action_propertio_unified_report_wizard"
+              parent="menu_propertio_reports_center"
+              sequence="1"/>
+
+    <!-- ============================================ -->
+    <!-- 1. Collection & Payment Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_collection"
+              name="1. Tahsilat ve Ödemeler"
+              parent="menu_propertio_reports_center"
+              sequence="10"/>
+
+    <menuitem id="menu_report_sales_collection_summary"
+              name="Satış Tahsilat Özeti"
+              action="action_report_sales_collection"
+              parent="menu_report_category_collection"
+              sequence="1"/>
+
+    <menuitem id="menu_report_payment_plan"
+              name="Ödeme Planı Tablosu"
+              action="action_report_payment_plan"
+              parent="menu_report_category_collection"
+              sequence="2"/>
+
+    <menuitem id="menu_report_expected_payments"
+              name="Beklenen Ödeme Listesi"
+              action="action_report_expected_payments"
+              parent="menu_report_category_collection"
+              sequence="3"/>
+
+    <record id="action_report_payment_vat" model="ir.actions.act_window">
+        <field name="name">Ödeme Planı (KDV)</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'payment_plan_vat'}</field>
+    </record>
+
+    <menuitem id="menu_report_payment_vat"
+              name="Ödeme Planı (KDV Dahil)"
+              action="action_report_payment_vat"
+              parent="menu_report_category_collection"
+              sequence="4"/>
+
+    <record id="action_report_incoming_payments" model="ir.actions.act_window">
+        <field name="name">Gelen Ödeme Tahmini</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'incoming_payments_chart'}</field>
+    </record>
+
+    <menuitem id="menu_report_incoming_payments"
+              name="Gelen ve Beklenen Ödemeler"
+              action="action_report_incoming_payments"
+              parent="menu_report_category_collection"
+              sequence="5"/>
+
+    <!-- ============================================ -->
+    <!-- 2. Sales Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_sales"
+              name="2. Satış Raporları"
+              parent="menu_propertio_reports_center"
+              sequence="20"/>
+
+    <menuitem id="menu_report_sales_main"
+              name="Satış Raporu"
+              action="action_report_sales"
+              parent="menu_report_category_sales"
+              sequence="1"/>
+
+    <record id="action_report_type_based_sales" model="ir.actions.act_window">
+        <field name="name">Tipe Göre Satış Analizi</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'type_based_sales'}</field>
+    </record>
+
+    <menuitem id="menu_report_type_based_sales"
+              name="Tipe Göre Satış ve Proje Stok ve Takibi"
+              action="action_report_type_based_sales"
+              parent="menu_report_category_sales"
+              sequence="2"/>
+
+    <record id="action_report_approval_based" model="ir.actions.act_window">
+        <field name="name">Onaya Göre Satışlar</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'approval_based_sales'}</field>
+    </record>
+
+    <menuitem id="menu_report_approval_based"
+              name="Onaya Göre Satış Grafiği"
+              action="action_report_approval_based"
+              parent="menu_report_category_sales"
+              sequence="3"/>
+
+    <record id="action_report_total_sales_chart" model="ir.actions.act_window">
+        <field name="name">Toplam Satış Grafiği</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'total_sales_chart'}</field>
+    </record>
+
+    <menuitem id="menu_report_total_sales_chart"
+              name="Toplam Satış Grafiği"
+              action="action_report_total_sales_chart"
+              parent="menu_report_category_sales"
+              sequence="4"/>
+
+    <record id="action_report_daily_sales" model="ir.actions.act_window">
+        <field name="name">Günlük Satış Adedi</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'daily_sales_quantity'}</field>
+    </record>
+
+    <menuitem id="menu_report_daily_sales"
+              name="Günlük Satış Adedi"
+              action="action_report_daily_sales"
+              parent="menu_report_category_sales"
+              sequence="5"/>
+
+    <record id="action_report_sales_status" model="ir.actions.act_window">
+        <field name="name">Satış Durumu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'sales_status'}</field>
+    </record>
+
+    <menuitem id="menu_report_sales_status"
+              name="Satış Durum Raporu"
+              action="action_report_sales_status"
+              parent="menu_report_category_sales"
+              sequence="6"/>
+
+    <record id="action_report_sales_fx" model="ir.actions.act_window">
+        <field name="name">Satış Kur Analizi</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'sales_exchange_rate'}</field>
+    </record>
+
+    <menuitem id="menu_report_sales_fx"
+              name="Satış Kur Analizi"
+              action="action_report_sales_fx"
+              parent="menu_report_category_sales"
+              sequence="7"/>
+
+    <!-- ============================================ -->
+    <!-- 3. Customer Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_customer"
+              name="3. Müşteri Raporları"
+              parent="menu_propertio_reports_center"
+              sequence="30"/>
+
+    <record id="action_report_customer_journey" model="ir.actions.act_window">
+        <field name="name">Müşteri Yolculuğu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'customer_journey'}</field>
+    </record>
+
+    <menuitem id="menu_report_customer_journey"
+              name="Müşteri Yolculuğu"
+              action="action_report_customer_journey"
+              parent="menu_report_category_customer"
+              sequence="1"/>
+
+    <record id="action_report_customer_individual" model="ir.actions.act_window">
+        <field name="name">Bireysel Müşteri Yolculuğu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'customer_journey_individual'}</field>
+    </record>
+
+    <menuitem id="menu_report_customer_individual"
+              name="Bireysel Müşteri Yolculuğu"
+              action="action_report_customer_individual"
+              parent="menu_report_category_customer"
+              sequence="2"/>
+
+    <menuitem id="menu_report_customer_status"
+              name="Müşteri Genel Durumu"
+              action="action_report_customer_status"
+              parent="menu_report_category_customer"
+              sequence="3"/>
+
+    <!-- ============================================ -->
+    <!-- 4. Financial Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_finance"
+              name="4. Mali Raporlar"
+              parent="menu_propertio_reports_center"
+              sequence="40"/>
+
+    <record id="action_report_cash_register" model="ir.actions.act_window">
+        <field name="name">Kasa Raporu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'cash_register'}</field>
+    </record>
+
+    <menuitem id="menu_report_cash_register"
+              name="Kasa Raporu"
+              action="action_report_cash_register"
+              parent="menu_report_category_finance"
+              sequence="1"/>
+
+    <record id="action_report_daily_cash" model="ir.actions.act_window">
+        <field name="name">Günlük Kasa</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'daily_cash_register'}</field>
+    </record>
+
+    <menuitem id="menu_report_daily_cash"
+              name="Günlük Kasa"
+              action="action_report_daily_cash"
+              parent="menu_report_category_finance"
+              sequence="2"/>
+
+    <menuitem id="menu_report_cash_flow"
+              name="Nakit Akış Tablosu"
+              action="action_report_cash_flow"
+              parent="menu_report_category_finance"
+              sequence="3"/>
+
+    <!-- ============================================ -->
+    <!-- 5. Performance Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_performance"
+              name="5. Performans Raporları"
+              parent="menu_propertio_reports_center"
+              sequence="50"/>
+
+    <menuitem id="menu_report_employee_perf"
+              name="Personel Performansı"
+              action="action_report_employee_performance"
+              parent="menu_report_category_performance"
+              sequence="1"/>
+
+    <record id="action_report_end_of_day" model="ir.actions.act_window">
+        <field name="name">Gün Sonu Toplantısı</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'end_of_day_meeting'}</field>
+    </record>
+
+    <menuitem id="menu_report_end_of_day"
+              name="Gün Sonu Toplantısı"
+              action="action_report_end_of_day"
+              parent="menu_report_category_performance"
+              sequence="2"/>
+
+    <!-- ============================================ -->
+    <!-- 6. Property Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_property"
+              name="6. Gayrimenkul Raporları"
+              parent="menu_propertio_reports_center"
+              sequence="60"/>
+
+    <record id="action_report_independent_units" model="ir.actions.act_window">
+        <field name="name">Bağımsız Bölümler</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'independent_units'}</field>
+    </record>
+
+    <menuitem id="menu_report_independent_units"
+              name="Bağımsız Bölümler"
+              action="action_report_independent_units"
+              parent="menu_report_category_property"
+              sequence="1"/>
+
+    <menuitem id="menu_report_construction"
+              name="İnşaat İlerlemesi"
+              action="action_report_construction_progress"
+              parent="menu_report_category_property"
+              sequence="2"/>
+
+    <record id="action_report_title_deed" model="ir.actions.act_window">
+        <field name="name">Tapu ve Fatura</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'title_deed_invoice'}</field>
+    </record>
+
+    <menuitem id="menu_report_title_deed"
+              name="Tapu ve Fatura"
+              action="action_report_title_deed"
+              parent="menu_report_category_property"
+              sequence="3"/>
+
+    <!-- ============================================ -->
+    <!-- 7. Admin & Compliance Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_admin"
+              name="7. Yönetim ve Uyum"
+              parent="menu_propertio_reports_center"
+              sequence="70"/>
+
+    <record id="action_report_authorization" model="ir.actions.act_window">
+        <field name="name">Yetki Matrisi</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'authorization_matrix'}</field>
+    </record>
+
+    <menuitem id="menu_report_authorization"
+              name="Yetki Matrisi"
+              action="action_report_authorization"
+              parent="menu_report_category_admin"
+              sequence="1"/>
+
+    <record id="action_report_crm_log" model="ir.actions.act_window">
+        <field name="name">CRM Aktivite Kaydı</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'crm_log_records'}</field>
+    </record>
+
+    <menuitem id="menu_report_crm_log"
+              name="CRM Aktivite Kaydı"
+              action="action_report_crm_log"
+              parent="menu_report_category_admin"
+              sequence="2"/>
+
+    <!-- ============================================ -->
+    <!-- 8. Marketing & Leads Reports Category -->
+    <!-- ============================================ -->
+    <menuitem id="menu_report_category_marketing"
+              name="8. Pazarlama ve Müşteri Adayları"
+              parent="menu_propertio_reports_center"
+              sequence="80"/>
+
+    <record id="action_report_leads" model="ir.actions.act_window">
+        <field name="name">Müşteri Adayı Raporu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'lead_report'}</field>
+    </record>
+
+    <menuitem id="menu_report_leads"
+              name="Müşteri Adayı Raporu"
+              action="action_report_leads"
+              parent="menu_report_category_marketing"
+              sequence="1"/>
+
+    <record id="action_report_advertising" model="ir.actions.act_window">
+        <field name="name">Reklam Kaynaklı Adaylar</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'advertising_leads'}</field>
+    </record>
+
+    <menuitem id="menu_report_advertising"
+              name="Reklam Kaynaklı Adaylar"
+              action="action_report_advertising"
+              parent="menu_report_category_marketing"
+              sequence="2"/>
+
+    <record id="action_report_web_forms" model="ir.actions.act_window">
+        <field name="name">Web Form Takibi</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'web_form_tracking'}</field>
+    </record>
+
+    <menuitem id="menu_report_web_forms"
+              name="Web Form Takibi"
+              action="action_report_web_forms"
+              parent="menu_report_category_marketing"
+              sequence="3"/>
+</odoo>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_tenant_sector_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.sector.list</field>
+        <field name="model">tcrm.tenant.sector</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_sector_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.sector.form</field>
+        <field name="model">tcrm.tenant.sector</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="active"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_tenant_sector" model="ir.actions.act_window">
+        <field name="name">Tenant Sectors</field>
+        <field name="res_model">tcrm.tenant.sector</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_saas_package_list" model="ir.ui.view">
+        <field name="name">tcrm.saas.package.list</field>
+        <field name="model">tcrm.saas.package</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="monthly_price"/>
+                <field name="yearly_price"/>
+                <field name="user_limit"/>
+                <field name="storage_limit_gb"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_saas_package_form" model="ir.ui.view">
+        <field name="name">tcrm.saas.package.form</field>
+        <field name="model">tcrm.saas.package</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_fill_all_installed_apps" type="object" string="Fill All Free Apps"
+                            class="btn-primary" groups="base.group_system"
+                            confirm="Replace this package's modules with every installed free application?"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="sequence"/>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="currency_id"/>
+                        <field name="monthly_price"/>
+                        <field name="yearly_price"/>
+                        <field name="user_limit"/>
+                        <field name="storage_limit_gb"/>
+                        <field name="module_count"/>
+                        <field name="active"/>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page string="Allowed Modules">
+                            <field name="module_ids" widget="many2many_tags"
+                                     options="{'no_create': True}"
+                                     context="{'search_default_app': 1}"/>
+                        </page>
+                        <page string="Feature Lines">
+                            <field name="feature_line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="value"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_saas_package" model="ir.actions.act_window">
+        <field name="name">SaaS Packages</field>
+        <field name="res_model">tcrm.saas.package</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_tenant_subscription_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.subscription.list</field>
+        <field name="model">tcrm.tenant.subscription</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="tenant_id"/>
+                <field name="package_id"/>
+                <field name="billing_cycle"/>
+                <field name="status"/>
+                <field name="start_date"/>
+                <field name="next_invoice_date"/>
+                <field name="amount"/>
+                <field name="auto_renew"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_subscription_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.subscription.form</field>
+        <field name="model">tcrm.tenant.subscription</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="tenant_id"/>
+                        <field name="package_id"/>
+                        <field name="billing_cycle"/>
+                        <field name="status"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="next_invoice_date"/>
+                        <field name="amount" readonly="1"/>
+                        <field name="auto_renew"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_tenant_subscription" model="ir.actions.act_window">
+        <field name="name">Tenant Subscriptions</field>
+        <field name="res_model">tcrm.tenant.subscription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_tenant_invoice_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.invoice.list</field>
+        <field name="model">tcrm.tenant.invoice</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="tenant_id"/>
+                <field name="issue_date"/>
+                <field name="due_date"/>
+                <field name="amount"/>
+                <field name="state"/>
+                <field name="reminder_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_invoice_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.invoice.form</field>
+        <field name="model">tcrm.tenant.invoice</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open" string="Open" type="object" class="btn-primary" invisible="state not in ['draft']"/>
+                    <button name="action_mark_paid" string="Mark Paid" type="object" class="btn-success" invisible="state not in ['open','overdue']"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-secondary" invisible="state in ['paid','cancelled']"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="tenant_id"/>
+                        <field name="subscription_id"/>
+                        <field name="issue_date"/>
+                        <field name="due_date"/>
+                        <field name="amount"/>
+                        <field name="currency_id"/>
+                        <field name="reminder_count" readonly="1"/>
+                        <field name="last_reminder_date" readonly="1"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_tenant_invoice" model="ir.actions.act_window">
+        <field name="name">Tenant Billing Invoices</field>
+        <field name="res_model">tcrm.tenant.invoice</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_tcrm_catalog" name="Catalog" parent="menu_tcrm_root" sequence="10" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+    <menuitem id="menu_tcrm_saas_package" name="SaaS Packages" parent="menu_tcrm_catalog" action="action_tcrm_saas_package" sequence="20" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+    <menuitem id="menu_tcrm_tenant_sector" name="Tenant Sectors" parent="menu_tcrm_catalog" action="action_tcrm_tenant_sector" sequence="30" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <menuitem id="menu_tcrm_subscriptions" name="Subscriptions" parent="menu_tcrm_root" sequence="20" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+    <menuitem id="menu_tcrm_tenant_subscription" name="Tenant Subscriptions" parent="menu_tcrm_subscriptions" action="action_tcrm_tenant_subscription" sequence="10" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+    <menuitem id="menu_tcrm_tenant_invoice" name="Tenant Billing Invoices" parent="menu_tcrm_subscriptions" action="action_tcrm_tenant_invoice" sequence="20" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+</odoo>

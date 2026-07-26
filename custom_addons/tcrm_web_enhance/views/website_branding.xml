@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Make the login password show/hide (eye) button work.
+         The core web.login form already renders a .o_show_password button;
+         it just lacked working JS. web.login_layout has no <body>, so we
+         attach the handler inside the login <form> instead. -->
+    <template id="tcrm_login_eye_button_js" inherit_id="web.login" name="TCRM Login Eye Button JS">
+        <xpath expr="//form" position="inside">
+            <script type="text/javascript">
+                (function() {
+                    function bind() {
+                        document.querySelectorAll('.o_show_password').forEach(function(btn) {
+                            if (btn.dataset.tcrmBound) return;
+                            btn.dataset.tcrmBound = '1';
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                var group = btn.closest('.input-group');
+                                var input = group ? group.querySelector('input') : null;
+                                if (!input) return;
+                                var icon = btn.querySelector('i');
+                                if (input.type === 'password') {
+                                    input.type = 'text';
+                                    if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+                                } else {
+                                    input.type = 'password';
+                                    if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+                                }
+                            });
+                        });
+                    }
+                    if (document.readyState !== 'loading') { bind(); }
+                    else { document.addEventListener('DOMContentLoaded', bind); }
+                })();
+            </script>
+        </xpath>
+    </template>
+
+    <!-- Remove "Create a free website" promo -->
+    <template id="tcrm_no_free_website_promo" inherit_id="website.brand_promotion" name="TCRM Brand Promotion" priority="99">
+        <xpath expr="//t[@t-call='web.brand_promotion_message']" position="replace">
+            <t t-call="web.brand_promotion_message">
+                <t t-set="_message"/>
+                <t t-set="_utm_medium" t-valuef="website"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Fix Frontend Navbar Dropdowns & Styling -->
+    <template id="tcrm_navbar_dropdown_fix" inherit_id="website.layout" name="TCRM Navbar Dropdown Fix" priority="99">
+        <xpath expr="//head" position="inside">
+            <style>
+                .dropdown-menu.tcrm-show,
+                .dropdown-menu.show,
+                .dropdown.show &gt; .dropdown-menu,
+                .js_language_selector.show .dropdown-menu,
+                .js_language_selector .dropdown-menu.show {
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    z-index: 9999 !important;
+                    position: absolute !important;
+                    top: 100% !important;
+                    right: 0 !important;
+                    left: auto !important;
+                    margin-top: 0.25rem !important;
+                    background-color: #ffffff !important;
+                    border: 1px solid rgba(0,0,0,0.15) !important;
+                    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+                }
+                .dropdown-menu .dropdown-item {
+                    color: #212529 !important;
+                    padding: 0.5rem 1rem !important;
+                    display: block !important;
+                    clear: both !important;
+                    text-decoration: none !important;
+                }
+                .dropdown-menu .dropdown-item:hover {
+                    background-color: #f8f9fa !important;
+                    color: #101E55 !important;
+                }
+            </style>
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.addEventListener('click', function(e) {
+                        var toggleBtn = e.target.closest('.dropdown-toggle, [data-bs-toggle="dropdown"], [data-toggle="dropdown"], .js_language_selector button');
+                        if (toggleBtn) {
+                            var parent = toggleBtn.closest('.dropdown, .js_language_selector, .o_no_autohide_item, li');
+                            if (parent) {
+                                var menu = parent.querySelector('.dropdown-menu');
+                                if (menu) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    var isShown = menu.classList.contains('tcrm-show') || menu.classList.contains('show');
+                                    document.querySelectorAll('.dropdown-menu').forEach(function(m) {
+                                        m.classList.remove('tcrm-show');
+                                        m.classList.remove('show');
+                                    });
+                                    if (!isShown) {
+                                        menu.classList.add('tcrm-show');
+                                        menu.classList.add('show');
+                                        parent.classList.add('show');
+                                    } else {
+                                        parent.classList.remove('show');
+                                    }
+                                }
+                            }
+                        } else if (!e.target.closest('.dropdown-menu')) {
+                            document.querySelectorAll('.dropdown-menu').forEach(function(m) {
+                                m.classList.remove('tcrm-show');
+                                m.classList.remove('show');
+                            });
+                        }
+                    });
+                });
+            </script>
+        </xpath>
+    </template>
+
+    <!-- Header CTA -> Request a Demo (TCRM Navy Blue Color) -->
+    <template id="tcrm_header_cta_demo" inherit_id="website.header_call_to_action" name="Header Demo CTA" priority="99">
+        <xpath expr="//a[hasclass('btn_cta')]" position="replace">
+            <a t-if="request.httprequest.path != '/web/login'" href="/demo/request" class="oe_unremovable btn btn-primary btn_cta" style="background-color: #101E55 !important; border-color: #101E55 !important; color: #ffffff !important;">Request a Demo</a>
+        </xpath>
+    </template>
+
+    <!-- Add Documentation to Top Menu in Navbar -->
+    <template id="tcrm_navbar_docs_link" inherit_id="website.navbar_nav" name="TCRM Navbar Docs Link" priority="99">
+        <xpath expr="//ul[contains(@t-attf-class, 'top_menu')]" position="inside">
+            <li class="nav-item">
+                <a href="/docs" class="nav-link">Documentation</a>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Navbar brand: static SVG (avoids /web/image resize 500 when DB logo is SVG/corrupt) -->
+    <template id="tcrm_header_brand_logo" inherit_id="website.option_header_brand_logo" name="TCRM Header Brand Logo" priority="99">
+        <xpath expr="//a[@data-name='Navbar Logo']" position="replace">
+            <a data-name="Navbar Logo" href="/" t-attf-class="navbar-brand logo #{_link_class}">
+                <img src="/web/static/img/tcrm_logo.svg"
+                     class="img img-fluid"
+                     alt="TCRM"
+                     style="max-height:40px;width:auto;background:#fff;border-radius:6px;padding:4px 8px;"/>
+            </a>
+        </xpath>
+    </template>
+
+    <!-- Homepage: TCRM / AK KOD landing with login -->
+    <template id="tcrm_homepage" inherit_id="website.homepage" name="TCRM Homepage" priority="99">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure">
+                <section class="s_banner pt96 pb96" style="background: linear-gradient(135deg, #101E55 0%, #0e142c 55%, #1a2458 100%); color: #fff;">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 py-4">
+                                <img src="/web/static/img/tcrm_logo.svg" alt="TCRM" style="max-height:72px;width:auto;background:#fff;border-radius:8px;padding:8px 12px;"/>
+                                <h1 class="display-5 fw-bold mt-4 mb-3">TCRM</h1>
+                                <p class="lead mb-2">Connect · Grow · Win</p>
+                                <p class="mb-4 opacity-75">
+                                    Enterprise real-estate ERP and agentic CRM by
+                                    <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
+                                </p>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="/web/login" class="btn btn-light btn-lg px-4">Sign in</a>
+                                    <a href="/demo/request" class="btn btn-outline-light btn-lg px-4">Request a Demo</a>
+                                    <a href="/contactus" class="btn btn-outline-light btn-lg px-4">Contact us</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 py-4">
+                                <div class="p-4 rounded-3" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
+                                    <h3 class="h5 mb-3">Built for agencies &amp; SaaS operators</h3>
+                                    <ul class="mb-0 ps-3">
+                                        <li class="mb-2">Centralized command center</li>
+                                        <li class="mb-2">Full property lifecycle (Propertio)</li>
+                                        <li class="mb-2">Agentic AI over live CRM data</li>
+                                        <li>Secure hosted platform by AK KOD</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_text_block pt64 pb64">
+                    <div class="container">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <h3 class="h5">Product</h3>
+                                <p class="text-muted">Explore what TCRM includes for inventory, sales, collections, and AI.</p>
+                                <a href="/products">View products</a>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="h5">Services</h3>
+                                <p class="text-muted">Software, AI automation, and digital growth from AK KOD.</p>
+                                <a href="/services">View services</a>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="h5">Careers</h3>
+                                <p class="text-muted">Join the AK KOD team building TCRM and digital platforms.</p>
+                                <a href="/jobs">Open roles</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- AK KOD footer branding -->
+    <template id="tcrm_akkod_footer" inherit_id="website.footer_custom" name="AK KOD Footer" priority="99">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo border text-break" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block pt40 pb16" data-snippet="s_text_block" data-name="Container">
+                    <div class="container">
+                        <div class="row align-items-start">
+                            <div class="col-lg-3 pt24 pb24">
+                                <a href="/" class="d-inline-block mb-3">
+                                    <img src="/web/static/img/akkod_logo_tiny.png" alt="AK KOD" style="max-height:48px;width:auto;"/>
+                                </a>
+                                <p class="small text-muted mb-0">
+                                    TCRM by <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
+                                </p>
+                            </div>
+                            <div class="col-lg-2 pt24 pb24">
+                                <h5>Useful Links</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/about-us">About us</a></li>
+                                    <li><a href="/products">Products</a></li>
+                                    <li><a href="/services">Services</a></li>
+                                    <li><a href="/jobs">Careers</a></li>
+                                    <li><a href="/legal">Legal</a></li>
+                                    <li><a href="/docs">Documentation</a></li>
+                                    <li><a href="/contactus">Contact us</a></li>
+                                    <li><a href="/web/login">Sign in</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 pt24 pb24">
+                                <h5>About us</h5>
+                                <p>
+                                    AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. develops software, AI automation,
+                                    and digital growth systems. We build TCRM and related platforms for
+                                    measurable demand, strong digital infrastructure, and sustainable growth.
+                                </p>
+                            </div>
+                            <div class="col-lg-3 pt24 pb24">
+                                <h5>Connect with us</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-globe fa-fw me-2"/><a href="https://akod.tech/" target="_blank">akod.tech</a></li>
+                                    <li><i class="fa fa-envelope fa-fw me-2"/><a href="mailto:info@akod.tech">info@akod.tech</a></li>
+                                    <li><i class="fa fa-phone fa-fw me-2"/><a href="tel:05525242866"><span class="o_force_ltr">0552 524 28 66</span></a></li>
+                                </ul>
+                                <div class="s_social_media text-start o_not_editable mt-2">
+                                    <a href="https://www.facebook.com/akkoddijital" class="s_social_media_facebook me-1" target="_blank" rel="noopener" aria-label="Facebook">
+                                        <i class="fa fa-facebook rounded-circle shadow-sm"/>
+                                    </a>
+                                    <a href="https://www.instagram.com/akkod_yazilim/" class="s_social_media_instagram me-1" target="_blank" rel="noopener" aria-label="Instagram">
+                                        <i class="fa fa-instagram rounded-circle shadow-sm"/>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/ak-kod/" class="s_social_media_linkedin me-1" target="_blank" rel="noopener" aria-label="LinkedIn">
+                                        <i class="fa fa-linkedin rounded-circle shadow-sm"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="tcrm_akkod_copyright" inherit_id="website.footer_copyright_company_name" name="AK KOD Copyright" priority="99">
+        <xpath expr="//span[hasclass('o_footer_copyright_name')]" position="replace">
+            <span class="o_footer_copyright_name me-2 small">Copyright &#169; AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</span>
+        </xpath>
+    </template>
+
+    <!-- Hide website builder / Editor chrome -->
+    <template id="tcrm_hide_website_builder" inherit_id="website.layout" name="Hide Website Builder" priority="99">
+        <xpath expr="//div[hasclass('o_frontend_to_backend_nav')]" position="attributes">
+            <attribute name="style">display:none !important;</attribute>
+            <attribute name="class" add="d-none" separator=" "/>
+        </xpath>
+    </template>
+
+    <!-- Jobs page: AK KOD careers sidebar -->
+    <template id="tcrm_jobs_sidebar" inherit_id="website_hr_recruitment.job_right_side_bar" name="AK KOD Jobs Sidebar" priority="99">
+        <xpath expr="//div[@id='jobs_grid_right']" position="replace">
+            <div class="col-lg-4" id="jobs_grid_right">
+                <section class="p-3 border rounded">
+                    <img src="/web/static/img/tcrm_logo.svg" class="img-fluid mb-3" alt="TCRM" style="max-height:48px;width:auto;"/>
+                    <h5>Careers at AK KOD</h5>
+                    <p class="mt24 mb8">
+                        AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. builds TCRM and digital growth systems in Istanbul.
+                        Join us if you care about software, AI automation, and measurable product outcomes.
+                    </p>
+                    <div class="s_hr pt16 pb16">
+                        <hr class="w-100 mx-auto"/>
+                    </div>
+                    <ul class="list-unstyled text-nowrap">
+                        <li><i class="fa fa-globe fa-fw me-2"/><a href="https://akod.tech/" target="_blank" rel="noopener">akod.tech</a></li>
+                        <li><i class="fa fa-comment fa-fw me-2"/><a href="/contactus">Contact us</a></li>
+                        <li><i class="fa fa-envelope fa-fw me-2"/><a href="mailto:info@akod.tech">info@akod.tech</a></li>
+                        <li><i class="fa fa-phone fa-fw me-2"/><span class="o_force_ltr"><a href="tel:05525242866">0552 524 28 66</a></span></li>
+                    </ul>
+                    <div class="s_social_media text-start mt-2">
+                        <a href="https://www.facebook.com/akkoddijital" class="me-1" target="_blank" rel="noopener" aria-label="Facebook">
+                            <i class="fa fa-facebook rounded-circle shadow-sm"/>
+                        </a>
+                        <a href="https://www.instagram.com/akkod_yazilim/" class="me-1" target="_blank" rel="noopener" aria-label="Instagram">
+                            <i class="fa fa-instagram rounded-circle shadow-sm"/>
+                        </a>
+                        <a href="https://www.linkedin.com/company/ak-kod/" class="me-1" target="_blank" rel="noopener" aria-label="LinkedIn">
+                            <i class="fa fa-linkedin rounded-circle shadow-sm"/>
+                        </a>
+                    </div>
+                    <a href="/web/login" class="btn btn-primary mt-3">Sign in to TCRM</a>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="tcrm_jobs_title" inherit_id="website_hr_recruitment.index" name="AK KOD Jobs Title" priority="99">
+        <xpath expr="//h1" position="replace">
+            <h1 class="me-auto mb-0 h4">Careers at AK KOD</h1>
+        </xpath>
+    </template>
+</odoo>

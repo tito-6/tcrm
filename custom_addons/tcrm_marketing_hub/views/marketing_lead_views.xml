@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_marketing_lead_form_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.lead.form.list</field>
+        <field name="model">tcrm.marketing.lead.form</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="status"/>
+                <field name="leads_count"/>
+                <field name="imported_lead_count"/>
+                <field name="account_id"/>
+                <field name="last_sync_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_lead_form_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.lead.form.form</field>
+        <field name="model">tcrm.marketing.lead.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_sync_leads_button" type="object" string="Leadleri Çek → CRM" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="zernio_form_id"/>
+                        <field name="status"/>
+                        <field name="locale"/>
+                        <field name="leads_count"/>
+                        <field name="imported_lead_count"/>
+                        <field name="account_id"/>
+                        <field name="last_sync_at"/>
+                    </group>
+                    <field name="lead_ids">
+                        <list>
+                            <field name="contact_name"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="company_name"/>
+                            <field name="created_time"/>
+                            <field name="state"/>
+                            <field name="crm_lead_id"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_lead_form" model="ir.actions.act_window">
+        <field name="name">Lead Formları</field>
+        <field name="res_model">tcrm.marketing.lead.form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_marketing_meta_lead_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.lead.list</field>
+        <field name="model">tcrm.marketing.meta.lead</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_refresh_sources" type="object"
+                            string="Kaynakları Yenile" class="btn-secondary"
+                            display="always"/>
+                </header>
+                <field name="contact_name"/>
+                <field name="source_platform" widget="badge"
+                         decoration-danger="source_platform == 'instagram'"
+                         decoration-info="source_platform == 'facebook'"
+                         decoration-muted="source_platform == 'meta'"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="company_name"/>
+                <field name="form_id"/>
+                <field name="ad_name" optional="show"/>
+                <field name="campaign_name" optional="show"/>
+                <field name="creative_media_type" optional="show" string="Kreatif"/>
+                <field name="created_time"/>
+                <field name="state"/>
+                <field name="crm_lead_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_meta_lead_search" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.lead.search</field>
+        <field name="model">tcrm.marketing.meta.lead</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="contact_name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="ad_name"/>
+                <field name="campaign_name"/>
+                <field name="form_id"/>
+                <filter string="Instagram" name="ig" domain="[('source_platform', '=', 'instagram')]"/>
+                <filter string="Facebook" name="fb" domain="[('source_platform', '=', 'facebook')]"/>
+                <filter string="CRM Bekleyen" name="pending" domain="[('crm_lead_id', '=', False)]"/>
+                <separator/>
+                <filter string="Gönderim Tarihi" name="filter_created" date="created_time"/>
+                <group>
+                    <filter string="Kaynak" name="group_source" context="{'group_by': 'source_platform'}"/>
+                    <filter string="Form" name="group_form" context="{'group_by': 'form_id'}"/>
+                    <filter string="Kampanya" name="group_campaign" context="{'group_by': 'campaign_name'}"/>
+                    <filter string="Gün" name="group_day" context="{'group_by': 'created_time:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_meta_lead_graph" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.lead.graph</field>
+        <field name="model">tcrm.marketing.meta.lead</field>
+        <field name="arch" type="xml">
+            <graph string="Lead Raporu" type="bar" sample="1">
+                <field name="created_time" interval="day"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_meta_lead_pivot" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.lead.pivot</field>
+        <field name="model">tcrm.marketing.meta.lead</field>
+        <field name="arch" type="xml">
+            <pivot string="Lead Pivot" sample="1">
+                <field name="source_platform" type="row"/>
+                <field name="created_time" interval="week" type="col"/>
+                <field name="id" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_meta_lead_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.lead.form</field>
+        <field name="model">tcrm.marketing.meta.lead</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_import_to_crm" type="object" string="CRM’e Aktar"
+                            invisible="crm_lead_id" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="İletişim">
+                            <field name="contact_name"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="company_name"/>
+                        </group>
+                        <group string="Meta Kaynak">
+                            <field name="form_id"/>
+                            <field name="source_platform"/>
+                            <field name="leadgen_id"/>
+                            <field name="created_time"/>
+                            <field name="ad_id"/>
+                            <field name="ad_name"/>
+                            <field name="campaign_id_remote"/>
+                            <field name="campaign_name"/>
+                            <field name="crm_lead_id"/>
+                        </group>
+                    </group>
+                    <group string="Reklam Kreatifi">
+                        <field name="creative_media_type"/>
+                        <field name="creative_permalink" widget="url"/>
+                        <field name="creative_video_url" widget="url"
+                                 invisible="creative_media_type != 'video'"/>
+                        <field name="creative_html" nolabel="1" colspan="2"/>
+                    </group>
+                    <group string="Özet">
+                        <field name="summary" nolabel="1" colspan="2"/>
+                    </group>
+                    <group string="Ham Alanlar" groups="tcrm_marketing_hub.group_marketing_admin">
+                        <field name="fields_json" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_meta_lead" model="ir.actions.act_window">
+        <field name="name">Meta Leadler</field>
+        <field name="res_model">tcrm.marketing.meta.lead</field>
+        <field name="view_mode">list,graph,pivot,form</field>
+    </record>
+</odoo>

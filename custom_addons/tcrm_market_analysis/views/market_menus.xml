@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_tcrm_market_analysis_app" model="ir.actions.client">
+        <field name="name">Piyasa Analizi</field>
+        <field name="tag">tcrm_market_analysis.app</field>
+    </record>
+
+    <!-- active=False: hide app from the home menu until re-enabled -->
+    <menuitem id="menu_tcrm_market_root"
+              name="Piyasa Analizi"
+              web_icon="tcrm_market_analysis,static/description/icon.png"
+              sequence="45"
+              active="False"
+              groups="tcrm_market_analysis.group_market_viewer"/>
+
+    <menuitem id="menu_tcrm_market_overview"
+              name="Genel Bakış"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_analysis_app"
+              sequence="1"/>
+
+    <menuitem id="menu_tcrm_market_explorer"
+              name="Piyasa Gezgini"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_listing"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_market_comparables"
+              name="Emsal Analizi"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_comparable_set"
+              sequence="20"/>
+
+    <menuitem id="menu_tcrm_market_saved"
+              name="Kaydedilmiş Analizler"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_analysis"
+              sequence="30"/>
+
+    <menuitem id="menu_tcrm_market_sources"
+              name="Veri Kaynakları"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_source"
+              sequence="40"
+              groups="tcrm_market_analysis.group_market_manager"/>
+
+    <menuitem id="menu_tcrm_market_imports"
+              name="İçe Aktarımlar"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_import_job"
+              sequence="50"
+              groups="tcrm_market_analysis.group_market_manager"/>
+
+    <menuitem id="menu_tcrm_market_import_wizard"
+              name="Dosya İçe Aktar"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_import_wizard"
+              sequence="55"
+              groups="tcrm_market_analysis.group_market_manager"/>
+
+    <menuitem id="menu_tcrm_market_mappings"
+              name="Veri Kalitesi / Eşleme"
+              parent="menu_tcrm_market_root"
+              action="action_tcrm_market_mapping"
+              sequence="60"
+              groups="tcrm_market_analysis.group_market_manager"/>
+</odoo>

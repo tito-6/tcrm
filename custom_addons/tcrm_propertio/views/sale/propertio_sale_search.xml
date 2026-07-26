@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_propertio_sale_search" model="ir.ui.view">
+        <field name="name">propertio.sale.search</field>
+        <field name="model">propertio.sale</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="project_id"/>
+                <filter string="Taslak" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Onaylandı" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="İptal Edildi" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                <filter string="İade" name="refund" domain="[('state', '=', 'refund')]"/>
+                <separator/>
+                <group>
+                    <filter string="Durum" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Proje" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Danışman" name="group_salesperson" context="{'group_by': 'sales_person_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

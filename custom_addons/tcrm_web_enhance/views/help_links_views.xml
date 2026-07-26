@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add Help Button to CRM Lead Form -->
+    <record id="tcrm_crm_lead_form_help" model="ir.ui.view">
+        <field name="name">tcrm.crm.lead.form.help</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <a href="/docs/crm" target="_blank" class="btn btn-secondary btn-sm float-end" title="Help">
+                    <i class="fa fa-question-circle"/> Help
+                </a>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add Help Button to Propertio Form -->
+    <record id="tcrm_propertio_form_help" model="ir.ui.view">
+        <field name="name">tcrm.propertio.form.help</field>
+        <field name="model">propertio.unit</field>
+        <field name="inherit_id" ref="tcrm_propertio.view_propertio_unit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <a href="/docs/propertio" target="_blank" class="btn btn-secondary btn-sm float-end" title="Help">
+                    <i class="fa fa-question-circle"/> Help
+                </a>
+            </xpath>
+        </field>
+    </record>
+</odoo>

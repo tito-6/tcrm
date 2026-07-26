@@ -1,0 +1,88 @@
+<odoo>
+    <record id="view_propertio_payment_form" model="ir.ui.view">
+        <field name="name">propertio.payment.form</field>
+        <field name="model">propertio.payment</field>
+        <field name="arch" type="xml">
+            <form string="Ödeme" class="o_propertio_payment_form">
+                <header>
+                    <button name="action_post" string="Ödemeyi Onayla" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Vazgeç" type="object" invisible="state != 'draft'"/>
+                    <button name="action_open_cancel_request_wizard" string="İptal talebi"
+                            type="object" class="btn-secondary" invisible="state != 'posted'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="İade" bg_color="bg-info" invisible="not is_reversal"/>
+                    <widget name="web_ribbon" title="İptal Edildi" bg_color="bg-danger" invisible="state != 'cancel'"/>
+                    <div class="oe_title">
+                        <label for="name" string="Ödeme referansı"/>
+                        <h1 class="d-flex align-items-baseline gap-2">
+                            <field name="name" class="text-break" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group string="Müşteri ve tahsis">
+                        <group name="allocation_left">
+                            <field name="partner_id"
+                                   widget="res_partner_many2one"
+                                   context="{'show_address': 1, 'default_is_company': False}"
+                                   options="{'no_quick_create': True}"/>
+                            <field name="sale_id" options="{'no_create': True}"/>
+                        </group>
+                        <group name="allocation_right">
+                            <field name="payment_method"/>
+                            <field name="payment_date"/>
+                            <field name="receipt_no" invisible="payment_method != 'cash'"/>
+                        </group>
+                    </group>
+                    <group string="Tutar ve para birimi">
+                        <group name="amount_left">
+                            <field name="currency_id" options="{'no_create': True}"/>
+                            <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="sale_currency_id" invisible="1"/>
+                        </group>
+                        <group name="amount_right">
+                            <field name="exchange_rate"/>
+                            <field name="covered_amount" widget="monetary" options="{'currency_field': 'sale_currency_id'}"/>
+                        </group>
+                    </group>
+                    <group string="Çek bilgileri" name="cheque_group" invisible="payment_method != 'check'">
+                        <group>
+                            <field name="cheque_no"/>
+                        </group>
+                        <group>
+                            <field name="cheque_date"/>
+                        </group>
+                    </group>
+                    <group string="İptal / İade" invisible="not cancellation_reason_code and not reversed_payment_id and not reversal_payment_id">
+                        <field name="is_reversal" readonly="1"/>
+                        <field name="reversed_payment_id" readonly="1"/>
+                        <field name="reversal_payment_id" readonly="1"/>
+                        <field name="cancellation_reason_code" readonly="1"/>
+                        <field name="cancellation_explanation" readonly="1"/>
+                        <field name="cancelled_by_id" readonly="1"/>
+                        <field name="cancelled_date" readonly="1"/>
+                    </group>
+                </sheet>
+                <!-- Odoo 19+: use <chatter/> — old oe_chatter + follower fields render as huge inline lists and break layout -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_propertio_payment_tree" model="ir.ui.view">
+        <field name="name">propertio.payment.tree</field>
+        <field name="model">propertio.payment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="payment_date"/>
+                <field name="partner_id"/>
+                <field name="sale_id"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="state"/>
+                <field name="is_reversal" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+</odoo>

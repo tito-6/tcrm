@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TCRM Propertio: Core reports (Task 3) + Game-changer reports (Task 4) - Turkish labels -->
+<odoo>
+
+    <!-- ========== Task 3.1: Tahsilat ve Satış Durumu (Sales & Collection Report) ========== -->
+    <record id="view_propertio_installment_tahsilat_tree" model="ir.ui.view">
+        <field name="name">propertio.installment.tahsilat.tree</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <list string="Tahsilat ve Satış Durumu"
+                  decoration-success="payment_status == 'paid'"
+                  decoration-danger="payment_status == 'overdue'"
+                  decoration-warning="payment_status == 'upcoming'"
+                  create="false">
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="project_id"/>
+                <field name="name"/>
+                <field name="date_due"/>
+                <field name="date_paid"/>
+                <field name="amount" sum="Toplam Vade"/>
+                <field name="amount_paid" sum="Toplam Tahsilat"/>
+                <field name="residual" sum="Kalan"/>
+                <field name="payment_status" widget="badge"/>
+                <field name="type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_report_tahsilat_satis" model="ir.actions.act_window">
+        <field name="name">Tahsilat ve Satış Durumu</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_propertio_installment_tahsilat_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Yeşil: Ödendi. Kırmızı: Gecikmiş. Varsayılan: Yaklaşan.
+            </p>
+        </field>
+    </record>
+
+    <!-- ========== Task 3.2: Proje Nakit Durumu (Project GDV / Plan Tablosu) ========== -->
+    <record id="view_propertio_installment_proje_nakit_pivot" model="ir.ui.view">
+        <field name="name">propertio.installment.proje.nakit.pivot</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <pivot string="Proje Nakit Durumu">
+                <field name="project_id" type="row"/>
+                <field name="date_due" interval="month" type="col"/>
+                <field name="amount" type="measure" string="Toplam Değer"/>
+                <field name="amount_paid" type="measure" string="Toplam Tahsilat"/>
+                <field name="residual" type="measure" string="Kalan"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_propertio_installment_proje_nakit_graph" model="ir.ui.view">
+        <field name="name">propertio.installment.proje.nakit.graph</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <graph string="Proje Nakit Durumu" type="bar" stacked="True">
+                <field name="project_id" type="row"/>
+                <field name="amount" type="measure" string="Toplam"/>
+                <field name="amount_paid" type="measure" string="Tahsilat"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_report_proje_nakit" model="ir.actions.act_window">
+        <field name="name">Proje Nakit Durumu</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="view_propertio_installment_proje_nakit_pivot"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Proje bazında toplam değer, tahsilat ve kalan. Gün/Hafta/Ay/Yıl gruplamak için pivot kolonlarını kullanın.
+            </p>
+        </field>
+    </record>
+
+    <!-- ========== Task 3.3: Gelecek Nakit Akışı (Cash Flow Forecast - Expected vs Actual) ========== -->
+    <record id="view_propertio_installment_nakit_akis_expected" model="ir.ui.view">
+        <field name="name">propertio.installment.nakit.akis.expected</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <graph string="Beklenen (Vade Tarihine Göre)" type="line">
+                <field name="date_due" interval="month"/>
+                <field name="amount" type="measure" string="Beklenen"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_propertio_installment_nakit_akis_actual" model="ir.ui.view">
+        <field name="name">propertio.installment.nakit.akis.actual</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <graph string="Gerçekleşen (Ödeme Tarihine Göre)" type="line">
+                <field name="date_paid" interval="month"/>
+                <field name="amount_paid" type="measure" string="Tahsilat"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_propertio_installment_nakit_akis_pivot" model="ir.ui.view">
+        <field name="name">propertio.installment.nakit.akis.pivot</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <pivot string="Gelecek Nakit Akışı">
+                <field name="date_due" interval="month" type="row"/>
+                <field name="amount" type="measure" string="Beklenen"/>
+                <field name="date_paid" interval="month" type="col"/>
+                <field name="amount_paid" type="measure" string="Tahsilat"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_report_gelecek_nakit_akis" model="ir.actions.act_window">
+        <field name="name">Gelecek Nakit Akışı</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Grafik 1: Vade tarihine göre beklenen. Grafik 2: Ödeme tarihine göre tahsilat. Karşılaştırarak nakit akışını takip edin.
+            </p>
+        </field>
+    </record>
+
+    <!-- ========== Task 4.1: Danışman Karnesi (Sales Agent Leaderboard - collected cash this month) ========== -->
+    <record id="view_propertio_installment_danisman_pivot" model="ir.ui.view">
+        <field name="name">propertio.installment.danisman.pivot</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <pivot string="Danışman Karnesi">
+                <field name="sales_person_id" type="row"/>
+                <field name="amount_paid" type="measure" string="Bu Ay Tahsilat"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_propertio_installment_danisman_graph" model="ir.ui.view">
+        <field name="name">propertio.installment.danisman.graph</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <graph string="Danışman Karnesi" type="bar">
+                <field name="sales_person_id" type="row"/>
+                <field name="amount_paid" type="measure" string="Tahsilat"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_report_danisman_karnesi" model="ir.actions.act_window">
+        <field name="name">Danışman Karnesi</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="view_propertio_installment_danisman_pivot"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Bu ay içinde en çok tahsilat yapan danışmanlar (satış değil, gerçekleşen tahsilat). Varsayılan: bu ay ödenen taksitler.
+            </p>
+        </field>
+    </record>
+
+    <!-- Server action: Danışman Karnesi with "this month" filter (dynamic domain) -->
+    <record id="action_server_danisman_karnesi_this_month" model="ir.actions.server">
+        <field name="name">Danışman Karnesi (Bu Ay)</field>
+        <field name="model_id" search="[('model', '=', 'propertio.installment')]" model="ir.model"/>
+        <field name="state">code</field>
+        <field name="code">action = env['propertio.installment'].action_open_danisman_karnesi_this_month()</field>
+    </record>
+
+    <!-- ========== Task 4.2: Kırmızı Alarm Müşteriler (Red Alert - 15+ days late, ranked by debt) ========== -->
+    <record id="view_propertio_installment_kirmizi_alarm_tree" model="ir.ui.view">
+        <field name="name">propertio.installment.kirmizi.alarm.tree</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <list string="Kırmızı Alarm Müşteriler"
+                  decoration-danger="1"
+                  create="false"
+                  default_order="residual desc, overdue_days desc">
+                <field name="partner_id"/>
+                <field name="sale_id"/>
+                <field name="project_id"/>
+                <field name="name"/>
+                <field name="date_due"/>
+                <field name="overdue_days"/>
+                <field name="residual" sum="Toplam Borç"/>
+                <field name="amount"/>
+                <field name="payment_status" widget="badge"/>
+                <field name="sales_person_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_report_kirmizi_alarm" model="ir.actions.act_window">
+        <field name="name">Kırmızı Alarm Müşteriler</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_propertio_installment_kirmizi_alarm_tree"/>
+        <field name="domain">[('overdue_days', '&gt;=', 15)]</field>
+        <field name="context">{'default_order': 'residual desc'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Vadesi 15 günden fazla geçmiş müşteriler, borç tutarına göre sıralı. Tahsilat ekibi bugün aranacaklar listesi.
+            </p>
+        </field>
+    </record>
+
+    <!-- ========== Menus: Core + Game-changer reports ========== -->
+    <menuitem id="menu_report_tahsilat_satis"
+              name="Tahsilat ve Satış Durumu"
+              action="action_report_tahsilat_satis"
+              parent="menu_report_category_collection"
+              sequence="15"/>
+    <menuitem id="menu_report_proje_nakit"
+              name="Proje Nakit Durumu"
+              action="action_report_proje_nakit"
+              parent="menu_report_category_collection"
+              sequence="16"/>
+    <menuitem id="menu_report_gelecek_nakit_akis"
+              name="Gelecek Nakit Akışı"
+              action="action_report_gelecek_nakit_akis"
+              parent="menu_report_category_collection"
+              sequence="17"/>
+    <menuitem id="menu_report_danisman_karnesi"
+              name="Danışman Karnesi"
+              action="action_report_danisman_karnesi"
+              parent="menu_report_category_performance"
+              sequence="5"/>
+    <menuitem id="menu_report_danisman_karnesi_this_month"
+              name="Danışman Karnesi (Bu Ay)"
+              action="action_server_danisman_karnesi_this_month"
+              parent="menu_report_category_performance"
+              sequence="6"/>
+    <menuitem id="menu_report_kirmizi_alarm"
+              name="Kırmızı Alarm Müşteriler"
+              action="action_report_kirmizi_alarm"
+              parent="menu_report_category_collection"
+              sequence="18"/>
+</odoo>

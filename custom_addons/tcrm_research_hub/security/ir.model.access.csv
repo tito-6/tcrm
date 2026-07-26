@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcrm_research_notebook_user,tcrm.research.notebook.user,model_tcrm_research_notebook,tcrm_research_hub.group_research_hub_user,1,1,1,1
+access_tcrm_research_notebook_admin,tcrm.research.notebook.admin,model_tcrm_research_notebook,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,1
+access_tcrm_research_notebook_system,tcrm.research.notebook.system,model_tcrm_research_notebook,base.group_system,1,1,1,1
+access_tcrm_research_sync_log_user,tcrm.research.sync.log.user,model_tcrm_research_sync_log,tcrm_research_hub.group_research_hub_user,1,1,1,0
+access_tcrm_research_sync_log_admin,tcrm.research.sync.log.admin,model_tcrm_research_sync_log,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,1
+access_tcrm_research_sync_log_system,tcrm.research.sync.log.system,model_tcrm_research_sync_log,base.group_system,1,1,1,1

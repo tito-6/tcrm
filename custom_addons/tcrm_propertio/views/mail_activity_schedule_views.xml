@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_activity_schedule_view_form_create_reminder" model="ir.ui.view">
+        <field name="name">mail.activity.schedule.form.create.reminder</field>
+        <field name="model">mail.activity.schedule</field>
+        <field name="inherit_id" ref="mail.mail_activity_schedule_view_form"/>
+        <field name="priority">25</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='activity_user_id']" position="after">
+                <field name="create_reminder"
+                        invisible="res_model != 'crm.lead'"
+                        string="Hatırlatıcı oluştur"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

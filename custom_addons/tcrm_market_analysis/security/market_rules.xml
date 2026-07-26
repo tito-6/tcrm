@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="rule_market_source_company" model="ir.rule">
+            <field name="name">Market Source: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_source"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_import_company" model="ir.rule">
+            <field name="name">Market Import Job: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_import_job"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_listing_company" model="ir.rule">
+            <field name="name">Market Listing: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_listing"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_snapshot_company" model="ir.rule">
+            <field name="name">Market Snapshot: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_listing_snapshot"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_seller_company" model="ir.rule">
+            <field name="name">Market Seller: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_seller"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_mapping_company" model="ir.rule">
+            <field name="name">Market Mapping: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_mapping"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_analysis_viewer" model="ir.rule">
+            <field name="name">Market Analysis: private or company</field>
+            <field name="model_id" ref="model_tcrm_market_analysis"/>
+            <field name="domain_force">['&amp;', ('company_id', 'in', company_ids), '|', '|', ('visibility', '=', 'company'), ('user_id', '=', user.id), ('share_user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_market_viewer'))]"/>
+        </record>
+        <record id="rule_market_comp_set_company" model="ir.rule">
+            <field name="name">Comparable Set: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_comparable_set"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_market_comp_line_company" model="ir.rule">
+            <field name="name">Comparable Line: multi-company</field>
+            <field name="model_id" ref="model_tcrm_market_comparable_line"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

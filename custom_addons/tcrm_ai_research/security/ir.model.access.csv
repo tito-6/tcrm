@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcrm_ai_workspace_user,tcrm.ai.workspace.user,model_tcrm_ai_workspace,group_ai_research_user,1,0,0,0
+access_tcrm_ai_workspace_manager,tcrm.ai.workspace.manager,model_tcrm_ai_workspace,group_ai_research_manager,1,1,1,1
+access_tcrm_ai_workspace_admin,tcrm.ai.workspace.admin,model_tcrm_ai_workspace,group_ai_research_admin,1,1,1,1
+access_tcrm_ai_conversation_user,tcrm.ai.conversation.user,model_tcrm_ai_conversation,group_ai_research_user,1,1,1,0
+access_tcrm_ai_conversation_manager,tcrm.ai.conversation.manager,model_tcrm_ai_conversation,group_ai_research_manager,1,1,1,1
+access_tcrm_ai_conversation_admin,tcrm.ai.conversation.admin,model_tcrm_ai_conversation,group_ai_research_admin,1,1,1,1
+access_tcrm_ai_message_user,tcrm.ai.message.user,model_tcrm_ai_message,group_ai_research_user,1,1,1,0
+access_tcrm_ai_message_manager,tcrm.ai.message.manager,model_tcrm_ai_message,group_ai_research_manager,1,1,1,1
+access_tcrm_ai_message_admin,tcrm.ai.message.admin,model_tcrm_ai_message,group_ai_research_admin,1,1,1,1
+access_tcrm_ai_document_user,tcrm.ai.document.user,model_tcrm_ai_document,group_ai_research_user,1,1,1,0
+access_tcrm_ai_document_manager,tcrm.ai.document.manager,model_tcrm_ai_document,group_ai_research_manager,1,1,1,1
+access_tcrm_ai_document_admin,tcrm.ai.document.admin,model_tcrm_ai_document,group_ai_research_admin,1,1,1,1
+access_tcrm_ai_citation_user,tcrm.ai.citation.user,model_tcrm_ai_citation,group_ai_research_user,1,0,1,0
+access_tcrm_ai_citation_manager,tcrm.ai.citation.manager,model_tcrm_ai_citation,group_ai_research_manager,1,1,1,1
+access_tcrm_ai_citation_admin,tcrm.ai.citation.admin,model_tcrm_ai_citation,group_ai_research_admin,1,1,1,1

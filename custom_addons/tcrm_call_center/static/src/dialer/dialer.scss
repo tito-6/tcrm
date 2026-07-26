@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Santral mobile-style call screen
+   ========================================================================== */
+.o_santral_call {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 340px;
+    max-width: 100%;
+    min-height: 560px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 1.25rem;
+    color: #fff;
+    background:
+        radial-gradient(900px 300px at 50% -10%, rgba(255, 255, 255, 0.12), transparent 60%),
+        linear-gradient(180deg, #101E55 0%, #0e1533 60%, #070b1c 100%);
+    border-radius: 1rem;
+    overflow: hidden;
+
+    /* ---- Proximity ("ear") screen-off overlay ---- */
+    &__proximity {
+        position: fixed;
+        inset: 0;
+        z-index: 20000;
+        background: #000;
+        pointer-events: all;
+    }
+
+    /* ---- Contact / call stage ---- */
+    &__stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 0.5rem;
+        margin-bottom: auto;
+    }
+
+    &__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+        font-size: 2.25rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #fff;
+        background: linear-gradient(135deg, #2b3a86 0%, #1a2458 100%);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    &--active &__avatar,
+    &--ringing &__avatar {
+        animation: o_santral_pulse 1.8s ease-out infinite;
+    }
+
+    &__name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin: 0 0 0.15rem;
+        word-break: break-word;
+    }
+
+    &__number {
+        font-size: 1rem;
+        opacity: 0.75;
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__project {
+        margin-top: 0.35rem;
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+
+    &__status {
+        margin-top: 0.9rem;
+        font-size: 0.95rem;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    &__timer {
+        margin-top: 0.25rem;
+        font-size: 1.75rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__rec {
+        margin-top: 0.35rem;
+        font-size: 0.8rem;
+        opacity: 0.85;
+    }
+
+    &__alerts {
+        margin: 0.75rem 0 0;
+    }
+
+    /* ---- Pre-call device panel ---- */
+    &__devices {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 0.75rem;
+        padding: 0.75rem;
+        margin-top: 0.75rem;
+
+        .form-label { color: rgba(255, 255, 255, 0.75); }
+    }
+
+    &__preflight { opacity: 0.85; }
+
+    /* ---- Controls ---- */
+    &__controls {
+        margin-top: 1rem;
+    }
+
+    &__row {
+        display: flex;
+        justify-content: center;
+        gap: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    &__keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        max-width: 240px;
+        margin: 0 auto 1.25rem;
+    }
+
+    &__primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        position: relative;
+    }
+
+    &__wrapup {
+        margin-top: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        color: #212529;
+        border-radius: 0.75rem;
+        padding: 0.5rem 0.75rem;
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #101E55;
+        }
+    }
+}
+
+/* Circular call buttons */
+.o_santral_btn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s ease;
+
+    span {
+        position: absolute;
+        margin-top: 4.75rem;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        opacity: 0.8;
+    }
+
+    i { font-size: 1.35rem; }
+
+    &--toggle {
+        position: relative;
+        width: 56px;
+        height: 56px;
+    }
+    &--toggle.is-on {
+        background: #fff;
+        color: #101E55;
+    }
+
+    &--call,
+    &--hangup {
+        width: 72px;
+        height: 72px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+    &--call {
+        background: #22a06b;
+    }
+    &--call:hover { background: #1c8a5b; }
+    &--hangup {
+        background: #e0352b;
+    }
+    &--hangup:hover { background: #c22a22; }
+
+    &--mini {
+        position: absolute;
+        right: 0.25rem;
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:hover { transform: translateY(-1px); }
+    &:active { transform: scale(0.96); }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.o_santral_key {
+    border: 0;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+
+    &:hover { background: rgba(255, 255, 255, 0.2); }
+    &:active { transform: scale(0.94); }
+}
+
+@keyframes o_santral_pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34, 160, 107, 0.55); }
+    70% { box-shadow: 0 0 0 22px rgba(34, 160, 107, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 160, 107, 0); }
+}
+
+/* Legacy backend button labels */
+.o_santral_kanban_call,
+.o_santral_call_btn {
+    white-space: nowrap;
+}
+
+/* Make the dialog host the call screen nicely; full-screen on phones */
+.o_dialog .o_santral_call {
+    box-shadow: none;
+}
+
+@media (max-width: 576px) {
+    .o_santral_call {
+        width: 100%;
+        min-height: 80vh;
+        border-radius: 0;
+    }
+}

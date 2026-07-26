@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══ Client action ═══ -->
+    <record id="action_tcrm_research_hub" model="ir.actions.client">
+        <field name="name">Research Hub</field>
+        <field name="tag">tcrm_master.research_hub</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- ═══ Standalone root menu (appears on Odoo home screen) ═══ -->
+    <menuitem
+        id="menu_research_hub_root"
+        name="Research Hub"
+        sequence="50"
+        web_icon="tcrm_research_hub,static/description/icon.png"
+        groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin,tcrm_research_hub.group_research_hub_user"
+    />
+
+    <!-- Primary entry under the standalone root -->
+    <menuitem
+        id="menu_research_hub_open"
+        name="Research Library"
+        parent="menu_research_hub_root"
+        action="action_tcrm_research_hub"
+        sequence="1"
+        groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin,tcrm_research_hub.group_research_hub_user"
+    />
+
+    <!-- ═══ Also accessible from TCRM Master (for God-Mode admin) ═══ -->
+    <menuitem
+        id="menu_tcrm_research_hub"
+        name="Research Hub"
+        parent="tcrm_saas_core.menu_tcrm_root"
+        action="action_tcrm_research_hub"
+        sequence="5"
+        groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"
+    />
+
+</odoo>

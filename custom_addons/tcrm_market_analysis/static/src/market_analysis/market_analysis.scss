@@ -1,0 +1,308 @@
+.o_tcrm_market_app {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: calc(100vh - 90px);
+    background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(14, 116, 144, 0.12), transparent 60%),
+        linear-gradient(180deg, #f3f6f8 0%, #e8eef2 100%);
+    color: #102a33;
+    font-family: "Bricolage Grotesque", "Segoe UI", sans-serif;
+}
+
+.o_tcrm_market_nav {
+    padding: 1.25rem 0.85rem;
+    border-right: 1px solid rgba(16, 42, 51, 0.08);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+}
+
+.o_tcrm_market_brand {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 0.4rem;
+
+    strong {
+        display: block;
+        font-size: 1.05rem;
+        letter-spacing: -0.02em;
+    }
+    small {
+        color: #5b7280;
+    }
+}
+
+.o_tcrm_market_mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.65rem;
+    display: grid;
+    place-items: center;
+    background: #0e7490;
+    color: #fff;
+    font-weight: 700;
+}
+
+.o_tcrm_market_nav_item {
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background: transparent;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.45rem;
+    margin-bottom: 0.2rem;
+    color: #334155;
+
+    &.active,
+    &:hover {
+        background: rgba(14, 116, 144, 0.12);
+        color: #0e7490;
+    }
+}
+
+.o_tcrm_market_main {
+    padding: 1.5rem 1.75rem 2rem;
+}
+
+.o_tcrm_market_header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+
+    h1 {
+        font-size: 1.7rem;
+        margin: 0;
+        letter-spacing: -0.03em;
+    }
+}
+
+.o_tcrm_market_disclaimer,
+.o_tcrm_market_note {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.o_tcrm_market_error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+}
+
+.o_tcrm_market_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    input, select {
+        border: 1px solid rgba(16, 42, 51, 0.12);
+        border-radius: 0.4rem;
+        padding: 0.4rem 0.55rem;
+        background: #fff;
+        min-width: 8rem;
+    }
+}
+
+.o_tcrm_market_suggest {
+    position: relative;
+    min-width: 10rem;
+
+    ul {
+        position: absolute;
+        z-index: 5;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0.25rem 0;
+        list-style: none;
+        background: #fff;
+        border: 1px solid rgba(16, 42, 51, 0.12);
+        border-radius: 0.4rem;
+        max-height: 220px;
+        overflow: auto;
+        box-shadow: 0 8px 24px rgba(16, 42, 51, 0.12);
+    }
+    li {
+        padding: 0.4rem 0.65rem;
+        cursor: pointer;
+        &:hover { background: rgba(14, 116, 144, 0.1); }
+    }
+}
+
+.o_tcrm_market_chart,
+.o_tcrm_market_map_panel {
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.o_tcrm_market_bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.o_tcrm_market_bar {
+    display: grid;
+    grid-template-columns: 7rem 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.9rem;
+
+    .track {
+        height: 0.55rem;
+        background: rgba(14, 116, 144, 0.12);
+        border-radius: 999px;
+        overflow: hidden;
+        i {
+            display: block;
+            height: 100%;
+            background: #0e7490;
+        }
+    }
+    em { font-style: normal; color: #64748b; }
+}
+
+.o_tcrm_market_kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+
+    article {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(16, 42, 51, 0.06);
+        border-radius: 0.75rem;
+        padding: 1rem;
+
+        span {
+            display: block;
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 0.35rem;
+        }
+        strong {
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+        }
+    }
+}
+
+.o_tcrm_market_table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.85);
+
+    th, td {
+        padding: 0.65rem 0.75rem;
+        border-bottom: 1px solid rgba(16, 42, 51, 0.06);
+        text-align: left;
+        font-size: 0.92rem;
+    }
+    th {
+        color: #64748b;
+        font-weight: 600;
+    }
+}
+
+.o_tcrm_market_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+
+    article {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        border: 1px solid rgba(16, 42, 51, 0.06);
+
+        h3 {
+            font-size: 1rem;
+            margin: 0 0 0.35rem;
+        }
+        small {
+            color: #64748b;
+        }
+    }
+}
+
+.o_tcrm_market_empty {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0.85rem;
+}
+
+.o_tcrm_market_view_toggle {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    button {
+        border: 1px solid rgba(16, 42, 51, 0.12);
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.25rem 0.8rem;
+
+        &.active {
+            background: #0e7490;
+            color: #fff;
+            border-color: #0e7490;
+        }
+    }
+}
+
+.o_tcrm_market_saved {
+    list-style: none;
+    padding: 0;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(16, 42, 51, 0.06);
+    }
+}
+
+.o_tcrm_market_save_box {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    input {
+        flex: 1;
+        border: 1px solid rgba(16, 42, 51, 0.12);
+        border-radius: 0.4rem;
+        padding: 0.45rem 0.6rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .o_tcrm_market_app {
+        grid-template-columns: 1fr;
+    }
+    .o_tcrm_market_nav {
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        border-right: 0;
+        border-bottom: 1px solid rgba(16, 42, 51, 0.08);
+    }
+    .o_tcrm_market_brand {
+        display: none;
+    }
+    .o_tcrm_market_nav_item {
+        white-space: nowrap;
+        width: auto;
+    }
+}

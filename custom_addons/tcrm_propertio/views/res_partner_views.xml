@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_form_propertio_whatsapp" model="ir.ui.view">
+        <field name="name">res.partner.form.propertio.whatsapp</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_send_whatsapp" type="object" class="oe_stat_button" icon="fa-whatsapp">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">WhatsApp</span>
+                    </div>
+                </button>
+                <button name="action_real_estate_history" type="object" class="oe_stat_button" icon="fa-home">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Real Estate History</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Real Estate Profile" name="propertio_profile">
+                    <group>
+                        <group string="Identity">
+                            <field name="nationality"/>
+                            <field name="id_type"/>
+                            <field name="id_number"/>
+                            <field name="tc_kimlik_no"/>
+                            <field name="vergi_no"/>
+                            <field name="vergi_dairesi"/>
+                            <field name="birth_date"/>
+                            <field name="marital_status"/>
+                            <field name="spouse_name"/>
+                            <field name="occupation"/>
+                            <field name="mahalle"/>
+                        </group>
+                        <group string="Budget &amp; Preferences">
+                            <field name="monthly_income" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="budget_min" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="budget_max" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="preferred_project_ids" widget="many2many_tags"/>
+                            <field name="preferred_unit_type" widget="many2many_tags"/>
+                            <field name="lead_source"/>
+                            <field name="how_did_you_hear"/>
+                            <field name="whatsapp_number"/>
+                        </group>
+                    </group>
+                    <group string="Summary">
+                        <group>
+                            <field name="total_purchased_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_paid" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="outstanding_balance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="risk_level"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,1123 @@
+# Turkish (Turkey) translation for TCRM Marketing Hub.
+# Copyright (C) TCRM
+# This file is distributed under the same license as the tcrm_marketing_hub package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TCRM Marketing Hub 1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-24 00:00+0000\n"
+"PO-Revision-Date: 2026-07-24 00:00+0000\n"
+"Last-Translator: TCRM <info@tcrm.com>\n"
+"Language-Team: Turkish\n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_account.py
+msgid "Marketing Hub"
+msgstr "Marketing Hub"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_account.py
+msgid "Zernio profili bulunamadı. Önce Senkronize Et çalıştırın veya"
+msgstr "Zernio profili bulunamadı. Önce Senkronize Et çalıştırın veya"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_account.py
+msgid "Zernio bağlantı URL’si alınamadı: %s"
+msgstr "Zernio bağlantı URL’si alınamadı: %s"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_account.py
+msgid "Kapalıysa lead form / lead senkronu bu sayfayı atlar. Mevcut leadler silinmez."
+msgstr "Kapalıysa lead form / lead senkronu bu sayfayı atlar. Mevcut leadler silinmez."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_account.py
+msgid "Son senkron hatası (gizli anahtar içermez)."
+msgstr "Son senkron hatası (gizli anahtar içermez)."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_ad.py
+msgid "Önce Meta reklam hesabı bağlayın / senkronize edin"
+msgstr "Önce Meta reklam hesabı bağlayın / senkronize edin"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_ad.py
+msgid "Kampanya ID yok."
+msgstr "Kampanya ID yok."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_ad.py
+msgid "Kampanya kopyalandı (duraklatılmış)."
+msgstr "Kampanya kopyalandı (duraklatılmış)."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_analytics.py
+msgid "Analitik — %s"
+msgstr "Analitik — %s"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_analytics.py
+msgid "Analitik"
+msgstr "Analitik"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_comment.py
+msgid "Yoruma Yanıtla"
+msgstr "Yoruma Yanıtla"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_conversation.py
+msgid "Yanıtla"
+msgstr "Yanıtla"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Lead bulunamadı."
+msgstr "Lead bulunamadı."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "gelen kutusu"
+msgstr "gelen kutusu"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Lead: %s"
+msgstr "Lead: %s"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Senkron tamam: %s."
+msgstr "Senkron tamam: %s."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "kısmi"
+msgstr "kısmi"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Sayfa seçimini değiştirmek için Marketing Yönetici yetkisi gerekir."
+msgstr "Sayfa seçimini değiştirmek için Marketing Yönetici yetkisi gerekir."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Sayfalar Zernio’dan yenilendi."
+msgstr "Sayfalar Zernio’dan yenilendi."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Bağlantı hatası (ayrıntılar gizlendi)."
+msgstr "Bağlantı hatası (ayrıntılar gizlendi)."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_hub.py
+msgid "Sayfa bulunamadı veya bu şirkete ait değil."
+msgstr "Sayfa bulunamadı veya bu şirkete ait değil."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_meta_lead.py
+msgid "Senkron hatası (ayrıntılar gizlendi)."
+msgstr "Senkron hatası (ayrıntılar gizlendi)."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_meta_lead.py
+msgid "Kaynak: %(src)s\\nMeta Lead Form: %(form)s\\nReklam: %(ad)s\\nAd ID: %(adid)s\\nLead ID: %(lid)s"
+msgstr "Kaynak: %(src)s\\nMeta Lead Form: %(form)s\\nReklam: %(ad)s\\nAd ID: %(adid)s\\nLead ID: %(lid)s"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_meta_lead.py
+msgid "Meta Lead %s"
+msgstr "Meta Lead %s"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_meta_lead.py
+msgid "Kaynak: %(src)s\\nMeta Lead Form: %(form)s\\nReklam: %(ad)s\\nAd ID: %(adid)s\\nLead ID: %(lid)s\\n\\n%(summary)s"
+msgstr "Kaynak: %(src)s\\nMeta Lead Form: %(form)s\\nReklam: %(ad)s\\nAd ID: %(adid)s\\nLead ID: %(lid)s\\n\\n%(summary)s"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_meta_lead.py
+msgid "Leadin geldiği yayın yüzeyi (Instagram / Facebook / Meta)."
+msgstr "Leadin geldiği yayın yüzeyi (Instagram / Facebook / Meta)."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_post.py
+msgid "Bu gönderinin Zernio ID’si yok."
+msgstr "Bu gönderinin Zernio ID’si yok."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_post.py
+msgid "Platform URL’si yok."
+msgstr "Platform URL’si yok."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_post.py
+msgid "Satır başına bir URL"
+msgstr "Satır başına bir URL"
+
+#. module: tcrm_marketing_hub
+#: models/marketing_profile.py
+msgid "Zernio API anahtarı eksik. Ayarlar → Marketing Hub üzerinden ekleyin."
+msgstr "Zernio API anahtarı eksik. Ayarlar → Marketing Hub üzerinden ekleyin."
+
+#. module: tcrm_marketing_hub
+#: models/marketing_profile.py
+msgid "Hesaplar"
+msgstr "Hesaplar"
+
+#. module: tcrm_marketing_hub
+#: models/res_config_settings.py
+msgid "Yok"
+msgstr "Yok"
+
+#. module: tcrm_marketing_hub
+#: models/res_config_settings.py
+msgid "Zernio dashboard üzerinden oluşturulan API anahtarı."
+msgstr "Zernio dashboard üzerinden oluşturulan API anahtarı."
+
+#. module: tcrm_marketing_hub
+#: models/res_config_settings.py
+msgid "Boş bırakılırsa senkron sırasında ilk profil kullanılır."
+msgstr "Boş bırakılırsa senkron sırasında ilk profil kullanılır."
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Kullanıcı"
+msgstr "Marketing Kullanıcı"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Yönetici"
+msgstr "Marketing Yönetici"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Yönetici (Admin)"
+msgstr "Marketing Yönetici (Admin)"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Profile: company"
+msgstr "Marketing Profile: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Account: company"
+msgstr "Marketing Account: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Post: company"
+msgstr "Marketing Post: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Conversation: company"
+msgstr "Marketing Conversation: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Comment: company"
+msgstr "Marketing Comment: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Ad Account: company"
+msgstr "Marketing Ad Account: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Campaign: company"
+msgstr "Marketing Campaign: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Meta Ad: company"
+msgstr "Marketing Meta Ad: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Analytics: company"
+msgstr "Marketing Analytics: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Lead Form: company"
+msgstr "Marketing Lead Form: company"
+
+#. module: tcrm_marketing_hub
+#: security/marketing_security.xml
+msgid "Marketing Meta Lead: company"
+msgstr "Marketing Meta Lead: company"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Lead ara (ad, telefon, kampanya…)"
+msgstr "Lead ara (ad, telefon, kampanya…)"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Video kreatif"
+msgstr "Video kreatif"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Görsel kreatif"
+msgstr "Görsel kreatif"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "MH"
+msgstr "MH"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Meta · Instagram · Facebook"
+msgstr "Meta · Instagram · Facebook"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Yeni Gönderi"
+msgstr "Yeni Gönderi"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Yeni Reklam"
+msgstr "Yeni Reklam"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Başlangıç"
+msgstr "Başlangıç"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Bitiş"
+msgstr "Bitiş"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Bu ay"
+msgstr "Bu ay"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Temizle"
+msgstr "Temizle"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Sosyal hesap"
+msgstr "Sosyal hesap"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Reklam hesabı"
+msgstr "Reklam hesabı"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kampanya (toplam)"
+msgstr "Kampanya (toplam)"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Lead (filtre)"
+msgstr "Lead (filtre)"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "CRM’e aktarılan"
+msgstr "CRM’e aktarılan"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "CRM bekleyen"
+msgstr "CRM bekleyen"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Instagram kaynak"
+msgstr "Instagram kaynak"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Facebook kaynak"
+msgstr "Facebook kaynak"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kampanyaları Çek"
+msgstr "Kampanyaları Çek"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Leadleri Gör"
+msgstr "Leadleri Gör"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Grafik Raporlar"
+msgstr "Grafik Raporlar"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "CRM Lead Listesi"
+msgstr "CRM Lead Listesi"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kampanyalar Penceresi"
+msgstr "Kampanyalar Penceresi"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Instagram Bağla"
+msgstr "Instagram Bağla"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Facebook Bağla"
+msgstr "Facebook Bağla"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Odoo Graph / Pivot Aç"
+msgstr "Odoo Graph / Pivot Aç"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Lead Listesi"
+msgstr "Lead Listesi"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Sayfa Senkronizasyonu"
+msgstr "Sayfa Senkronizasyonu"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Bağlı API Profili"
+msgstr "Bağlı API Profili"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Senkron"
+msgstr "Senkron"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Sayfa"
+msgstr "Sayfa"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Platform"
+msgstr "Platform"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Durum"
+msgstr "Durum"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Son Senkron"
+msgstr "Son Senkron"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Hata"
+msgstr "Hata"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Sayfaları Yenile"
+msgstr "Sayfaları Yenile"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Sosyal Hesaplar"
+msgstr "Sosyal Hesaplar"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Meta Reklam Hesapları"
+msgstr "Meta Reklam Hesapları"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Ad"
+msgstr "Ad"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Act ID"
+msgstr "Act ID"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "İşletme"
+msgstr "İşletme"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "PB"
+msgstr "PB"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Min. bütçe"
+msgstr "Min. bütçe"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Lead Formları"
+msgstr "Lead Formları"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Form"
+msgstr "Form"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Meta Lead"
+msgstr "Meta Lead"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "CRM"
+msgstr "CRM"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Liste Penceresinde Aç"
+msgstr "Liste Penceresinde Aç"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Tüm Kampanyaları Çek"
+msgstr "Tüm Kampanyaları Çek"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kampanya"
+msgstr "Kampanya"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Harcama"
+msgstr "Harcama"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Gösterim"
+msgstr "Gösterim"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Tıklama"
+msgstr "Tıklama"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Dönüşüm"
+msgstr "Dönüşüm"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "ROAS"
+msgstr "ROAS"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Leadleri Çek ve CRM’e Aktar"
+msgstr "Leadleri Çek ve CRM’e Aktar"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Bekleyenleri CRM’e Aktar"
+msgstr "Bekleyenleri CRM’e Aktar"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "CRM’de Aç"
+msgstr "CRM’de Aç"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Liste / Graph"
+msgstr "Liste / Graph"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kaynak"
+msgstr "Kaynak"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kreatif"
+msgstr "Kreatif"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Telefon"
+msgstr "Telefon"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Kampanya / Reklam"
+msgstr "Kampanya / Reklam"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Gönderim (Meta)"
+msgstr "Gönderim (Meta)"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Bekliyor"
+msgstr "Bekliyor"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Gelen Kutusunu Çek"
+msgstr "Gelen Kutusunu Çek"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Lead Detayı"
+msgstr "Lead Detayı"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "E-posta"
+msgstr "E-posta"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Şirket"
+msgstr "Şirket"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Reklam"
+msgstr "Reklam"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Ad ID"
+msgstr "Ad ID"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Lead ID"
+msgstr "Lead ID"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Reklam Kreatifi"
+msgstr "Reklam Kreatifi"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Form Cevapları"
+msgstr "Form Cevapları"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "Tam Form"
+msgstr "Tam Form"
+
+#. module: tcrm_marketing_hub
+#: static/src/marketing_hub/marketing_hub.xml
+msgid "CRM Lead"
+msgstr "CRM Lead"
+
+#. module: tcrm_marketing_hub
+#: views/crm_lead_views.xml
+msgid "Kaynak Bilgileri"
+msgstr "Kaynak Bilgileri"
+
+#. module: tcrm_marketing_hub
+#: views/crm_lead_views.xml
+msgid "Kaynak / Platform"
+msgstr "Kaynak / Platform"
+
+#. module: tcrm_marketing_hub
+#: views/crm_lead_views.xml
+msgid "UTM"
+msgstr "UTM"
+
+#. module: tcrm_marketing_hub
+#: views/crm_lead_views.xml
+msgid "Form / Sayfa"
+msgstr "Form / Sayfa"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_account_views.xml
+msgid "Sosyal Hesap"
+msgstr "Sosyal Hesap"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_account_views.xml
+msgid "Teknik"
+msgstr "Teknik"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_account_views.xml
+msgid "Instagram"
+msgstr "Instagram"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_account_views.xml
+msgid "Facebook"
+msgstr "Facebook"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_account_views.xml
+msgid "Bağlı"
+msgstr "Bağlı"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_account_views.xml
+msgid "Senkronize Et"
+msgstr "Senkronize Et"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Aktifleştir"
+msgstr "Aktifleştir"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Duraklat"
+msgstr "Duraklat"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Kopyala"
+msgstr "Kopyala"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Aktif"
+msgstr "Aktif"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Oluşturma"
+msgstr "Oluşturma"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Reklam Hesabı"
+msgstr "Reklam Hesabı"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Meta Reklam Oluştur"
+msgstr "Meta Reklam Oluştur"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Oluştur"
+msgstr "Oluştur"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "İptal"
+msgstr "İptal"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Gönderiyi Öne Çıkar"
+msgstr "Gönderiyi Öne Çıkar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Boost Gönder"
+msgstr "Boost Gönder"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Meta Kampanyalar"
+msgstr "Meta Kampanyalar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Yeni Meta Reklam"
+msgstr "Yeni Meta Reklam"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_ads_views.xml
+msgid "Gönderi Boost"
+msgstr "Gönderi Boost"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_analytics_views.xml
+msgid "Özet JSON"
+msgstr "Özet JSON"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_analytics_views.xml
+msgid "Gönderiler"
+msgstr "Gönderiler"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_analytics_views.xml
+msgid "Analitiği Yenile"
+msgstr "Analitiği Yenile"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Konuşma"
+msgstr "Konuşma"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Mesajları Yükle"
+msgstr "Mesajları Yükle"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Son Mesaj"
+msgstr "Son Mesaj"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Mesajlar"
+msgstr "Mesajlar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Hesap"
+msgstr "Hesap"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "İçerik"
+msgstr "İçerik"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Yanıt Gönder"
+msgstr "Yanıt Gönder"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Yanıtınızı yazın…"
+msgstr "Yanıtınızı yazın…"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Gönder"
+msgstr "Gönder"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Yoruma Yanıt"
+msgstr "Yoruma Yanıt"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Gelen Kutusu"
+msgstr "Gelen Kutusu"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_inbox_views.xml
+msgid "Yorumlar"
+msgstr "Yorumlar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Leadleri Çek → CRM"
+msgstr "Leadleri Çek → CRM"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Kaynakları Yenile"
+msgstr "Kaynakları Yenile"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "CRM Bekleyen"
+msgstr "CRM Bekleyen"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Gönderim Tarihi"
+msgstr "Gönderim Tarihi"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Gün"
+msgstr "Gün"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Lead Raporu"
+msgstr "Lead Raporu"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Lead Pivot"
+msgstr "Lead Pivot"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "CRM’e Aktar"
+msgstr "CRM’e Aktar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "İletişim"
+msgstr "İletişim"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Meta Kaynak"
+msgstr "Meta Kaynak"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Özet"
+msgstr "Özet"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Ham Alanlar"
+msgstr "Ham Alanlar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_lead_views.xml
+msgid "Meta Leadler"
+msgstr "Meta Leadler"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Hub Ana Sayfa"
+msgstr "Hub Ana Sayfa"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Yayınlama"
+msgstr "Yayınlama"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "DM Konuşmaları"
+msgstr "DM Konuşmaları"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Meta Reklamlar"
+msgstr "Meta Reklamlar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Kampanyalar"
+msgstr "Kampanyalar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Reklam Hesapları"
+msgstr "Reklam Hesapları"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Lead Kayıtları"
+msgstr "Lead Kayıtları"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Özetler"
+msgstr "Özetler"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Profiller"
+msgstr "Profiller"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Hesap Bağla"
+msgstr "Hesap Bağla"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Facebook / Meta Bağla"
+msgstr "Facebook / Meta Bağla"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_menus.xml
+msgid "Ayarlar"
+msgstr "Ayarlar"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Gönderi"
+msgstr "Gönderi"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Yeniden Dene"
+msgstr "Yeniden Dene"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Platformda Aç"
+msgstr "Platformda Aç"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Medya"
+msgstr "Medya"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Yayında"
+msgstr "Yayında"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Zamanlanmış"
+msgstr "Zamanlanmış"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_post_views.xml
+msgid "Başarısız"
+msgstr "Başarısız"
+
+#. module: tcrm_marketing_hub
+#: views/marketing_profile_views.xml
+msgid "Profil"
+msgstr "Profil"
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "Zernio Bağlantısı"
+msgstr "Zernio Bağlantısı"
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "API Anahtarı"
+msgstr "API Anahtarı"
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "Zernio dashboard → API Keys. Ortam değişkeni: ZERNIO_API_KEY."
+msgstr "Zernio dashboard → API Keys. Ortam değişkeni: ZERNIO_API_KEY."
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "API URL"
+msgstr "API URL"
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "https://zernio.com/api/v1"
+msgstr "https://zernio.com/api/v1"
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "Varsayılan Profil ID"
+msgstr "Varsayılan Profil ID"
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "Boşsa senkron ilk profili kullanır."
+msgstr "Boşsa senkron ilk profili kullanır."
+
+#. module: tcrm_marketing_hub
+#: views/res_config_settings_views.xml
+msgid "Ortam override"
+msgstr "Ortam override"
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard.py
+msgid "En az bir Instagram veya Facebook hesabı seçin."
+msgstr "En az bir Instagram veya Facebook hesabı seçin."
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard.py
+msgid "Zamanlama için tarih/saat girin."
+msgstr "Zamanlama için tarih/saat girin."
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard.py
+msgid "Instagram için en az bir görsel/video URL’si önerilir. Satır başına bir URL."
+msgstr "Instagram için en az bir görsel/video URL’si önerilir. Satır başına bir URL."
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard.py
+msgid "Zernio scheduledFor ile birlikte kullanılır (örn. Europe/Istanbul)."
+msgstr "Zernio scheduledFor ile birlikte kullanılır (örn. Europe/Istanbul)."
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard_views.xml
+msgid "Gönderi metnini yazın…"
+msgstr "Gönderi metnini yazın…"
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard_views.xml
+msgid "Medya URL’leri"
+msgstr "Medya URL’leri"
+
+#. module: tcrm_marketing_hub
+#: wizard/compose_post_wizard_views.xml
+msgid "https://example.com/gorsel.jpg"
+msgstr "https://example.com/gorsel.jpg"
+
+#. module: tcrm_marketing_hub
+#: wizard/create_ad_wizard.py
+msgid "En az bir ülke kodu girin (örn. TR)."
+msgstr "En az bir ülke kodu girin (örn. TR)."
+
+#. module: tcrm_marketing_hub
+#: wizard/create_ad_wizard.py
+msgid "Meta reklam kampanyası oluşturuldu."
+msgstr "Meta reklam kampanyası oluşturuldu."
+
+#. module: tcrm_marketing_hub
+#: wizard/create_ad_wizard.py
+msgid "Gönderi öne çıkarma (boost) isteği gönderildi."
+msgstr "Gönderi öne çıkarma (boost) isteği gönderildi."
+
+#. module: tcrm_marketing_hub
+#: wizard/create_ad_wizard.py
+msgid "Virgülle ayırın, örn. TR,DE"
+msgstr "Virgülle ayırın, örn. TR,DE"
+
+#. module: tcrm_marketing_hub
+#: wizard/create_ad_wizard.py
+msgid "Facebook/Instagram post ID (organic)."
+msgstr "Facebook/Instagram post ID (organic)."
+
+#. module: tcrm_marketing_hub
+#: wizard/reply_wizard.py
+msgid "Yorumun bağlı sosyal hesabı yok."
+msgstr "Yorumun bağlı sosyal hesabı yok."
+
+#. module: tcrm_marketing_hub
+#: glossary
+msgid "Marketing Administrator"
+msgstr "Marketing Yönetici (Admin)"
+
+#. module: tcrm_marketing_hub
+#: glossary
+msgid "Marketing Manager"
+msgstr "Marketing Yönetici"
+
+#. module: tcrm_marketing_hub
+#: glossary
+msgid "Marketing User"
+msgstr "Marketing Kullanıcı"
+

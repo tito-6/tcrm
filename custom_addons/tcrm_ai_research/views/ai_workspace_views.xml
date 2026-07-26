@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_ai_workspace_list" model="ir.ui.view">
+        <field name="name">tcrm.ai.workspace.list</field>
+        <field name="model">tcrm.ai.workspace</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="owner_id"/>
+                <field name="default_language"/>
+                <field name="conversation_count"/>
+                <field name="document_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_ai_workspace_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.workspace.form</field>
+        <field name="model">tcrm.ai.workspace</field>
+        <field name="arch" type="xml">
+            <form string="AI Workspace">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_tcrm_ai_conversation)d" icon="fa-comments"
+                                context="{'search_default_workspace_id': id}">
+                            <field name="conversation_count" widget="statinfo" string="Conversations"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_tcrm_ai_document)d" icon="fa-file-text-o"
+                                context="{'search_default_workspace_id': id}">
+                            <field name="document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Workspace name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="owner_id"/>
+                            <field name="member_ids" widget="many2many_tags"/>
+                            <field name="default_language"/>
+                            <field name="allow_web_research"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="ragflow_dataset_id"/>
+                            <field name="ragflow_assistant_id"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" placeholder="Describe the knowledge scope…"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_workspace" model="ir.actions.act_window">
+        <field name="name">Workspaces</field>
+        <field name="res_model">tcrm.ai.workspace</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

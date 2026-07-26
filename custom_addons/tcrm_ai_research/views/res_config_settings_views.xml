@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_tcrm_ai_research" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.tcrm.ai.research</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="AI Research" name="tcrm_ai_research" groups="tcrm_ai_research.group_ai_research_admin,base.group_system">
+                    <block title="RAGFlow Connection" name="tcrm_ai_research_connection">
+                        <setting string="RAGFlow Base URL" help="Self-hosted RAGFlow instance URL. Optional override: RAGFLOW_BASE_URL.">
+                            <field name="tcrm_ai_research_base_url" placeholder="https://ragflow.example.com"/>
+                        </setting>
+                        <setting string="RAGFlow API Key" help="Server-side only. Never sent to the browser. Optional override: RAGFLOW_API_KEY.">
+                            <field name="tcrm_ai_research_api_key" password="True"/>
+                        </setting>
+                        <setting string="Default Dataset ID" help="Optional override: RAGFLOW_DEFAULT_DATASET_ID.">
+                            <field name="tcrm_ai_research_default_dataset_id"/>
+                        </setting>
+                        <setting string="Default Assistant / Chat ID" help="Optional override: RAGFLOW_DEFAULT_ASSISTANT_ID.">
+                            <field name="tcrm_ai_research_default_assistant_id"/>
+                        </setting>
+                        <setting string="Environment overrides active">
+                            <field name="tcrm_ai_research_env_override_hint" readonly="1"/>
+                        </setting>
+                    </block>
+                    <block title="Research Defaults" name="tcrm_ai_research_defaults">
+                        <setting string="Request timeout (seconds)">
+                            <field name="tcrm_ai_research_timeout"/>
+                        </setting>
+                        <setting string="Maximum upload size (MB)">
+                            <field name="tcrm_ai_research_max_upload_size_mb"/>
+                        </setting>
+                        <setting string="Default language">
+                            <field name="tcrm_ai_research_default_language"/>
+                        </setting>
+                        <setting string="Enable web research">
+                            <field name="tcrm_ai_research_enable_web_research"/>
+                        </setting>
+                        <setting string="Enable streaming">
+                            <field name="tcrm_ai_research_enable_streaming"/>
+                        </setting>
+                        <setting string="Allowed file extensions" help="Comma-separated, e.g. pdf,txt,docx">
+                            <field name="tcrm_ai_research_allowed_extensions"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_market_import_job_list" model="ir.ui.view">
+        <field name="name">tcrm.market.import.job.list</field>
+        <field name="model">tcrm.market.import.job</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="source_id"/>
+                <field name="job_type"/>
+                <field name="state"/>
+                <field name="count_created"/>
+                <field name="count_updated"/>
+                <field name="count_rejected"/>
+                <field name="tenant_db_name"/>
+                <field name="date_start"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_market_import_job_form" model="ir.ui.view">
+        <field name="name">tcrm.market.import.job.form</field>
+        <field name="model">tcrm.market.import.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_preview" type="object" string="Preview" invisible="state not in ('draft', 'preview')"/>
+                    <button name="action_run" type="object" string="Run" class="btn-primary" invisible="state in ('running', 'cancelled')"/>
+                    <button name="action_retry" type="object" string="Retry" invisible="state != 'failed'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="source_id"/>
+                            <field name="job_type"/>
+                            <field name="requester_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="tenant_db_name" readonly="1"/>
+                            <field name="dry_run"/>
+                        </group>
+                        <group>
+                            <field name="data_file" filename="data_filename"/>
+                            <field name="data_filename"/>
+                            <field name="input_checksum"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="retry_count"/>
+                            <field name="progress" widget="progressbar"/>
+                            <field name="progress_message"/>
+                        </group>
+                    </group>
+                    <group string="Counts">
+                        <field name="count_read"/>
+                        <field name="count_created"/>
+                        <field name="count_updated"/>
+                        <field name="count_skipped"/>
+                        <field name="count_rejected"/>
+                    </group>
+                    <group>
+                        <field name="warning_summary"/>
+                        <field name="error_summary"/>
+                        <field name="preview_json"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_market_import_job" model="ir.actions.act_window">
+        <field name="name">İçe Aktarımlar / Senkronizasyon</field>
+        <field name="res_model">tcrm.market.import.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_tcrm_market_mapping" model="ir.actions.act_window">
+        <field name="name">Veri Eşlemeleri</field>
+        <field name="res_model">tcrm.market.mapping</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_market_mapping_list" model="ir.ui.view">
+        <field name="name">tcrm.market.mapping.list</field>
+        <field name="model">tcrm.market.mapping</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="map_type"/>
+                <field name="source_value"/>
+                <field name="target_value"/>
+                <field name="source_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+</odoo>

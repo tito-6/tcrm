@@ -1,0 +1,21 @@
+[Unit]
+Description=TCRM Odoo Application Server
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=tcrm
+Group=tcrm
+WorkingDirectory=/opt/tcrm
+Environment=PYTHONPATH=/opt/tcrm/tcrm-src
+Environment=HOME=/opt/tcrm
+# Optional secrets for Santral / Gemini / API helpers (chmod 600)
+EnvironmentFile=-/opt/tcrm/.env
+ExecStart=/opt/tcrm/venv/bin/python -m tcrm -c /opt/tcrm/tcrm.prod.conf
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

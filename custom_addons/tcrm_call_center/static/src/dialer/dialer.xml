@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_call_center.Dialer">
+        <div t-attf-class="o_santral_call o_santral_call--{{state.callStatus}} #{state.inCall ? 'o_santral_call--active' : ''}">
+
+            <!-- Proximity ("ear") overlay: blacks out the screen when the phone is held to the ear -->
+            <div t-if="ui.proximityNear" class="o_santral_call__proximity"/>
+
+            <!-- Contact / call info -->
+            <div class="o_santral_call__stage">
+                <div class="o_santral_call__avatar" t-esc="initials"/>
+                <h3 class="o_santral_call__name" t-esc="state.recordName or 'Santral'"/>
+                <div class="o_santral_call__number" t-esc="state.phoneMasked"/>
+                <div t-if="state.projectName" class="o_santral_call__project">
+                    <i class="fa fa-building-o me-1"/><t t-esc="state.projectName"/>
+                </div>
+                <div class="o_santral_call__status" t-esc="state.callStatusLabel"/>
+                <div t-if="state.inCall or state.callStatus === 'completed'" class="o_santral_call__timer" t-esc="state.timerLabel"/>
+                <div t-if="state.recordingLabel" class="o_santral_call__rec">
+                    <i class="fa fa-circle text-danger me-1"/><t t-esc="state.recordingLabel"/>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            <div class="o_santral_call__alerts">
+                <div t-if="state.notConfigured" class="alert alert-warning py-1 px-2 mb-1 small">Santral yapılandırılmamış</div>
+                <div t-if="state.error" class="alert alert-danger py-1 px-2 mb-1 small" t-esc="state.error"/>
+                <div t-if="state.liveWarning" class="alert alert-warning py-1 px-2 mb-1 small" t-esc="state.liveWarning"/>
+                <div t-if="state.preflightWarning" class="alert alert-warning py-1 px-2 mb-1 small" t-esc="state.preflightWarning"/>
+            </div>
+
+            <!-- Pre-call device / test panel (collapsible) -->
+            <div t-if="!state.inCall and !state.connecting and ui.showDevices" class="o_santral_call__devices">
+                <div class="mb-2">
+                    <label class="form-label form-label-sm mb-1">Mikrofon</label>
+                    <select class="form-select form-select-sm" t-on-change="onMicrophoneChange">
+                        <t t-foreach="state.microphones" t-as="mic" t-key="mic.id">
+                            <option t-att-value="mic.id" t-att-selected="mic.id === state.selectedMicrophone" t-esc="mic.label"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label form-label-sm mb-1">Hoparlör</label>
+                    <select class="form-select form-select-sm" t-on-change="onSpeakerChange">
+                        <t t-foreach="state.speakers" t-as="speaker" t-key="speaker.id">
+                            <option t-att-value="speaker.id" t-att-selected="speaker.id === state.selectedSpeaker" t-esc="speaker.label"/>
+                        </t>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-light w-100" t-on-click="testConnection" t-att-disabled="state.preflightRunning">
+                    <i class="fa fa-signal me-1"/> Bağlantıyı Test Et
+                </button>
+                <div t-if="state.preflightResult" class="mt-2 small o_santral_call__preflight">
+                    <strong>Test: <t t-esc="state.preflightResult.grade"/></strong> ·
+                    Edge <t t-esc="state.preflightResult.edge"/> ·
+                    <t t-esc="state.preflightResult.rtt"/>ms ·
+                    Jitter <t t-esc="state.preflightResult.jitter"/>ms ·
+                    Kayıp <t t-esc="state.preflightResult.loss"/>% ·
+                    MOS <t t-esc="state.preflightResult.mos"/>
+                </div>
+            </div>
+
+            <!-- Call controls (phone-style circular buttons) -->
+            <div class="o_santral_call__controls">
+                <!-- Secondary controls only relevant during/after connecting -->
+                <div class="o_santral_call__row" t-if="state.inCall or state.connecting">
+                    <button type="button" t-attf-class="o_santral_btn o_santral_btn--toggle #{state.muted ? 'is-on' : ''}"
+                            t-on-click="toggleMute" t-att-disabled="!state.inCall" aria-label="Mute">
+                        <i t-attf-class="fa #{state.muted ? 'fa-microphone-slash' : 'fa-microphone'}"/>
+                        <span t-esc="state.muted ? 'Sesi Aç' : 'Sessize Al'"/>
+                    </button>
+                    <button type="button" t-attf-class="o_santral_btn o_santral_btn--toggle #{ui.speakerOn ? 'is-on' : ''}"
+                            t-on-click="toggleSpeaker" aria-label="Speaker">
+                        <i class="fa fa-volume-up"/>
+                        <span>Hoparlör</span>
+                    </button>
+                    <button type="button" class="o_santral_btn o_santral_btn--toggle" t-on-click="toggleKeypad" aria-label="Keypad">
+                        <i class="fa fa-th"/>
+                        <span>Tuş Takımı</span>
+                    </button>
+                </div>
+
+                <!-- DTMF keypad -->
+                <div t-if="ui.showKeypad and (state.inCall or state.connecting)" class="o_santral_call__keypad">
+                    <t t-foreach="['1','2','3','4','5','6','7','8','9','*','0','#']" t-as="digit" t-key="digit">
+                        <button type="button" class="o_santral_key" t-on-click="() => this.sendDigit(digit)" t-esc="digit"/>
+                    </t>
+                </div>
+
+                <!-- Primary action: call (green) or hang up (red) -->
+                <div class="o_santral_call__primary">
+                    <button t-if="!state.inCall and !state.connecting" type="button"
+                            class="o_santral_btn o_santral_btn--call" t-on-click="startCall"
+                            t-att-disabled="state.busy or state.notConfigured" aria-label="Call">
+                        <i class="fa fa-phone"/>
+                    </button>
+                    <button t-if="state.inCall or state.connecting" type="button"
+                            class="o_santral_btn o_santral_btn--hangup" t-on-click="hangup" aria-label="Hang up">
+                        <i class="fa fa-phone" style="transform: rotate(135deg);"/>
+                    </button>
+                    <button t-if="!state.inCall and !state.connecting" type="button"
+                            class="o_santral_btn o_santral_btn--mini" t-on-click="toggleDevices" aria-label="Settings">
+                        <i class="fa fa-cog"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Wrap-up (after / during call) -->
+            <div class="o_santral_call__wrapup">
+                <details t-att-open="state.callStatus === 'completed' or !state.inCall">
+                    <summary>Çağrı Sonucu</summary>
+                    <label class="form-label mt-2 mb-1">Çağrı notu</label>
+                    <textarea class="form-control form-control-sm" t-model="localState.notes"/>
+                    <label class="form-label mt-2 mb-1">Sonuç</label>
+                    <select class="form-select form-select-sm" t-model="localState.outcome">
+                        <option value="">—</option>
+                        <option value="reached">Ulaşıldı</option>
+                        <option value="not_reached">Ulaşılamadı</option>
+                        <option value="busy">Meşgul</option>
+                        <option value="no_answer">Cevapsız</option>
+                        <option value="wrong_number">Yanlış Numara</option>
+                        <option value="callback">Tekrar Aranacak</option>
+                        <option value="appointment">Randevu Oluşturuldu</option>
+                        <option value="interested">İlgileniyor</option>
+                        <option value="not_interested">İlgilenmiyor</option>
+                        <option value="opportunity">Satış Fırsatı Oluşturuldu</option>
+                    </select>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="santral_followup" t-model="localState.createFollowup"/>
+                        <label class="form-check-label" for="santral_followup">Takip aktivitesi / hatırlatıcı oluştur</label>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-light mt-2 w-100" t-on-click="saveWrapup">Kaydet</button>
+                    <div t-if="state.recordingId" class="mt-2">
+                        <audio controls="controls" class="w-100" t-att-src="'/tcrm/call/recording/' + state.recordingId"/>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </t>
+</templates>

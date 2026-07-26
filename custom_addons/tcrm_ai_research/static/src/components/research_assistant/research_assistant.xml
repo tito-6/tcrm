@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_ai_research.ResearchAssistant">
+        <div class="o_tcrm_ai_research d-flex flex-column h-100">
+            <header class="o_tcrm_ai_research_header border-bottom px-3 py-2 d-flex flex-wrap align-items-center gap-2">
+                <div class="fw-bold me-auto">Yapay Zekâ Araştırma</div>
+                <select class="form-select form-select-sm w-auto" t-on-change="onWorkspaceChange"
+                        t-att-disabled="state.loading">
+                    <t t-foreach="state.workspaces" t-as="ws" t-key="ws.id">
+                        <option t-att-value="ws.id" t-att-selected="ws.id === state.workspaceId">
+                            <t t-esc="ws.name"/>
+                        </option>
+                    </t>
+                </select>
+                <select class="form-select form-select-sm w-auto" t-on-change="onLanguageChange">
+                    <option value="tr" t-att-selected="state.language === 'tr'">TR</option>
+                    <option value="en" t-att-selected="state.language === 'en'">EN</option>
+                </select>
+                <button class="btn btn-sm btn-secondary" t-on-click="onNewConversation" t-att-disabled="state.loading">
+                    Yeni Araştırma
+                </button>
+            </header>
+
+            <div class="o_tcrm_ai_research_context px-3 py-2 border-bottom small text-muted"
+                 t-if="state.contextLabel">
+                <i class="fa fa-link me-1"/>
+                <t t-esc="state.contextLabel"/>
+            </div>
+
+            <div class="o_tcrm_ai_research_body d-flex flex-grow-1 overflow-hidden">
+                <aside class="o_tcrm_ai_research_sidebar border-end p-2">
+                    <div class="fw-semibold mb-2">Belgeler</div>
+                    <div class="mb-2">
+                        <input type="file" class="form-control form-control-sm" t-ref="fileInput"
+                               t-on-change="onFileSelected" multiple="multiple"/>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="internalOnly"
+                               t-att-checked="state.internalDocumentsOnly"
+                               t-on-change="onToggleInternal"/>
+                        <label class="form-check-label" for="internalOnly">Yalnızca Dahili Belgeler</label>
+                    </div>
+                    <div class="form-check mb-3" t-if="state.webResearchAllowed">
+                        <input class="form-check-input" type="checkbox" id="webResearch"
+                               t-att-checked="state.allowWebResearch"
+                               t-on-change="onToggleWeb"/>
+                        <label class="form-check-label" for="webResearch">Web Araştırması</label>
+                    </div>
+                    <ul class="list-unstyled o_tcrm_ai_research_docs">
+                        <t t-foreach="state.documents" t-as="doc" t-key="doc.id">
+                            <li class="mb-1 d-flex align-items-start gap-1">
+                                <input type="checkbox" class="form-check-input mt-1"
+                                       t-att-checked="state.selectedDocumentIds.includes(doc.id)"
+                                       t-on-change="() => this.toggleDocument(doc.id)"/>
+                                <div class="small">
+                                    <div t-esc="doc.name"/>
+                                    <div class="text-muted" t-esc="doc.sync_state"/>
+                                    <button t-if="doc.sync_state === 'failed'"
+                                            class="btn btn-link btn-sm p-0"
+                                            t-on-click="() => this.onRetryDoc(doc.id)">
+                                        Tekrar Dene
+                                    </button>
+                                </div>
+                            </li>
+                        </t>
+                    </ul>
+                    <div class="fw-semibold mt-3 mb-2">Geçmiş</div>
+                    <ul class="list-unstyled o_tcrm_ai_research_history">
+                        <t t-foreach="state.history" t-as="item" t-key="item.id">
+                            <li>
+                                <button class="btn btn-link btn-sm text-start w-100 text-truncate"
+                                        t-on-click="() => this.onSelectConversation(item.id)">
+                                    <t t-esc="item.name"/>
+                                </button>
+                            </li>
+                        </t>
+                    </ul>
+                </aside>
+
+                <main class="o_tcrm_ai_research_main d-flex flex-column flex-grow-1">
+                    <div class="o_tcrm_ai_research_messages flex-grow-1 overflow-auto p-3" t-ref="messages">
+                        <t t-foreach="state.messages" t-as="msg" t-key="msg.id">
+                            <div t-attf-class="o_tcrm_ai_msg o_tcrm_ai_msg_#{msg.role} mb-3">
+                                <div class="small text-muted mb-1">
+                                    <t t-esc="msg.role === 'user' ? 'Siz' : 'Asistan'"/>
+                                    <t t-if="msg.status === 'pending' or msg.status === 'streaming'"> · …</t>
+                                    <t t-if="msg.status === 'error'"> · Hata</t>
+                                </div>
+                                <div class="o_tcrm_ai_msg_body" t-out="formatMessage(msg.content)"/>
+                                <div class="d-flex flex-wrap gap-2 mt-2" t-if="msg.role === 'assistant' and msg.status === 'done'">
+                                    <button class="btn btn-sm btn-outline-secondary" t-on-click="() => this.onCopy(msg)">Kopyala</button>
+                                    <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.onSaveNote(msg)">
+                                        CRM Notu Olarak Kaydet
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.onAttachResult(msg)">
+                                        Kayda Ekle
+                                    </button>
+                                    <button class="btn btn-sm btn-link" t-if="msg.citation_count"
+                                            t-on-click="() => this.onShowCitations(msg)">
+                                        Alıntılar (<t t-esc="msg.citation_count"/>)
+                                    </button>
+                                </div>
+                                <div class="alert alert-warning mt-2 py-1 px-2 small"
+                                     t-if="msg.status === 'error'">
+                                    <t t-esc="msg.error_message or 'İstek başarısız oldu.'"/>
+                                    <button class="btn btn-link btn-sm" t-on-click="onRetryLast">Tekrar Dene</button>
+                                </div>
+                            </div>
+                        </t>
+                        <div t-if="!state.messages.length" class="text-muted text-center mt-5">
+                            Kaynaklar seçin ve bir araştırma sorusu sorun.
+                        </div>
+                    </div>
+
+                    <div class="o_tcrm_ai_research_citations border-top p-2" t-if="state.activeCitations.length">
+                        <div class="fw-semibold mb-1">Alıntılar</div>
+                        <t t-foreach="state.activeCitations" t-as="cite" t-key="cite.id">
+                            <div class="small mb-2">
+                                <button class="btn btn-link btn-sm p-0" t-on-click="() => this.onCitationClick(cite)">
+                                    <t t-esc="cite.title or 'Kaynak'"/>
+                                    <t t-if="cite.page_number"> · s.<t t-esc="cite.page_number"/></t>
+                                </button>
+                                <div class="text-muted" t-esc="cite.chunk_text"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <footer class="o_tcrm_ai_research_input border-top p-2">
+                        <div class="input-group">
+                            <textarea class="form-control" rows="2"
+                                      t-model="state.question"
+                                      t-on-keydown="onKeydown"
+                                      placeholder="Türkçe veya İngilizce sorun…"/>
+                            <button class="btn btn-primary" t-on-click="onSend" t-att-disabled="state.loading or !state.question.trim()">
+                                Gönder
+                            </button>
+                            <button class="btn btn-outline-danger" t-on-click="onStop" t-att-disabled="!state.loading">
+                                Durdur
+                            </button>
+                        </div>
+                        <div class="small text-danger mt-1" t-if="state.error" t-esc="state.error"/>
+                        <div class="small text-muted mt-1" t-if="state.statusText" t-esc="state.statusText"/>
+                    </footer>
+                </main>
+            </div>
+        </div>
+    </t>
+</templates>

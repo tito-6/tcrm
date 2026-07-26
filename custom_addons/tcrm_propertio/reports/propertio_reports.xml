@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_propertio_collection" model="ir.actions.report">
+        <field name="name">Collection Report</field>
+        <field name="model">propertio.installment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tcrm_propertio.report_collection_doc</field>
+        <field name="report_file">tcrm_propertio.report_collection_doc</field>
+        <field name="print_report_name">'Collection Report - %s' % (object.name or 'List')</field>
+        <field name="binding_model_id" search="[('model', '=', 'propertio.installment')]" model="ir.model"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Report Template -->
+    <template id="report_collection_doc">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Collection Status Report</h2>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Sale Ref</th>
+                                <th>Description</th>
+                                <th>Due Date</th>
+                                <th>Amount</th>
+                                <th>Paid</th>
+                                <th>Residual</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="doc">
+                                <tr t-att-class="'text-danger' if doc.payment_status == 'overdue' else 'text-success' if doc.payment_status == 'paid' else ''">
+                                    <td><span t-field="doc.sale_id.name"/></td>
+                                    <td><span t-field="doc.name"/></td>
+                                    <td><span t-field="doc.date_due"/></td>
+                                    <td><span t-field="doc.amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                    <td><span t-field="doc.amount_paid" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                    <td><span t-field="doc.residual" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                    <td>
+                                        <span t-field="doc.payment_status"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,1730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="tcrm_saas_core.CommandCenter">
+<Layout display="display" className="'o_tcrm_cc_action'">
+    <t t-set-slot="control-panel-buttons">
+        <button class="btn btn-primary" t-on-click="openCreateTenant">
+            <i class="fa fa-plus me-1"/> New Tenant
+        </button>
+    </t>
+
+    <!-- ═══ Command Palette (Ctrl+K) ═══ -->
+    <div t-if="state.paletteSearchOpen" class="o_tcrm_palette_overlay" t-on-click="closepaletteSearch">
+        <div class="o_tcrm_palette" t-on-click.stop="">
+            <div class="d-flex align-items-center gap-2 fw-bold mb-2">
+                <i class="fa fa-terminal"/>
+                <span t-esc="strSearchCommand"/>
+                <kbd class="badge bg-light text-muted border ms-1">Ctrl</kbd>
+                <kbd class="badge bg-light text-muted border">K</kbd>
+            </div>
+            <input type="search" class="form-control" autofocus="autofocus"
+                   t-att-placeholder="strSearchPlaceholder"
+                   t-att-value="state.paletteSearchQuery"
+                   t-on-input="onpaletteSearchInput"
+                   t-on-keydown="onpaletteSearchKeydown"/>
+            <div t-if="state.paletteSearchLoading" class="text-muted small p-2">…</div>
+            <div t-elif="state.paletteSearchResults">
+                <t t-if="state.paletteSearchResults.tenants.length">
+                    <div class="text-uppercase text-muted fw-bold mt-2 mb-1" style="font-size:0.625rem;letter-spacing:0.06em" t-esc="strGrpTenants"/>
+                    <button type="button" class="o_tcrm_palette__item" t-foreach="state.paletteSearchResults.tenants" t-as="row" t-key="row.id"
+                            t-on-click="() => this.selectPaletteTenant(row.id)">
+                        <i class="fa fa-building text-muted"/><span t-esc="row.name"/>
+                    </button>
+                </t>
+                <t t-if="state.paletteSearchResults.invoices.length">
+                    <div class="text-uppercase text-muted fw-bold mt-2 mb-1" style="font-size:0.625rem;letter-spacing:0.06em" t-esc="strGrpInvoices"/>
+                    <button type="button" class="o_tcrm_palette__item" t-foreach="state.paletteSearchResults.invoices" t-as="row" t-key="row.id"
+                            t-on-click="() => this.selectPaletteInvoice(row)">
+                        <i class="fa fa-file-text-o text-muted"/><span t-esc="row.name"/> — <span t-esc="row.tenant_name"/>
+                    </button>
+                </t>
+                <t t-if="state.paletteSearchResults.users.length">
+                    <div class="text-uppercase text-muted fw-bold mt-2 mb-1" style="font-size:0.625rem;letter-spacing:0.06em" t-esc="strGrpUsers"/>
+                    <button type="button" class="o_tcrm_palette__item" t-foreach="state.paletteSearchResults.users" t-as="row" t-key="row.id"
+                            t-on-click="() => this.selectPaletteUser(row.id)">
+                        <i class="fa fa-user text-muted"/><span t-esc="row.name"/> <span class="text-muted">(<t t-esc="row.login"/>)</span>
+                    </button>
+                </t>
+                <div t-if="!state.paletteSearchLoading and state.paletteSearchQuery.length >= 2 and !state.paletteSearchResults.tenants.length and !state.paletteSearchResults.invoices.length and !state.paletteSearchResults.users.length"
+                     class="text-muted small p-2" t-esc="strSearchNoMatches"/>
+            </div>
+            <div t-else="" class="text-muted small p-2" t-esc="strSearchTypeTwo"/>
+        </div>
+    </div>
+
+    <!-- ═══ Main shell: sidebar + content ═══ -->
+    <div class="o_tcrm_command_center d-flex">
+
+        <!-- Sidebar -->
+        <aside t-att-class="'o_tcrm_sidebar' + (state.sidebarOpen ? '' : ' is-collapsed') + (state.isMobile and state.sidebarOpen ? ' show' : '')">
+            <div class="d-flex align-items-center gap-2 p-3 border-bottom">
+                <i class="fa fa-shield fs-5 text-primary"/>
+                <div>
+                    <div class="fw-bold" style="font-size:0.9375rem">TCRM</div>
+                    <div class="text-muted text-uppercase fw-bold" style="font-size:0.625rem;letter-spacing:0.08em">Command Center</div>
+                </div>
+            </div>
+            <nav class="nav flex-column gap-1 p-2">
+                <t t-foreach="screens" t-as="s" t-key="s.id">
+                    <button t-att-class="'nav-link ' + (state.screen === s.id or (state.screen === 'tenant_detail' and s.id === 'tenants') ? 'active' : '')"
+                            t-on-click="() => this.navigateTo(s.id)">
+                        <i t-att-class="s.iconClass"/>
+                        <span t-esc="s.label"/>
+                    </button>
+                </t>
+            </nav>
+            <div class="mt-auto p-2 border-top">
+                <small class="text-success d-flex align-items-center gap-2">
+                    <span class="o_tcrm_status_dot"/> System Operational
+                </small>
+            </div>
+        </aside>
+
+        <!-- Mobile backdrop -->
+        <div t-if="state.isMobile and state.sidebarOpen" class="o_tcrm_backdrop" t-on-click="toggleSidebar"/>
+
+        <!-- Main content area — scrolls with the whole page via .o_content -->
+        <div class="d-flex flex-column flex-grow-1 o_tcrm_cc_main" style="min-width:0">
+            <!-- Header bar -->
+            <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom bg-white flex-wrap">
+                <button type="button" class="btn btn-link text-reset p-1" t-on-click="toggleSidebar">
+                    <i class="fa fa-bars"/>
+                </button>
+                <h5 class="mb-0 fw-bold">
+                    <t t-if="state.screen === 'dashboard'">Command Center Dashboard</t>
+                    <t t-elif="state.screen === 'portfolio'">Executive Portfolio</t>
+                    <t t-elif="state.screen === 'tenants'">Tenant Hub</t>
+                    <t t-elif="state.screen === 'tenant_detail'">Tenant 360°</t>
+                    <t t-elif="state.screen === 'users'">User Management</t>
+                    <t t-elif="state.screen === 'employees'">Global Employees</t>
+                    <t t-elif="state.screen === 'access'">Access Management</t>
+                    <t t-elif="state.screen === 'apps'">App Catalog</t>
+                    <t t-elif="state.screen === 'financials'">Financial Console</t>
+                    <t t-elif="state.screen === 'technical'">Technical Console</t>
+                    <t t-elif="state.screen === 'db_console'">DB Management</t>
+                    <t t-elif="state.screen === 'analytics'">Analytics &amp; Reports</t>
+                </h5>
+                <div class="ms-auto d-flex gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="openCreateTenant">
+                        <i class="fa fa-plus me-1"/> New Tenant
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <t t-if="state.loading and !state.dashboard and !state.tenants.length">
+                <div class="p-4 text-muted d-flex align-items-center gap-2">
+                    <div class="spinner-border spinner-border-sm" role="status"/>
+                    <span>Loading data…</span>
+                </div>
+            </t>
+
+            <!-- Page body (no nested tiny scroller) -->
+            <div class="p-3 o_tcrm_cc_body">
+
+<!-- ─── DASHBOARD ─── -->
+<t t-if="state.screen === 'dashboard'">
+    <t t-if="state.dashboard">
+        <!-- KPI stat cards -->
+        <div class="row g-3 mb-3">
+            <div class="col-xl-3 col-md-6">
+                <TcrmStatCard label="lblKpiGdv"
+                    value="fmtMoney(state.dashboard.gdv, state.dashboard.currency)"
+                    spark="state.dashboard.sparklines.gdv"
+                    deltaText="deltaLine(state.dashboard.deltas.gdv_pct)"
+                    deltaPositive="isDeltaPositive(state.dashboard.deltas.gdv_pct)"
+                    iconClass="'fa fa-building'" accent="'#0c1e3d'"/>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <TcrmStatCard label="lblKpiHealth"
+                    value="fmtPct(state.dashboard.tenant_health_pct)"
+                    sub="kpiSubHealth"
+                    spark="state.dashboard.sparklines.health"
+                    deltaText="deltaLine(state.dashboard.deltas.health_pct)"
+                    deltaPositive="isDeltaPositive(state.dashboard.deltas.health_pct)"
+                    iconClass="'fa fa-heartbeat'" accent="'#065f46'"/>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <TcrmStatCard label="lblKpiMrr"
+                    value="fmtMoney(state.dashboard.mrr, state.dashboard.currency)"
+                    sub="kpiSubMrr"
+                    spark="state.dashboard.sparklines.mrr"
+                    deltaText="deltaLine(state.dashboard.deltas.mrr_pct)"
+                    deltaPositive="isDeltaPositive(state.dashboard.deltas.mrr_pct)"
+                    iconClass="'fa fa-money'" accent="'#5b21b6'"/>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <TcrmStatCard label="lblKpiUsers"
+                    value="fmtNum(state.dashboard.total_users)"
+                    spark="state.dashboard.sparklines.users"
+                    deltaText="deltaLine(state.dashboard.deltas.users_pct)"
+                    deltaPositive="isDeltaPositive(state.dashboard.deltas.users_pct)"
+                    iconClass="'fa fa-users'" accent="'#9f1239'"/>
+            </div>
+        </div>
+
+        <!-- Utility bar -->
+        <div class="card mb-3">
+            <div class="card-body py-2 d-flex flex-wrap align-items-center gap-2" role="toolbar" t-att-aria-label="lblUtilityBar">
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() => this.navigateTo('tenants')">
+                    <i class="fa fa-building me-1"/><span t-esc="strUtilTenants"/>
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() => this.navigateTo('financials')">
+                    <i class="fa fa-money me-1"/><span t-esc="strUtilFinancials"/>
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() => this.navigateTo('analytics')">
+                    <i class="fa fa-line-chart me-1"/><span t-esc="strUtilAnalytics"/>
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() => this.navigateTo('users')">
+                    <i class="fa fa-users me-1"/><span t-esc="strUtilUsers"/>
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() => this.navigateTo('access')">
+                    <i class="fa fa-shield me-1"/><span t-esc="strUtilAccess"/>
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" t-on-click="openCreateTenant">
+                    <i class="fa fa-plus me-1"/><span t-esc="strUtilNewTenant"/>
+                </button>
+                <span class="ms-auto text-muted small">
+                    <kbd class="badge bg-light text-muted border">Ctrl</kbd>
+                    <kbd class="badge bg-light text-muted border">K</kbd>
+                    <t t-esc="strUtilCommand"/>
+                </span>
+            </div>
+        </div>
+
+        <!-- Operations snapshot + VPS gauges -->
+        <div class="row g-3 mb-3">
+            <div class="col-lg-8">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                        <i class="fa fa-th"/><span t-esc="lblMetricSnapshot"/>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-sm mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="text-center text-primary" style="width:40px"><i class="fa fa-line-chart"/></td>
+                                    <td class="fw-bold" t-esc="lblCollected30"/>
+                                    <td class="text-end fw-bold"><t t-esc="fmtMoney(state.dashboard.total_revenue_30d, state.dashboard.currency)"/></td>
+                                    <td style="width:22px"><div class="o_tcrm_vbar"><div class="o_tcrm_vbar__fill" t-att-style="'height:' + snapshotBarWidth('col30') + '%'"/></div></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-primary"><i class="fa fa-money"/></td>
+                                    <td class="fw-bold" t-esc="lblOpenInvoices"/>
+                                    <td class="text-end fw-bold">
+                                        <t t-esc="fmtNum(state.dashboard.open_invoices_count)"/>
+                                        <span class="text-muted"> · <t t-esc="fmtMoney(state.dashboard.open_invoices_total || 0, state.dashboard.currency)"/></span>
+                                    </td>
+                                    <td><div class="o_tcrm_vbar"><div class="o_tcrm_vbar__fill o_tcrm_vbar__fill--amber" t-att-style="'height:' + snapshotBarWidth('open') + '%'"/></div></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-primary"><i class="fa fa-hourglass-half"/></td>
+                                    <td class="fw-bold" t-esc="lblTrials"/>
+                                    <td class="text-end fw-bold"><t t-esc="fmtNum(state.dashboard.trial_subscriptions_count || 0)"/></td>
+                                    <td><div class="o_tcrm_vbar"><div class="o_tcrm_vbar__fill o_tcrm_vbar__fill--violet" t-att-style="'height:' + snapshotBarWidth('trial') + '%'"/></div></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-primary"><i class="fa fa-exclamation-triangle"/></td>
+                                    <td class="fw-bold" t-esc="lblPastDueSubs"/>
+                                    <td class="text-end fw-bold"><t t-esc="fmtNum(state.dashboard.past_due_subscriptions_count || 0)"/></td>
+                                    <td><div class="o_tcrm_vbar"><div class="o_tcrm_vbar__fill o_tcrm_vbar__fill--danger" t-att-style="'height:' + snapshotBarWidth('past') + '%'"/></div></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-primary"><i class="fa fa-ban"/></td>
+                                    <td class="fw-bold" t-esc="lblSuspended"/>
+                                    <td class="text-end fw-bold"><t t-esc="fmtNum(state.dashboard.suspended_subscriptions_count || 0)"/></td>
+                                    <td><div class="o_tcrm_vbar"><div class="o_tcrm_vbar__fill o_tcrm_vbar__fill--muted" t-att-style="'height:' + snapshotBarWidth('sus') + '%'"/></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <TcrmHealthGauges title="vpsPanelTitle" vps="state.vpsMetrics"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tenant map (full width, larger) -->
+        <div class="row g-3 mb-3">
+            <div class="col-12">
+                <TcrmTenantMap markers="state.dashboard.map_markers" title="lblMapTenants" onMarkerSelect.bind="onMapTenantClick" onMarkerMoved.bind="onMapMarkerMoved" draggable="true"/>
+            </div>
+        </div>
+
+        <!-- Activity + Alerts -->
+        <div class="row g-3 mb-3">
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                        <i class="fa fa-history"/><span t-esc="lblLiveActivity"/>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="state.dashboard.activities and state.dashboard.activities.length">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead><tr>
+                                    <th t-esc="strThEvent"/><th t-esc="strThTenant"/><th t-esc="strThStatus"/><th t-esc="strThTime"/>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="state.dashboard.activities" t-as="a" t-key="a.id + '_' + a.type">
+                                        <tr>
+                                            <td><t t-esc="a.event"/></td>
+                                            <td class="d-flex align-items-center gap-2">
+                                                <span t-esc="a.tenant_name"/>
+                                                <button t-if="a.tenant_id" type="button" class="btn btn-link btn-sm p-0" t-att-title="strGhostTitle"
+                                                        t-on-click="() => this.onTenantWorkspace(a.tenant_id)">
+                                                    <i class="fa fa-external-link"/>
+                                                </button>
+                                            </td>
+                                            <td><span t-att-class="'badge ' + stateBadgeClass(a.status)" t-esc="stateLabel(a.status)"/></td>
+                                            <td class="text-muted"><t t-esc="dashboardShortDate(a.timestamp)"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else=""><div class="text-muted" t-esc="strNoActivity"/></t>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div t-att-class="'card h-100' + (state.dashboard.overdue_count ? ' o_tcrm_pulse' : '')">
+                    <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                        <i class="fa fa-bell text-danger"/><span t-esc="lblBillingAlerts"/>
+                        <span t-if="state.dashboard.overdue_count" class="badge bg-danger ms-1"><t t-esc="state.dashboard.overdue_count"/> <t t-esc="strOverdue"/></span>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="state.dashboard.overdue_total and state.dashboard.overdue_count">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center py-2 mb-2">
+                                <small class="fw-bold text-uppercase" t-esc="lblAtRiskAr"/>
+                                <strong><t t-esc="fmtMoney(state.dashboard.overdue_total, state.dashboard.currency)"/></strong>
+                            </div>
+                        </t>
+                        <t t-if="state.dashboard.alerts and state.dashboard.alerts.length">
+                            <t t-foreach="state.dashboard.alerts" t-as="alert" t-key="alert.id">
+                                <div class="border rounded p-2 mb-2">
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <span t-esc="alert.tenant_name"/>
+                                        <span class="text-danger"><t t-esc="fmtMoney(alert.amount, alert.currency)"/></span>
+                                    </div>
+                                    <small class="text-muted" t-esc="alert.message"/>
+                                    <div class="mt-1">
+                                        <button type="button" class="btn btn-outline-danger btn-sm" t-on-click="() => this.openTenantDetail(alert.tenant_id)" t-esc="strInvestigate"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <div class="text-success d-flex align-items-center gap-2">
+                                <i class="fa fa-check-circle"/><span t-esc="strAllClear"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent tenants + Plan mix -->
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                        <i class="fa fa-rocket"/><span t-esc="lblRecentTenants"/>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="state.dashboard.recent_tenants and state.dashboard.recent_tenants.length">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead><tr><th>Tenant</th><th>State</th><th>Plan</th><th>Users</th><th>Added</th><th/></tr></thead>
+                                <tbody>
+                                    <t t-foreach="state.dashboard.recent_tenants" t-as="rt" t-key="rt.id">
+                                        <tr>
+                                            <td><t t-esc="rt.name"/></td>
+                                            <td><span t-att-class="'badge ' + stateBadgeClass(rt.state)" t-esc="stateLabel(rt.state)"/></td>
+                                            <td class="text-muted"><t t-esc="rt.package or '—'"/></td>
+                                            <td><t t-esc="fmtNum(rt.user_count)"/></td>
+                                            <td class="text-muted"><t t-esc="dashboardShortDate(rt.create_date)"/></td>
+                                            <td><button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() => this.openTenantDetail(rt.id)">View</button></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else=""><div class="text-muted" t-esc="strNoTenantsYet"/></t>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                        <i class="fa fa-sitemap"/><span t-esc="lblPlansPipeline"/>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="state.dashboard.package_mix and state.dashboard.package_mix.length">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <div class="o_tcrm_donut_wrap">
+                                        <svg viewBox="0 0 140 140" aria-hidden="true">
+                                            <t t-foreach="packageDonutSegments(state.dashboard.package_mix)" t-as="seg" t-key="seg.name">
+                                                <path t-att-d="seg.d" t-att-fill="seg.color" stroke="white" stroke-width="1"/>
+                                            </t>
+                                        </svg>
+                                        <div class="o_tcrm_donut_center">
+                                            <div class="fs-5 fw-bold"><t t-esc="fmtNum(state.dashboard.active_subscriptions_count || 0)"/></div>
+                                            <small class="text-uppercase text-muted fw-bold" style="font-size:0.5625rem" t-esc="strActiveSubs"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <small class="text-uppercase text-muted fw-bold d-block mb-2" style="font-size:0.625rem;letter-spacing:0.04em" t-esc="lblDonutMix"/>
+                                    <t t-foreach="state.dashboard.package_mix" t-as="pkg" t-key="pkg.name">
+                                        <div class="mb-2">
+                                            <div class="d-flex justify-content-between small">
+                                                <span class="fw-semibold" t-esc="pkg.name"/>
+                                                <span class="fw-bold text-muted" t-esc="pkg.count"/>
+                                            </div>
+                                            <div class="o_tcrm_mix_track"><div class="o_tcrm_mix_fill" t-att-style="'width:' + mixBarWidth(pkg) + '%'"/></div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-else=""><div class="text-muted" t-esc="strNoPlans"/></t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</t>
+
+<!-- ─── EXECUTIVE PORTFOLIO ─── -->
+<t t-if="state.screen === 'portfolio'">
+    <t t-if="state.dashboard">
+        <!-- Profile bar -->
+        <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width:40px;height:40px;background:linear-gradient(135deg,#e63946,#9d0208)">
+                <i class="fa fa-user"/>
+            </div>
+            <div>
+                <div class="fw-bold" t-esc="strExecutiveSuiteTitle"/>
+                <small class="text-muted text-uppercase fw-bold" style="letter-spacing:0.06em" t-esc="strCommandCenterTag"/>
+            </div>
+        </div>
+
+        <!-- Toolbar: tabs + range + ghost mode -->
+        <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+            <span class="fw-bold text-uppercase text-danger" style="font-size:0.8125rem;letter-spacing:0.08em" t-esc="strMasterSuiteMark"/>
+            <ul class="nav nav-tabs border-0 gap-1">
+                <li class="nav-item"><span class="nav-link active py-1 px-2 small">Overview</span></li>
+                <li class="nav-item"><button class="nav-link py-1 px-2 small" t-on-click="() => this.navigateTo('financials')" t-esc="strNavAssets"/></li>
+                <li class="nav-item"><button class="nav-link py-1 px-2 small" t-on-click="() => this.navigateTo('analytics')" t-esc="strNavCapital"/></li>
+            </ul>
+            <div class="ms-auto d-flex flex-wrap align-items-center gap-2">
+                <div class="o_tcrm_seg" role="group">
+                    <button type="button" t-att-class="'o_tcrm_seg__btn' + (state.portfolioRange === '30d' ? ' active' : '')" t-esc="strRange30" t-on-click="() => this.setPortfolioRange('30d')"/>
+                    <button type="button" t-att-class="'o_tcrm_seg__btn' + (state.portfolioRange === 'quarter' ? ' active' : '')" t-esc="strRangeQuarter" t-on-click="() => this.setPortfolioRange('quarter')"/>
+                    <button type="button" t-att-class="'o_tcrm_seg__btn' + (state.portfolioRange === 'custom' ? ' active' : '')" t-esc="strRangeCustom" t-on-click="() => this.setPortfolioRange('custom')"/>
+                </div>
+                <t t-if="state.portfolioRange === 'custom'">
+                    <input type="date" class="form-control form-control-sm" style="max-width:140px"
+                           t-att-value="state.portfolioCustomStart"
+                           t-on-change="onPortfolioCustomStart"/>
+                    <span class="text-muted small px-1">→</span>
+                    <input type="date" class="form-control form-control-sm" style="max-width:140px"
+                           t-att-value="state.portfolioCustomEnd"
+                           t-on-change="onPortfolioCustomEnd"/>
+                </t>
+                <div class="d-flex align-items-center gap-2 cursor-pointer ms-1" t-on-click="togglePortfolioGhostMode" role="button">
+                    <small class="text-uppercase text-muted fw-bold" style="letter-spacing:0.12em" t-esc="strGhostMode"/>
+                    <span t-att-class="'o_tcrm_toggle_track' + (state.portfolioGhostMode ? ' is-on' : '')"><span class="o_tcrm_toggle_knob"/></span>
+                </div>
+            </div>
+        </div>
+        <!-- Ghost Mode: quick-access tenant jump panel -->
+        <t t-if="state.portfolioGhostMode">
+            <div class="card mb-3 border-warning">
+                <div class="card-header d-flex align-items-center gap-2 py-2 bg-warning-subtle">
+                    <i class="fa fa-user-secret text-warning"/>
+                    <span class="fw-bold small">Ghost Login — Jump Into a Tenant</span>
+                    <button class="btn btn-sm btn-link ms-auto p-0 text-muted" t-on-click="togglePortfolioGhostMode"><i class="fa fa-times"/></button>
+                </div>
+                <div class="card-body p-2">
+                    <input type="text" class="form-control form-control-sm mb-2" placeholder="Search tenants…"
+                           t-att-value="state.portfolioGhostSearch"
+                           t-on-input="onPortfolioGhostSearch"/>
+                    <div style="max-height:220px;overflow-y:auto">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead><tr><th>Tenant</th><th>Domain</th><th>Status</th><th></th></tr></thead>
+                            <tbody>
+                                <t t-foreach="filteredGhostTenants" t-as="gtn" t-key="gtn.id">
+                                    <tr>
+                                        <td class="small fw-semibold"><t t-esc="gtn.name"/></td>
+                                        <td class="text-muted small font-monospace"><t t-esc="gtn.domain || '—'"/></td>
+                                        <td><span t-att-class="'badge ' + stateBadgeClass(gtn.state)" t-esc="stateLabel(gtn.state)"/></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info text-white py-0 px-2" t-on-click="() => this.ghostLogin(gtn.id)">
+                                                <i class="fa fa-user-secret me-1"/>Ghost In
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="!filteredGhostTenants.length">
+                                    <tr><td colspan="4" class="text-center text-muted small py-2">No tenants found</td></tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+
+        <div class="row g-3">
+            <!-- Left: KPI bento + activity -->
+            <div class="col-lg-9">
+                <!-- KPI bento grid -->
+                <div class="row g-3 mb-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <small class="text-uppercase text-muted fw-bold" style="font-size:0.625rem;letter-spacing:0.1em" t-esc="strTotalPortfolioGdv"/>
+                                    <span t-if="fmtDeltaShort(state.dashboard.deltas.gdv_pct)" t-att-class="'badge ' + deltaPillClass(state.dashboard.deltas.gdv_pct)">
+                                        <i t-att-class="'fa ' + (isDeltaPositive(state.dashboard.deltas.gdv_pct) === true ? 'fa-line-chart' : (isDeltaPositive(state.dashboard.deltas.gdv_pct) === false ? 'fa-arrow-trend-down' : 'fa-minus'))"/>
+                                        <t t-esc="fmtDeltaShort(state.dashboard.deltas.gdv_pct)"/>
+                                    </span>
+                                </div>
+                                <h3 class="fw-bold mt-2 mb-1"><t t-esc="fmtMoney(state.dashboard.gdv, state.dashboard.currency)"/></h3>
+                                <div class="o_tcrm_portfolio__spark">
+                                    <svg viewBox="0 0 120 32" preserveAspectRatio="none" t-if="state.dashboard.sparklines.gdv and state.dashboard.sparklines.gdv.length">
+                                        <path t-att-d="portfolioSparkPath('gdv')" fill="none" stroke="currentColor" stroke-width="1.75" vector-effect="non-scaling-stroke"/>
+                                    </svg>
+                                    <div class="o_tcrm_portfolio__spark_dot"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <small class="text-uppercase text-muted fw-bold" style="font-size:0.625rem;letter-spacing:0.1em" t-esc="strActiveTenantHealth"/>
+                                    <span t-if="portfolioHealthLowCount()" class="badge bg-danger-subtle text-danger"><i class="fa fa-exclamation-triangle me-1"/><t t-esc="portfolioHealthLowCount()"/> <t t-esc="strLowSuffix"/></span>
+                                    <span t-else="" class="badge bg-success-subtle text-success" t-esc="strStableHealth"/>
+                                </div>
+                                <h3 class="fw-bold mt-2 mb-1"><t t-esc="fmtPct(state.dashboard.tenant_health_pct)"/></h3>
+                                <div class="o_tcrm_portfolio__health_track mt-2"><div class="o_tcrm_portfolio__health_fill" t-att-style="'width:' + state.dashboard.tenant_health_pct + '%'"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <small class="text-uppercase text-muted fw-bold" style="font-size:0.625rem;letter-spacing:0.1em" t-esc="strAiEngineLoad"/>
+                                    <i class="fa fa-bolt text-danger"/>
+                                </div>
+                                <h3 class="fw-bold mt-2 mb-1"><t t-esc="fmtAiLatency()"/></h3>
+                                <small class="text-muted" t-esc="strAiLatencySub"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <small class="text-uppercase text-muted fw-bold" style="font-size:0.625rem;letter-spacing:0.1em" t-esc="lblKpiMrr"/>
+                                    <span t-if="fmtDeltaShort(state.dashboard.deltas.mrr_pct)" t-att-class="'badge ' + deltaPillClass(state.dashboard.deltas.mrr_pct)" t-esc="fmtDeltaShort(state.dashboard.deltas.mrr_pct)"/>
+                                </div>
+                                <h3 class="fw-bold mt-2 mb-1"><t t-esc="fmtMoney(state.dashboard.mrr, state.dashboard.currency)"/></h3>
+                                <div class="o_tcrm_portfolio__mrr_bars mt-2">
+                                    <t t-foreach="portfolioMrrBarHeights()" t-as="ht" t-key="ht_index">
+                                        <div class="o_tcrm_portfolio__mrr_bar" t-att-style="'height:' + ht + '%'"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity stream -->
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between py-2">
+                        <h6 class="mb-0 fw-bold d-flex align-items-center gap-2"><i class="fa fa-rss text-danger"/><span t-esc="strLiveActivityStream"/></h6>
+                        <button type="button" class="btn btn-link btn-sm text-danger text-uppercase fw-bold" style="font-size:0.6875rem;letter-spacing:0.08em" t-esc="strDownloadLog" t-on-click="downloadPortfolioActivityLog"/>
+                    </div>
+                    <div class="card-body p-0">
+                        <t t-if="state.dashboard.activities and state.dashboard.activities.length">
+                            <table class="table table-hover mb-0">
+                                <thead><tr>
+                                    <th t-esc="strThEvent"/><th t-esc="strThTenantEntity"/><th t-esc="strThStatus"/><th class="text-end" t-esc="strThTime"/>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="state.dashboard.activities" t-as="a" t-key="a.id + '_' + a.type">
+                                        <tr>
+                                            <td><div class="d-flex align-items-center gap-2"><i t-att-class="portfolioActivityIconClass(a)"/><span class="fw-bold" t-esc="a.event"/></div></td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge bg-light text-danger border fw-bold" style="font-size:0.5625rem" t-esc="tenantInitials(a.tenant_name)"/>
+                                                    <span t-esc="a.tenant_name"/>
+                                                    <button t-if="a.tenant_id" type="button" class="btn btn-link btn-sm p-0" t-att-title="strGhostTitle" t-on-click="() => this.onTenantWorkspace(a.tenant_id)"><i class="fa fa-external-link"/></button>
+                                                </div>
+                                            </td>
+                                            <td><span t-att-class="'badge ' + stateBadgeClass(a.status)" t-esc="stateLabel(a.status)"/></td>
+                                            <td class="text-end text-muted small"><t t-esc="dashboardRelativeTime(a.timestamp)"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <div t-else="" class="p-3 text-muted" t-esc="strNoActivity"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right rail: Alerts + AI -->
+            <div class="col-lg-3">
+                <div class="card mb-3">
+                    <div class="card-header py-2">
+                        <h6 class="mb-0 text-danger text-uppercase fw-bold d-flex align-items-center gap-2" style="font-size:0.6875rem;letter-spacing:0.15em">
+                            <i class="fa fa-exclamation-triangle"/><span t-esc="strSystemRedAlerts"/>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <t t-if="state.dashboard.alerts and state.dashboard.alerts.length">
+                            <t t-foreach="state.dashboard.alerts" t-as="alert" t-key="alert.id">
+                                <div t-if="alert_index &lt; 2" class="border-start border-3 border-danger rounded p-2 mb-2 cursor-pointer" t-on-click="() => this.openTenantDetail(alert.tenant_id)">
+                                    <div class="fw-bold text-danger small"><t t-esc="alert.tenant_name"/> — <t t-esc="fmtMoney(alert.amount, alert.currency)"/></div>
+                                    <small class="text-muted" t-esc="alert.message"/>
+                                    <div class="mt-1"><button type="button" class="btn btn-link btn-sm p-0 text-danger text-uppercase fw-bold" style="font-size:0.625rem" t-on-click.stop="() => this.openTenantDetail(alert.tenant_id)"><span t-esc="strIntervene"/> <i class="fa fa-arrow-right"/></button></div>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else=""><small class="text-muted" t-esc="strAllClear"/></t>
+                    </div>
+                </div>
+
+                <!-- AI Insight -->
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between py-2">
+                        <h6 class="mb-0 fw-bold d-flex align-items-center gap-2"><i class="fa fa-android text-danger"/><span t-esc="strTcrmAiInsight"/></h6>
+                        <span class="o_tcrm_status_dot"/>
+                    </div>
+                    <div class="card-body">
+                        <div class="o_tcrm_ai__thread d-flex flex-column gap-2 mb-2">
+                            <t t-foreach="state.portfolioAiMessages" t-as="m" t-key="m_index">
+                                <div t-att-class="'d-flex gap-2 align-items-start o_tcrm_ai__row' + (m.role === 'user' ? ' o_tcrm_ai__row--user justify-content-end' : '')">
+                                    <div t-if="m.role !== 'user'" class="o_tcrm_ai__avatar"><i class="fa fa-bolt"/></div>
+                                    <div class="o_tcrm_ai__bubble" t-esc="m.text"/>
+                                </div>
+                            </t>
+                        </div>
+                        <form class="position-relative" t-on-submit.prevent="submitPortfolioAi">
+                            <input type="text" class="form-control form-control-sm pe-5" t-att-placeholder="strAskTcrmAi"
+                                   t-att-value="state.portfolioAiInput" t-on-input="onPortfolioAiInput"/>
+                            <button type="submit" class="o_tcrm_ai__send" aria-label="Send"><i class="fa fa-paper-plane"/></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="o_tcrm_fab" t-on-click="openGlobalCommandFab" t-att-title="strGlobalCommand"><i class="fa fa-plus"/></button>
+    </t>
+    <div t-else="" class="text-muted p-4" t-esc="strPortfolioNoData"/>
+</t>
+
+<!-- ─── TENANT HUB ─── -->
+<t t-if="state.screen === 'tenants'">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div class="input-group" style="max-width:420px">
+            <span class="input-group-text"><i class="fa fa-search"/></span>
+            <input type="text" class="form-control" placeholder="Search tenants…"
+                   t-att-value="state.tenantSearch" t-on-input="onTenantSearchInput" t-on-keydown="onTenantSearchKeydown"/>
+        </div>
+        <div class="btn-group">
+            <button t-att-class="'btn btn-sm ' + (state.tenantFilterState === 'active' ? 'btn-primary' : 'btn-outline-secondary')"
+                    t-on-click="() => this.filterTenantsByState('active')">Active</button>
+            <button t-att-class="'btn btn-sm ' + (state.tenantFilterState === 'draft' ? 'btn-primary' : 'btn-outline-secondary')"
+                    t-on-click="() => this.filterTenantsByState('draft')">Draft</button>
+        </div>
+    </div>
+    <t t-if="state.tenants.length">
+        <div class="row g-3">
+            <t t-foreach="state.tenants" t-as="t" t-key="t.id">
+                <div class="col-xl-4 col-md-6">
+                    <div t-att-class="'card h-100 cursor-pointer position-relative' + (t.is_frozen ? ' border-danger' : '')" t-on-click="() => this.openTenantDetail(t.id)">
+                        <div t-if="t.is_frozen" class="o_tcrm_frozen_overlay rounded"/>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <h6 class="fw-bold mb-0"><t t-esc="t.name"/></h6>
+                                    <span t-if="t.is_frozen" class="badge bg-danger"><i class="fa fa-lock me-1"/>FROZEN</span>
+                                </div>
+                                <span t-att-class="'badge ' + stateBadgeClass(t.health)" t-esc="t.health"/>
+                            </div>
+                            <div class="text-muted small d-flex flex-wrap gap-2 mb-1">
+                                <span><i class="fa fa-box me-1"/><t t-esc="t.package"/></span>
+                                <span><i class="fa fa-users me-1"/><t t-esc="t.user_count"/>/<t t-esc="t.user_limit || '∞'"/></span>
+                            </div>
+                            <div class="text-muted small d-flex flex-wrap gap-2 mb-2">
+                                <span><i class="fa fa-globe me-1"/><t t-esc="t.domain || 'No domain'"/></span>
+                                <span t-att-class="'badge ' + stateBadgeClass(t.state)" t-esc="stateLabel(t.state)"/>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2" t-on-click.stop="">
+                                <button class="btn btn-outline-secondary btn-sm" t-on-click.stop="() => this.openTenantInOdoo(t.id)"><i class="fa fa-external-link me-1"/> Edit</button>
+                                <button class="btn btn-info btn-sm text-white" t-on-click.stop="() => this.ghostLogin(t.id)"><i class="fa fa-user-secret me-1"/> Ghost</button>
+                                <button t-if="t.state === 'draft'" class="btn btn-success btn-sm" t-on-click.stop="() => this.activateTenant(t.id)">Activate</button>
+                                <button t-if="t.state === 'active' and !t.is_frozen" class="btn btn-warning btn-sm" t-on-click.stop="() => this.deactivateTenant(t.id)">Suspend</button>
+                                <button t-if="!t.is_frozen" class="btn btn-danger btn-sm" t-on-click.stop="() => this.freezeTenant(t.id)"><i class="fa fa-lock me-1"/> Freeze</button>
+                                <button t-if="t.is_frozen" class="btn btn-success btn-sm" t-on-click.stop="() => this.unfreezeTenant(t.id)"><i class="fa fa-unlock me-1"/> Unfreeze</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+    <t t-else="">
+        <div class="text-center text-muted py-5">
+            <i class="fa fa-building fs-1 d-block mb-2"/>
+            <h5>No tenants found</h5>
+            <p>Create your first tenant to get started</p>
+            <button class="btn btn-primary" t-on-click="openCreateTenant"><i class="fa fa-plus me-1"/> New Tenant</button>
+        </div>
+    </t>
+</t>
+
+<!-- ─── TENANT 360° ─── -->
+<t t-if="state.screen === 'tenant_detail' and state.tenantDetail">
+    <button class="btn btn-outline-secondary btn-sm mb-3" t-on-click="() => this.navigateTo('tenants')"><i class="fa fa-arrow-left me-1"/> Back to Tenants</button>
+
+    <!-- Profile header -->
+    <div class="card mb-3">
+        <div class="card-body d-flex flex-wrap align-items-center gap-3">
+            <div class="rounded-2 bg-primary-subtle text-primary d-flex align-items-center justify-content-center" style="width:46px;height:46px"><i class="fa fa-building"/></div>
+            <div class="flex-grow-1">
+                <h4 class="mb-0"><t t-esc="state.tenantDetail.name"/></h4>
+                <div class="d-flex flex-wrap gap-2 mt-1">
+                    <span t-att-class="'badge ' + stateBadgeClass(state.tenantDetail.state)" t-esc="stateLabel(state.tenantDetail.state)"/>
+                    <span t-if="state.tenantDetail.package" class="badge bg-info"><t t-esc="state.tenantDetail.package"/></span>
+                    <span t-if="state.tenantDetail.is_frozen" class="badge bg-danger"><i class="fa fa-lock me-1"/>FROZEN</span>
+                    <span class="text-muted small">ID: <t t-esc="state.tenantDetail.id"/></span>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.openTenantInOdoo(state.tenantDetail.id)"><i class="fa fa-external-link me-1"/> Full Form</button>
+                <button class="btn btn-info btn-sm text-white" t-on-click="() => this.ghostLogin(state.tenantDetail.id)"><i class="fa fa-user-secret me-1"/> Ghost Login</button>
+                <button t-if="state.tenantDetail.state === 'draft'" class="btn btn-success btn-sm" t-on-click="() => this.activateTenant(state.tenantDetail.id)">Activate</button>
+                <button t-if="state.tenantDetail.state === 'active' and !state.tenantDetail.is_frozen" class="btn btn-warning btn-sm" t-on-click="() => this.deactivateTenant(state.tenantDetail.id)">Suspend</button>
+                <button t-if="!state.tenantDetail.is_frozen" class="btn btn-danger btn-sm" t-on-click="() => this.freezeTenant(state.tenantDetail.id)"><i class="fa fa-lock me-1"/> Freeze</button>
+                <button t-if="state.tenantDetail.is_frozen" class="btn btn-success btn-sm" t-on-click="() => this.unfreezeTenant(state.tenantDetail.id)"><i class="fa fa-unlock me-1"/> Unfreeze</button>
+                <button class="btn btn-outline-danger btn-sm" t-on-click="() => this.deleteTenant(state.tenantDetail.id)"><i class="fa fa-trash"/></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item"><button t-att-class="'nav-link ' + (state.tenantDetailTab === 'activity' ? 'active' : '')" t-on-click="() => this.setTenantDetailTab('activity')">Overview</button></li>
+        <li class="nav-item"><button t-att-class="'nav-link ' + (state.tenantDetailTab === 'users' ? 'active' : '')" t-on-click="() => this.setTenantDetailTab('users')">Users (<t t-esc="state.tenantDetail.user_count"/>)</button></li>
+        <li class="nav-item"><button t-att-class="'nav-link ' + (state.tenantDetailTab === 'modules' ? 'active' : '')" t-on-click="() => this.setTenantDetailTab('modules')">Modules</button></li>
+        <li class="nav-item"><button t-att-class="'nav-link ' + (state.tenantDetailTab === 'financials' ? 'active' : '')" t-on-click="() => this.setTenantDetailTab('financials')">Financials</button></li>
+        <li class="nav-item"><button t-att-class="'nav-link ' + (state.tenantDetailTab === 'domains' ? 'active' : '')" t-on-click="() => this.setTenantDetailTab('domains')">Domains</button></li>
+    </ul>
+
+    <!-- Tab: Overview -->
+    <t t-if="state.tenantDetailTab === 'activity'">
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header fw-bold small py-2">Tenant Information</div>
+                    <div class="card-body">
+                        <table class="table table-sm mb-0">
+                            <tbody>
+                                <tr><td class="text-muted">Company</td><td t-esc="state.tenantDetail.company_name"/></tr>
+                                <tr><td class="text-muted">Sector</td><td t-esc="state.tenantDetail.sector || 'N/A'"/></tr>
+                                <tr><td class="text-muted">Email</td><td t-esc="state.tenantDetail.support_email || 'N/A'"/></tr>
+                                <tr><td class="text-muted">Phone</td><td t-esc="state.tenantDetail.support_phone || 'N/A'"/></tr>
+                                <tr><td class="text-muted">Primary Domain</td><td t-esc="state.tenantDetail.primary_domain || 'None'"/></tr>
+                                <tr><td class="text-muted">Database</td><td t-esc="state.tenantDetail.db_name || 'Shared'"/></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header fw-bold small py-2">Subscriptions</div>
+                    <div class="card-body">
+                        <t t-if="state.tenantDetail.subscriptions and state.tenantDetail.subscriptions.length">
+                            <t t-foreach="state.tenantDetail.subscriptions" t-as="sub" t-key="sub.id">
+                                <div class="border rounded p-2 mb-2">
+                                    <div class="fw-bold"><t t-esc="sub.package"/> (<t t-esc="sub.billing_cycle"/>)</div>
+                                    <div><t t-esc="fmtMoney(sub.amount, sub.currency)"/></div>
+                                    <span t-att-class="'badge ' + stateBadgeClass(sub.status)" t-esc="stateLabel(sub.status)"/>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else=""><div class="text-muted">No active subscriptions</div></t>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Location -->
+        <div class="card mt-3">
+            <div class="card-header fw-bold small py-2 d-flex align-items-center gap-2">
+                <i class="fa fa-map-marker text-danger"/>
+                Map Location
+                <t t-if="state.tenantDetail.latitude and state.tenantDetail.longitude">
+                    <span class="badge bg-success-subtle text-success ms-auto small"><i class="fa fa-check me-1"/>Pinned</span>
+                </t>
+                <t t-else="">
+                    <span class="badge bg-warning-subtle text-warning ms-auto small">Not pinned</span>
+                </t>
+            </div>
+            <div class="card-body">
+                <div class="row g-2 align-items-end">
+                    <div class="col-sm-5">
+                        <label class="form-label small text-muted mb-1">Google Maps Link</label>
+                        <input type="url" class="form-control form-control-sm font-monospace"
+                               placeholder="https://maps.google.com/…"
+                               t-att-value="state.tenantEditLink"
+                               t-on-input="(ev) => this.onTenantLocInput('tenantEditLink', ev)"/>
+                        <div class="form-text">Paste a share link — lat/lon extracted on save</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label small text-muted mb-1">Latitude</label>
+                        <input type="number" class="form-control form-control-sm" step="0.0001"
+                               placeholder="e.g. 25.2048"
+                               t-att-value="state.tenantEditLat"
+                               t-on-input="(ev) => this.onTenantLocInput('tenantEditLat', ev)"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label small text-muted mb-1">Longitude</label>
+                        <input type="number" class="form-control form-control-sm" step="0.0001"
+                               placeholder="e.g. 55.2708"
+                               t-att-value="state.tenantEditLon"
+                               t-on-input="(ev) => this.onTenantLocInput('tenantEditLon', ev)"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary btn-sm w-100" t-on-click="saveTenantLocation" title="Save location">
+                            <i class="fa fa-save"/>
+                        </button>
+                    </div>
+                </div>
+                <t t-if="state.tenantDetail.latitude and state.tenantDetail.longitude">
+                    <div class="text-muted small mt-2">
+                        Current pin: <span class="font-monospace"><t t-esc="state.tenantDetail.latitude"/>, <t t-esc="state.tenantDetail.longitude"/></span>
+                        — drag the pin on the map below to update.
+                    </div>
+                </t>
+                <div class="mt-3" t-if="tenantDetailMapMarkers.length">
+                    <TcrmTenantMap markers="tenantDetailMapMarkers"
+                                   title="'Tenant map pin'"
+                                   onMarkerMoved.bind="onMapMarkerMoved"
+                                   draggable="true"/>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Tab: Users -->
+    <t t-if="state.tenantDetailTab === 'users'">
+        <div class="card">
+            <div class="card-header fw-bold small py-2">Managed Users</div>
+            <div class="card-body p-0">
+                <t t-if="state.tenantDetail.users and state.tenantDetail.users.length">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>User</th><th>Login</th><th>Groups</th><th>Permissions</th><th>Last Login</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.tenantDetail.users" t-as="u" t-key="u.id">
+                                    <tr>
+                                        <td><t t-esc="u.name"/></td>
+                                        <td class="font-monospace"><t t-esc="u.login"/></td>
+                                        <td><t t-foreach="(u.groups || []).slice(0, 3)" t-as="g" t-key="g"><span class="badge bg-secondary me-1" t-esc="g"/></t></td>
+                                        <td><t t-foreach="u.permissions || []" t-as="p" t-key="p"><span class="badge bg-info me-1" t-esc="p"/></t></td>
+                                        <td class="text-muted"><t t-esc="u.last_login || 'Never'"/></td>
+                                        <td>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <button class="btn btn-outline-secondary btn-sm"
+                                                        t-att-disabled="u.id === state.currentUserId"
+                                                        t-att-title="u.id === state.currentUserId ? 'Current user' : (u.active ? 'Deactivate' : 'Activate')"
+                                                        t-on-click="() => this.toggleUserActive(u.id, u.active)">
+                                                    <i t-att-class="u.active ? 'fa fa-user-times' : 'fa fa-check'"/>
+                                                    <span class="d-none d-xl-inline ms-1">
+                                                        <t t-if="u.id === state.currentUserId">Current</t>
+                                                        <t t-elif="u.active">Deactivate</t><t t-else="">Activate</t>
+                                                    </span>
+                                                </button>
+                                                <button class="btn btn-outline-primary btn-sm" title="Reset password" t-on-click="() => this.openResetPasswordModal(u)"><i class="fa fa-key"/></button>
+                                                <button class="btn btn-outline-secondary btn-sm" title="Change role" t-on-click="() => this.openChangeRoleModal(u)"><i class="fa fa-cog"/></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                <div t-else="" class="text-muted p-3">No users found</div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Tab: Modules -->
+    <t t-if="state.tenantDetailTab === 'modules'">
+        <div class="card mb-3">
+            <div class="card-header fw-bold small py-2">Grant App to Tenant</div>
+            <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+                <select class="form-select form-select-sm w-auto" t-on-change="onGrantModuleChange">
+                    <option value="">Select installed free app…</option>
+                    <t t-foreach="state.appsCatalog" t-as="app" t-key="app.id">
+                        <option t-att-value="app.id" t-esc="app.display_name"/>
+                    </t>
+                </select>
+                <button class="btn btn-sm btn-primary" t-on-click="grantModuleToTenant" t-att-disabled="!state.grantModuleId">
+                    Grant App
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" t-on-click="() => this._loadAppsCatalog()">
+                    Refresh Catalog
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header fw-bold small py-2">Module Entitlements</div>
+            <div class="card-body">
+                <t t-if="state.tenantDetail.modules and state.tenantDetail.modules.length">
+                    <div class="row g-3">
+                        <t t-foreach="state.tenantDetail.modules" t-as="m" t-key="m.id">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-body py-2">
+                                        <div class="fw-bold"><t t-esc="m.module_name"/></div>
+                                        <small class="text-muted"><t t-esc="m.module_technical"/></small>
+                                        <div class="d-flex align-items-center gap-2 mt-2">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" t-att-checked="m.state === 'allowed'" t-on-change="() => this.toggleModule(m.id)"/>
+                                            </div>
+                                            <span t-att-class="'badge ' + (m.state === 'allowed' ? 'bg-success' : 'bg-danger')" t-esc="m.state"/>
+                                            <span class="badge bg-secondary" t-esc="m.source"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <div t-else="" class="text-muted">No module entitlements — grant apps above or assign via package.</div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Tab: Financials -->
+    <t t-if="state.tenantDetailTab === 'financials'">
+        <div class="card">
+            <div class="card-header fw-bold small py-2">Billing History</div>
+            <div class="card-body p-0">
+                <t t-if="state.tenantDetail.invoices and state.tenantDetail.invoices.length">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Invoice</th><th>Issue Date</th><th>Due Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.tenantDetail.invoices" t-as="inv" t-key="inv.id">
+                                    <tr>
+                                        <td><t t-esc="inv.name"/></td>
+                                        <td><t t-esc="inv.issue_date"/></td>
+                                        <td><t t-esc="inv.due_date"/></td>
+                                        <td><t t-esc="fmtMoney(inv.amount, inv.currency)"/></td>
+                                        <td><span t-att-class="'badge ' + stateBadgeClass(inv.state)" t-esc="stateLabel(inv.state)"/></td>
+                                        <td>
+                                            <t t-if="inv.state === 'open' or inv.state === 'overdue'"><button class="btn btn-success btn-sm me-1" t-on-click="() => this.invoiceAction(inv.id, 'mark_paid')">Mark Paid</button></t>
+                                            <t t-if="inv.state === 'overdue'"><button class="btn btn-warning btn-sm" t-on-click="() => this.invoiceAction(inv.id, 'send_reminder')">Remind</button></t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                <div t-else="" class="text-muted p-3">No invoices</div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Tab: Domains -->
+    <t t-if="state.tenantDetailTab === 'domains'">
+        <div class="card">
+            <div class="card-header fw-bold small py-2">Domains</div>
+            <div class="card-body p-0">
+                <t t-if="state.tenantDetail.domains and state.tenantDetail.domains.length">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Domain</th><th>Primary</th><th>Verified</th><th>SSL</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.tenantDetail.domains" t-as="d" t-key="d.id">
+                                    <tr>
+                                        <td class="font-monospace"><t t-esc="d.domain"/></td>
+                                        <td><span t-if="d.is_primary" class="badge bg-success">Primary</span></td>
+                                        <td><i t-if="d.verified" class="fa fa-check-circle text-success"/><i t-else="" class="fa fa-clock text-muted"/></td>
+                                        <td><span t-att-class="'badge ' + stateBadgeClass(d.ssl_status)" t-esc="d.ssl_status"/></td>
+                                        <td><button class="btn btn-outline-danger btn-sm" t-on-click="() => this.deleteDomain(d.id)">Remove</button></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                <div t-else="" class="text-muted p-3">No domains configured</div>
+            </div>
+        </div>
+    </t>
+</t>
+
+<!-- ─── USER MANAGEMENT ─── -->
+<t t-if="state.screen === 'users'">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div class="input-group" style="max-width:420px">
+            <span class="input-group-text"><i class="fa fa-search"/></span>
+            <input type="text" class="form-control" placeholder="Filter users…"
+                   t-att-value="state.userSearch" t-on-input="onUserSearchInput" t-on-keydown="onUserSearchKeydown"/>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+            <i class="fa fa-users"/> Advanced User Control
+            <span class="badge bg-info ms-1"><t t-esc="state.users.length"/> users</span>
+        </div>
+        <div class="card-body p-0">
+            <t t-if="state.users.length">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>User</th><th>Login</th><th>Company</th><th>Groups</th><th>Permissions</th><th>Last Login</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <t t-foreach="state.users" t-as="u" t-key="u.id">
+                                <tr>
+                                    <td><t t-esc="u.name"/></td>
+                                    <td class="font-monospace"><t t-esc="u.login"/></td>
+                                    <td><t t-esc="u.company"/></td>
+                                    <td><t t-foreach="(u.groups || []).slice(0, 2)" t-as="g" t-key="g"><span class="badge bg-secondary me-1" t-esc="g"/></t></td>
+                                    <td><t t-foreach="u.permissions || []" t-as="p" t-key="p"><span class="badge bg-info me-1" t-esc="p"/></t></td>
+                                    <td class="text-muted"><t t-esc="u.last_login || 'Never'"/></td>
+                                    <td>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <button class="btn btn-outline-secondary btn-sm"
+                                                    t-att-disabled="u.id === state.currentUserId"
+                                                    t-att-title="u.id === state.currentUserId ? 'Current user' : (u.active ? 'Deactivate' : 'Activate')"
+                                                    t-on-click="() => this.toggleUserActive(u.id, u.active)">
+                                                <i t-att-class="u.active ? 'fa fa-user-times' : 'fa fa-check'"/>
+                                                <span class="d-none d-xl-inline ms-1">
+                                                    <t t-if="u.id === state.currentUserId">Current</t>
+                                                    <t t-elif="u.active">Deactivate</t><t t-else="">Activate</t>
+                                                </span>
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" title="Reset password" t-on-click="() => this.openResetPasswordModal(u)"><i class="fa fa-key"/></button>
+                                            <button class="btn btn-outline-secondary btn-sm" title="Change role" t-on-click="() => this.openChangeRoleModal(u)"><i class="fa fa-cog"/></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            <div t-else="" class="text-muted p-3">No users found</div>
+        </div>
+    </div>
+</t>
+
+<!-- ─── GLOBAL EMPLOYEES ─── -->
+<t t-if="state.screen === 'employees'">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div class="input-group" style="max-width:380px">
+            <span class="input-group-text"><i class="fa fa-search"/></span>
+            <input type="text" class="form-control" placeholder="Search employees…"
+                   t-att-value="state.employeeSearch" t-on-input="onEmployeeSearchInput" t-on-keydown="onEmployeeSearchKeydown"/>
+        </div>
+        <select class="form-select" style="max-width:220px" t-on-change="onEmployeeTenantFilter">
+            <option value="">All Tenants</option>
+            <t t-foreach="state.tenants" t-as="tn" t-key="tn.id">
+                <option t-att-value="tn.id" t-esc="tn.name"/>
+            </t>
+        </select>
+        <button class="btn btn-primary btn-sm" t-on-click="searchEmployees"><i class="fa fa-refresh me-1"/> Refresh</button>
+        <span class="badge bg-secondary ms-auto"><t t-esc="state.employees.length"/> employees</span>
+    </div>
+    <div class="card">
+        <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+            <i class="fa fa-users"/> Global Employee Control
+            <span class="badge bg-info ms-1">God-Mode</span>
+        </div>
+        <div class="card-body p-0">
+            <t t-if="state.employees.length">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Login</th>
+                                <th>Tenant</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="state.employees" t-as="emp" t-key="emp.id">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-circle bg-secondary-subtle text-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:30px;height:30px;font-size:0.75rem;font-weight:700">
+                                                <t t-esc="tenantInitials(emp.name)"/>
+                                            </div>
+                                            <span class="fw-semibold"><t t-esc="emp.name"/></span>
+                                        </div>
+                                    </td>
+                                    <td class="font-monospace small"><t t-esc="emp.login"/></td>
+                                    <td>
+                                        <a href="#" class="text-primary text-decoration-none small" t-on-click.prevent="() => this.openTenantDetail(emp.tenant_id)">
+                                            <t t-esc="emp.tenant_name || '—'"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span t-att-class="'badge ' + (emp.role === 'admin' ? 'bg-danger' : emp.role === 'sales' ? 'bg-info' : 'bg-secondary')">
+                                            <t t-esc="emp.role || 'user'"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-att-class="'badge ' + (emp.active ? 'bg-success' : 'bg-secondary')">
+                                            <t t-if="emp.active">Active</t><t t-else="">Inactive</t>
+                                        </span>
+                                    </td>
+                                    <td class="text-muted small"><t t-esc="emp.last_login || 'Never'"/></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-outline-secondary btn-sm" t-att-disabled="emp.id === state.currentUserId"
+                                                    t-on-click="() => this.toggleUserActive(emp.id, emp.active)"
+                                                    t-att-title="emp.active ? 'Deactivate' : 'Activate'">
+                                                <i t-att-class="emp.active ? 'fa fa-user-times' : 'fa fa-check'"/>
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" t-on-click="() => this.openResetPasswordModal(emp)" title="Reset Password">
+                                                <i class="fa fa-key"/>
+                                            </button>
+                                            <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.openChangeRoleModal(emp)" title="Change Role">
+                                                <i class="fa fa-cog"/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            <div t-else="" class="text-muted p-4 text-center">
+                <i class="fa fa-users fs-1 d-block mb-2 text-muted"/>
+                <p>No employees found. Use the search or refresh to load.</p>
+                <button class="btn btn-primary btn-sm" t-on-click="searchEmployees"><i class="fa fa-refresh me-1"/> Load Employees</button>
+            </div>
+        </div>
+    </div>
+</t>
+
+<!-- ─── ACCESS MANAGEMENT ─── -->
+<t t-if="state.screen === 'access'">
+    <t t-if="state.accessData">
+        <div class="card mb-3">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small"><i class="fa fa-shield"/> Tenant Access Matrix</div>
+            <div class="card-body p-0">
+                <t t-if="state.accessData.access_matrix and state.accessData.access_matrix.length">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Tenant</th><th>Package</th><th>Users</th><th>Modules</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.accessData.access_matrix" t-as="row" t-key="row.id">
+                                    <tr>
+                                        <td><a href="#" class="text-primary fw-semibold text-decoration-none" t-on-click.prevent="() => this.openTenantDetail(row.id)" t-esc="row.name"/></td>
+                                        <td><t t-esc="row.package || 'None'"/></td>
+                                        <td><t t-esc="row.user_count"/></td>
+                                        <td>
+                                            <t t-foreach="row.modules" t-as="m" t-key="m.id">
+                                                <div class="form-check form-switch d-inline-flex align-items-center gap-2 me-3">
+                                                    <input class="form-check-input" type="checkbox" role="switch" t-att-checked="m.state === 'allowed'" t-on-change="() => this.toggleModuleAccess(m.id)"/>
+                                                    <label class="form-check-label small" t-esc="m.name"/>
+                                                </div>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small"><i class="fa fa-gavel"/> Permission Sets</div>
+            <div class="card-body p-0">
+                <t t-if="state.accessData.permission_sets and state.accessData.permission_sets.length">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Name</th><th>Company</th><th>Rules</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.accessData.permission_sets" t-as="ps" t-key="ps.id">
+                                    <tr>
+                                        <td><t t-esc="ps.name"/></td>
+                                        <td><t t-esc="ps.company"/></td>
+                                        <td>
+                                            <t t-foreach="ps.lines.slice(0, 3)" t-as="l" t-key="l.id">
+                                                <span class="badge bg-secondary me-1"><t t-esc="l.model"/>.<t t-esc="l.field"/><t t-if="l.can_read"> R</t><t t-if="l.can_write"> W</t></span>
+                                            </t>
+                                            <span t-if="ps.lines.length > 3" class="text-muted small">+<t t-esc="ps.lines.length - 3"/> more</span>
+                                        </td>
+                                        <td><span t-att-class="'badge ' + (ps.active ? 'bg-success' : 'bg-secondary')"><t t-if="ps.active">Active</t><t t-else="">Inactive</t></span></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                <div t-else="" class="text-muted p-3">No permission sets</div>
+            </div>
+        </div>
+    </t>
+</t>
+
+<!-- ─── APP CATALOG ─── -->
+<t t-if="state.screen === 'apps'">
+    <div class="card mb-3">
+        <div class="card-header fw-bold small py-2 d-flex flex-wrap gap-2 align-items-center">
+            <span><i class="fa fa-shopping-cart me-1"/> Free App Catalog (<t t-esc="state.appsCatalogTotal"/> installed)</span>
+            <input type="search" class="form-control form-control-sm ms-auto" style="max-width:240px"
+                   placeholder="Search apps…" t-att-value="state.appsCatalogSearch"
+                   t-on-input="onAppsCatalogSearchInput"/>
+        </div>
+        <div class="card-body">
+            <div class="row g-2 align-items-end mb-3">
+                <div class="col-md-5">
+                    <label class="form-label small mb-1">Assign to package</label>
+                    <select class="form-select form-select-sm" t-on-change="onPackageForAppsChange">
+                        <t t-foreach="state.packages" t-as="pkg" t-key="pkg.id">
+                            <option t-att-value="pkg.id"
+                                    t-att-selected="state.selectedPackageForApps and state.selectedPackageForApps.id === pkg.id"
+                                    t-esc="pkg.name + ' (' + (pkg.module_count || 0) + ')'"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-7 d-flex gap-2">
+                    <button class="btn btn-sm btn-primary" t-on-click="savePackageModules"
+                            t-att-disabled="!state.selectedPackageForApps">
+                        Save Package Apps
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary" t-on-click="fillPackageAllApps"
+                            t-att-disabled="!state.selectedPackageForApps">
+                        Fill All Free Apps
+                    </button>
+                </div>
+            </div>
+            <div class="row g-2">
+                <t t-foreach="filteredAppsCatalog" t-as="app" t-key="app.id">
+                    <div class="col-xl-3 col-md-4 col-sm-6">
+                        <label class="card h-100 mb-0" style="cursor:pointer">
+                            <div class="card-body py-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           t-att-checked="isPackageModuleSelected(app.id)"
+                                           t-on-change="() => this.togglePackageModuleDraft(app.id)"/>
+                                    <span class="fw-semibold small" t-esc="app.display_name"/>
+                                </div>
+                                <div class="text-muted small mt-1" t-esc="app.name"/>
+                                <div class="text-muted small" t-esc="app.category"/>
+                            </div>
+                        </label>
+                    </div>
+                </t>
+            </div>
+            <div t-if="!filteredAppsCatalog.length" class="text-muted">No apps match the search.</div>
+        </div>
+    </div>
+</t>
+
+<!-- ─── FINANCIAL CONSOLE ─── -->
+<t t-if="state.screen === 'financials'">
+    <t t-if="state.financials">
+        <div class="row g-3 mb-3">
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="rounded-2 bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px"><i class="fa fa-line-chart"/></div>
+                        <div><div class="text-muted text-uppercase small">Monthly Recurring Revenue</div><div class="fs-4 fw-bold"><t t-esc="fmtMoney(state.financials.mrr, state.financials.currency)"/></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="rounded-2 bg-danger text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px"><i class="fa fa-exclamation-triangle"/></div>
+                        <div><div class="text-muted text-uppercase small">At-Risk Churn</div><div class="fs-4 fw-bold"><t t-esc="fmtMoney(state.financials.churn_value, state.financials.currency)"/></div><small class="text-muted"><t t-esc="state.financials.churn_tenants"/> tenants at risk</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="rounded-2 bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px"><i class="fa fa-receipt"/></div>
+                        <div><div class="text-muted text-uppercase small">Revenue (30 days)</div><div class="fs-4 fw-bold"><t t-esc="fmtMoney(state.financials.revenue_30d, state.financials.currency)"/></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small"><i class="fa fa-star"/> Subscription Tier Hub</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <t t-foreach="Object.entries(state.financials.tier_counts || {})" t-as="tier" t-key="tier[0]">
+                        <div class="col-auto">
+                            <div class="card text-center"><div class="card-body py-3 px-4">
+                                <div class="fw-bold"><t t-esc="tier[0]"/></div>
+                                <div class="fs-3 fw-bold"><t t-esc="tier[1]"/></div>
+                                <small class="text-muted">subscriptions</small>
+                            </div></div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                <i class="fa fa-bell text-danger"/> Billing Alerts
+                <span class="badge bg-danger ms-1"><t t-esc="state.financials.total_invoices_pending"/> pending</span>
+            </div>
+            <div class="card-body">
+                <t t-if="state.financials.billing_alerts and state.financials.billing_alerts.length">
+                    <t t-foreach="state.financials.billing_alerts" t-as="ba" t-key="ba.id">
+                        <div class="border rounded p-2 mb-2">
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span t-esc="ba.tenant_name"/>
+                                <span class="text-danger"><t t-esc="fmtMoney(ba.amount, ba.currency)"/></span>
+                            </div>
+                            <small class="text-muted">
+                                <t t-esc="ba.invoice_name"/>
+                                <t t-if="ba.state === 'overdue'"> — Overdue <t t-esc="ba.days_overdue"/>d</t>
+                                <t t-elif="ba.due_date"> — Due <t t-esc="ba.due_date"/></t>
+                            </small>
+                            <div class="mt-2 d-flex gap-2">
+                                <button class="btn btn-warning btn-sm" t-on-click="() => this.invoiceAction(ba.id, 'send_reminder')"><i class="fa fa-bell me-1"/> Remind</button>
+                                <button class="btn btn-success btn-sm" t-on-click="() => this.invoiceAction(ba.id, 'mark_paid')"><i class="fa fa-check me-1"/> Mark Paid</button>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <div class="text-success d-flex align-items-center gap-2"><i class="fa fa-check-circle"/> No pending invoices</div>
+                </t>
+            </div>
+        </div>
+    </t>
+</t>
+
+<!-- ─── TECHNICAL CONSOLE ─── -->
+<t t-if="state.screen === 'technical'">
+    <t t-if="state.technical">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <div>
+                        <div class="font-monospace text-muted small mb-2">SYSTEM_ID: TCRM-MASTER-01</div>
+                        <div class="d-flex flex-wrap gap-3">
+                            <span>Uptime: <strong t-esc="state.technical.uptime"/></span>
+                            <span>Python: <strong t-esc="state.technical.python_version"/></span>
+                            <span>OS: <strong t-esc="state.technical.os_info"/></span>
+                            <span>DB: <strong t-esc="state.technical.db_name"/></span>
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <button class="btn btn-warning btn-sm" t-on-click="repairViews" title="Scan all form views and remove any field references that are not registered in the ORM. Fixes 'field is undefined' crashes.">
+                            <i class="fa fa-wrench me-1"/> Repair Views
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-lg-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="o_tcrm_gauge_lg">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#e9ecef" stroke-width="10"/>
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#3b82f6" stroke-width="10"
+                                        stroke-dasharray="326.73" t-att-stroke-dashoffset="326.73 - (326.73 * state.technical.cpu_pct / 100)"
+                                        transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="o_tcrm_gauge_lg__label"><t t-esc="state.technical.cpu_pct"/>%</div>
+                        </div>
+                        <div class="text-muted mt-2">CPU</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="o_tcrm_gauge_lg">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#e9ecef" stroke-width="10"/>
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#8b5cf6" stroke-width="10"
+                                        stroke-dasharray="326.73" t-att-stroke-dashoffset="326.73 - (326.73 * state.technical.ram_pct / 100)"
+                                        transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="o_tcrm_gauge_lg__label"><t t-esc="state.technical.ram_pct"/>%</div>
+                        </div>
+                        <div class="text-muted mt-2">RAM (<t t-esc="state.technical.ram_used"/>/<t t-esc="state.technical.ram_total"/> GB)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="o_tcrm_gauge_lg">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#e9ecef" stroke-width="10"/>
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#10b981" stroke-width="10"
+                                        stroke-dasharray="326.73" t-att-stroke-dashoffset="326.73 - (326.73 * state.technical.disk_pct / 100)"
+                                        transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="o_tcrm_gauge_lg__label"><t t-esc="state.technical.disk_pct"/>%</div>
+                        </div>
+                        <div class="text-muted mt-2">Disk (<t t-esc="state.technical.disk_used"/>/<t t-esc="state.technical.disk_total"/> GB)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small"><i class="fa fa-puzzle-piece"/> TCRM Modules</div>
+            <div class="card-body">
+                <t t-if="state.technical.modules and state.technical.modules.length">
+                    <div class="row g-3">
+                        <t t-foreach="state.technical.modules" t-as="m" t-key="m.id">
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card"><div class="card-body py-2">
+                                    <div class="fw-bold"><t t-esc="m.shortdesc"/></div>
+                                    <small class="text-muted"><t t-esc="m.name"/> v<t t-esc="m.installed_version"/></small>
+                                    <div><span class="badge bg-success" t-esc="m.state"/></div>
+                                </div></div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
+
+        <!-- AI Provider Health -->
+        <div class="card">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+                <i class="fa fa-microchip text-primary"/> AI Provider Health
+                <span class="badge bg-secondary ms-1"><t t-esc="(state.aiHealth || []).length"/> providers</span>
+            </div>
+            <div class="card-body p-0">
+                <t t-if="state.aiHealth and state.aiHealth.length">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Provider</th><th>Model</th><th>Keys</th><th>Status</th><th>Last Used</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.aiHealth" t-as="p" t-key="p.id">
+                                    <tr>
+                                        <td class="fw-semibold"><t t-esc="p.name"/></td>
+                                        <td class="font-monospace small"><t t-esc="p.model || '—'"/></td>
+                                        <td><span class="badge bg-secondary"><t t-esc="p.key_count"/> keys</span></td>
+                                        <td>
+                                            <span t-att-class="'badge ' + aiHealthBadgeClass(p.status)">
+                                                <i t-if="p.status === 'ok'" class="fa fa-check-circle me-1"/>
+                                                <i t-elif="p.status === 'degraded'" class="fa fa-exclamation-triangle me-1"/>
+                                                <i t-else="" class="fa fa-times-circle me-1"/>
+                                                <t t-esc="p.status"/>
+                                            </span>
+                                        </td>
+                                        <td class="text-muted small"><t t-esc="p.last_used || '—'"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                <div t-else="" class="text-muted p-3 small">No AI providers configured. Set up providers in Settings → TCRM AI.</div>
+            </div>
+        </div>
+    </t>
+</t>
+
+<!-- ─── DB MANAGEMENT ─── -->
+<t t-if="state.screen === 'db_console'">
+    <div class="card mb-3">
+        <div class="card-header d-flex align-items-center gap-2 py-2">
+            <i class="fa fa-server"/><h6 class="mb-0 fw-bold">Database Management</h6>
+            <button class="btn btn-primary btn-sm ms-auto" t-on-click="openCreateTenant"><i class="fa fa-plus me-1"/> New Tenant</button>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center gap-2 py-2">
+                    <i class="fa fa-terminal"/><h6 class="mb-0 fw-bold">SQL Editor</h6>
+                    <div class="ms-auto d-flex gap-1">
+                        <button class="btn btn-outline-secondary btn-sm" t-on-click="showSqlHistory" title="History"><i class="fa fa-history"/></button>
+                        <button class="btn btn-outline-secondary btn-sm" t-on-click="formatSqlQuery" title="Format"><i class="fa fa-wand-magic-sparkles"/></button>
+                        <button class="btn btn-primary btn-sm" t-on-click="executeQuery" t-att-disabled="state.sqlLoading"><i class="fa fa-play me-1"/> Execute</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control font-monospace" rows="8"
+                              t-att-value="state.sqlQuery" t-on-input="onSqlInput" placeholder="SELECT * FROM ..."/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header d-flex align-items-center gap-2 py-2">
+                    <i class="fa fa-table-list"/><h6 class="mb-0 fw-bold">Results</h6>
+                    <small class="text-muted ms-1" t-esc="dbConsoleMetaText()"/>
+                    <div class="ms-auto d-flex gap-1">
+                        <button class="btn btn-outline-secondary btn-sm" t-on-click="onSqlFilter"><i class="fa fa-filter"/></button>
+                        <button class="btn btn-outline-secondary btn-sm" t-on-click="exportSqlResults"><i class="fa fa-download"/></button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead><tr><th>Tenant ID</th><th>Business Name</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="dbConsoleRows()" t-as="r" t-key="r.tenant_id">
+                                    <tr>
+                                        <td class="font-monospace"><t t-esc="r.tenant_id"/></td>
+                                        <td><t t-esc="r.business_name"/></td>
+                                        <td><span t-att-class="'badge ' + (r.status === 'Active' ? 'bg-success' : 'bg-warning')" t-esc="r.status"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</t>
+
+<!-- ─── ANALYTICS ─── -->
+<t t-if="state.screen === 'analytics'">
+    <t t-if="state.analytics">
+        <div class="row g-3 mb-3">
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100"><div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-2 text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:#1e40af"><i class="fa fa-building"/></div>
+                    <div><div class="text-muted text-uppercase small">Total Tenants</div><div class="fs-4 fw-bold"><t t-esc="state.analytics.summary.total_tenants"/></div></div>
+                </div></div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100"><div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-2 bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px"><i class="fa fa-check-circle"/></div>
+                    <div><div class="text-muted text-uppercase small">Active Tenants</div><div class="fs-4 fw-bold"><t t-esc="state.analytics.summary.active_count"/></div></div>
+                </div></div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100"><div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-2 bg-danger text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px"><i class="fa fa-exclamation-triangle"/></div>
+                    <div><div class="text-muted text-uppercase small">At Risk</div><div class="fs-4 fw-bold"><t t-esc="state.analytics.summary.risk_count"/></div></div>
+                </div></div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100"><div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-2 text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:#7c3aed"><i class="fa fa-tachometer"/></div>
+                    <div><div class="text-muted text-uppercase small">System Health</div><div class="fs-4 fw-bold"><t t-esc="fmtPct(state.analytics.summary.system_health)"/></div></div>
+                </div></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mb-3">
+            <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.exportAnalytics('csv')"><i class="fa fa-download me-1"/> Export CSV</button>
+            <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.exportAnalytics('excel')"><i class="fa fa-download me-1"/> Export Excel</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small"><i class="fa fa-chart-bar"/> Tenant Analytics Report</div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>Tenant ID</th><th>Tenant</th><th>Growth</th><th>Churn Risk</th><th>Security</th><th>Revenue</th><th>MRR</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <t t-foreach="state.analytics.report_rows || []" t-as="r" t-key="r.tenant_record_id || r.tenant_id">
+                                <tr>
+                                    <td class="font-monospace" t-esc="r.tenant_id"/>
+                                    <td><a href="#" class="text-primary text-decoration-none fw-semibold" t-on-click.prevent="() => this.openTenantDetail(this._tenantIdForOpen(r))" t-esc="r.tenant_name"/></td>
+                                    <td><t t-esc="fmtPct(r.growth_rate || 0)"/></td>
+                                    <td><span t-att-class="'badge ' + stateBadgeClass(r.churn_risk)" t-esc="r.churn_risk"/></td>
+                                    <td><span class="badge bg-info" t-esc="r.security_status"/></td>
+                                    <td><t t-esc="fmtMoney(r.revenue)"/></td>
+                                    <td><t t-esc="fmtMoney(r.mrr)"/></td>
+                                    <td><button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.openTenantDetail(this._tenantIdForOpen(r))"><i class="fa fa-eye"/></button></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+</t>
+
+            </div><!-- /scrollable content -->
+        </div><!-- /main -->
+    </div><!-- /o_tcrm_command_center -->
+
+    <!-- ═══ Create Tenant Modal ═══ -->
+    <t t-if="state.showCreateTenant">
+        <div class="modal d-block" tabindex="-1" role="dialog">
+            <div class="modal-backdrop show" t-on-click="closeCreateTenant"/>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" t-on-click.stop="">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create New Tenant</h5>
+                        <button type="button" class="btn-close" t-on-click="closeCreateTenant"/>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tenant Name *</label>
+                            <input type="text" class="form-control" t-att-value="state.newTenant.name"
+                                   t-on-input="(ev) => this.onNewTenantInput('name', ev)" placeholder="e.g. Skyline Developments"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Client Name</label>
+                            <input type="text" class="form-control" t-att-value="state.newTenant.client_name"
+                                   t-on-input="(ev) => this.onNewTenantInput('client_name', ev)" placeholder="Display name"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Support Email</label>
+                            <input type="email" class="form-control" t-att-value="state.newTenant.support_email"
+                                   t-on-input="(ev) => this.onNewTenantInput('support_email', ev)"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Support Phone</label>
+                            <input type="text" class="form-control" t-att-value="state.newTenant.support_phone"
+                                   t-on-input="(ev) => this.onNewTenantInput('support_phone', ev)"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Sector</label>
+                            <select class="form-select" t-on-change="(ev) => this.onNewTenantSelect('sector_id', ev)">
+                                <option value="">-- Select --</option>
+                                <t t-foreach="state.sectors" t-as="s" t-key="s.id">
+                                    <option t-att-value="s.id" t-esc="s.name"/>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" t-on-click="closeCreateTenant">Cancel</button>
+                        <button class="btn btn-primary" t-on-click="saveTenant">Create Tenant</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- ═══ Reset Password Modal ═══ -->
+    <t t-if="state.resetPasswordModal">
+        <div class="modal d-block" tabindex="-1" role="dialog">
+            <div class="modal-backdrop show" t-on-click="closeResetPasswordModal"/>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" t-on-click.stop="">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fa fa-key me-2"/>Reset Password</h5>
+                        <button type="button" class="btn-close" t-on-click="closeResetPasswordModal"/>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted small mb-3">
+                            Resetting password for: <strong t-esc="state.resetPasswordModal.user.name"/>
+                            (<span class="font-monospace" t-esc="state.resetPasswordModal.user.login"/>)
+                        </p>
+                        <div class="mb-3">
+                            <label class="form-label">New Password *</label>
+                            <input type="password" class="form-control" placeholder="Min. 6 characters"
+                                   t-att-value="state.resetPasswordModal.newPassword"
+                                   t-on-input="(ev) => this.onResetPasswordInput('newPassword', ev)"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password *</label>
+                            <input type="password" class="form-control"
+                                   t-att-value="state.resetPasswordModal.confirmPassword"
+                                   t-on-input="(ev) => this.onResetPasswordInput('confirmPassword', ev)"/>
+                        </div>
+                        <div class="alert alert-warning d-flex align-items-center gap-2 py-2 small">
+                            <i class="fa fa-exclamation-triangle"/>
+                            The user will be required to log in again with the new password.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" t-on-click="closeResetPasswordModal">Cancel</button>
+                        <button class="btn btn-primary" t-on-click="confirmResetPassword"><i class="fa fa-check me-1"/> Set Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- ═══ Change Role Modal (GOD-mode) ═══ -->
+    <t t-if="state.changeRoleModal">
+        <div class="modal d-block" tabindex="-1" role="dialog">
+            <div class="modal-backdrop show" t-on-click="closeChangeRoleModal"/>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" t-on-click.stop="">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fa fa-cog me-2"/>Change Role</h5>
+                        <button type="button" class="btn-close" t-on-click="closeChangeRoleModal"/>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted small mb-3">
+                            Changing role for: <strong t-esc="state.changeRoleModal.user.name"/>
+                            <span t-if="state.changeRoleModal.user.login" class="text-muted">
+                                (<span t-esc="state.changeRoleModal.user.login"/>)
+                            </span>
+                        </p>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">New Tenant Role</label>
+                            <select class="form-select" t-on-change="onChangeRoleSelect">
+                                <t t-foreach="state.tenantRoles" t-as="role" t-key="role.key">
+                                    <option t-att-value="role.key"
+                                            t-att-selected="state.changeRoleModal.role === role.key"
+                                            t-esc="role.label"/>
+                                </t>
+                            </select>
+                            <div class="form-text mt-2">
+                                <t t-foreach="state.tenantRoles" t-as="role" t-key="'help-' + role.key">
+                                    <div t-if="state.changeRoleModal.role === role.key" class="alert alert-light border py-2 mb-0 small">
+                                        <strong t-esc="role.label"/> — <span t-esc="role.help"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="small text-muted">
+                            GOD mode replaces other TCRM tenant roles while keeping base / system groups intact.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" t-on-click="closeChangeRoleModal">Cancel</button>
+                        <button class="btn btn-primary" t-on-click="confirmChangeRole">
+                            <i class="fa fa-check me-1"/> Apply Role
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</Layout>
+</t>
+</templates>

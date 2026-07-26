@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="propertio_rule_project_company" model="ir.rule">
+            <field name="name">Propertio Project by Company</field>
+            <field name="model_id" ref="model_propertio_project"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_block_company" model="ir.rule">
+            <field name="name">Propertio Block by Company</field>
+            <field name="model_id" ref="model_propertio_block"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_unit_company" model="ir.rule">
+            <field name="name">Propertio Unit by Company</field>
+            <field name="model_id" ref="model_propertio_unit"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_feature_company" model="ir.rule">
+            <field name="name">Propertio Feature by Company</field>
+            <field name="model_id" ref="model_propertio_feature"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_sale_company" model="ir.rule">
+            <field name="name">Propertio Sale by Company</field>
+            <field name="model_id" ref="model_propertio_sale"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_installment_company" model="ir.rule">
+            <field name="name">Propertio Installment by Company</field>
+            <field name="model_id" ref="model_propertio_installment"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_payment_company" model="ir.rule">
+            <field name="name">Propertio Payment by Company</field>
+            <field name="model_id" ref="model_propertio_payment"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_unit_category_company" model="ir.rule">
+            <field name="name">Propertio Unit Category by Company</field>
+            <field name="model_id" ref="model_propertio_unit_category"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_unit_status_company" model="ir.rule">
+            <field name="name">Propertio Unit Status by Company</field>
+            <field name="model_id" ref="model_propertio_unit_status"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_project_type_company" model="ir.rule">
+            <field name="name">Propertio Project Type by Company</field>
+            <field name="model_id" ref="model_propertio_project_type"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_project_stage_company" model="ir.rule">
+            <field name="name">Propertio Project Stage by Company</field>
+            <field name="model_id" ref="model_propertio_project_stage"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_sale_stage_company" model="ir.rule">
+            <field name="name">Propertio Sale Stage by Company</field>
+            <field name="model_id" ref="model_propertio_sale_stage"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_collection_task_company" model="ir.rule">
+            <field name="name">Propertio Collection Task by Company</field>
+            <field name="model_id" ref="model_propertio_collection_task"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_whatsapp_template_company" model="ir.rule">
+            <field name="name">Propertio WhatsApp Template by Company</field>
+            <field name="model_id" ref="model_propertio_whatsapp_template"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_offer_company" model="ir.rule">
+            <field name="name">Propertio Offer by Company</field>
+            <field name="model_id" ref="model_propertio_offer"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_document_company" model="ir.rule">
+            <field name="name">Propertio Document by Company</field>
+            <field name="model_id" ref="model_propertio_document"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_handover_company" model="ir.rule">
+            <field name="name">Propertio Handover by Company</field>
+            <field name="model_id" ref="model_propertio_handover"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_handover_checklist_company" model="ir.rule">
+            <field name="name">Propertio Handover Checklist by Company</field>
+            <field name="model_id" ref="model_propertio_handover_checklist"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_handover_issue_company" model="ir.rule">
+            <field name="name">Propertio Handover Issue by Company</field>
+            <field name="model_id" ref="model_propertio_handover_issue"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_title_deed_company" model="ir.rule">
+            <field name="name">Propertio Title Deed by Company</field>
+            <field name="model_id" ref="model_propertio_title_deed"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_service_request_company" model="ir.rule">
+            <field name="name">Propertio Service Request by Company</field>
+            <field name="model_id" ref="model_propertio_service_request"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_target_company" model="ir.rule">
+            <field name="name">Propertio Target by Company</field>
+            <field name="model_id" ref="model_propertio_target"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_commission_rule_company" model="ir.rule">
+            <field name="name">Propertio Commission Rule by Company</field>
+            <field name="model_id" ref="model_propertio_commission_rule"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_commission_company" model="ir.rule">
+            <field name="name">Propertio Commission by Company</field>
+            <field name="model_id" ref="model_propertio_commission"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_cash_register_company" model="ir.rule">
+            <field name="name">Propertio Cash Register by Company</field>
+            <field name="model_id" ref="model_propertio_cash_register"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_cash_transaction_company" model="ir.rule">
+            <field name="name">Propertio Cash Transaction by Company</field>
+            <field name="model_id" ref="model_propertio_cash_transaction"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_einvoice_company" model="ir.rule">
+            <field name="name">Propertio E-Invoice by Company</field>
+            <field name="model_id" ref="model_propertio_einvoice"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_revenue_period_company" model="ir.rule">
+            <field name="name">Propertio Revenue Period by Company</field>
+            <field name="model_id" ref="model_propertio_revenue_period"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_notary_company" model="ir.rule">
+            <field name="name">Propertio Notary by Company</field>
+            <field name="model_id" ref="model_propertio_notary"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_holiday_company" model="ir.rule">
+            <field name="name">Propertio Holiday by Company</field>
+            <field name="model_id" ref="model_propertio_holiday_tr"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_audit_log_company" model="ir.rule">
+            <field name="name">Propertio Audit Log by Company</field>
+            <field name="model_id" ref="model_propertio_audit_log"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_payment_cancel_request_company" model="ir.rule">
+            <field name="name">Propertio Payment Cancel Request by Company</field>
+            <field name="model_id" ref="model_propertio_payment_cancel_request"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_report_template_company" model="ir.rule">
+            <field name="name">Propertio Report Template by Company/User</field>
+            <field name="model_id" ref="model_propertio_report_template"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids), '|', '|', ('user_id', '=', user.id), ('is_global', '=', True), ('shared_user_ids', 'in', [user.id])]</field>
+        </record>
+        <record id="propertio_rule_report_favorite_company" model="ir.rule">
+            <field name="name">Propertio Report Favorite by Company/User</field>
+            <field name="model_id" ref="model_propertio_report_favorite"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids), ('user_id', '=', user.id)]</field>
+        </record>
+        <record id="propertio_rule_report_access_log_company" model="ir.rule">
+            <field name="name">Propertio Report Access Log by Company/User</field>
+            <field name="model_id" ref="model_propertio_report_access_log"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="propertio_rule_report_share_company" model="ir.rule">
+            <field name="name">Propertio Report Share by Company</field>
+            <field name="model_id" ref="model_propertio_report_share"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

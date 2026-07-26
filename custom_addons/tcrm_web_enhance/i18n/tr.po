@@ -1,0 +1,1163 @@
+# Translation of tcrm Server.
+# This file contains the translation of the following modules:
+# 	* tcrm_web_enhance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tcrm Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-26 17:02+0000\n"
+"PO-Revision-Date: 2026-07-26 17:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "0552 524 28 66"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "1. Property Portfolio Architecture"
+msgstr "1. Gayrimenkul Portföy Mimarisi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "2. Sales Contracts &amp; Payment Plans"
+msgstr "2. Satış Sözleşmeleri ve Ödeme Planları"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "3. Unified Report Center"
+msgstr "3. Birleşik Rapor Merkezi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid "5-Star Lead Prioritization"
+msgstr "5 Yıldızlı Aday Önceliklendirme"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-book me-2\"/> TCRM Documentation"
+msgstr "<i class=\"fa fa-book me-2\"/> TCRM Dokümantasyonu"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-building me-2 text-primary\"/> Propertio (Real Estate)"
+msgstr "<i class=\"fa fa-building me-2 text-primary\"/> Propertio (Gayrimenkul)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "<i class=\"fa fa-building me-2\"/> Propertio Management Module"
+msgstr "<i class=\"fa fa-building me-2\"/> Propertio Yönetim Modülü"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "<i class=\"fa fa-building me-2\"/> Propertio Real Estate ERP"
+msgstr "<i class=\"fa fa-building me-2\"/> Propertio Gayrimenkul ERP"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-bullhorn me-2 text-warning\"/> Marketing Hub (Zernio)"
+msgstr "<i class=\"fa fa-bullhorn me-2 text-warning\"/> Pazarlama Merkezi (Zernio)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_marketing_hub_template
+msgid "<i class=\"fa fa-bullhorn me-2\"/> Marketing Hub &amp; Zernio API"
+msgstr "<i class=\"fa fa-bullhorn me-2\"/> Pazarlama Merkezi ve Zernio API"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "<i class=\"fa fa-bullhorn me-2\"/> Marketing Hub (Zernio API)"
+msgstr "<i class=\"fa fa-bullhorn me-2\"/> Pazarlama Merkezi (Zernio API)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-database me-2 text-secondary\"/> Vector Sync &amp; RAG"
+msgstr "<i class=\"fa fa-database me-2 text-secondary\"/> Vektör Senkronizasyonu ve RAG"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_vector_sync_template
+msgid "<i class=\"fa fa-database me-2\"/> Vector Sync Module"
+msgstr "<i class=\"fa fa-database me-2\"/> Vektör Senkronizasyon Modülü"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-handshake-o me-2 text-info\"/> CRM &amp; Lead Pipeline"
+msgstr "<i class=\"fa fa-handshake-o me-2 text-info\"/> CRM ve Aday Hunisi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid "<i class=\"fa fa-handshake-o me-2\"/> CRM &amp; Lead Pipeline Module"
+msgstr "<i class=\"fa fa-handshake-o me-2\"/> CRM ve Aday Hunisi Modülü"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "<i class=\"fa fa-handshake-o me-2\"/> CRM &amp; Pipeline Management"
+msgstr "<i class=\"fa fa-handshake-o me-2\"/> CRM ve Satış Hunisi Yönetimi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-home me-2\"/> System Overview"
+msgstr "<i class=\"fa fa-home me-2\"/> Sistem Genel Bakış"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-line-chart me-2 text-primary\"/> Market Valuation"
+msgstr "<i class=\"fa fa-line-chart me-2 text-primary\"/> Piyasa Değerleme"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_market_analysis_template
+msgid "<i class=\"fa fa-line-chart me-2\"/> Market Analysis &amp; Valuation"
+msgstr "<i class=\"fa fa-line-chart me-2\"/> Piyasa Analizi ve Değerleme"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-magic me-2 text-danger\"/> TCRM AI &amp; Agentic Layer"
+msgstr "<i class=\"fa fa-magic me-2 text-danger\"/> TCRM AI ve Ajan Katmanı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid "<i class=\"fa fa-magic me-2\"/> TCRM AI &amp; Agentic Intelligence"
+msgstr "<i class=\"fa fa-magic me-2\"/> TCRM AI ve Ajan Zekâsı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "<i class=\"fa fa-magic me-2\"/> TCRM AI &amp; Agentic Layer"
+msgstr "<i class=\"fa fa-magic me-2\"/> TCRM AI ve Ajan Katmanı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-phone-square me-2 text-success\"/> Santral Call Center"
+msgstr "<i class=\"fa fa-phone-square me-2 text-success\"/> Santral Çağrı Merkezi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid "<i class=\"fa fa-phone-square me-2\"/> Santral WebRTC Call Center"
+msgstr "<i class=\"fa fa-phone-square me-2\"/> Santral WebRTC Çağrı Merkezi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_crm_lead_form_help
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_propertio_form_help
+msgid "<i class=\"fa fa-question-circle\"/> Help"
+msgstr "<i class=\"fa fa-question-circle\"/> Yardım"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_layout
+msgid "<i class=\"fa fa-whatsapp me-2 text-success\"/> WhatsApp Automation"
+msgstr "<i class=\"fa fa-whatsapp me-2 text-success\"/> WhatsApp Otomasyonu"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_whatsapp_template
+msgid "<i class=\"fa fa-whatsapp me-2\"/> WhatsApp Automation"
+msgstr "<i class=\"fa fa-whatsapp me-2\"/> WhatsApp Otomasyonu"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid ""
+"<select class=\"form-select\" name=\"employees\" id=\"employees\">\n"
+"                                                        <option value=\"1-10\">1-10</option>\n"
+"                                                        <option value=\"11-50\">11-50</option>\n"
+"                                                        <option value=\"51-200\">51-200</option>\n"
+"                                                        <option value=\"200+\">200+</option>\n"
+"                                                    </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"employees\" id=\"employees\">\n"
+"                                                        <option value=\"1-10\">1-10</option>\n"
+"                                                        <option value=\"11-50\">11-50</option>\n"
+"                                                        <option value=\"51-200\">51-200</option>\n"
+"                                                        <option value=\"200+\">200+</option>\n"
+"                                                    </select>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid ""
+"<select class=\"form-select\" name=\"sector\" id=\"sector\">\n"
+"                                                        <option value=\"Real Estate Agency\">Real Estate Agency</option>\n"
+"                                                        <option value=\"Construction Company\">Construction Company</option>\n"
+"                                                        <option value=\"SaaS / Technology\">SaaS / Technology</option>\n"
+"                                                        <option value=\"Other\">Other</option>\n"
+"                                                    </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"sector\" id=\"sector\">\n"
+"                                                        <option value=\"Real Estate Agency\">Gayrimenkul Ajansı</option>\n"
+"                                                        <option value=\"Construction Company\">İnşaat Şirketi</option>\n"
+"                                                        <option value=\"SaaS / Technology\">SaaS / Teknoloji</option>\n"
+"                                                        <option value=\"Other\">Diğer</option>\n"
+"                                                    </select>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Artificial Intelligence</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Yapay Zekâ</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">CRM &amp; Sales</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">CRM ve Satış</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Call Center</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Çağrı Merkezi</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_marketing_hub_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Marketing Integration</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Pazarlama Entegrasyonu</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_whatsapp_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Messaging</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Mesajlaşma</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_vector_sync_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">RAG &amp; Vectorization</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">RAG ve Vektörleştirme</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Real Estate ERP</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Gayrimenkul ERP</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">System Overview</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Sistem Genel Bakış</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_market_analysis_template
+msgid ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Valuation</span>"
+msgstr ""
+"<span class=\"badge mb-2 px-3 py-2 text-white\" style=\"background-color: "
+"#101E55;\">Değerleme</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_copyright
+msgid ""
+"<span class=\"o_footer_copyright_name me-2 small\">Copyright © AK KOD "
+"YAZILIM BİLİŞİM LTD. ŞTİ.</span>"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "<span class=\"o_force_ltr\">0552 524 28 66</span>"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"<strong>Batch Export (PDF &amp; Word):</strong> Generate legal sales "
+"contracts in PDF or editable Word (`.docx`) format using pre-built QWeb "
+"templates."
+msgstr ""
+"<strong>Toplu Dışa Aktarma (PDF ve Word):</strong> Hazır QWeb şablonlarını "
+"kullanarak yasal satış sözleşmelerini PDF veya düzenlenebilir Word (`.docx`) "
+"biçiminde oluşturun."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "<strong>Collection Map &amp; Cash Flow</strong>"
+msgstr "<strong>Tahsilat Haritası ve Nakit Akışı</strong>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "<strong>Consultant Scorecard (Danışman Karnesi)</strong>"
+msgstr "<strong>Danışman Karnesi</strong>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"<strong>Installments Allocation (`propertio.installment`):</strong> Payments"
+" (`propertio.payment`) are automatically matched against pending "
+"installments on a FIFO (First-In, First-Out) basis."
+msgstr ""
+"<strong>Taksit Tahsisi (`propertio.installment`):</strong> Ödemeler "
+"(`propertio.payment`), bekleyen taksitlerle FIFO (İlk Giren İlk Çıkar) "
+"esasına göre otomatik olarak eşleştirilir."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"<strong>New Sale Wizard (`propertio.sale.wizard`):</strong> Creates a sale "
+"contract (`propertio.sale`), automatically calculates down payment, number "
+"of installments, and generates balloon payment schedules."
+msgstr ""
+"<strong>Yeni Satış Sihirbazı (`propertio.sale.wizard`):</strong> Bir satış "
+"sözleşmesi (`propertio.sale`) oluşturur, peşinatı ve taksit sayısını otomatik "
+"hesaplar ve balon ödeme planları üretir."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "<strong>Red Alert Monitoring (Kırmızı Alarm)</strong>"
+msgstr "<strong>Kırmızı Alarm İzleme</strong>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"<strong>TCMB Live Exchange Rates (`tcmb_manager`):</strong> Auto-fetches "
+"daily Central Bank of Türkiye (TCMB) exchange rates to enable multi-currency"
+" contract balances (USD, EUR, TRY)."
+msgstr ""
+"<strong>TCMB Canlı Döviz Kurları (`tcmb_manager`):</strong> Çok para birimli "
+"sözleşme bakiyeleri (USD, EUR, TRY) için günlük TCMB döviz kurlarını otomatik "
+"olarak çeker."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_products_template
+msgid ""
+"<strong>TCRM</strong> — enterprise real-estate ERP &amp; agentic CRM "
+"platform"
+msgstr ""
+"<strong>TCRM</strong> — kurumsal gayrimenkul ERP ve ajan tabanlı CRM "
+"platformu"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "<strong>Title Deed Progress (Tapu)</strong>"
+msgstr "<strong>Tapu İlerlemesi</strong>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+msgid "AI / business-process automation"
+msgstr "AI / iş süreçleri otomasyonu"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_products_template
+msgid "AI automation and CRM/ERP integrations"
+msgstr "AI otomasyonu ve CRM/ERP entegrasyonları"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "AK KOD"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
+msgid "AK KOD YAZILIM BİLİŞİM LTD. ŞTİ."
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid ""
+"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. builds TCRM and digital growth systems in Istanbul.\n"
+"                        Join us if you care about software, AI automation, and measurable product outcomes."
+msgstr ""
+"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ., İstanbul'da TCRM ve dijital büyüme sistemleri geliştirir.\n"
+"                        Yazılıma, AI otomasyonuna ve ölçülebilir ürün sonuçlarına önem veriyorsanız bize katılın."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid ""
+"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. develops software, AI automation,\n"
+"                                    and digital growth systems. We build TCRM and related platforms for\n"
+"                                    measurable demand, strong digital infrastructure, and sustainable growth."
+msgstr ""
+"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.; yazılım, AI otomasyonu\n"
+"                                    ve dijital büyüme sistemleri geliştirir. Ölçülebilir talep, güçlü dijital altyapı\n"
+"                                    ve sürdürülebilir büyüme için TCRM ve ilgili platformları inşa ediyoruz."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
+msgid "About AK KOD"
+msgstr "AK KOD Hakkında"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "About us"
+msgstr "Hakkımızda"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Access specialized reporting wizards (`propertio.unified.report.wizard`) for"
+" operational and executive insights:"
+msgstr ""
+"Operasyonel ve yönetsel içgörüler için özel raporlama sihirbazlarına "
+"(`propertio.unified.report.wizard`) erişin:"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "Agent sales performance, closed deal volume, commission calculations."
+msgstr "Danışman satış performansı, kapatılan anlaşma hacmi, komisyon hesaplamaları."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Agentic AI over live CRM data"
+msgstr "Canlı CRM verileri üzerinde ajan tabanlı AI"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid "Automated Call History"
+msgstr "Otomatik Çağrı Geçmişi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_whatsapp_template
+msgid ""
+"Automated payment reminders, contract document delivery, and customizable "
+"message templates."
+msgstr ""
+"Otomatik ödeme hatırlatmaları, sözleşme belgesi teslimi ve özelleştirilebilir "
+"mesaj şablonları."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "Blocks (`propertio.block`)"
+msgstr "Bloklar (`propertio.block`)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"Browser-embedded softphone dialer, click-to-call directly from partner or "
+"lead records, automatic call logging, audio recordings playback, and missed "
+"call ticket queues."
+msgstr ""
+"Tarayıcıya gömülü softphone çevirici, iş ortağı veya aday kayıtlarından "
+"doğrudan tıkla-ara, otomatik çağrı kaydı, ses kayıtlarının oynatılması ve "
+"cevapsız çağrı talep kuyrukları."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid ""
+"Browser-native softphone dialer, automated call logs, audio recording "
+"playback, and agent queues."
+msgstr ""
+"Tarayıcı yerleşik softphone çevirici, otomatik çağrı kayıtları, ses kaydı "
+"oynatma ve temsilci kuyrukları."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Built for agencies &amp; SaaS operators"
+msgstr "Ajanslar ve SaaS operatörleri için tasarlandı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+msgid "CRM automation and analytics"
+msgstr "CRM otomasyonu ve analitiği"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"Capture leads automatically, track sales opportunities across visual Kanban "
+"stages, score priority leads with 5-star rating system, and schedule "
+"automated sales follow-up tasks."
+msgstr ""
+"Adayları otomatik olarak yakalayın, satış fırsatlarını görsel Kanban "
+"aşamalarında takip edin, öncelikli adayları 5 yıldızlı puanlama sistemiyle "
+"değerlendirin ve otomatik satış takip görevleri planlayın."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Careers"
+msgstr "Kariyer"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_title
+msgid "Careers at AK KOD"
+msgstr "AK KOD'da Kariyer"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Centralized command center"
+msgstr "Merkezi komuta merkezi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid ""
+"Click any phone number across CRM leads, contacts, or sales contracts to "
+"initiate a call directly from your browser without third-party desktop "
+"software."
+msgstr ""
+"CRM adayları, kişiler veya satış sözleşmelerindeki herhangi bir telefon "
+"numarasına tıklayarak üçüncü taraf masaüstü yazılımına gerek kalmadan doğrudan "
+"tarayıcınızdan arama başlatın."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Company Name <span class=\"text-danger\">*</span>"
+msgstr "Şirket Adı <span class=\"text-danger\">*</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+msgid "Company website:"
+msgstr "Şirket web sitesi:"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Complete documentation for real estate inventory, sales contracts, "
+"installments, currency rates, and reporting."
+msgstr ""
+"Gayrimenkul envanteri, satış sözleşmeleri, taksitler, döviz kurları ve "
+"raporlama için eksiksiz dokümantasyon."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"Comprehensive technical &amp; operational documentation for the real estate "
+"ERP and agentic CRM platform powered by AK KOD YAZILIM."
+msgstr ""
+"AK KOD YAZILIM güvencesiyle gayrimenkul ERP ve ajan tabanlı CRM platformu için "
+"kapsamlı teknik ve operasyonel dokümantasyon."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "Connect with us"
+msgstr "Bizimle bağlantı kurun"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Connect · Grow · Win"
+msgstr "Bağlan · Büyü · Kazan"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "Contact us"
+msgstr "Bize Ulaşın"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_products_template
+msgid "Custom web &amp; landing systems for growth teams"
+msgstr "Büyüme ekipleri için özel web ve açılış sayfası sistemleri"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+msgid "Digital marketing, Meta &amp; Google ads, social media"
+msgstr "Dijital pazarlama, Meta ve Google reklamları, sosyal medya"
+
+#. module: tcrm_web_enhance
+#: model:ir.model.fields,field_description:tcrm_web_enhance.field_ir_ui_menu__display_name
+msgid "Display Name"
+msgstr "Görünen Ad"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_navbar_docs_link
+msgid "Documentation"
+msgstr "Dokümantasyon"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid ""
+"Drag and drop opportunity cards across customized sales stages (New, "
+"Qualified, Proposition, Won). Each stage tracks estimated revenue and win "
+"probability."
+msgstr ""
+"Fırsat kartlarını özelleştirilmiş satış aşamaları (Yeni, Nitelikli, Teklif, "
+"Kazanıldı) arasında sürükleyip bırakın. Her aşama tahmini geliri ve kazanma "
+"olasılığını takip eder."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_products_template
+msgid "E-commerce and e-export infrastructure"
+msgstr "E-ticaret ve e-ihracat altyapısı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid ""
+"Enterprise real-estate ERP and agentic CRM by\n"
+"                                    <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>"
+msgstr ""
+"<strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong> tarafından geliştirilen\n"
+"                                    kurumsal gayrimenkul ERP ve ajan tabanlı CRM"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid ""
+"Every incoming and outgoing call is logged with call duration, agent ID, and"
+" recording URL attached to the partner's chatter log."
+msgstr ""
+"Her gelen ve giden çağrı; çağrı süresi, temsilci kimliği ve kayıt bağlantısı "
+"ile iş ortağının sohbet günlüğüne eklenerek kaydedilir."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Expected vs. actual collections, monthly cash flow projections, payment "
+"status breakdown."
+msgstr ""
+"Beklenen ve gerçekleşen tahsilatlar, aylık nakit akışı projeksiyonları, ödeme "
+"durumu dağılımı."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "Explore AI Docs →"
+msgstr "AI Dokümanlarını Keşfet →"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "Explore CRM Docs →"
+msgstr "CRM Dokümanlarını Keşfet →"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "Explore Marketing Hub Docs →"
+msgstr "Pazarlama Merkezi Dokümanlarını Keşfet →"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "Explore Propertio Docs →"
+msgstr "Propertio Dokümanlarını Keşfet →"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "Explore Santral Docs →"
+msgstr "Santral Dokümanlarını Keşfet →"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Explore what TCRM includes for inventory, sales, collections, and AI."
+msgstr "TCRM'in envanter, satış, tahsilat ve AI için neler sunduğunu keşfedin."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "Facebook"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+msgid "For privacy, commercial, or legal requests, contact"
+msgstr "Gizlilik, ticari veya yasal talepler için iletişime geçin"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Full Name <span class=\"text-danger\">*</span>"
+msgstr "Ad Soyad <span class=\"text-danger\">*</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Full property lifecycle (Propertio)"
+msgstr "Tam gayrimenkul yaşam döngüsü (Propertio)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"Gemini-powered AI assistant querying live ERP databases (`search_sales`, "
+"`get_payment_plan`, `get_situation`), provider health monitoring, and "
+"Discuss bot integration."
+msgstr ""
+"Canlı ERP veritabanlarını sorgulayan Gemini destekli AI asistanı "
+"(`search_sales`, `get_payment_plan`, `get_situation`), sağlayıcı sağlık "
+"izleme ve Discuss bot entegrasyonu."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid ""
+"Gemini-powered AI assistant, database tools, multi-provider engine, and "
+"Discuss bot integration."
+msgstr ""
+"Gemini destekli AI asistanı, veritabanı araçları, çoklu sağlayıcı motoru ve "
+"Discuss bot entegrasyonu."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid ""
+"Guide to lead qualification, 5-star rating, activity tracking, and pipeline "
+"stages."
+msgstr ""
+"Aday niteleme, 5 yıldızlı puanlama, aktivite takibi ve satış hunisi aşamaları "
+"için rehber."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_crm_lead_form_help
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_propertio_form_help
+msgid "Help"
+msgstr "Yardım"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "Home"
+msgstr "Ana Sayfa"
+
+#. module: tcrm_web_enhance
+#: model:ir.model.fields,field_description:tcrm_web_enhance.field_ir_ui_menu__id
+msgid "ID"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Individual sellable properties (Apartments, Villas, Offices). Tracks status "
+"(Available, Option, Sold, Handover), floor area, and pricing."
+msgstr ""
+"Satılabilir bağımsız gayrimenkuller (Daireler, Villalar, Ofisler). Durumu "
+"(Müsait, Opsiyon, Satıldı, Teslim), alanı ve fiyatlandırmayı takip eder."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "Instagram"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid ""
+"Integrated star-rating widget on lead forms and Kanban views allowing sales "
+"managers to instantly flag high-value VIP leads."
+msgstr ""
+"Aday formları ve Kanban görünümlerinde yer alan entegre yıldız puanlama "
+"aracı, satış yöneticilerinin yüksek değerli VIP adayları anında işaretlemesini "
+"sağlar."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Join the AK KOD team building TCRM and digital platforms."
+msgstr "TCRM ve dijital platformları geliştiren AK KOD ekibine katılın."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
+msgid "Kanban Sales Funnel"
+msgstr "Kanban Satış Hunisi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "Key Metrics Covered"
+msgstr "Kapsanan Temel Metrikler"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_marketing_hub_template
+msgid ""
+"Leads captured from Facebook &amp; Instagram lead ads automatically sync "
+"campaign metadata. Sales representatives can see the exact ad image or video"
+" creative the prospect clicked on right inside the CRM opportunity card."
+msgstr ""
+"Facebook ve Instagram potansiyel müşteri reklamlarından yakalanan adaylar, "
+"kampanya meta verilerini otomatik olarak senkronize eder. Satış "
+"temsilcileri, adayın tıkladığı reklam görselini veya videosunu doğrudan CRM "
+"fırsat kartında görebilir."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "Legal"
+msgstr "Yasal"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Legal transfer stages, notary appointment schedules, ownership registration."
+msgstr ""
+"Yasal devir aşamaları, noter randevu takvimleri, mülkiyet tescili."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "LinkedIn"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid "Live Database Tools"
+msgstr "Canlı Veritabanı Araçları"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"Manage complete property inventory (Projects, Blocks, Units), customer "
+"contracts, flexible payment plans, installment collections, TCMB live "
+"exchange rates, and Title Deed (Tapu) legal steps."
+msgstr ""
+"Eksiksiz gayrimenkul envanterini (Projeler, Bloklar, Birimler), müşteri "
+"sözleşmelerini, esnek ödeme planlarını, taksit tahsilatlarını, TCMB canlı "
+"döviz kurlarını ve Tapu yasal adımlarını yönetin."
+
+#. module: tcrm_web_enhance
+#: model:ir.model,name:tcrm_web_enhance.model_ir_ui_menu
+msgid "Menu"
+msgstr "Menü"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_marketing_hub_template
+msgid ""
+"Meta, Facebook &amp; Instagram ad syncing, visual ad creative previews, and "
+"campaign ROI analytics."
+msgstr ""
+"Meta, Facebook ve Instagram reklam senkronizasyonu, görsel reklam kreatif "
+"önizlemeleri ve kampanya ROI analitiği."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid "Missed Call Ticketing"
+msgstr "Cevapsız Çağrı Talep Yönetimi"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid "Multi-Provider Engine"
+msgstr "Çoklu Sağlayıcı Motoru"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Number of Employees"
+msgstr "Çalışan Sayısı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Open roles"
+msgstr "Açık pozisyonlar"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
+msgid ""
+"Our product <strong>TCRM</strong> is built for real-estate and enterprise CRM/ERP operations\n"
+"                            with an AI-native layer. We focus on measurable demand, quality leads, and sustainable growth."
+msgstr ""
+"Ürünümüz <strong>TCRM</strong>, AI yerleşik bir katmanla gayrimenkul ve kurumsal CRM/ERP operasyonları\n"
+"                            için tasarlanmıştır. Ölçülebilir talebe, kaliteli adaylara ve sürdürülebilir büyümeye odaklanıyoruz."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Overdue installment tracking, defaulted accounts, automated risk alerts."
+msgstr ""
+"Gecikmiş taksit takibi, temerrüde düşen hesaplar, otomatik risk uyarıları."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Phone Number <span class=\"text-danger\">*</span>"
+msgstr "Telefon Numarası <span class=\"text-danger\">*</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+msgid "Phone:"
+msgstr "Telefon:"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Physical buildings or construction phases within a project (e.g. Block A, "
+"Block B, Tower 1)."
+msgstr ""
+"Bir proje içindeki fiziksel binalar veya inşaat aşamaları (örn. A Blok, B "
+"Blok, Kule 1)."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Product"
+msgstr "Ürün"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_products_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "Products"
+msgstr "Ürünler"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "Projects (`propertio.project`)"
+msgstr "Projeler (`propertio.project`)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Propertio organizes real estate holdings into a clean 3-level hierarchy:"
+msgstr ""
+"Propertio, gayrimenkul varlıklarını temiz bir 3 seviyeli hiyerarşide düzenler:"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_market_analysis_template
+msgid ""
+"Real estate pricing models, price-per-sqm regional benchmarking, and market "
+"trends analytics."
+msgstr ""
+"Gayrimenkul fiyatlandırma modelleri, metrekare başına bölgesel kıyaslama ve "
+"piyasa trend analitiği."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "Report Type"
+msgstr "Rapor Türü"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_header_cta_demo
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Request a Demo"
+msgstr "Demo Talep Et"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Request a TCRM Demo"
+msgstr "TCRM Demosu Talep Et"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_thanks
+msgid "Return to Home"
+msgstr "Ana Sayfaya Dön"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+msgid "SEO, content, and generative-engine optimization"
+msgstr "SEO, içerik ve üretken motor optimizasyonu"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Sector"
+msgstr "Sektör"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Secure hosted platform by AK KOD"
+msgstr "AK KOD tarafından güvenli barındırılan platform"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_vector_sync_template
+msgid ""
+"Semantic vector synchronization queue for high-performance RAG search across"
+" partners and properties."
+msgstr ""
+"İş ortakları ve gayrimenkuller genelinde yüksek performanslı RAG araması için "
+"anlamsal vektör senkronizasyon kuyruğu."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Services"
+msgstr "Hizmetler"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Sign in"
+msgstr "Giriş yap"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "Sign in to TCRM"
+msgstr "TCRM'e giriş yap"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_services_template
+msgid "Software development &amp; UI/UX design"
+msgstr "Yazılım geliştirme ve UI/UX tasarımı"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "Software, AI automation, and digital growth from AK KOD."
+msgstr "AK KOD'dan yazılım, AI otomasyonu ve dijital büyüme."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Submit Request"
+msgstr "Talebi Gönder"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid ""
+"Supports Gemini, OpenAI, Anthropic, Groq, and Ollama with automated cooldown"
+" management and fallback logic."
+msgstr ""
+"Otomatik bekleme yönetimi ve yedekleme mantığıyla Gemini, OpenAI, Anthropic, "
+"Groq ve Ollama'yı destekler."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid ""
+"Sync Meta/Instagram ad campaigns, view exact ad images/video creatives right"
+" inside the CRM opportunity card, track lead source attribution, and "
+"evaluate real campaign ROI."
+msgstr ""
+"Meta/Instagram reklam kampanyalarını senkronize edin, reklam görsellerini/video "
+"kreatiflerini doğrudan CRM fırsat kartında görüntüleyin, aday kaynağı "
+"atıfını takip edin ve gerçek kampanya ROI'sini değerlendirin."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_header_brand_logo
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "TCRM"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
+msgid "TCRM Enterprise Platform"
+msgstr "TCRM Kurumsal Platform"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "TCRM by <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>"
+msgstr "<strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong> tarafından TCRM"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_thanks
+msgid "Thank you for your request!"
+msgstr "Talebiniz için teşekkür ederiz!"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_ai_template
+msgid ""
+"The AI engine directly queries live records via functions like "
+"`search_sales`, `get_payment_plan`, `get_situation`, and "
+"`get_overdue_payments`."
+msgstr ""
+"AI motoru; `search_sales`, `get_payment_plan`, `get_situation` ve "
+"`get_overdue_payments` gibi işlevlerle canlı kayıtları doğrudan sorgular."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"The sales lifecycle connects customers to properties through structured "
+"payment schedules:"
+msgstr ""
+"Satış yaşam döngüsü, müşterileri yapılandırılmış ödeme planları aracılığıyla "
+"gayrimenkullere bağlar:"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+msgid ""
+"This website and the TCRM platform are operated by\n"
+"                            <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>\n"
+"                            (Besiktas, Istanbul)."
+msgstr ""
+"Bu web sitesi ve TCRM platformu\n"
+"                            <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>\n"
+"                            (Beşiktaş, İstanbul) tarafından işletilmektedir."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid ""
+"Top-level developments. Tracks location, overall GDV (Gross Development "
+"Value), project stage, and total unit counts."
+msgstr ""
+"Üst düzey geliştirmeler. Konumu, toplam GDV (Brüt Geliştirme Değeri), proje "
+"aşamasını ve toplam birim sayılarını takip eder."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid ""
+"Unanswered call events automatically generate high-priority follow-up "
+"tickets in the agent queue to prevent lost leads."
+msgstr ""
+"Cevapsız çağrı olayları, kayıp adayları önlemek için temsilci kuyruğunda "
+"otomatik olarak yüksek öncelikli takip talepleri oluşturur."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_propertio_template
+msgid "Units (`propertio.unit`)"
+msgstr "Birimler (`propertio.unit`)"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+msgid "Useful Links"
+msgstr "Faydalı Bağlantılar"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "View products"
+msgstr "Ürünleri görüntüle"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
+msgid "View services"
+msgstr "Hizmetleri görüntüle"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_products_template
+msgid "Visit akod.tech"
+msgstr "akod.tech'i ziyaret et"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
+msgid ""
+"We are a technology growth company based in Beşiktaş, Istanbul. We deliver software development,\n"
+"                            AI-powered automation, and digital marketing under one roof — websites, corporate platforms,\n"
+"                            landing systems, SEO/GEO content, ads, CRM/ERP integrations, and performance analytics."
+msgstr ""
+"Beşiktaş, İstanbul merkezli bir teknoloji büyüme şirketiyiz. Yazılım geliştirme,\n"
+"                            AI destekli otomasyon ve dijital pazarlamayı tek çatı altında sunuyoruz — web siteleri, kurumsal platformlar,\n"
+"                            açılış sistemleri, SEO/GEO içerik, reklamlar, CRM/ERP entegrasyonları ve performans analitiği."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_santral_template
+msgid "WebRTC Click-to-Call Softphone"
+msgstr "WebRTC Tıkla-Ara Softphone"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
+msgid "Work Email <span class=\"text-danger\">*</span>"
+msgstr "İş E-postası <span class=\"text-danger\">*</span>"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_thanks
+msgid ""
+"Your demo request has been successfully submitted. Our team will contact you"
+" shortly to schedule your personalized TCRM walkthrough."
+msgstr ""
+"Demo talebiniz başarıyla alınmıştır. Ekibimiz, size özel TCRM tanıtımını "
+"planlamak için en kısa sürede sizinle iletişime geçecektir."
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_marketing_hub_template
+msgid "Zernio API Ad Sync &amp; Creative Previews"
+msgstr "Zernio API Reklam Senkronizasyonu ve Kreatif Önizlemeleri"
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "akod.tech"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+msgid "https://akod.tech/"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
+msgid "info@akod.tech"
+msgstr ""
+
+#. module: tcrm_web_enhance
+#: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
+msgid "or call"
+msgstr "veya arayın"

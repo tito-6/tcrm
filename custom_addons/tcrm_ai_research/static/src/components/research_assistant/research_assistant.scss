@@ -1,0 +1,52 @@
+.o_tcrm_ai_research {
+    min-height: 70vh;
+    background:
+        radial-gradient(1200px 400px at 10% -10%, rgba(20, 90, 120, 0.08), transparent 60%),
+        linear-gradient(180deg, #f7fafb 0%, #eef3f5 100%);
+    color: #1a2b32;
+}
+
+.o_tcrm_ai_research_header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+}
+
+.o_tcrm_ai_research_sidebar {
+    width: 260px;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.7);
+    overflow: auto;
+}
+
+.o_tcrm_ai_research_main {
+    background: transparent;
+}
+
+.o_tcrm_ai_msg_user .o_tcrm_ai_msg_body {
+    background: #d9eef5;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+}
+
+.o_tcrm_ai_msg_assistant .o_tcrm_ai_msg_body {
+    background: #ffffff;
+    border: 1px solid rgba(26, 43, 50, 0.08);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+}
+
+.o_tcrm_ai_research_input textarea {
+    resize: none;
+}
+
+@media (max-width: 768px) {
+    .o_tcrm_ai_research_body {
+        flex-direction: column;
+    }
+    .o_tcrm_ai_research_sidebar {
+        width: 100%;
+        max-height: 220px;
+        border-right: 0 !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+}

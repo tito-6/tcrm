@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="tcrm_saas_core.StatCard">
+    <div class="card o_tcrm_stat_card h-100" t-att-style="props.accent ? 'border-top-color:' + props.accent : ''">
+        <div class="card-body py-2 px-3 d-flex flex-column gap-1">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0"
+                     t-att-style="'width:36px;height:36px;' + (props.accent ? 'background:' + props.accent : '')">
+                    <i t-att-class="props.iconClass + ' text-white'" style="font-size:14px"/>
+                </div>
+                <svg t-if="props.spark and props.spark.length" class="o_tcrm_spark" viewBox="0 0 120 36" preserveAspectRatio="none">
+                    <path t-att-d="sparkPath" fill="none" stroke="currentColor" stroke-width="1.75" vector-effect="non-scaling-stroke"/>
+                </svg>
+            </div>
+            <small class="text-uppercase text-muted fw-bold" style="font-size:0.625rem;letter-spacing:0.06em" t-esc="props.label"/>
+            <div class="fw-bold fs-4 lh-1" t-esc="props.value"/>
+            <small t-if="props.sub" class="text-muted" t-esc="props.sub"/>
+            <small t-if="props.deltaText" t-att-class="'fw-bold ' + deltaClass" t-esc="props.deltaText"/>
+        </div>
+    </div>
+</t>
+</templates>

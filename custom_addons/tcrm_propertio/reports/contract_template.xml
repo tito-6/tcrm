@@ -1,0 +1,140 @@
+<odoo>
+    <record id="action_report_propertio_contract" model="ir.actions.report">
+        <field name="name">Sales Contract</field>
+        <field name="model">propertio.sale</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tcrm_propertio.report_contract_document</field>
+        <field name="report_file">tcrm_propertio.report_contract_document</field>
+        <field name="print_report_name">'Contract - %s' % (object.name)</field>
+        <field name="binding_model_id" search="[('model','=','propertio.sale')]" model="ir.model"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_contract_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="text-center mb-4">
+                            <h2>Sales Contract</h2>
+                            <h4>Reference: <span t-field="doc.name"/></h4>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Buyer Details:</strong><br/>
+                                <span t-field="doc.partner_id.name"/><br/>
+                                <span t-if="doc.customer_pid">ID: <span t-field="doc.customer_pid"/><br/></span>
+                                <span t-if="doc.partner_id.street" t-field="doc.partner_id.street"/><br/>
+                                <span t-if="doc.partner_id.city" t-field="doc.partner_id.city"/>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong>Date:</strong> <span t-field="doc.date_sale"/><br/>
+                                <strong>Project:</strong> <span t-field="doc.project_id.name"/><br/>
+                                <strong>Unit Code:</strong> <span t-field="doc.unit_code"/>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Property Details</h3>
+                                <table class="table table-sm table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Block</strong></td>
+                                            <td><span t-field="doc.block_id.name"/></td>
+                                            <td><strong>Unit No</strong></td>
+                                            <td><span t-field="doc.unit_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Floor</strong></td>
+                                            <td><span t-field="doc.floor"/></td>
+                                            <td><strong>Type</strong></td>
+                                            <td><span t-field="doc.property_category_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Gross Area</strong></td>
+                                            <td><span t-field="doc.gross_m2"/> m²</td>
+                                            <td><strong>Net Area</strong></td>
+                                            <td><span t-field="doc.net_m2"/> m²</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>View</strong></td>
+                                            <td><span t-field="doc.view_type"/></td>
+                                            <td><strong>Direction</strong></td>
+                                            <td><span t-field="doc.facade"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Financial Terms</h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th class="text-right">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Total Sale Price</strong></td>
+                                            <td class="text-right"><span t-field="doc.sale_price"/></td>
+                                        </tr>
+                                        <tr t-if="doc.discount_amount">
+                                            <td>Discount</td>
+                                            <td class="text-right text-danger">- <span t-field="doc.discount_amount"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Payment Plan</h3>
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th class="text-right">Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="doc.installment_ids" t-as="inst">
+                                            <td><span t-field="inst.date_due"/></td>
+                                            <td><span t-field="inst.name"/></td>
+                                            <td class="text-right"><span t-field="inst.amount"/></td>
+                                            <td>
+                                                <span t-if="inst.is_paid" class="badge badge-success">Paid</span>
+                                                <span t-else="" class="badge badge-secondary">Pending</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <strong>Buyer Signature</strong><br/><br/><br/>
+                                _______________________
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong>Company Signature</strong><br/><br/><br/>
+                                _______________________
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

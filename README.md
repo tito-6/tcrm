@@ -1,58 +1,50 @@
-# TCRM - Total CRM Management System
+# TCRM — Multi-Tenant Real-Estate CRM/ERP Platform
 
-## Current Status
-TCRM is a comprehensive white-labeling and integration solution built on Odoo 18. The system has been fully rebranded to TCRM, removing "Odoo" references and applying a modern, high-contrast design system.
+**Connect · Grow · Win**
 
-### Key Features
-- **Global White-Labeling**: Complete rebranding of the Odoo interface (Login, Dashboard, Menus, "About" dialog).
-- **Brand Identity**:
-  - **Colors**: Deep Blue (#1C1E59), TCRM Red (#EA0000), Dark Slate (#0E142C).
-  - **Typography**: "Bricolage Grotesque" font integrated globally.
-- **Integrations**:
-  - **Meta Lead Integration**: Automated fetching and mapping of Facebook/Instagram leads into CRM.
-  - **WhatsApp Business Integration**: Native WhatsApp messaging within Odoo records.
-- **Custom CRM Enhancements**: Responsive lead views and specialized data handling.
+TCRM is a white-labeled, multi-tenant SaaS platform built on a customized Odoo-based
+core (`tcrm-src`), with TCRM branding and a suite of custom modules for real-estate
+CRM, sales, call center, marketing, AI, and multi-tenant SaaS operations.
 
-## Setup Instructions
+Operated by **AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.** — https://tcrm.online
 
-### Prerequisites
-- Docker & Docker Compose
-- Git
+## Repository layout
 
-### Installation
-1.  **Clone the Repository**:
-    ```bash
-    git clone https://github.com/tito-6/tcrm.git
-    cd tcrm
-    ```
+| Path | Description |
+|------|-------------|
+| `tcrm-src/` | Customized platform core (Odoo-based fork). Tracked source. |
+| `custom_addons/` | TCRM custom modules (production addons path). |
+| `deploy/` | Deployment configuration: nginx, systemd, provisioning scripts, conf template. |
+| `docs/` | Project documentation. |
+| `TCRM/` | Brand assets (logos, fonts, icons). |
+| `.env.example` | Template for environment variables (never commit real `.env`). |
 
-2.  **Environment Configuration**:
-    Copy the example environment file and adjust the variables if necessary (DB passwords, etc.):
-    ```bash
-    cp .env.example .env
-    ```
+## Key custom modules (`custom_addons/`)
 
-3.  **Start the System**:
-    ```bash
-    docker-compose up -d
-    ```
+- `tcrm_saas_core` — Tenant management / control plane (TCRM Master).
+- `tcrm_saas_routing` — Secure host→database routing and tenant isolation (server-wide module).
+- `tcrm_propertio` — Real-estate ERP (projects, blocks, units, sales, installments).
+- `tcrm_call_center` — Santral WebRTC call center integration.
+- `tcrm_web_enhance` — Public website, branding, docs, i18n (TR/EN).
+- `tcrm_ai` — Agentic AI layer over live CRM/ERP data.
 
-4.  **First Access**:
-    - URL: `http://localhost:8069`
-    - The `theme_tcrm` module is set to `auto_install=True` and will apply branding once dependencies are met.
+## Multi-tenancy & routing
 
-## Project Structure
-- `custom-addons/`: Contains all TCRM-specific modules (`theme_tcrm`, `whatsapp_business_integration`, etc.).
-- `config/`: System configuration files (odoo.conf).
-- `nginx/`: Reverse proxy configuration.
-- `docker-compose.yml`: Container orchestration setup.
+- `tcrm.online` / `www.tcrm.online` → control-plane database (`tcrm_master`).
+- A registered, active tenant domain → its **explicitly mapped** database
+  (the DB name comes only from the validated `tcrm.tenant` record, never from the
+  subdomain string).
+- Suspended / not-yet-provisioned / unknown hosts → branded status pages; the Odoo
+  database selector/manager is never publicly reachable.
 
-## Running the Project
-The project uses Docker for a self-contained environment.
-- **Start**: `docker-compose up -d`
-- **Stop**: `docker-compose down`
-- **Logs**: `docker-compose logs -f odoo`
-- **Update Modules**: `docker-compose run --rm odoo odoo -u theme_tcrm,whatsapp_business_integration -d <your-db> --stop-after-init`
+## Configuration
 
----
-*Developed by TCRM Team*
+Runtime configuration lives in `/opt/tcrm/tcrm.prod.conf` on the server (not committed;
+secrets are supplied via environment / the conf file). `deploy/tcrm.prod.conf.template`
+documents the required keys with `CHANGE_ME_*` placeholders. Secrets are provided through
+`.env` (see `.env.example`) and are never committed.
+
+## License
+
+Platform core based on Odoo Community Edition (LGPL-3).
+TCRM customizations © AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Project Types (Turkish market) -->
+        <record id="project_type_konut" model="propertio.project.type">
+            <field name="name">Konut Projesi</field>
+            <field name="code">konut</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="project_type_villa" model="propertio.project.type">
+            <field name="name">Villa Projesi</field>
+            <field name="code">villa</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="project_type_ticari" model="propertio.project.type">
+            <field name="name">Ticari Dükkan Projesi</field>
+            <field name="code">ticari_dukkan</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="project_type_karma" model="propertio.project.type">
+            <field name="name">Karma Proje</field>
+            <field name="code">karma</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="project_type_devremulk" model="propertio.project.type">
+            <field name="name">Devremülk Projesi</field>
+            <field name="code">devremulk</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="project_type_arsa" model="propertio.project.type">
+            <field name="name">Arsa ve Parsel Projesi</field>
+            <field name="code">arsa_parsel</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="project_type_kentsel" model="propertio.project.type">
+            <field name="name">Kentsel Dönüşüm Projesi</field>
+            <field name="code">kentsel_donusum</field>
+            <field name="sequence">70</field>
+        </record>
+        <record id="project_type_rezidans" model="propertio.project.type">
+            <field name="name">Rezidans Projesi</field>
+            <field name="code">rezidans</field>
+            <field name="sequence">80</field>
+        </record>
+        <record id="project_type_ofis" model="propertio.project.type">
+            <field name="name">Ofis Projesi</field>
+            <field name="code">ofis</field>
+            <field name="sequence">90</field>
+        </record>
+        <record id="project_type_sanayi" model="propertio.project.type">
+            <field name="name">Sanayi veya Depo Projesi</field>
+            <field name="code">sanayi_depo</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <!-- Project Stages -->
+        <record id="project_stage_planlama" model="propertio.project.stage">
+            <field name="name">Planlama</field>
+            <field name="code">planlama</field>
+            <field name="sequence">10</field>
+            <field name="color">1</field>
+        </record>
+        <record id="project_stage_ruhsat" model="propertio.project.stage">
+            <field name="name">Ruhsat Süreci</field>
+            <field name="code">ruhsat</field>
+            <field name="sequence">20</field>
+            <field name="color">2</field>
+        </record>
+        <record id="project_stage_projelendirme" model="propertio.project.stage">
+            <field name="name">Projelendirme</field>
+            <field name="code">projelendirme</field>
+            <field name="sequence">30</field>
+            <field name="color">3</field>
+        </record>
+        <record id="project_stage_satisa_hazir" model="propertio.project.stage">
+            <field name="name">Satışa Hazır</field>
+            <field name="code">satisa_hazir</field>
+            <field name="sequence">40</field>
+            <field name="color">4</field>
+        </record>
+        <record id="project_stage_on_satista" model="propertio.project.stage">
+            <field name="name">Ön Satışta</field>
+            <field name="code">on_satista</field>
+            <field name="sequence">50</field>
+            <field name="color">5</field>
+        </record>
+        <record id="project_stage_insaat_basladi" model="propertio.project.stage">
+            <field name="name">İnşaat Başladı</field>
+            <field name="code">insaat_basladi</field>
+            <field name="sequence">60</field>
+            <field name="color">6</field>
+        </record>
+        <record id="project_stage_insaat_devam" model="propertio.project.stage">
+            <field name="name">İnşaat Devam Ediyor</field>
+            <field name="code">insaat_devam</field>
+            <field name="sequence">70</field>
+            <field name="color">7</field>
+        </record>
+        <record id="project_stage_teslime_hazir" model="propertio.project.stage">
+            <field name="name">Teslime Hazır</field>
+            <field name="code">teslime_hazir</field>
+            <field name="sequence">80</field>
+            <field name="color">8</field>
+        </record>
+        <record id="project_stage_teslim_edildi" model="propertio.project.stage">
+            <field name="name">Teslim Edildi</field>
+            <field name="code">teslim_edildi</field>
+            <field name="sequence">90</field>
+            <field name="color">9</field>
+            <field name="fold">True</field>
+        </record>
+        <record id="project_stage_tamamlandi" model="propertio.project.stage">
+            <field name="name">Tamamlandı</field>
+            <field name="code">tamamlandi</field>
+            <field name="sequence">100</field>
+            <field name="color">10</field>
+            <field name="fold">True</field>
+        </record>
+        <record id="project_stage_durduruldu" model="propertio.project.stage">
+            <field name="name">Durduruldu</field>
+            <field name="code">durduruldu</field>
+            <field name="sequence">110</field>
+            <field name="color">11</field>
+            <field name="fold">True</field>
+        </record>
+        <record id="project_stage_iptal" model="propertio.project.stage">
+            <field name="name">İptal Edildi</field>
+            <field name="code">iptal</field>
+            <field name="sequence">120</field>
+            <field name="color">12</field>
+            <field name="fold">True</field>
+        </record>
+    </data>
+</odoo>

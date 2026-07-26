@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_tcrm_marketing_hub_app" model="ir.actions.client">
+        <field name="name">Marketing Hub</field>
+        <field name="tag">tcrm_marketing_hub.app</field>
+    </record>
+
+    <menuitem id="menu_tcrm_marketing_root"
+              name="Marketing Hub"
+              web_icon="tcrm_marketing_hub,static/description/icon.png"
+              action="action_tcrm_marketing_hub_app"
+              sequence="35"
+              groups="tcrm_marketing_hub.group_marketing_user"/>
+
+    <menuitem id="menu_tcrm_marketing_hub_home"
+              name="Hub Ana Sayfa"
+              parent="menu_tcrm_marketing_root"
+              action="action_tcrm_marketing_hub_app"
+              sequence="1"/>
+
+    <menuitem id="menu_tcrm_marketing_publish"
+              name="Yayınlama"
+              parent="menu_tcrm_marketing_root"
+              sequence="5"/>
+
+    <menuitem id="menu_tcrm_marketing_compose"
+              name="Yeni Gönderi"
+              parent="menu_tcrm_marketing_publish"
+              action="action_tcrm_marketing_compose"
+              sequence="5"/>
+
+    <menuitem id="menu_tcrm_marketing_posts"
+              name="Gönderiler"
+              parent="menu_tcrm_marketing_publish"
+              action="action_tcrm_marketing_post"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_boost"
+              name="Gönderi Boost"
+              parent="menu_tcrm_marketing_publish"
+              action="action_tcrm_marketing_boost"
+              sequence="20"
+              groups="tcrm_marketing_hub.group_marketing_manager"/>
+
+    <menuitem id="menu_tcrm_marketing_inbox_root"
+              name="Gelen Kutusu"
+              parent="menu_tcrm_marketing_root"
+              sequence="15"/>
+
+    <menuitem id="menu_tcrm_marketing_conversations"
+              name="DM Konuşmaları"
+              parent="menu_tcrm_marketing_inbox_root"
+              action="action_tcrm_marketing_conversation"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_comments"
+              name="Yorumlar"
+              parent="menu_tcrm_marketing_inbox_root"
+              action="action_tcrm_marketing_comment"
+              sequence="20"/>
+
+    <menuitem id="menu_tcrm_marketing_ads_root"
+              name="Meta Reklamlar"
+              parent="menu_tcrm_marketing_root"
+              sequence="25"/>
+
+    <menuitem id="menu_tcrm_marketing_create_ad"
+              name="Yeni Meta Reklam"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_create_ad"
+              sequence="5"
+              groups="tcrm_marketing_hub.group_marketing_manager"/>
+
+    <menuitem id="menu_tcrm_marketing_campaigns"
+              name="Kampanyalar"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_campaign"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_ad_accounts"
+              name="Reklam Hesapları"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_ad_account"
+              sequence="20"/>
+
+    <menuitem id="menu_tcrm_marketing_leads_root"
+              name="Meta Leadler"
+              parent="menu_tcrm_marketing_root"
+              sequence="28"/>
+
+    <menuitem id="menu_tcrm_marketing_meta_leads"
+              name="Lead Kayıtları"
+              parent="menu_tcrm_marketing_leads_root"
+              action="action_tcrm_marketing_meta_lead"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_lead_forms"
+              name="Lead Formları"
+              parent="menu_tcrm_marketing_leads_root"
+              action="action_tcrm_marketing_lead_form"
+              sequence="20"/>
+
+    <menuitem id="menu_tcrm_marketing_analytics_root"
+              name="Analitik"
+              parent="menu_tcrm_marketing_root"
+              sequence="30"/>
+
+    <menuitem id="menu_tcrm_marketing_analytics"
+              name="Özetler"
+              parent="menu_tcrm_marketing_analytics_root"
+              action="action_tcrm_marketing_analytics"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_analytics_sync"
+              name="Analitiği Yenile"
+              parent="menu_tcrm_marketing_analytics_root"
+              action="action_tcrm_marketing_analytics_sync"
+              sequence="20"
+              groups="tcrm_marketing_hub.group_marketing_manager"/>
+
+    <menuitem id="menu_tcrm_marketing_accounts"
+              name="Sosyal Hesaplar"
+              parent="menu_tcrm_marketing_root"
+              action="action_tcrm_marketing_account"
+              sequence="40"/>
+
+    <menuitem id="menu_tcrm_marketing_profiles"
+              name="Profiller"
+              parent="menu_tcrm_marketing_root"
+              action="action_tcrm_marketing_profile"
+              sequence="45"
+              groups="tcrm_marketing_hub.group_marketing_manager"/>
+
+    <menuitem id="menu_tcrm_marketing_connect"
+              name="Hesap Bağla"
+              parent="menu_tcrm_marketing_root"
+              sequence="50"
+              groups="tcrm_marketing_hub.group_marketing_manager"/>
+
+    <menuitem id="menu_tcrm_marketing_connect_instagram"
+              name="Instagram Bağla"
+              parent="menu_tcrm_marketing_connect"
+              action="action_tcrm_marketing_connect_instagram"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_connect_facebook"
+              name="Facebook / Meta Bağla"
+              parent="menu_tcrm_marketing_connect"
+              action="action_tcrm_marketing_connect_facebook"
+              sequence="20"/>
+
+    <menuitem id="menu_tcrm_marketing_sync"
+              name="Senkronize Et"
+              parent="menu_tcrm_marketing_root"
+              action="action_tcrm_marketing_sync_all"
+              sequence="60"
+              groups="tcrm_marketing_hub.group_marketing_manager"/>
+
+    <menuitem id="menu_tcrm_marketing_settings"
+              name="Ayarlar"
+              parent="menu_tcrm_marketing_root"
+              action="base_setup.action_general_configuration"
+              sequence="90"
+              groups="tcrm_marketing_hub.group_marketing_admin,base.group_system"/>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="demo_request_form" name="Request a Demo">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="pt64 pb64 bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="card shadow-sm border-0 rounded-3">
+                                    <div class="card-body p-5">
+                                        <h2 class="h3 mb-4 text-center">Request a TCRM Demo</h2>
+                                        
+                                        <form action="/demo/submit" method="post">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="name" id="name" required="1"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Work Email <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" name="email" id="email" required="1"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                                <input type="tel" class="form-control" name="phone" id="phone" required="1"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="company" class="form-label">Company Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="company" id="company" required="1"/>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="employees" class="form-label">Number of Employees</label>
+                                                    <select class="form-select" name="employees" id="employees">
+                                                        <option value="1-10">1-10</option>
+                                                        <option value="11-50">11-50</option>
+                                                        <option value="51-200">51-200</option>
+                                                        <option value="200+">200+</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-4">
+                                                    <label for="sector" class="form-label">Sector</label>
+                                                    <select class="form-select" name="sector" id="sector">
+                                                        <option value="Real Estate Agency">Real Estate Agency</option>
+                                                        <option value="Construction Company">Construction Company</option>
+                                                        <option value="SaaS / Technology">SaaS / Technology</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" class="btn btn-primary btn-lg" style="background-color: #101E55 !important; border-color: #101E55 !important;">Submit Request</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="demo_request_thanks" name="Demo Request Sent">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="pt128 pb128 bg-light text-center">
+                    <div class="container">
+                        <i class="fa fa-check-circle fa-5x mb-4" style="color: #101E55 !important;"></i>
+                        <h2 class="display-5 fw-bold mb-3">Thank you for your request!</h2>
+                        <p class="lead text-muted mb-5">Your demo request has been successfully submitted. Our team will contact you shortly to schedule your personalized TCRM walkthrough.</p>
+                        <a href="/" class="btn btn-primary btn-lg" style="background-color: #101E55 !important; border-color: #101E55 !important;">Return to Home</a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

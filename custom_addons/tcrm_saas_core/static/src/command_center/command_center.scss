@@ -1,0 +1,513 @@
+// TCRM Command Center — Odoo-native styling
+// Brand: Deep Navy (#0c1e3d) + Red Star (#e63946)
+// All layout uses Bootstrap 5 grid + utilities. This file only defines
+// the handful of styles that cannot be expressed as utility classes.
+
+$tcrm-navy: #0c1e3d !default;
+$tcrm-red:  #e63946 !default;
+
+// Odoo's Layout wraps our content in .o_action > .o_content.
+// Scroll the whole Command Center as one page (toolbar + sidebar + body)
+// instead of a tiny nested pane under a fixed header strip.
+.o_tcrm_cc_action {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  .o_content {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: auto !important;
+    height: auto !important;
+    display: block;
+  }
+}
+
+// ── Root scope ───────────────────────────────────────────────────────────────
+.o_tcrm_command_center {
+  min-height: 100%;
+  overflow: visible;
+  font-family: var(--o-font-family, inherit);
+
+  // ── Sidebar ──────────────────────────────────────────────────────────────
+  .o_tcrm_sidebar {
+    width: 224px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--o-border-color, #dee2e6);
+    background: var(--o-view-background-color, #fff);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: margin-left 0.2s ease;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    max-height: 100vh;
+
+    &.is-collapsed { margin-left: -224px; }
+
+    .nav-link {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #6c757d;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid transparent;
+
+      &:hover { color: #343a40; background: #f8f9fa; }
+
+      &.active {
+        color: $tcrm-navy;
+        background: rgba($tcrm-navy, 0.06);
+        border-color: rgba($tcrm-navy, 0.12);
+      }
+
+      i { width: 1rem; text-align: center; font-size: 0.875rem; }
+    }
+  }
+
+  // ── Stat cards (KPI row) ─────────────────────────────────────────────────
+  .o_tcrm_stat_card {
+    border-top-width: 3px;
+    border-top-style: solid;
+    min-height: 120px;
+  }
+
+  .o_tcrm_spark {
+    width: 120px;
+    height: 40px;
+    color: $tcrm-red;
+    opacity: 0.9;
+  }
+
+  .o_tcrm_delta--up   { color: #198754; }
+  .o_tcrm_delta--down  { color: #dc3545; }
+
+  // ── VPS Gauges ───────────────────────────────────────────────────────────
+  .o_tcrm_gauge {
+    position: relative;
+    width: 108px;
+    height: 108px;
+
+    &__svg   { width: 100%; height: 100%; }
+    &__track { stroke: #dee2e6; stroke-width: 8; fill: none; }
+    &__fill  { stroke: #0dcaf0; stroke-width: 8; fill: none; stroke-linecap: round; }
+
+    &__center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    &__val { font-size: 0.9375rem; font-weight: 800; }
+    &__lab {
+      font-size: 0.5625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #6c757d;
+    }
+  }
+
+  // ── Inline metric bars (dashboard snapshot) ──────────────────────────────
+  .o_tcrm_vbar {
+    width: 10px;
+    height: 46px;
+    background: #e9ecef;
+    border-radius: 50rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+
+    &__fill {
+      width: 100%;
+      border-radius: 50rem;
+      min-height: 4px;
+      background: linear-gradient(180deg, #0dcaf0, #0d6efd);
+
+      &--amber  { background: linear-gradient(180deg, #ffc107, #e0a800); }
+      &--violet { background: linear-gradient(180deg, #c4b5fd, #7c3aed); }
+      &--danger { background: linear-gradient(180deg, #f1aeb5, #dc3545); }
+      &--muted  { background: linear-gradient(180deg, #adb5bd, #6c757d); }
+    }
+  }
+
+  // ── Leaflet map wrapper ──────────────────────────────────────────────────
+  .o_tcrm_map_wrap {
+    height: clamp(260px, 40vh, 460px);
+    position: relative;
+  }
+
+  .o_tcrm_map_empty {
+    padding: 1.5rem;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.8125rem;
+  }
+
+  // Map search bar overlay
+  .o_tcrm_map_search {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    right: 50px;
+    z-index: 1000;
+    max-width: 380px;
+  }
+
+  // ── Donut chart (plans) ──────────────────────────────────────────────────
+  .o_tcrm_donut_wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    svg { width: 100%; height: 100%; }
+  }
+
+  .o_tcrm_donut_center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  // ── Mix / progress bars ──────────────────────────────────────────────────
+  .o_tcrm_mix_track {
+    height: 6px;
+    border-radius: 50rem;
+    background: #e9ecef;
+    overflow: hidden;
+  }
+
+  .o_tcrm_mix_fill {
+    height: 100%;
+    border-radius: 50rem;
+    background: linear-gradient(90deg, #0d6efd, #6366f1);
+    min-width: 4px;
+    transition: width 0.4s ease;
+  }
+
+  // ── Command palette overlay ──────────────────────────────────────────────
+  .o_tcrm_palette_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1055;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12vh;
+  }
+
+  .o_tcrm_palette {
+    width: 560px;
+    max-width: 94vw;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    padding: 0.75rem;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.5rem 0.625rem;
+      border: none;
+      border-radius: 0.375rem;
+      background: transparent;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      &:hover { background: rgba(13, 110, 253, 0.08); }
+    }
+  }
+
+  // ── Executive Portfolio cards ────────────────────────────────────────────
+  .o_tcrm_portfolio {
+    &__spark {
+      height: 34px;
+      border-radius: 0.375rem;
+      background: rgba($tcrm-red, 0.08);
+      position: relative;
+      color: $tcrm-red;
+      svg { width: 100%; height: 100%; display: block; opacity: 0.9; }
+    }
+
+    &__spark_dot {
+      position: absolute;
+      right: 4px;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: $tcrm-red;
+      box-shadow: 0 0 10px rgba($tcrm-red, 0.55);
+    }
+
+    &__health_track {
+      height: 6px;
+      border-radius: 50rem;
+      background: #dee2e6;
+      overflow: hidden;
+    }
+
+    &__health_fill {
+      height: 100%;
+      border-radius: 50rem;
+      background: linear-gradient(90deg, $tcrm-red, lighten($tcrm-red, 20%));
+    }
+
+    &__mrr_bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 36px;
+    }
+
+    &__mrr_bar {
+      flex: 1;
+      border-radius: 4px;
+      background: #dee2e6;
+      min-height: 8px;
+      &:last-child { background: rgba($tcrm-red, 0.75); }
+    }
+  }
+
+  // ── AI insight panel (portfolio rail) ────────────────────────────────────
+  .o_tcrm_ai {
+    &__thread { max-height: 280px; overflow: auto; }
+
+    &__bubble {
+      max-width: 90%;
+      font-size: 0.6875rem;
+      line-height: 1.45;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #dee2e6;
+      background: #fff;
+    }
+
+    &__row--user .o_tcrm_ai__bubble {
+      background: #212529;
+      color: #adb5bd;
+      border-color: #495057;
+    }
+
+    &__avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: $tcrm-red;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    &__send {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      width: 36px;
+      height: 32px;
+      border-radius: 0.375rem;
+      background: $tcrm-red;
+      color: #fff;
+      cursor: pointer;
+      &:hover { background: darken($tcrm-red, 15%); }
+    }
+  }
+
+  // ── Pulse animation for alert cards ──────────────────────────────────────
+  .o_tcrm_pulse {
+    animation: o-tcrm-pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes o-tcrm-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(#dc3545, 0); }
+    50%      { box-shadow: 0 0 0 6px rgba(#dc3545, 0.15); }
+  }
+
+  // ── Status pulse dot ─────────────────────────────────────────────────────
+  .o_tcrm_status_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #198754;
+    display: inline-block;
+  }
+
+  // ── FAB (portfolio global command) ───────────────────────────────────────
+  .o_tcrm_fab {
+    position: fixed;
+    right: 1.75rem;
+    bottom: 1.75rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: $tcrm-red;
+    color: #fff;
+    font-size: 1.375rem;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba($tcrm-red, 0.45);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s, box-shadow 0.12s;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 14px 32px rgba($tcrm-red, 0.55);
+    }
+  }
+
+  // ── Segment control (portfolio range) ────────────────────────────────────
+  .o_tcrm_seg {
+    display: flex;
+    padding: 3px;
+    border-radius: 0.375rem;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+
+    &__btn {
+      border: none;
+      background: transparent;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: #6c757d;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+
+      &:hover { color: #343a40; }
+      &.active {
+        background: #fff;
+        color: #343a40;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      }
+    }
+  }
+
+  // ── Ghost mode toggle ────────────────────────────────────────────────────
+  .o_tcrm_toggle_track {
+    width: 36px;
+    height: 18px;
+    border-radius: 50rem;
+    background: #dee2e6;
+    position: relative;
+    transition: background 0.15s;
+    cursor: pointer;
+
+    &.is-on { background: $tcrm-red; }
+  }
+
+  .o_tcrm_toggle_knob {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    top: 2px;
+    left: 3px;
+    transition: transform 0.15s;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+    .is-on > & { transform: translateX(16px); }
+  }
+
+  // ── Frozen tenant badge ──────────────────────────────────────────────────
+  .o_tcrm_frozen_overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(220, 53, 69, 0.04);
+    border: 2px solid rgba(220, 53, 69, 0.25);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  // ── Tech console gauge ───────────────────────────────────────────────────
+  .o_tcrm_gauge_lg {
+    position: relative;
+    width: 100%;
+    max-width: 140px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+
+    svg { width: 100%; height: 100%; }
+
+    &__label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+  }
+
+  .o_tcrm_cc_main {
+    width: 100%;
+  }
+
+  .o_tcrm_cc_body {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  // Tables / KPI rows stay usable on narrow viewports
+  .table-responsive {
+    max-width: 100%;
+  }
+
+  // ── Responsive sidebar ───────────────────────────────────────────────────
+  @media (max-width: 991.98px) {
+    .o_tcrm_sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      max-height: none;
+      z-index: 1030;
+      box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      margin-left: 0 !important;
+
+      &.show { transform: translateX(0); }
+    }
+
+    .o_tcrm_backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1029;
+    }
+
+    .o_tcrm_cc_body {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .o_tcrm_backdrop { display: none !important; }
+  }
+}

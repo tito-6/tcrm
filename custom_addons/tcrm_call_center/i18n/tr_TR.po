@@ -1,0 +1,136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tcrm_call_center
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-25 15:00+0000\n"
+"PO-Revision-Date: 2026-07-25 15:00+0000\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: tr\n"
+
+msgid "Pending"
+msgstr "Bekliyor"
+
+msgid "Queued"
+msgstr "Kuyrukta"
+
+msgid "Initiated"
+msgstr "Başlatıldı"
+
+msgid "Ringing"
+msgstr "Çalıyor"
+
+msgid "Answered"
+msgstr "Cevaplandı"
+
+msgid "Completed"
+msgstr "Tamamlandı"
+
+msgid "Busy"
+msgstr "Meşgul"
+
+msgid "Failed"
+msgstr "Başarısız"
+
+msgid "No Answer"
+msgstr "Cevapsız"
+
+msgid "Canceled"
+msgstr "İptal Edildi"
+
+msgid "Reference"
+msgstr "Referans"
+
+msgid "Agent"
+msgstr "Temsilci"
+
+msgid "Sales Team"
+msgstr "Satış Ekibi"
+
+msgid "Lead / Opportunity"
+msgstr "Aday / Fırsat"
+
+msgid "Contact"
+msgstr "Müşteri"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "Destination"
+msgstr "Hedef"
+
+msgid "Destination (masked)"
+msgstr "Hedef (Gizli)"
+
+msgid "Caller ID"
+msgstr "Arayan Numara"
+
+msgid "Direction"
+msgstr "Yön"
+
+msgid "Provider"
+msgstr "Sağlayıcı"
+
+msgid "Provider Call SID"
+msgstr "Sağlayıcı Çağrı SID"
+
+msgid "Duration (s)"
+msgstr "Süre (sn)"
+
+msgid "Billable Duration (s)"
+msgstr "Ücretlendirilebilir Süre (sn)"
+
+msgid "Recording State"
+msgstr "Kayıt Durumu"
+
+msgid "Recordings"
+msgstr "Kayıtlar"
+
+msgid "Outcome"
+msgstr "Sonuç"
+
+msgid "Notes"
+msgstr "Notlar"
+
+msgid "Follow-up Activity"
+msgstr "Takip Aktivitesi"
+
+msgid "User-facing Error"
+msgstr "Kullanıcı Hatası"
+
+msgid "Outbound"
+msgstr "Giden"
+
+msgid "Inbound"
+msgstr "Gelen"
+
+msgid "None"
+msgstr "Yok"
+
+msgid "Ready"
+msgstr "Hazır"
+
+msgid "Deleted"
+msgstr "Silindi"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Recording Sid"
+msgstr "Kayıt Sid"
+
+msgid "Status"
+msgstr "Durum"
+
+msgid "Duration"
+msgstr "Süre"
+
+msgid "Channels"
+msgstr "Kanallar"

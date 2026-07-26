@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Merge Adaylar + Fırsat Havuzu into a single Lead Havuzu screen. -->
+<odoo>
+    <!-- Dedicated search view for the merged lead/opportunity pool -->
+    <record id="view_crm_lead_havuzu_search" model="ir.ui.view">
+        <field name="name">crm.lead.search.lead.havuzu</field>
+        <field name="model">crm.lead</field>
+        <field name="arch" type="xml">
+            <search string="Lead Havuzu">
+                <field name="name" string="Lead / Fırsat"
+                    filter_domain="['|', '|', '|', '|',
+                        ('partner_id', 'ilike', self),
+                        ('partner_name', 'ilike', self),
+                        ('email_from', 'ilike', self),
+                        ('name', 'ilike', self),
+                        ('contact_name', 'ilike', self)]"/>
+                <field name="partner_id" string="Müşteri"/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="stage_id"/>
+                <field name="source_id"/>
+                <field name="medium_id"/>
+                <field name="campaign_id"/>
+                <field name="propertio_project_id"/>
+                <field name="create_date" string="Oluşturma Tarihi"/>
+                <field name="tag_ids" string="Etiket" filter_domain="[('tag_ids', 'ilike', self)]"/>
+                <field name="phone_mobile_search"/>
+                <separator/>
+                <filter string="Yeni Leadler" name="filter_new_leads"
+                    domain="[('type', '=', 'lead'), ('active', '=', True), ('stage_id', '=', %(crm.stage_lead1)d)]"
+                    help="Yeni aşamasındaki leadler (dönüştürülmemiş)"/>
+                <filter string="Nitelikli Leadler" name="filter_qualified_leads"
+                    domain="[('type', '=', 'lead'), ('active', '=', True), ('stage_id', '=', %(crm.stage_lead2)d)]"
+                    help="Nitelikli aşamasındaki leadler"/>
+                <filter string="Fırsatlar" name="filter_opportunities"
+                    domain="[('type', '=', 'opportunity')]"/>
+                <separator/>
+                <filter string="Satış Yapıldı" name="filter_won"
+                    domain="[('won_status', '=', 'won')]"/>
+                <filter string="Kaybedildi" name="filter_lost"
+                    domain="[('won_status', '=', 'lost'), ('active', '=', False)]"/>
+                <filter string="Arşivlendi" name="filter_archived"
+                    domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Leadlerim" name="assigned_to_me"
+                    domain="[('user_id', '=', uid)]"
+                    help="Bana atanmış"/>
+                <filter string="Atanmamış" name="unassigned"
+                    domain="[('user_id', '=', False)]"/>
+                <separator/>
+                <filter string="Oluşturma Tarihi" name="filter_creation_date"
+                    date="create_date" default_period="month"/>
+                <separator/>
+                <group>
+                    <filter string="Tip" name="groupby_type" context="{'group_by': 'type'}"/>
+                    <filter string="Satış Danışmanı" name="groupby_salesperson" context="{'group_by': 'user_id'}"/>
+                    <filter string="Satış Ekibi" name="groupby_sales_team" context="{'group_by': 'team_id'}"/>
+                    <filter string="Aşama" name="groupby_stage" context="{'group_by': 'stage_id'}"/>
+                    <filter string="Kaynak" name="groupby_source" context="{'group_by': 'source_id'}"/>
+                    <filter string="Kanal" name="groupby_medium" context="{'group_by': 'medium_id'}"/>
+                    <filter string="Kampanya" name="groupby_campaign" context="{'group_by': 'campaign_id'}"/>
+                    <filter string="Proje" name="groupby_project" context="{'group_by': 'propertio_project_id'}"/>
+                    <filter string="Oluşturma Tarihi" name="groupby_create_date" context="{'group_by': 'create_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Show type on opportunity list (used by Lead Havuzu / pipeline). -->
+    <record id="crm_case_tree_view_oppor_lead_havuzu_type" model="ir.ui.view">
+        <field name="name">crm.lead.list.opportunity.type</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="type" optional="show" string="Tip"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Show type on lead list (used when old lead action views remain bound). -->
+    <record id="crm_case_tree_view_leads_lead_havuzu_type" model="ir.ui.view">
+        <field name="name">crm.lead.list.lead.type</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="type" optional="show" string="Tip"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Show type on pipeline kanban cards. -->
+    <record id="crm_case_kanban_view_leads_lead_havuzu_type" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.lead.type</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//templates//field[@name='name']" position="after">
+                <field name="type" class="badge text-bg-secondary"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Primary merged action -->
+    <record id="action_lead_havuzu" model="ir.actions.act_window">
+        <field name="name">Lead Havuzu</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_crm_lead_havuzu_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Lead veya fırsat oluşturun
+            </p>
+            <p>
+                Lead Havuzu, leadleri (Adaylar) ve fırsatları (Fırsatlar)
+                tek ekranda gösterir. Tip, aşama, kaynak veya ekibe göre filtreleyin.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_lead_havuzu_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="act_window_id" ref="action_lead_havuzu"/>
+    </record>
+    <record id="action_lead_havuzu_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="act_window_id" ref="action_lead_havuzu"/>
+    </record>
+    <record id="action_lead_havuzu_view_calendar" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="crm.crm_case_calendar_view_leads"/>
+        <field name="act_window_id" ref="action_lead_havuzu"/>
+    </record>
+    <record id="action_lead_havuzu_view_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="crm.crm_lead_view_pivot"/>
+        <field name="act_window_id" ref="action_lead_havuzu"/>
+    </record>
+    <record id="action_lead_havuzu_view_graph" model="ir.actions.act_window.view">
+        <field name="sequence" eval="4"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="crm.crm_lead_view_graph"/>
+        <field name="act_window_id" ref="action_lead_havuzu"/>
+    </record>
+
+    <!-- Redirect old stock actions to Lead Havuzu behavior (bookmarks / digests). -->
+    <record id="crm.crm_lead_all_leads" model="ir.actions.act_window">
+        <field name="name">Lead Havuzu</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">kanban,list,form,activity,calendar,graph,pivot</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_crm_lead_havuzu_search"/>
+    </record>
+
+    <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+        <field name="name">Lead Havuzu</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">kanban,list,form,activity,calendar,graph,pivot</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_crm_lead_havuzu_search"/>
+    </record>
+
+    <record id="crm.action_your_pipeline" model="ir.actions.server">
+        <field name="name">Lead Havuzu</field>
+    </record>
+
+    <!-- Hide obsolete operational menus; reporting menus stay. -->
+    <record id="crm.crm_menu_leads" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="crm.menu_crm_opportunities" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- Single primary CRM sales entry -->
+    <menuitem
+        id="menu_lead_havuzu"
+        name="Lead Havuzu"
+        parent="crm.crm_menu_sales"
+        action="action_lead_havuzu"
+        sequence="1"/>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Hide Convert button — all records are opportunities -->
+    <record id="crm_lead_view_form_hide_convert" model="ir.ui.view">
+        <field name="name">crm.lead.form.hide.convert</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(crm.action_crm_lead2opportunity_partner)d']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Hide expected revenue block on form (user enters later if needed) -->
+            <xpath expr="//label[@for='expected_revenue']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Opportunity list: hide expected revenue; rename create_date -->
+    <record id="crm_case_tree_view_oppor_tr_cleanup" model="ir.ui.view">
+        <field name="name">crm.lead.list.oppor.tr.cleanup</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='expected_revenue']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='create_date']" position="attributes">
+                <attribute name="string">Oluşturma Tarihi</attribute>
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Lead list: rename create_date only (no expected_revenue column in parent) -->
+    <record id="crm_case_tree_view_leads_tr_cleanup" model="ir.ui.view">
+        <field name="name">crm.lead.list.lead.tr.cleanup</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="attributes">
+                <attribute name="string">Oluşturma Tarihi</attribute>
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban: hide expected revenue amounts on cards (keep field for JS) -->
+    <record id="crm_case_kanban_view_leads_hide_revenue" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.hide.revenue</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_card_crm_lead_revenue')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Won stage button label -->
+    <record id="crm_lead_view_form_won_label" model="ir.ui.view">
+        <field name="name">crm.lead.form.won.label</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">31</field>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">
+                <attribute name="string">Satış Yapıldı</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Aday Analizi (Leads Analysis) → clearer Turkish professional report -->
+    <record id="crm.crm_opportunity_report_action_lead" model="ir.actions.act_window">
+        <field name="name">Aday Analizi</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+            'pivot_measures': ['__count'],
+            'pivot_column_groupby': ['stage_id'],
+            'pivot_row_groupby': ['source_id', 'user_id'],
+            'graph_measure': '__count',
+            'graph_groupbys': ['source_id'],
+            'graph_mode': 'bar',
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aday Analizi
+            </p>
+            <p>
+                Bu rapor lead ve fırsatları kaynak, danışman ve aşamaya göre özetler.
+                Pivot görünümünde satır/sütunları sürükleyerek kendi analizinizi oluşturun.
+                Grafik görünümü kaynak dağılımını gösterir.
+            </p>
+        </field>
+    </record>
+
+    <record id="crm.crm_opportunity_report_menu_lead" model="ir.ui.menu">
+        <field name="name">Aday Analizi</field>
+    </record>
+
+    <!-- Force Won stage name -->
+    <record id="crm.stage_lead4" model="crm.stage">
+        <field name="name">Satış Yapıldı</field>
+    </record>
+</odoo>

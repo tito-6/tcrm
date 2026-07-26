@@ -1,0 +1,41 @@
+import { Plugin } from "@html_editor/plugin";
+import { Operation } from "./operation";
+import { useComponent } from "@tcrm/owl";
+
+/** @typedef {import("./operation").OperationParams} OperationParams */
+
+/**
+ * @typedef { Object } OperationShared
+ * @property { OperationPlugin['next'] } next
+ */
+
+export class OperationPlugin extends Plugin {
+    static id = "operation";
+    static dependencies = ["history"];
+    static shared = ["next"];
+
+    setup() {
+        this.operation = new Operation(this.document);
+    }
+
+    /**
+     * Executes a function (async or not) in the mutex.
+     *
+     * @param {Function} fn the function
+     * @param {OperationParams} params
+     * @returns {Promise<void>}
+     */
+    next(fn, params) {
+        return this.operation.next(fn, params);
+    }
+}
+
+export function useOperation() {
+    const comp = useComponent();
+    return (apply, ...args) => {
+        comp.env.editor.shared.operation.next(async (...args) => {
+            await apply(...args);
+            comp.env.editor.shared.history.addStep();
+        }, ...args);
+    };
+}

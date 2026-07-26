@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_call_provider_config_form" model="ir.ui.view">
+        <field name="name">tcrm.call.provider.config.form</field>
+        <field name="model">tcrm.call.provider.config</field>
+        <field name="arch" type="xml">
+            <form string="Santral Yapılandırması" delete="0">
+                <header>
+                    <button name="action_test_connection" type="object" string="Bağlantıyı Test Et"
+                            class="btn-primary" groups="tcrm_call_center.group_santral_admin"/>
+                    <field name="last_connection_status" widget="statusbar"
+                            statusbar_visible="missing,ok,error"/>
+                </header>
+                <sheet>
+                    <field name="legal_warning" nolabel="1" colspan="2"/>
+                    <group>
+                        <group string="Sağlayıcı">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="provider"/>
+                            <field name="enabled"/>
+                            <field name="is_configured" readonly="1"/>
+                        </group>
+                        <group string="Bağlantı Durumu">
+                            <field name="last_connection_test" readonly="1"/>
+                            <field name="last_error" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Twilio Kimlik Bilgileri" groups="tcrm_call_center.group_santral_admin">
+                        <group>
+                            <field name="account_sid" password="False"/>
+                            <field name="api_key_sid"/>
+                            <field name="api_key_secret" password="True"
+                                      placeholder="Kaydedildikten sonra tekrar gösterilmez"/>
+                            <field name="has_api_key_secret" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="auth_token" password="True"
+                                      placeholder="Kaydedildikten sonra tekrar gösterilmez"/>
+                            <field name="has_auth_token" readonly="1"/>
+                            <field name="twiml_app_sid"/>
+                            <field name="verified_caller_id" placeholder="+90..."/>
+                            <field name="public_callback_base_url" placeholder="https://tcrm.online"/>
+                        </group>
+                    </group>
+                    <group string="Kayıt Politikası">
+                        <group>
+                            <field name="recording_enabled"/>
+                            <field name="dual_channel_recording"/>
+                            <field name="recording_announcement_enabled"/>
+                            <field name="recording_announcement_text"
+                                      invisible="not recording_announcement_enabled"/>
+                        </group>
+                        <group>
+                            <field name="recording_retention_days"/>
+                            <field name="allow_recording_download"/>
+                            <field name="recording_storage"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_call_provider_config_list" model="ir.ui.view">
+        <field name="name">tcrm.call.provider.config.list</field>
+        <field name="model">tcrm.call.provider.config</field>
+        <field name="arch" type="xml">
+            <list string="Santral" delete="0">
+                <field name="company_id"/>
+                <field name="provider"/>
+                <field name="enabled"/>
+                <field name="is_configured"/>
+                <field name="account_sid_masked"/>
+                <field name="verified_caller_id_masked"/>
+                <field name="last_connection_status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_call_provider_config" model="ir.actions.act_window">
+        <field name="name">Santral Ayarları</field>
+        <field name="res_model">tcrm.call.provider.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="group_ids" eval="[(4, ref('tcrm_call_center.group_santral_admin'))]"/>
+    </record>
+</odoo>

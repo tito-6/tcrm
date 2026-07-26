@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_marketing_profile_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.profile.list</field>
+        <field name="model">tcrm.marketing.profile</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="zernio_id"/>
+                <field name="is_default"/>
+                <field name="account_count"/>
+                <field name="last_sync_at"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_profile_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.profile.form</field>
+        <field name="model">tcrm.marketing.profile</field>
+        <field name="arch" type="xml">
+            <form string="Profil">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_accounts" type="object" class="oe_stat_button" icon="fa-share-alt">
+                            <field name="account_count" widget="statinfo" string="Hesaplar"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="zernio_id" readonly="1"/>
+                            <field name="is_default"/>
+                        </group>
+                        <group>
+                            <field name="color"/>
+                            <field name="last_sync_at" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Hesaplar">
+                            <field name="account_ids">
+                                <list>
+                                    <field name="display_name"/>
+                                    <field name="platform"/>
+                                    <field name="status"/>
+                                    <field name="follower_count"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_profile" model="ir.actions.act_window">
+        <field name="name">Profiller</field>
+        <field name="res_model">tcrm.marketing.profile</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

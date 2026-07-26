@@ -1,0 +1,8 @@
+.tcrm-editor-editable {
+    &.o_col_resize {
+        cursor: col-resize;
+    }
+    &.o_row_resize {
+        cursor: row-resize;
+    }
+}

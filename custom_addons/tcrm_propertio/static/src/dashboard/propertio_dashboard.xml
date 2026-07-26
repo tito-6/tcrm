@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_propertio.PropertioDashboard">
+        <div class="o_propertio_dashboard p-4">
+            <t t-if="state.loading and !state.data">
+                <div class="text-center py-5 text-muted">Gösterge paneli yükleniyor…</div>
+            </t>
+            <t t-elif="state.error">
+                <div class="alert alert-danger"><t t-esc="state.error"/></div>
+            </t>
+            <t t-else="">
+                <t t-if="state.data">
+                    <div class="o_propertio_dashboard_toolbar card border-0 shadow-sm mb-4 p-3">
+                        <div class="row g-2 align-items-end flex-wrap">
+                            <!-- Same embedded mini-picker as Events calendar sidebar: one month each, no range mode -->
+                            <div class="col-12 col-xl-auto">
+                                <span class="small text-muted d-block mb-1">Dönem</span>
+                                <div class="d-flex flex-wrap gap-3 align-items-start o_propertio_dashboard_calendar_picker">
+                                    <div class="o_calendar_sidebar">
+                                        <span class="small text-muted d-block mb-1">Başlangıç</span>
+                                        <DateTimePicker t-props="dateFromPickerProps"/>
+                                    </div>
+                                    <div class="o_calendar_sidebar">
+                                        <span class="small text-muted d-block mb-1">Bitiş</span>
+                                        <DateTimePicker t-props="dateToPickerProps"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto d-flex flex-wrap gap-2 align-items-center">
+                                <button type="button" class="btn btn-primary btn-sm" t-on-click="applyPeriodFilter">Uygula</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="resetPeriodFilter">Sıfırla</button>
+                            </div>
+                            <div class="col-12 col-lg-auto ms-lg-auto">
+                                <span class="small text-muted d-block mb-1">Hazır Aralıklar</span>
+                                <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                    <button type="button" class="btn btn-outline-secondary" t-on-click="setPeriodThisMonth">Bu ay</button>
+                                    <button type="button" class="btn btn-outline-secondary" t-on-click="setPeriodLastMonth">Geçen ay</button>
+                                    <button type="button" class="btn btn-outline-secondary" t-on-click="setThisYearToDate">YTD</button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-auto d-flex align-items-end">
+                                <button type="button" class="btn btn-link btn-sm text-decoration-none px-0" t-on-click="openReportsCenter">Rapor Merkezi →</button>
+                            </div>
+                        </div>
+                        <p class="small text-muted mb-0 mt-2" t-if="state.data.period_label">
+                            Aktif dönem: <strong t-esc="state.data.period_label"/></p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="o_propertio_dashboard_title">
+                            <t t-if="state.data.role === 'sales'">Günaydın, <t t-esc="state.data.user_name"/>!</t>
+                            <t t-elif="state.data.role === 'collection'">Tahsilat Paneli</t>
+                            <t t-elif="state.data.role === 'finance'">Finans Paneli</t>
+                            <t t-elif="state.data.role === 'manager' or state.data.role === 'admin'">Şirket Özeti</t>
+                            <t t-else="">Gösterge Paneli</t>
+                        </h4>
+                        <p class="text-muted small mb-0">Bugün: <t t-esc="state.data.date"/></p>
+                    </div>
+
+                    <!-- Sales -->
+                    <t t-if="state.data.role === 'sales'">
+                        <div class="row g-3 mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Satışlarım</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.my_sales_count"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Dönem satışı</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.this_month_count"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Hedef</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.target_units"/> birim</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Gerçekleşen</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.achieved_pct"/>%</div>
+                                        <div class="small">Kalan: <t t-esc="state.data.remaining_days"/> gün</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-transparent">Dönem görevleri</div>
+                                    <div class="card-body">
+                                        <t t-if="state.data.today_tasks and state.data.today_tasks.length">
+                                            <ul class="list-unstyled mb-0">
+                                                <t t-foreach="state.data.today_tasks" t-as="task" t-key="task.id">
+                                                    <li class="mb-2">
+                                                        <a href="#" t-on-click.prevent="() =&gt; this.openAction(task.res_model, task.res_id)">
+                                                            <t t-esc="task.summary or task.note or (task.res_model + ' #' + task.res_id)"/>
+                                                        </a>
+                                                    </li>
+                                                </t>
+                                            </ul>
+                                        </t>
+                                        <t t-else="">
+                                            <p class="text-muted mb-0">No tasks due today.</p>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-transparent">Hızlı İşlemler</div>
+                                    <div class="card-body">
+                                        <p class="mb-2">Available units: <strong t-esc="state.data.available_units_count"/></p>
+                                        <button class="btn btn-primary btn-sm me-2" t-on-click="openNewSale">Yeni Satış</button>
+                                        <button class="btn btn-outline-secondary btn-sm" t-on-click="openUnits">Birimleri Gör</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-if="state.data.pipeline and state.data.pipeline.length">
+                            <div class="card border-0 shadow-sm mb-4">
+                                <div class="card-header bg-transparent">Leads pipeline (created in period)</div>
+                                <div class="card-body">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <t t-foreach="state.data.pipeline" t-as="p" t-key="p.stage">
+                                            <span class="badge bg-light text-dark"><t t-esc="p.stage"/>: <t t-esc="p.count"/></span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+
+                    <!-- Collection -->
+                    <t t-if="state.data.role === 'collection'">
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-danger fw-bold">Red Alerts: <t t-esc="state.data.red_alerts_count"/> customers overdue &gt; 15 days</span>
+                                    <button class="btn btn-outline-danger btn-sm" t-on-click="openRedAlerts">Tümünü Gör</button>
+                                </div>
+                                <div class="text-muted small">Due this week: <t t-esc="state.data.due_this_week_count"/> installments · Total: <t t-esc="formatMoney(state.data.due_this_week_total)"/></div>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-transparent">Today's Collection Calls</div>
+                            <div class="card-body">
+                                <t t-if="state.data.today_calls and state.data.today_calls.length">
+                                    <ul class="list-unstyled mb-0">
+                                        <t t-foreach="state.data.today_calls" t-as="c" t-key="c.id">
+                                            <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                                <span><t t-esc="c.partner_name"/> · <t t-esc="c.unit_name"/> · <t t-esc="formatMoney(c.amount, c.currency)"/> · <t t-esc="c.overdue_days"/> days overdue</span>
+                                                <button class="btn btn-outline-primary btn-sm" t-on-click="() =&gt; this.openPaymentForm(c.partner_id, c.sale_id)">Ödeme Gir</button>
+                                            </li>
+                                        </t>
+                                    </ul>
+                                </t>
+                                <t t-else="">
+                                    <p class="text-muted mb-0">No overdue installments.</p>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-transparent">Collection vs target (period)</div>
+                            <div class="card-body">
+                                <p class="mb-2">Target: <t t-esc="formatMoney(state.data.target_collection)"/> · Collected: <t t-esc="formatMoney(state.data.collected_mtd)"/> (<t t-esc="state.data.collection_pct"/>%)</p>
+                                <div class="progress" style="height: 24px;">
+                                    <div class="progress-bar" t-att-style="'width: ' + Math.min(100, state.data.collection_pct) + '%;'"/>
+                                </div>
+                                <p class="small text-muted mt-2 mb-0">Remaining this month: <t t-esc="formatMoney(state.data.remaining_this_month)"/></p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" t-on-click="() =&gt; this.openPaymentForm()">Ödeme Gir</button>
+                    </t>
+
+                    <!-- Finance -->
+                    <t t-if="state.data.role === 'finance'">
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-transparent">Cash received (period)</div>
+                            <div class="card-body">
+                                <p class="h5">Total received: <t t-esc="formatMoney(state.data.total_received_mtd)"/></p>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-transparent">Upcoming (Next 7 days)</div>
+                            <div class="card-body">
+                                <t t-if="state.data.upcoming_7_days and Object.keys(state.data.upcoming_7_days).length">
+                                    <t t-foreach="Object.entries(state.data.upcoming_7_days)" t-as="day" t-key="day[0]">
+                                        <p class="mb-1"><t t-esc="day[0]"/>: <t t-esc="day[1].count"/> installments · <t t-esc="formatMoney(day[1].amount)"/></p>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <p class="text-muted mb-0">No installments due in the next 7 days.</p>
+                                </t>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" t-on-click="openPayments">Ödemeleri Gör</button>
+                    </t>
+
+                    <!-- Manager -->
+                    <t t-if="state.data.role === 'manager' or state.data.role === 'admin'">
+                        <div class="row g-3 mb-4">
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Aktif Projeler</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.projects_count"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Toplam Birim</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.units_total"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Satıldı</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.units_sold"/> (<t t-esc="state.data.sold_pct"/>%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="card border-0 shadow-sm propertio-kpi-card">
+                                    <div class="card-body">
+                                        <div class="small text-muted">Dönem satışı</div>
+                                        <div class="h4 mb-0"><t t-esc="state.data.actual_units_this_month"/> / <t t-esc="state.data.target_units"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-transparent">En İyi Danışmanlar</div>
+                                    <div class="card-body">
+                                        <t t-if="state.data.top_salespersons and state.data.top_salespersons.length">
+                                            <ol class="mb-0 ps-3">
+                                                <t t-foreach="state.data.top_salespersons" t-as="sp" t-key="sp.id">
+                                                    <li><t t-esc="sp.name"/> — <t t-esc="sp.count"/> sales · <t t-esc="formatMoney(sp.value)"/></li>
+                                                </t>
+                                            </ol>
+                                        </t>
+                                        <t t-else="">
+                                            <p class="text-muted mb-0">No sales this month.</p>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-transparent">Tahsilat Sağlığı</div>
+                                    <div class="card-body">
+                                        <p class="mb-1">On time: <t t-esc="state.data.on_time_pct"/>%</p>
+                                        <p class="mb-1 text-danger">15+ days overdue: <t t-esc="state.data.overdue_15_pct"/>%</p>
+                                        <p class="mb-0">Portfolio: GDV <t t-esc="formatMoney(state.data.total_gdv)"/> · Collected <t t-esc="formatMoney(state.data.collected_value)"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-if="state.data.project_progress and state.data.project_progress.length">
+                            <div class="card border-0 shadow-sm mb-4">
+                                <div class="card-header bg-transparent">Proje İlerlemesi</div>
+                                <div class="card-body">
+                                    <t t-foreach="state.data.project_progress" t-as="proj" t-key="proj.name">
+                                        <div class="mb-2">
+                                            <span class="me-2"><t t-esc="proj.name"/>:</span>
+                                            <div class="progress d-inline-block" style="width: 200px; height: 20px; vertical-align: middle;">
+                                                <div class="progress-bar" t-att-style="'width: ' + proj.pct + '%;'" t-att-title="proj.sold + ' / ' + proj.total"/>
+                                            </div>
+                                            <span class="ms-2"><t t-esc="proj.pct"/>% sold</span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                        <button class="btn btn-primary me-2" t-on-click="openSales">Satışlar</button>
+                        <button class="btn btn-outline-primary" t-on-click="openPayments">Ödemeler</button>
+                    </t>
+
+                    <!-- Aftersales (placeholder) -->
+                    <t t-if="state.data.role === 'aftersales'">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <p class="mb-0">Tapu appointments this week: <t t-esc="state.data.tapu_appointments_this_week"/></p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </div>
+    </t>
+</templates>

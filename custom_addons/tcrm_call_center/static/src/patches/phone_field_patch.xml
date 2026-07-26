@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="web.PhoneField" t-inherit-mode="extension">
+        <xpath expr="//a" position="attributes">
+            <attribute name="t-on-click.prevent">onClickCall</attribute>
+        </xpath>
+    </t>
+    <t t-inherit="web.FormPhoneField" t-inherit-mode="extension">
+        <xpath expr="//a[hasclass('o_phone_form_link')]" position="attributes">
+            <attribute name="t-on-click.prevent">onClickCall</attribute>
+        </xpath>
+    </t>
+</templates>

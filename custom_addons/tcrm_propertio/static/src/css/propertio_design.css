@@ -1,0 +1,688 @@
+/* Propertio Design System - TCRM Real Estate CRM */
+:root {
+    --propertio-primary: #1B3F72;
+    --propertio-secondary: #C9A84C;
+    --propertio-success: #2ECC71;
+    --propertio-warning: #F39C12;
+    --propertio-danger: #E74C3C;
+    --propertio-neutral: #F8F9FA;
+    --propertio-text-dark: #2C3E50;
+    --propertio-font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --propertio-radius-card: 8px;
+    --propertio-radius-input: 4px;
+    --propertio-radius-modal: 12px;
+    --propertio-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.o_propertio_dashboard .propertio-kpi-card {
+    border-radius: var(--propertio-radius-card);
+    transition: transform 0.15s ease;
+}
+.o_propertio_dashboard .propertio-kpi-card:hover {
+    transform: translateY(-2px);
+}
+
+.o_propertio_dashboard_toolbar {
+    border-radius: var(--propertio-radius-card);
+    background: linear-gradient(135deg, #ffffff 0%, var(--propertio-neutral) 100%);
+    border: 1px solid rgba(27, 63, 114, 0.08);
+}
+/* Embedded DateTimePicker(s): same as Calendar sidebar — not DateTimeInput popover */
+.o_propertio_dashboard .o_propertio_dashboard_calendar_picker .o_datetime_picker,
+.o_propertio_reports_workbench .o_propertio_dashboard_calendar_picker .o_datetime_picker {
+    min-width: min(100%, 18rem);
+}
+.o_propertio_dashboard_toolbar .btn-group.flex-wrap {
+    gap: 0.25rem;
+}
+.o_propertio_report_tile {
+    border-radius: var(--propertio-radius-card);
+    white-space: normal;
+    line-height: 1.3;
+}
+.o_propertio_reports_center .o_propertio_report_section .card-header {
+    border-bottom: 1px solid rgba(27, 63, 114, 0.1);
+}
+
+/* Status badges - use with widget="badge" and decoration-* in list views */
+.o_propertio_badge_success { background-color: var(--propertio-success); color: white; }
+.o_propertio_badge_warning { background-color: var(--propertio-warning); color: white; }
+.o_propertio_badge_danger { background-color: var(--propertio-danger); color: white; }
+.o_propertio_badge_primary { background-color: var(--propertio-primary); color: white; }
+.o_propertio_badge_muted { background-color: #6c757d; color: white; }
+
+/* Payment form — layout tuned for list/form + XXL side chatter (standard Odoo mail layout) */
+.o_web_client .o_propertio_payment_form .o_form_renderer {
+    max-width: 100%;
+}
+.o_web_client .o_propertio_payment_form .o_form_sheet_bg {
+    max-width: 100%;
+    flex: 3 1 28rem;
+    min-width: min(72%, 36rem);
+}
+.o_web_client .o_propertio_payment_form .o_form_sheet {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Dialogs (e.g. quick payment from collection task) */
+.o_web_client .modal-dialog .o_propertio_payment_form .o_form_sheet_bg,
+.o_web_client .modal-dialog .o_propertio_payment_form .o_form_sheet {
+    max-width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.o_web_client .modal-dialog .o_propertio_payment_form .o_form_sheet {
+    max-width: none;
+}
+
+/* ========== Report Viewer two-column layout ========== */
+.o_propertio_report_viewer .o_form_sheet {
+    max-width: 100%;
+    padding: 0;
+}
+.o_propertio_report_viewer .o_propertio_report_layout {
+    min-height: 70vh;
+}
+.o_propertio_report_viewer .o_propertio_report_preview_pane {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+.o_propertio_report_viewer .o_propertio_report_preview_pane .o_field_html {
+    width: 100%;
+}
+.o_propertio_report_viewer .o_propertio_report_preview_pane .o_field_html .odoo-editor-editable,
+.o_propertio_report_viewer .o_propertio_report_preview_pane .o_field_html[name="html_preview"] iframe {
+    min-height: 60vh;
+}
+
+/* ========== Reports Center (Overview client action) ==========
+   One full-page scroller: toolbar, report catalog and KPIs all sit inside
+   .o_content. No fixed control strip, no divider line, no nested tiny panes. */
+.o_propertio_reports_center {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #f6f8fb;
+}
+.o_propertio_reports_center > .o_content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto !important;
+    height: auto !important;
+    position: relative;
+}
+.o_propertio_reports_center .o_prc_toolbar {
+    background: #fff;
+}
+.o_propertio_reports_center .o_prc_body {
+    align-items: flex-start;
+}
+.o_propertio_reports_center .o_prc_report_list {
+    /* Grow with the page; scroll the whole view instead of a nested list pane */
+    background: #fff;
+    border-radius: 8px;
+}
+.o_propertio_reports_center .o_prc_main_pane {
+    min-width: 0;
+    padding-bottom: 2rem;
+}
+
+/* ========== Premium Reports Center ========== */
+.o_propertio_reports_workbench {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    height: calc(100vh - 48px);
+    min-height: 640px;
+    background: #f6f8fb;
+    color: #111827;
+    overflow: hidden;
+}
+.o_prc_sidebar {
+    background: #0f172a;
+    color: #e5edf8;
+    padding: 18px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.o_prc_brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.o_prc_brand_mark {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #2dd4bf;
+    color: #09202b;
+    font-weight: 800;
+}
+.o_prc_brand h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+}
+.o_prc_brand p,
+.o_prc_sidebar_title,
+.o_prc_nav_item small {
+    margin: 0;
+    color: #9fb0c7;
+}
+.o_prc_search,
+.o_prc_select,
+.o_prc_filters input,
+.o_prc_filters select,
+.o_prc_customize select {
+    width: 100%;
+    border: 1px solid #dbe3ef;
+    border-radius: 7px;
+    min-height: 36px;
+    padding: 7px 10px;
+    background: #fff;
+}
+.o_prc_sidebar .o_prc_search,
+.o_prc_sidebar .o_prc_select {
+    background: #17223a;
+    color: #fff;
+    border-color: #2f3d56;
+    margin-bottom: 10px;
+}
+.o_prc_sidebar_section {
+    margin-top: 18px;
+}
+.o_prc_sidebar_title {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: .08em;
+    margin-bottom: 8px;
+}
+.o_prc_nav_item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #d8e2f0;
+    padding: 10px;
+    text-align: left;
+}
+.o_prc_nav_item strong,
+.o_prc_nav_item small {
+    display: block;
+}
+.o_prc_nav_item:hover,
+.o_prc_nav_item.active {
+    background: #22304a;
+    color: #fff;
+}
+.o_prc_main {
+    padding: 22px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    min-width: 0;
+}
+.o_prc_header,
+.o_prc_filters,
+.o_prc_customize,
+.o_prc_presets,
+.o_prc_kpis,
+.o_prc_totals,
+.o_prc_columns,
+.o_prc_chart,
+.o_prc_groups,
+.o_prc_table_wrap {
+    background: #fff;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .04);
+    margin-bottom: 14px;
+}
+.o_prc_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px;
+}
+.o_prc_header h1 {
+    margin: 2px 0 4px;
+    font-size: 24px;
+}
+.o_prc_header p,
+.o_prc_eyebrow {
+    margin: 0;
+    color: #64748b;
+}
+.o_prc_report_props {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+}
+.o_prc_report_props span {
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 4px 8px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 12px;
+}
+.o_prc_eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.o_prc_actions,
+.o_prc_filters,
+.o_prc_customize,
+.o_prc_presets,
+.o_prc_columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.o_prc_filters,
+.o_prc_customize,
+.o_prc_presets,
+.o_prc_totals,
+.o_prc_columns {
+    padding: 12px;
+    align-items: end;
+}
+.o_prc_date_picker_group {
+    flex: 1 1 38rem;
+}
+.o_prc_filter_caption {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+.o_prc_date_picker_group .o_propertio_dashboard_calendar_picker,
+.o_prc_period_buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+}
+.o_prc_period_buttons {
+    margin-top: 8px;
+}
+.o_prc_filters label,
+.o_prc_customize label {
+    min-width: 150px;
+    flex: 1 1 150px;
+    font-size: 12px;
+    color: #64748b;
+}
+.o_prc_segment {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    padding: 7px 12px;
+    border-radius: 7px;
+}
+.o_prc_segment.active {
+    background: #0f172a;
+    color: #fff;
+}
+.o_prc_presets button,
+.o_prc_group {
+    border: 1px solid #dbe3ef;
+    background: #f8fafc;
+    border-radius: 7px;
+    padding: 8px 10px;
+}
+.o_prc_kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+.o_prc_kpi {
+    background: #fff;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    padding: 14px;
+}
+.o_prc_kpi span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+}
+.o_prc_kpi strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 22px;
+}
+.o_prc_kpi.success strong { color: #047857; }
+.o_prc_kpi.danger strong { color: #b91c1c; }
+.o_prc_kpi.primary strong { color: #1d4ed8; }
+.o_prc_totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.o_prc_totals > span {
+    align-self: center;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.o_prc_totals div {
+    min-width: 150px;
+    border-left: 3px solid #14b8a6;
+    background: #f8fafc;
+    border-radius: 7px;
+    padding: 8px 10px;
+}
+.o_prc_totals small {
+    display: block;
+    color: #64748b;
+}
+.o_prc_totals strong {
+    color: #0f172a;
+}
+.o_prc_columns label {
+    border: 1px solid #dbe3ef;
+    border-radius: 7px;
+    padding: 6px 9px;
+    background: #f8fafc;
+}
+.o_prc_table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.o_prc_table th {
+    position: sticky;
+    top: 0;
+    background: #0f172a;
+    color: #fff;
+    padding: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.o_prc_table td {
+    border-top: 1px solid #e5eaf2;
+    padding: 9px 10px;
+}
+.o_prc_table tr:hover td {
+    background: #f1f5f9;
+}
+.o_prc_table td.number {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+.o_prc_table_meta {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    color: #64748b;
+}
+.o_prc_chart,
+.o_prc_groups {
+    padding: 14px;
+}
+.o_prc_bar_row {
+    display: grid;
+    grid-template-columns: 210px minmax(120px, 1fr) 120px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 9px;
+}
+.o_prc_bar_row div {
+    height: 12px;
+    border-radius: 999px;
+    background: #e5eaf2;
+}
+.o_prc_bar_row i {
+    display: block;
+    height: 12px;
+    border-radius: 999px;
+    background: #2dd4bf;
+}
+.o_prc_donut_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+}
+.o_prc_donut_item {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    text-align: center;
+}
+.o_prc_donut {
+    --pct: 0%;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(#2563eb var(--pct), #e2e8f0 0);
+    position: relative;
+}
+.o_prc_donut::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    background: #fff;
+}
+.o_prc_donut strong {
+    position: relative;
+    z-index: 1;
+    font-size: 13px;
+    color: #0f172a;
+}
+.o_prc_donut_item span {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-weight: 600;
+    color: #334155;
+}
+.o_prc_donut_item b {
+    color: #1d4ed8;
+}
+.o_prc_groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+}
+.o_prc_group {
+    text-align: left;
+}
+.o_prc_group strong,
+.o_prc_group span,
+.o_prc_group small {
+    display: block;
+}
+.o_prc_loading,
+.o_prc_empty {
+    padding: 34px;
+    text-align: center;
+    color: #64748b;
+}
+@media (max-width: 980px) {
+    .o_propertio_reports_workbench {
+        grid-template-columns: 1fr;
+    }
+    .o_prc_sidebar {
+        max-height: 45vh;
+        height: auto;
+    }
+    .o_prc_header,
+    .o_prc_actions {
+        display: block;
+    }
+    .o_prc_kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ========== Tablet breakpoint ========== */
+@media (max-width: 768px) {
+    .o_propertio_reports_workbench {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: auto;
+    }
+    .o_prc_sidebar {
+        max-height: 35vh;
+        padding: 12px;
+    }
+    .o_prc_main {
+        padding: 14px;
+    }
+    .o_prc_header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px;
+    }
+    .o_prc_header h1 {
+        font-size: 20px;
+    }
+    .o_prc_filters,
+    .o_prc_customize,
+    .o_prc_presets,
+    .o_prc_columns {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .o_prc_filters label,
+    .o_prc_customize label {
+        min-width: 100%;
+        flex: 1 1 100%;
+    }
+    .o_prc_date_picker_group {
+        flex: 1 1 100%;
+    }
+    .o_prc_bar_row {
+        grid-template-columns: 140px minmax(80px, 1fr) 80px;
+        gap: 6px;
+        font-size: 13px;
+    }
+    .o_prc_table_wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .o_prc_table {
+        min-width: 600px;
+    }
+    .o_prc_totals {
+        flex-direction: column;
+    }
+    .o_prc_totals div {
+        min-width: auto;
+    }
+    .o_prc_groups {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+    .o_prc_donut_grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    /* Propertio Dashboard */
+    .o_propertio_dashboard .propertio-kpi-card {
+        min-width: auto;
+    }
+    .o_propertio_dashboard_toolbar {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .o_propertio_dashboard_toolbar .btn-group.flex-wrap {
+        justify-content: flex-start;
+    }
+    /* Payment form */
+    .o_web_client .o_propertio_payment_form .o_form_sheet_bg {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+    .o_web_client .o_propertio_payment_form .o_form_sheet {
+        max-width: 100%;
+    }
+}
+
+/* ========== Small phone breakpoint ========== */
+@media (max-width: 576px) {
+    .o_prc_kpis {
+        grid-template-columns: 1fr;
+    }
+    .o_prc_sidebar {
+        max-height: 30vh;
+        padding: 10px;
+    }
+    .o_prc_main {
+        padding: 10px;
+    }
+    .o_prc_header {
+        padding: 10px;
+    }
+    .o_prc_header h1 {
+        font-size: 18px;
+    }
+    .o_prc_nav_item {
+        padding: 8px;
+        font-size: 13px;
+    }
+    .o_prc_bar_row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        margin-bottom: 14px;
+    }
+    .o_prc_bar_row div {
+        width: 100%;
+    }
+    .o_prc_donut_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .o_prc_donut {
+        width: 72px;
+        height: 72px;
+    }
+    .o_prc_groups {
+        grid-template-columns: 1fr;
+    }
+    .o_prc_segment {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .o_prc_table th,
+    .o_prc_table td {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+    /* Payment form mobile */
+    .o_web_client .o_propertio_payment_form .o_form_sheet_bg {
+        min-width: 0;
+        flex: 1 1 100%;
+    }
+    /* Report viewer mobile */
+    .o_propertio_report_viewer .o_propertio_report_layout {
+        min-height: auto;
+        flex-direction: column;
+    }
+    .o_propertio_report_viewer .o_propertio_report_preview_pane {
+        max-height: none;
+    }
+}
+

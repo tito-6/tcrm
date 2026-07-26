@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="tcrm_saas_core.TenantMap">
+    <div class="card h-100" style="min-height:380px">
+        <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
+            <i class="fa fa-map-marker"/>
+            <span t-esc="props.title"/>
+            <div class="ms-auto d-flex gap-1">
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="zoomIn" title="Zoom in"><i class="fa fa-plus"/></button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="zoomOut" title="Zoom out"><i class="fa fa-minus"/></button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="fitAllMarkers" title="Fit all"><i class="fa fa-expand"/></button>
+            </div>
+        </div>
+        <div class="card-body p-0 position-relative" style="min-height:340px">
+            <!-- Address search overlay -->
+            <div class="o_tcrm_map_search">
+                <div class="input-group input-group-sm shadow-sm">
+                    <span class="input-group-text bg-white"><i class="fa fa-search text-muted"/></span>
+                    <input type="text" class="form-control" placeholder="Search address or tenant location…"
+                           t-att-value="state.searchQuery"
+                           t-on-input="onSearchInput"
+                           t-on-keydown="onSearchKeydown"/>
+                    <button t-if="state.searchQuery" type="button" class="btn btn-outline-secondary" t-on-click="clearSearch"><i class="fa fa-times"/></button>
+                </div>
+                <div t-if="state.searchResults and state.searchResults.length" class="list-group mt-1 shadow-sm" style="max-height:200px;overflow:auto">
+                    <button type="button" class="list-group-item list-group-item-action small py-1" t-foreach="state.searchResults" t-as="r" t-key="r_index"
+                            t-on-click="() => this.selectSearchResult(r)">
+                        <i class="fa fa-map-marker text-danger me-1"/><t t-esc="r.display_name"/>
+                    </button>
+                </div>
+            </div>
+            <div class="o_tcrm_map_wrap h-100" t-ref="map" style="min-height:340px"/>
+        </div>
+    </div>
+</t>
+</templates>

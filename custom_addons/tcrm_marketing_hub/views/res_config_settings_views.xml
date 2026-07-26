@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_tcrm_marketing" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.tcrm.marketing</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Marketing Hub" name="tcrm_marketing_hub"
+                     groups="tcrm_marketing_hub.group_marketing_admin,base.group_system">
+                    <block title="Zernio Bağlantısı" name="tcrm_marketing_zernio">
+                        <setting string="API Anahtarı"
+                                 help="Zernio dashboard → API Keys. Ortam değişkeni: ZERNIO_API_KEY.">
+                            <field name="tcrm_marketing_zernio_api_key" password="True"/>
+                        </setting>
+                        <setting string="API URL">
+                            <field name="tcrm_marketing_zernio_base_url" placeholder="https://zernio.com/api/v1"/>
+                        </setting>
+                        <setting string="Varsayılan Profil ID"
+                                 help="Boşsa senkron ilk profili kullanır.">
+                            <field name="tcrm_marketing_default_profile_id"/>
+                        </setting>
+                        <setting string="Ortam override">
+                            <field name="tcrm_marketing_env_override_hint" readonly="1"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

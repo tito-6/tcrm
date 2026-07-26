@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="page_about_us_template" name="About us">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt64 pb64">
+                    <div class="container">
+                        <h1>About AK KOD</h1>
+                        <p class="lead">AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</p>
+                        <p>
+                            We are a technology growth company based in Beşiktaş, Istanbul. We deliver software development,
+                            AI-powered automation, and digital marketing under one roof — websites, corporate platforms,
+                            landing systems, SEO/GEO content, ads, CRM/ERP integrations, and performance analytics.
+                        </p>
+                        <p>
+                            Our product <strong>TCRM</strong> is built for real-estate and enterprise CRM/ERP operations
+                            with an AI-native layer. We focus on measurable demand, quality leads, and sustainable growth.
+                        </p>
+                        <p><a class="btn btn-primary" href="/contactus">Contact us</a></p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="page_products_template" name="Products">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt64 pb64">
+                    <div class="container">
+                        <h1>Products</h1>
+                        <ul>
+                            <li><strong>TCRM</strong> — enterprise real-estate ERP &amp; agentic CRM platform</li>
+                            <li>Custom web &amp; landing systems for growth teams</li>
+                            <li>AI automation and CRM/ERP integrations</li>
+                            <li>E-commerce and e-export infrastructure</li>
+                        </ul>
+                        <p><a class="btn btn-primary" href="https://akod.tech/" target="_blank" rel="noopener">Visit akod.tech</a></p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="page_services_template" name="Services">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt64 pb64">
+                    <div class="container">
+                        <h1>Services</h1>
+                        <ul>
+                            <li>Software development &amp; UI/UX design</li>
+                            <li>AI / business-process automation</li>
+                            <li>Digital marketing, Meta &amp; Google ads, social media</li>
+                            <li>SEO, content, and generative-engine optimization</li>
+                            <li>CRM automation and analytics</li>
+                        </ul>
+                        <p>Phone: <a href="tel:05525242866">0552 524 28 66</a></p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="page_legal_template" name="Legal">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt64 pb64">
+                    <div class="container">
+                        <h1>Legal</h1>
+                        <p>
+                            This website and the TCRM platform are operated by
+                            <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
+                            (Besiktas, Istanbul).
+                        </p>
+                        <p>
+                            For privacy, commercial, or legal requests, contact
+                            <a href="mailto:info@akod.tech">info@akod.tech</a>
+                            or call <a href="tel:05525242866">0552 524 28 66</a>.
+                        </p>
+                        <p class="text-muted small">Company website: <a href="https://akod.tech/" target="_blank" rel="noopener">https://akod.tech/</a></p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <record id="page_about_us" model="website.page">
+        <field name="name">About us</field>
+        <field name="website_published" eval="True"/>
+        <field name="is_published" eval="True"/>
+        <field name="url">/about-us</field>
+        <field name="view_id" ref="page_about_us_template"/>
+    </record>
+    <record id="page_products" model="website.page">
+        <field name="name">Products</field>
+        <field name="website_published" eval="True"/>
+        <field name="is_published" eval="True"/>
+        <field name="url">/products</field>
+        <field name="view_id" ref="page_products_template"/>
+    </record>
+    <record id="page_services" model="website.page">
+        <field name="name">Services</field>
+        <field name="website_published" eval="True"/>
+        <field name="is_published" eval="True"/>
+        <field name="url">/services</field>
+        <field name="view_id" ref="page_services_template"/>
+    </record>
+    <record id="page_legal" model="website.page">
+        <field name="name">Legal</field>
+        <field name="website_published" eval="True"/>
+        <field name="is_published" eval="True"/>
+        <field name="url">/legal</field>
+        <field name="view_id" ref="page_legal_template"/>
+    </record>
+</odoo>

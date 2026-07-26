@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tcrm>
+    <record id="view_tcrm_tenant_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.form</field>
+        <field name="model">tcrm.tenant</field>
+        <field name="arch" type="xml">
+            <form class="tcrm-form-sheet">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group string="Tenant">
+                        <field name="name" placeholder="e.g. acme"/>
+                        <field name="client_name" placeholder="Client display name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.list</field>
+        <field name="model">tcrm.tenant</field>
+        <field name="arch" type="xml">
+            <list class="tcrm-mt-2" create="1" delete="1" edit="1">
+                <header/>
+                <field name="name" string="Subdomain / DB"/>
+                <field name="client_name"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-muted="state == 'draft'"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_tenant" model="ir.actions.act_window">
+        <field name="name">Tenants</field>
+        <field name="res_model">tcrm.tenant</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_tcrm_root" name="TCRM Master" sequence="900" groups="base.group_system"/>
+    <menuitem id="menu_tcrm_tenant" name="Tenants" parent="menu_tcrm_root" action="action_tcrm_tenant"/>
+</tcrm>

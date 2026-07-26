@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcrm_mock_builder_admin,tcrm.mock.builder.admin,model_tcrm_mock_builder,base.group_system,1,1,1,1

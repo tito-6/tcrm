@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_call_record_list" model="ir.ui.view">
+        <field name="name">tcrm.call.record.list</field>
+        <field name="model">tcrm.call.record</field>
+        <field name="arch" type="xml">
+            <list string="Çağrı Geçmişi" delete="0">
+                <field name="name" string="Ad"/>
+                <field name="create_date" string="Tarih / Saat" optional="show"/>
+                <field name="contact_name" string="Aranan Kişi" optional="show"/>
+                <field name="user_id" string="Kullanıcı" optional="show"/>
+                <field name="lead_id" string="Fırsat" optional="show"/>
+                <field name="partner_id" string="Müşteri" optional="show"/>
+                <field name="project_id" string="Proje" optional="hide"/>
+                <field name="team_id" string="Satış Ekibi" optional="hide"/>
+                <field name="destination_masked" string="Hedef" optional="show"/>
+                <field name="direction" string="Yön" optional="hide"/>
+                <field name="status" string="Durum" optional="show"/>
+                <field name="duration" string="Süre" optional="show" widget="integer"/>
+                <field name="outcome" string="Sonuç" optional="show"/>
+                <field name="recording_state" string="Kayıt Durumu" optional="show"/>
+                <field name="answer_time" string="Cevaplanma" optional="hide"/>
+                <field name="end_time" string="Bitiş" optional="hide"/>
+                <field name="caller_id" string="Arayan Kimliği" optional="hide"
+                        groups="tcrm_call_center.group_santral_admin"/>
+                <field name="provider" string="Sağlayıcı" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_call_record_form" model="ir.ui.view">
+        <field name="name">tcrm.call.record.form</field>
+        <field name="model">tcrm.call.record</field>
+        <field name="arch" type="xml">
+            <form string="Çağrı" delete="0">
+                <header>
+                    <field name="status" widget="statusbar"
+                            statusbar_visible="pending,initiated,ringing,in-progress,completed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" string="Referans"/>
+                            <field name="contact_name" readonly="1" string="Aranan Kişi"/>
+                            <field name="user_id" string="Temsilci"/>
+                            <field name="team_id" string="Satış Ekibi"/>
+                            <field name="lead_id" string="Fırsat / Aday"/>
+                            <field name="partner_id" string="Müşteri"/>
+                            <field name="project_id" string="Proje"/>
+                        </group>
+                        <group>
+                            <field name="destination_masked" string="Hedef (Gizli)"/>
+                            <field name="caller_id" groups="tcrm_call_center.group_santral_admin" string="Arayan Kimliği"/>
+                            <field name="direction" string="Yön"/>
+                            <field name="provider" string="Sağlayıcı"/>
+                            <field name="provider_call_sid" groups="tcrm_call_center.group_santral_admin" string="Sağlayıcı Çağrı SID"/>
+                            <field name="duration" string="Süre (sn)"/>
+                            <field name="recording_state" string="Kayıt Durumu"/>
+                        </group>
+                    </group>
+                    <group string="Sonuç">
+                        <field name="outcome" string="Sonuç"/>
+                        <field name="notes" string="Notlar"/>
+                        <field name="followup_activity_id" string="Takip Aktivitesi"/>
+                        <field name="user_error_message" readonly="1" string="Kullanıcı Hatası"/>
+                        <field name="provider_error_code" groups="tcrm_call_center.group_santral_admin" string="Sağlayıcı Hata Kodu"/>
+                        <field name="provider_error_message" groups="tcrm_call_center.group_santral_admin" string="Sağlayıcı Hata Mesajı"/>
+                    </group>
+                    <notebook>
+                        <page string="Kayıtlar" groups="tcrm_call_center.group_santral_recording_listen">
+                            <field name="recording_ids" readonly="1">
+                                <list delete="0" create="0">
+                                    <field name="id"/>
+                                    <field name="recording_sid"/>
+                                    <field name="status"/>
+                                    <field name="duration"/>
+                                    <field name="channels"/>
+                                    <field name="playback_url" widget="url" string="Dinle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Bağlantı Özeti" groups="tcrm_call_center.group_santral_admin">
+                            <group>
+                                <group>
+                                    <field name="selected_edge"/>
+                                    <field name="codec"/>
+                                    <field name="rtt"/>
+                                    <field name="jitter"/>
+                                    <field name="packet_loss"/>
+                                    <field name="mos"/>
+                                </group>
+                                <group>
+                                    <field name="sdk_version"/>
+                                    <field name="browser_os"/>
+                                    <field name="microphone_device"/>
+                                    <field name="connection_type"/>
+                                </group>
+                            </group>
+                            <group string="Uyarı Geçmişi">
+                                <field name="warning_events" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_call_recording_list" model="ir.ui.view">
+        <field name="name">tcrm.call.recording.list</field>
+        <field name="model">tcrm.call.recording</field>
+        <field name="arch" type="xml">
+            <list string="Çağrı Kayıtları" delete="0">
+                <field name="name" string="Kayıt Adı"/>
+                <field name="call_id" string="Çağrı" optional="show"/>
+                <field name="lead_id" string="Fırsat" optional="show"/>
+                <field name="partner_id" string="Müşteri" optional="show"/>
+                <field name="create_date" string="Tarih / Saat" optional="show"/>
+                <field name="status" string="Durum" optional="show"/>
+                <field name="duration" string="Süre" optional="show"/>
+                <field name="channels" string="Kanallar" optional="hide"/>
+                <field name="retention_deadline" string="Saklama Bitiş" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_call_record" model="ir.actions.act_window">
+        <field name="name">Çağrı Geçmişi</field>
+        <field name="res_model">tcrm.call.record</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_tcrm_call_recording" model="ir.actions.act_window">
+        <field name="name">Çağrı Kayıtları</field>
+        <field name="res_model">tcrm.call.recording</field>
+        <field name="view_mode">list,form</field>
+        <field name="group_ids" eval="[(4, ref('tcrm_call_center.group_santral_recording_listen'))]"/>
+    </record>
+
+</odoo>

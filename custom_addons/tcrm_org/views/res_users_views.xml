@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_org" model="ir.ui.view">
+        <field name="name">res.users.form.org</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Organizasyon" name="tcrm_org"
+                      groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin">
+                    <group>
+                        <group string="Departman">
+                            <field name="org_department_ids" widget="many2many_tags"/>
+                            <field name="sale_team_id" string="Varsayılan Satış Ekibi" readonly="1"/>
+                        </group>
+                        <group string="Erişim">
+                            <button name="%(action_tcrm_org_access_wizard)d" type="action"
+                                    string="Modül / Ekran Erişimini Yönet"
+                                    class="btn-primary"
+                                    context="{'default_user_id': id}"/>
+                            <button name="action_sync_org_access_grants" type="object"
+                                    string="Erişim Satırlarını Yenile"
+                                    class="btn-link"/>
+                        </group>
+                    </group>
+                    <separator string="Satış Ekibi Üyelikleri"/>
+                    <field name="crm_team_member_ids">
+                        <list editable="bottom">
+                            <field name="crm_team_id"/>
+                            <field name="active"/>
+                        </list>
+                    </field>
+                    <separator string="Modül / Ekran Erişimleri"/>
+                    <field name="org_access_grant_ids">
+                        <list editable="bottom" create="0" delete="0">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name" readonly="1"/>
+                            <field name="code" column_invisible="1"/>
+                            <field name="granted" widget="boolean_toggle"/>
+                            <field name="group_ids" widget="many2many_tags" optional="hide"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_tcrm_org_users" model="ir.actions.act_window">
+        <field name="name">Personel</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('share', '=', False), ('active', '=', True)]</field>
+        <field name="context">{'search_default_filter_no_share': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Personel ekleyin</p>
+            <p>Kullanıcıları departman ve ekiplere bağlayın; ekran erişimlerini yönetin.</p>
+        </field>
+    </record>
+</odoo>

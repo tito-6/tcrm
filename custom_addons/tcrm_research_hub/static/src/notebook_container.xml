@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="tcrm_research_hub.NotebookContainer">
+<Layout display="display" className="'o_rhub_action'">
+
+    <t t-if="!state.statusChecked">
+        <div class="o_rhub_gate d-flex flex-column align-items-center justify-content-center h-100 gap-3">
+            <i class="fa fa-spinner fa-spin fa-2x text-primary"/>
+            <div class="text-muted small">Initialising Research Hub…</div>
+        </div>
+    </t>
+
+    <t t-elif="state.accessDenied">
+        <div class="o_rhub_gate d-flex flex-column align-items-center justify-content-center h-100 gap-3 text-center p-5">
+            <i class="fa fa-lock fa-3x text-muted"/>
+            <h4 class="text-muted fw-bold">Research Hub not enabled</h4>
+            <p class="text-muted" style="max-width:420px">
+                Contact your administrator to enable Research Hub for your account.
+            </p>
+        </div>
+    </t>
+
+    <t t-else="">
+        <div class="o_rhub_topbar d-flex align-items-center flex-wrap gap-2 px-3 py-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 me-auto">
+                <i class="fa fa-flask text-primary" style="font-size:1.25rem"/>
+                <div class="lh-1">
+                    <div class="fw-bold" style="font-size:0.9375rem">Research Hub</div>
+                    <div class="text-muted text-uppercase fw-semibold"
+                         style="font-size:0.5625rem;letter-spacing:0.1em">
+                        My NotebookLM researches inside TCRM
+                    </div>
+                </div>
+            </div>
+
+            <span class="badge rounded-pill"
+                  t-att-class="state.googleConnected ? 'text-bg-success' : 'text-bg-secondary'">
+                <t t-if="state.googleConnected">Google connected</t>
+                <t t-else="">Google not connected</t>
+            </span>
+            <span class="badge text-bg-dark rounded-pill" t-if="state.syncedCount">
+                <t t-esc="state.syncedCount"/> synced
+            </span>
+
+            <button type="button" class="btn btn-sm btn-primary"
+                    t-on-click="() => this.syncNow()" t-att-disabled="state.syncing">
+                <i t-att-class="'fa me-1 ' + (state.syncing ? 'fa-spinner fa-spin' : 'fa-refresh')"/>
+                Sync Now
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary"
+                    t-on-click="() => this.setPanel('connect')">
+                <i class="fa fa-google me-1"/>Connect Google
+            </button>
+            <button type="button"
+                    t-att-class="'btn btn-sm ' + (state.panel === 'library' ? 'btn-primary' : 'btn-outline-secondary')"
+                    t-on-click="() => this.setPanel('library')">
+                <i class="fa fa-book me-1"/>Library
+            </button>
+            <button type="button"
+                    t-att-class="'btn btn-sm ' + (state.panel === 'proxy' ? 'btn-warning' : 'btn-outline-secondary')"
+                    t-on-click="() => this.setPanel('proxy')"
+                    title="In-page Google login (stores cookies for sync)">
+                <i class="fa fa-code me-1"/>In Page
+            </button>
+        </div>
+
+        <div t-att-class="'o_rhub_body ' + (state.viewMode === 'split' ? 'is-split' : 'is-full')">
+
+            <div class="o_rhub_left" t-if="state.viewMode === 'split' and state.panel === 'library'">
+                <div class="o_rhub_left_header d-flex align-items-center gap-2 px-3 py-2 border-bottom">
+                    <span class="fw-bold" style="font-size:0.8125rem">TCRM Context</span>
+                    <div class="btn-group btn-group-sm ms-auto">
+                        <button type="button"
+                                t-att-class="'btn ' + (state.contextType === 'leads' ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => this.setContextType('leads')">Leads</button>
+                        <button type="button"
+                                t-att-class="'btn ' + (state.contextType === 'units' ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => this.setContextType('units')">Units</button>
+                        <button type="button"
+                                t-att-class="'btn ' + (state.contextType === 'projects' ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => this.setContextType('projects')">Projects</button>
+                    </div>
+                </div>
+                <div class="px-2 pt-2 pb-1">
+                    <input type="search" class="form-control form-control-sm" placeholder="Search…"
+                           t-att-value="state.contextSearch" t-on-input="onContextSearch"/>
+                </div>
+                <div class="o_rhub_context_list overflow-auto px-2 pb-2">
+                    <t t-if="state.contextLoading">
+                        <div class="text-center text-muted py-4"><i class="fa fa-spinner fa-spin"/></div>
+                    </t>
+                    <t t-elif="contextItems.length === 0">
+                        <div class="text-center text-muted py-4 small">No records found</div>
+                    </t>
+                    <t t-else="">
+                        <t t-foreach="contextItems" t-as="item" t-key="item.id">
+                            <div t-att-class="'o_rhub_ctx_item rounded p-2 mb-1 ' + (state.selectedContextId === item.id ? 'is-active' : '')"
+                                 t-on-click="() => this.selectContextItem(item.id)">
+                                <div class="fw-semibold text-truncate" style="font-size:0.8125rem"
+                                     t-esc="item.name || item.unit_code"/>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+                <div class="px-2 pb-2">
+                    <textarea class="form-control o_rhub_brief_input" style="min-height:100px"
+                              placeholder="Research brief…"
+                              t-att-value="state.researchBrief" t-on-input="onBriefInput"/>
+                    <button type="button" class="btn btn-sm btn-outline-secondary w-100 mt-1" t-on-click="copyBrief">
+                        Copy Brief
+                    </button>
+                </div>
+            </div>
+
+            <div class="o_rhub_right o_rhub_dock_target">
+
+                <!-- LIBRARY: browse synced researches inside TCRM -->
+                <t t-if="state.panel === 'library'">
+                    <div class="o_rhub_library d-flex flex-column h-100">
+                        <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom">
+                            <strong class="me-auto">My Researches</strong>
+                            <input type="search" class="form-control form-control-sm"
+                                   style="max-width:220px" placeholder="Filter…"
+                                   t-att-value="state.notebookSearch" t-on-input="onNotebookSearch"/>
+                        </div>
+                        <div class="flex-grow-1 overflow-auto p-3">
+                            <t t-if="state.notebooksLoading or state.syncing">
+                                <div class="text-center text-muted py-5">
+                                    <i class="fa fa-spinner fa-spin fa-2x"/>
+                                    <div class="mt-2 small">Loading researches…</div>
+                                </div>
+                            </t>
+                            <t t-elif="filteredNotebooks.length === 0">
+                                <div class="o_rhub_launch d-flex flex-column h-100 align-items-center justify-content-center gap-3 p-5 text-center">
+                                    <i class="fa fa-book fa-3x text-primary"/>
+                                    <h4 class="mb-0">No researches in TCRM yet</h4>
+                                    <p class="text-muted" style="max-width:520px">
+                                        Connect your Google account (In Page), then click
+                                        <strong>Sync Now</strong>. Researches from NotebookLM
+                                        are stored here so you browse them inside TCRM — not on Google.
+                                    </p>
+                                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                        <button type="button" class="btn btn-primary"
+                                                t-on-click="() => this.setPanel('proxy')">
+                                            <i class="fa fa-google me-1"/>Connect Google (In Page)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary"
+                                                t-on-click="() => this.syncNow()">
+                                            Sync Now
+                                        </button>
+                                    </div>
+                                    <p class="small text-muted mb-0" t-if="state.lastSyncMessage"
+                                       t-esc="state.lastSyncMessage"/>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="row g-3">
+                                    <t t-foreach="filteredNotebooks" t-as="nb" t-key="nb.id">
+                                        <div class="col-12 col-md-6 col-xl-4">
+                                            <div class="o_rhub_nb_card rounded p-3 h-100">
+                                                <div class="fw-semibold text-truncate mb-1"
+                                                     style="cursor:pointer;font-size:0.9375rem"
+                                                     t-on-click="() => this.openNotebookRecord(nb.id)"
+                                                     t-esc="nb.name"/>
+                                                <div class="text-muted small mb-2">
+                                                    Sources: <t t-esc="nb.source_count or 0"/>
+                                                    <t t-if="nb.synced_at">
+                                                        · <t t-esc="nb.synced_at"/>
+                                                    </t>
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <button type="button" class="btn btn-sm btn-primary"
+                                                            t-on-click="() => this.openNotebookRecord(nb.id)">
+                                                        Open in TCRM
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                            t-on-click="() => this.openNotebookExternal(nb)">
+                                                        Google
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- CONNECT instructions -->
+                <t t-elif="state.panel === 'connect'">
+                    <div class="o_rhub_launch d-flex flex-column h-100 align-items-center justify-content-center gap-3 p-5 text-center">
+                        <i class="fa fa-google fa-3x text-primary"/>
+                        <h4 class="mb-0">Connect Google for sync</h4>
+                        <ol class="text-muted small text-start" style="max-width:480px">
+                            <li>Click <strong>In Page</strong> and sign in to Google NotebookLM</li>
+                            <li>When your notebooks appear (or login finishes), click <strong>I've signed in — Sync</strong></li>
+                            <li>Browse them in the <strong>Library</strong> tab inside TCRM</li>
+                        </ol>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <button type="button" class="btn btn-warning btn-lg"
+                                    t-on-click="() => this.setPanel('proxy')">
+                                Open In Page Login
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg"
+                                    t-on-click="onConnectFinished">
+                                I've signed in — Sync
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                    t-on-click="openDockedNotebookLM">
+                                Docked window (auth only)
+                            </button>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- IN PAGE PROXY -->
+                <t t-elif="state.panel === 'proxy'">
+                    <t t-if="!state.proxyAvailable">
+                        <div class="o_rhub_proxy_warn d-flex flex-column align-items-center justify-content-center h-100 gap-3 p-5 text-center">
+                            <h5>Proxy unavailable</h5>
+                            <p class="text-muted">Install <code>requests</code> on the server.</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o_rhub_proxy_banner px-3 py-2 small border-bottom d-flex flex-wrap align-items-center gap-2">
+                            <span>
+                                <i class="fa fa-warning text-warning me-1"/>
+                                Sign in here so TCRM can store session cookies and sync researches.
+                                If Next stays blocked, use Docked once, then return and Sync.
+                            </span>
+                            <button type="button" class="btn btn-sm btn-primary ms-auto"
+                                    t-on-click="onConnectFinished">
+                                I've signed in — Sync
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                    t-on-click="clearGoogleSession">Clear Login</button>
+                        </div>
+                        <iframe
+                            class="o_rhub_iframe"
+                            t-att-src="state.iframeUrl"
+                            t-att-sandbox="iframeSandbox"
+                            allow="clipboard-read; clipboard-write"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            t-on-load="onIframeLoad"
+                            width="100%" height="100%" frameborder="0"
+                            title="NotebookLM In-Page Connect"
+                        />
+                        <div t-if="!state.iframeLoaded" class="o_rhub_iframe_overlay">
+                            <i class="fa fa-spinner fa-spin fa-2x text-primary"/>
+                        </div>
+                    </t>
+                </t>
+
+                <!-- DOCKED placeholder -->
+                <t t-elif="state.panel === 'docked'">
+                    <div class="o_rhub_launch d-flex flex-column h-100 align-items-center justify-content-center gap-3 p-5 text-center">
+                        <h4>Docked NotebookLM window</h4>
+                        <p class="text-muted">Use this only to sign in. Then click Sync to import into TCRM.</p>
+                        <button type="button" class="btn btn-primary" t-on-click="openDockedNotebookLM">
+                            Re-open Docked
+                        </button>
+                        <button type="button" class="btn btn-success" t-on-click="onConnectFinished">
+                            Sync into TCRM Library
+                        </button>
+                    </div>
+                </t>
+
+            </div>
+        </div>
+    </t>
+
+</Layout>
+</t>
+
+</templates>

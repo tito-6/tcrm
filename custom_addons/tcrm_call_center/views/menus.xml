@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_santral_root"
+              name="Santral"
+              web_icon="tcrm_call_center,static/description/icon.png"
+              sequence="45"
+              groups="tcrm_call_center.group_santral_user"/>
+
+    <menuitem id="menu_santral_calls"
+              name="Çağrı Geçmişi"
+              parent="menu_santral_root"
+              action="action_tcrm_call_record"
+              sequence="10"/>
+
+    <menuitem id="menu_santral_recordings"
+              name="Kayıtlar"
+              parent="menu_santral_root"
+              action="action_tcrm_call_recording"
+              sequence="20"
+              groups="tcrm_call_center.group_santral_recording_listen"/>
+
+    <menuitem id="menu_santral_config"
+              name="Santral Ayarları"
+              parent="menu_santral_root"
+              action="action_tcrm_call_provider_config"
+              sequence="90"
+              groups="tcrm_call_center.group_santral_admin"/>
+
+    <!-- Ayarlar > Santral -->
+    <menuitem id="menu_santral_settings"
+              name="Santral"
+              parent="base.menu_administration"
+              action="action_tcrm_call_provider_config"
+              sequence="60"
+              groups="tcrm_call_center.group_santral_admin"/>
+</odoo>

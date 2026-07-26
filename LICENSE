@@ -1,0 +1,62 @@
+TCRM PROPRIETARY LICENSE
+Version 1.0, January 2026
+
+Copyright (c) 2026 TCRM. All Rights Reserved.
+
+TERMS AND CONDITIONS
+
+1. GRANT OF LICENSE
+   This software and associated documentation files (the "Software") are the 
+   proprietary property of TCRM. Subject to the terms of this license, TCRM 
+   grants you a limited, non-exclusive, non-transferable license to use the 
+   Software.
+
+2. RESTRICTIONS
+   You may NOT:
+   - Copy, modify, or distribute the Software
+   - Reverse engineer, decompile, or disassemble the Software
+   - Remove or alter any proprietary notices or labels on the Software
+   - Use the Software for any purpose other than as expressly permitted
+   - Sublicense, rent, lease, or lend the Software
+
+3. OWNERSHIP
+   TCRM retains all right, title, and interest in and to the Software, 
+   including all intellectual property rights. This license does not grant 
+   you any rights to trademarks, service marks, or trade names of TCRM.
+
+4. CUSTOM MODULES
+   Any custom modules, modifications, or extensions created for this platform
+   are the exclusive property of TCRM unless otherwise agreed in writing.
+
+5. MULTI-TENANT SAAS
+   This Software is designed as a multi-tenant SaaS platform. Each tenant's
+   data remains isolated and confidential. Unauthorized access to tenant data
+   is strictly prohibited.
+
+6. WARRANTY DISCLAIMER
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+7. LIMITATION OF LIABILITY
+   IN NO EVENT SHALL TCRM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+   OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+8. TERMINATION
+   This license is effective until terminated. Your rights under this license
+   will terminate automatically without notice if you fail to comply with any
+   term of this license.
+
+9. GOVERNING LAW
+   This license shall be governed by and construed in accordance with the laws
+   of the jurisdiction in which TCRM operates.
+
+10. ENTIRE AGREEMENT
+    This license constitutes the entire agreement between you and TCRM relating
+    to the Software and supersedes all prior or contemporaneous understandings.
+
+For licensing inquiries, please contact: legal@tcrm.com
+
+TCRM - Connect . Grow . Win

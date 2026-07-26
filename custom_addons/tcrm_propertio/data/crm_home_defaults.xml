@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Pin CRM app at the top of the apps sidebar -->
+        <record id="crm.crm_menu_root" model="ir.ui.menu">
+            <field name="sequence">1</field>
+            <field name="name">CRM</field>
+        </record>
+    </data>
+</odoo>

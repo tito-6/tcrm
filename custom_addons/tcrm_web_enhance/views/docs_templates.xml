@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Master Layout for Docs -->
+    <template id="docs_layout" name="Docs Layout">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <div class="container-fluid py-4 px-lg-5">
+                    <div class="row">
+                        <!-- Sidebar -->
+                        <div class="col-lg-3 col-md-4 mb-4">
+                            <div class="card shadow-sm border-0 sticky-top" style="top: 90px; z-index: 10;">
+                                <div class="card-header text-white fw-bold py-3" style="background-color: #101E55;">
+                                    <i class="fa fa-book me-2"></i> TCRM Documentation
+                                </div>
+                                <div class="list-group list-group-flush small">
+                                    <a href="/docs" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs' else ''}" style="border-left: 4px solid #101E55;">
+                                        <i class="fa fa-home me-2"></i> System Overview
+                                    </a>
+                                    <a href="/docs/propertio" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/propertio' else ''}">
+                                        <i class="fa fa-building me-2 text-primary"></i> Propertio (Real Estate)
+                                    </a>
+                                    <a href="/docs/crm" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/crm' else ''}">
+                                        <i class="fa fa-handshake-o me-2 text-info"></i> CRM &amp; Lead Pipeline
+                                    </a>
+                                    <a href="/docs/santral" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/santral' else ''}">
+                                        <i class="fa fa-phone-square me-2 text-success"></i> Santral Call Center
+                                    </a>
+                                    <a href="/docs/marketing-hub" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/marketing-hub' else ''}">
+                                        <i class="fa fa-bullhorn me-2 text-warning"></i> Marketing Hub (Zernio)
+                                    </a>
+                                    <a href="/docs/ai" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/ai' else ''}">
+                                        <i class="fa fa-magic me-2 text-danger"></i> TCRM AI &amp; Agentic Layer
+                                    </a>
+                                    <a href="/docs/vector-sync" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/vector-sync' else ''}">
+                                        <i class="fa fa-database me-2 text-secondary"></i> Vector Sync &amp; RAG
+                                    </a>
+                                    <a href="/docs/market-analysis" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/market-analysis' else ''}">
+                                        <i class="fa fa-line-chart me-2 text-primary"></i> Market Valuation
+                                    </a>
+                                    <a href="/docs/whatsapp" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/whatsapp' else ''}">
+                                        <i class="fa fa-whatsapp me-2 text-success"></i> WhatsApp Automation
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Content -->
+                        <div class="col-lg-9 col-md-8">
+                            <t t-out="0"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Index Page -->
+    <template id="docs_index_template" name="TCRM Documentation - Overview">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">System Overview</span>
+                    <h1 class="display-5 fw-bold mb-3" style="color: #101E55;">TCRM Enterprise Platform</h1>
+                    <p class="lead text-muted mb-4">Comprehensive technical &amp; operational documentation for the real estate ERP and agentic CRM platform powered by AK KOD YAZILIM.</p>
+                    <hr class="my-4"/>
+                    
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-3 bg-light border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-building me-2"></i> Propertio Real Estate ERP</h5>
+                                <p class="text-muted small">Manage complete property inventory (Projects, Blocks, Units), customer contracts, flexible payment plans, installment collections, TCMB live exchange rates, and Title Deed (Tapu) legal steps.</p>
+                                <a href="/docs/propertio" class="btn btn-sm text-white" style="background-color: #101E55;">Explore Propertio Docs &#8594;</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-3 bg-light border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-handshake-o me-2"></i> CRM &amp; Pipeline Management</h5>
+                                <p class="text-muted small">Capture leads automatically, track sales opportunities across visual Kanban stages, score priority leads with 5-star rating system, and schedule automated sales follow-up tasks.</p>
+                                <a href="/docs/crm" class="btn btn-sm text-white" style="background-color: #101E55;">Explore CRM Docs &#8594;</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-3 bg-light border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-phone-square me-2"></i> Santral WebRTC Call Center</h5>
+                                <p class="text-muted small">Browser-embedded softphone dialer, click-to-call directly from partner or lead records, automatic call logging, audio recordings playback, and missed call ticket queues.</p>
+                                <a href="/docs/santral" class="btn btn-sm text-white" style="background-color: #101E55;">Explore Santral Docs &#8594;</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-3 bg-light border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-bullhorn me-2"></i> Marketing Hub (Zernio API)</h5>
+                                <p class="text-muted small">Sync Meta/Instagram ad campaigns, view exact ad images/video creatives right inside the CRM opportunity card, track lead source attribution, and evaluate real campaign ROI.</p>
+                                <a href="/docs/marketing-hub" class="btn btn-sm text-white" style="background-color: #101E55;">Explore Marketing Hub Docs &#8594;</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-3 bg-light border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-magic me-2"></i> TCRM AI &amp; Agentic Layer</h5>
+                                <p class="text-muted small">Gemini-powered AI assistant querying live ERP databases (`search_sales`, `get_payment_plan`, `get_situation`), provider health monitoring, and Discuss bot integration.</p>
+                                <a href="/docs/ai" class="btn btn-sm text-white" style="background-color: #101E55;">Explore AI Docs &#8594;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Propertio Docs -->
+    <template id="docs_propertio_template" name="TCRM Documentation - Propertio">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Real Estate ERP</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-building me-2"></i> Propertio Management Module</h1>
+                    <p class="lead text-muted mb-4">Complete documentation for real estate inventory, sales contracts, installments, currency rates, and reporting.</p>
+                    
+                    <hr class="my-4"/>
+
+                    <!-- Section 1: Portfolio Structure -->
+                    <div class="mb-5">
+                        <h3 class="h4 fw-bold mb-3" style="color: #101E55;">1. Property Portfolio Architecture</h3>
+                        <p>Propertio organizes real estate holdings into a clean 3-level hierarchy:</p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded border border-start border-4" style="border-left-color: #101E55 !important;">
+                                    <h6 class="fw-bold mb-1">Projects (`propertio.project`)</h6>
+                                    <p class="small text-muted mb-0">Top-level developments. Tracks location, overall GDV (Gross Development Value), project stage, and total unit counts.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded border border-start border-4" style="border-left-color: #101E55 !important;">
+                                    <h6 class="fw-bold mb-1">Blocks (`propertio.block`)</h6>
+                                    <p class="small text-muted mb-0">Physical buildings or construction phases within a project (e.g. Block A, Block B, Tower 1).</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded border border-start border-4" style="border-left-color: #101E55 !important;">
+                                    <h6 class="fw-bold mb-1">Units (`propertio.unit`)</h6>
+                                    <p class="small text-muted mb-0">Individual sellable properties (Apartments, Villas, Offices). Tracks status (Available, Option, Sold, Handover), floor area, and pricing.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Sales & Installments -->
+                    <div class="mb-5">
+                        <h3 class="h4 fw-bold mb-3" style="color: #101E55;">2. Sales Contracts &amp; Payment Plans</h3>
+                        <p>The sales lifecycle connects customers to properties through structured payment schedules:</p>
+                        <ul class="list-group list-group-flush border rounded mb-3">
+                            <li class="list-group-item p-3">
+                                <strong>New Sale Wizard (`propertio.sale.wizard`):</strong> Creates a sale contract (`propertio.sale`), automatically calculates down payment, number of installments, and generates balloon payment schedules.
+                            </li>
+                            <li class="list-group-item p-3">
+                                <strong>Installments Allocation (`propertio.installment`):</strong> Payments (`propertio.payment`) are automatically matched against pending installments on a FIFO (First-In, First-Out) basis.
+                            </li>
+                            <li class="list-group-item p-3">
+                                <strong>TCMB Live Exchange Rates (`tcmb_manager`):</strong> Auto-fetches daily Central Bank of Türkiye (TCMB) exchange rates to enable multi-currency contract balances (USD, EUR, TRY).
+                            </li>
+                            <li class="list-group-item p-3">
+                                <strong>Batch Export (PDF &amp; Word):</strong> Generate legal sales contracts in PDF or editable Word (`.docx`) format using pre-built QWeb templates.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 3: Reporting -->
+                    <div class="mb-4">
+                        <h3 class="h4 fw-bold mb-3" style="color: #101E55;">3. Unified Report Center</h3>
+                        <p>Access specialized reporting wizards (`propertio.unified.report.wizard`) for operational and executive insights:</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm small">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Report Type</th>
+                                        <th>Key Metrics Covered</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Collection Map &amp; Cash Flow</strong></td>
+                                        <td>Expected vs. actual collections, monthly cash flow projections, payment status breakdown.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Consultant Scorecard (Danışman Karnesi)</strong></td>
+                                        <td>Agent sales performance, closed deal volume, commission calculations.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Red Alert Monitoring (Kırmızı Alarm)</strong></td>
+                                        <td>Overdue installment tracking, defaulted accounts, automated risk alerts.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Title Deed Progress (Tapu)</strong></td>
+                                        <td>Legal transfer stages, notary appointment schedules, ownership registration.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- CRM Docs -->
+    <template id="docs_crm_template" name="TCRM Documentation - CRM">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">CRM &amp; Sales</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-handshake-o me-2"></i> CRM &amp; Lead Pipeline Module</h1>
+                    <p class="lead text-muted mb-4">Guide to lead qualification, 5-star rating, activity tracking, and pipeline stages.</p>
+                    
+                    <hr class="my-4"/>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-4 bg-light rounded border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;">Kanban Sales Funnel</h5>
+                                <p class="small text-muted mb-0">Drag and drop opportunity cards across customized sales stages (New, Qualified, Proposition, Won). Each stage tracks estimated revenue and win probability.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 bg-light rounded border h-100">
+                                <h5 class="fw-bold mb-2" style="color: #101E55;">5-Star Lead Prioritization</h5>
+                                <p class="small text-muted mb-0">Integrated star-rating widget on lead forms and Kanban views allowing sales managers to instantly flag high-value VIP leads.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Santral Docs -->
+    <template id="docs_santral_template" name="TCRM Documentation - Santral">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Call Center</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-phone-square me-2"></i> Santral WebRTC Call Center</h1>
+                    <p class="lead text-muted mb-4">Browser-native softphone dialer, automated call logs, audio recording playback, and agent queues.</p>
+                    
+                    <hr class="my-4"/>
+
+                    <div class="p-4 bg-light rounded border mb-4">
+                        <h5 class="fw-bold mb-2" style="color: #101E55;">WebRTC Click-to-Call Softphone</h5>
+                        <p class="small text-muted mb-0">Click any phone number across CRM leads, contacts, or sales contracts to initiate a call directly from your browser without third-party desktop software.</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded border">
+                                <h6 class="fw-bold mb-1">Automated Call History</h6>
+                                <p class="small text-muted mb-0">Every incoming and outgoing call is logged with call duration, agent ID, and recording URL attached to the partner's chatter log.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded border">
+                                <h6 class="fw-bold mb-1">Missed Call Ticketing</h6>
+                                <p class="small text-muted mb-0">Unanswered call events automatically generate high-priority follow-up tickets in the agent queue to prevent lost leads.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Marketing Hub Docs -->
+    <template id="docs_marketing_hub_template" name="TCRM Documentation - Marketing Hub">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Marketing Integration</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-bullhorn me-2"></i> Marketing Hub &amp; Zernio API</h1>
+                    <p class="lead text-muted mb-4">Meta, Facebook &amp; Instagram ad syncing, visual ad creative previews, and campaign ROI analytics.</p>
+                    
+                    <hr class="my-4"/>
+
+                    <div class="p-4 bg-light rounded border mb-4">
+                        <h5 class="fw-bold mb-2" style="color: #101E55;">Zernio API Ad Sync &amp; Creative Previews</h5>
+                        <p class="small text-muted mb-0">Leads captured from Facebook &amp; Instagram lead ads automatically sync campaign metadata. Sales representatives can see the exact ad image or video creative the prospect clicked on right inside the CRM opportunity card.</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- AI Docs -->
+    <template id="docs_ai_template" name="TCRM Documentation - AI">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Artificial Intelligence</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-magic me-2"></i> TCRM AI &amp; Agentic Intelligence</h1>
+                    <p class="lead text-muted mb-4">Gemini-powered AI assistant, database tools, multi-provider engine, and Discuss bot integration.</p>
+                    
+                    <hr class="my-4"/>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded border">
+                                <h6 class="fw-bold mb-1">Live Database Tools</h6>
+                                <p class="small text-muted mb-0">The AI engine directly queries live records via functions like `search_sales`, `get_payment_plan`, `get_situation`, and `get_overdue_payments`.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded border">
+                                <h6 class="fw-bold mb-1">Multi-Provider Engine</h6>
+                                <p class="small text-muted mb-0">Supports Gemini, OpenAI, Anthropic, Groq, and Ollama with automated cooldown management and fallback logic.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Vector Sync Docs -->
+    <template id="docs_vector_sync_template" name="TCRM Documentation - Vector Sync">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">RAG &amp; Vectorization</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-database me-2"></i> Vector Sync Module</h1>
+                    <p class="lead text-muted mb-4">Semantic vector synchronization queue for high-performance RAG search across partners and properties.</p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Market Analysis Docs -->
+    <template id="docs_market_analysis_template" name="TCRM Documentation - Market Valuation">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Valuation</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-line-chart me-2"></i> Market Analysis &amp; Valuation</h1>
+                    <p class="lead text-muted mb-4">Real estate pricing models, price-per-sqm regional benchmarking, and market trends analytics.</p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- WhatsApp Docs -->
+    <template id="docs_whatsapp_template" name="TCRM Documentation - WhatsApp">
+        <t t-call="tcrm_web_enhance.docs_layout">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Messaging</span>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-whatsapp me-2"></i> WhatsApp Automation</h1>
+                    <p class="lead text-muted mb-4">Automated payment reminders, contract document delivery, and customizable message templates.</p>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

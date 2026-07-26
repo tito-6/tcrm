@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_marketing_hub.App">
+        <div class="o_tcrm_mh_app">
+            <aside class="o_tcrm_mh_nav">
+                <div class="o_tcrm_mh_brand">
+                    <span class="o_tcrm_mh_mark">MH</span>
+                    <div>
+                        <strong>Marketing Hub</strong>
+                        <small>Meta · Instagram · Facebook</small>
+                    </div>
+                </div>
+                <nav class="o_tcrm_mh_nav_scroll">
+                    <button t-foreach="sections" t-as="s" t-key="s.id"
+                            t-att-class="'o_tcrm_mh_nav_item' + (state.section === s.id ? ' active' : '')"
+                            t-on-click="() => this.setSection(s.id)">
+                        <t t-esc="s.label"/>
+                    </button>
+                </nav>
+                <div class="o_tcrm_mh_nav_footer">
+                    <button class="btn btn-sm btn-primary w-100 mb-2" t-on-click="openCompose">Yeni Gönderi</button>
+                    <button class="btn btn-sm btn-outline-primary w-100" t-on-click="openCreateAd">Yeni Reklam</button>
+                </div>
+            </aside>
+
+            <main class="o_tcrm_mh_main">
+                <div class="o_tcrm_mh_main_scroll">
+                    <header class="o_tcrm_mh_header">
+                        <div>
+                            <h1 t-esc="sections.find(s => s.id === state.section)?.label or 'Marketing Hub'"/>
+                            <p t-if="selectedAd">
+                                Reklam hesabı:
+                                <strong t-esc="selectedAd.name"/>
+                                <span class="text-muted" t-esc="' · ' + selectedAd.meta_act_id"/>
+                            </p>
+                            <p t-else="" class="text-muted">İzlemek için bir reklam hesabı seçin.</p>
+                        </div>
+                        <div class="o_tcrm_mh_actions">
+                            <select class="form-select form-select-sm o_tcrm_mh_ad_select"
+                                    t-att-value="state.selectedAdAccountId or ''"
+                                    t-on-change="onSelectAdAccount">
+                                <option value="">Reklam hesabı seç…</option>
+                                <t t-foreach="state.data?.ad_accounts or []" t-as="aa" t-key="aa.id">
+                                    <option t-att-value="aa.id" t-esc="aa.name + ' (' + aa.meta_act_id + ')'"/>
+                                </t>
+                            </select>
+                            <button class="btn btn-outline-secondary" t-att-disabled="state.syncing" t-on-click="syncCampaigns">
+                                Kampanyaları Çek
+                            </button>
+                            <button class="btn btn-secondary" t-att-disabled="state.syncing" t-on-click="syncLeads">
+                                Leadleri Çek
+                            </button>
+                            <button class="btn btn-primary" t-att-disabled="state.syncing" t-on-click="fullSync">
+                                <t t-if="state.syncing">Senkronize ediliyor…</t>
+                                <t t-else="">Tam Senkron</t>
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- Global date filter (Odoo DateTimeInput) -->
+                    <div class="o_tcrm_mh_datebar">
+                        <div class="o_tcrm_mh_datebar_fields">
+                            <label>
+                                <span>Başlangıç</span>
+                                <DateTimeInput type="'date'" value="state.dateFrom"
+                                               onChange.bind="onDateFromChange"
+                                               onApply.bind="onDateFromChange"
+                                               placeholder="'Başlangıç tarihi'"/>
+                            </label>
+                            <label>
+                                <span>Bitiş</span>
+                                <DateTimeInput type="'date'" value="state.dateTo"
+                                               onChange.bind="onDateToChange"
+                                               onApply.bind="onDateToChange"
+                                               placeholder="'Bitiş tarihi'"/>
+                            </label>
+                        </div>
+                        <div class="o_tcrm_mh_datebar_presets">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="() => this.setPresetDays(7)">7 gün</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="() => this.setPresetDays(30)">30 gün</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" t-on-click="setThisMonth">Bu ay</button>
+                            <button type="button" class="btn btn-sm btn-link" t-on-click="clearDates">Temizle</button>
+                        </div>
+                    </div>
+
+                    <div t-if="state.error" class="alert alert-danger" t-esc="state.error"/>
+                    <div t-if="state.loading" class="o_tcrm_mh_loading">Yükleniyor…</div>
+
+                    <t t-if="!state.loading and state.data">
+                        <!-- OVERVIEW -->
+                        <section t-if="state.section === 'overview'" class="o_tcrm_mh_section">
+                            <div class="o_tcrm_mh_stat_grid">
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.accounts"/><small>Sosyal hesap</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.ad_accounts"/><small>Reklam hesabı</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.campaigns"/><small>Kampanya (toplam)</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.meta_leads"/><small>Lead (filtre)</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.crm_imported"/><small>CRM’e aktarılan</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.pending_crm"/><small>CRM bekleyen</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.source_instagram"/><small>Instagram kaynak</small></div>
+                                <div class="o_tcrm_mh_stat"><span t-esc="stats.source_facebook"/><small>Facebook kaynak</small></div>
+                            </div>
+                            <div class="o_tcrm_mh_chart_grid">
+                                <div class="o_tcrm_mh_chart_card">
+                                    <canvas t-ref="chartSource"/>
+                                </div>
+                                <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
+                                    <canvas t-ref="chartDay"/>
+                                </div>
+                            </div>
+                            <div class="o_tcrm_mh_quick">
+                                <button class="btn btn-primary" t-on-click="syncCampaigns">Kampanyaları Çek</button>
+                                <button class="btn btn-secondary" t-on-click="() => this.setSection('leads')">Leadleri Gör</button>
+                                <button class="btn btn-secondary" t-on-click="() => this.setSection('reports')">Grafik Raporlar</button>
+                                <button class="btn btn-secondary" t-on-click="openCrmLeads">CRM Lead Listesi</button>
+                                <button class="btn btn-secondary" t-on-click="openCampaignsWindow">Kampanyalar Penceresi</button>
+                                <button class="btn btn-secondary" t-on-click="openConnectInstagram">Instagram Bağla</button>
+                                <button class="btn btn-secondary" t-on-click="openConnectFacebook">Facebook Bağla</button>
+                            </div>
+                        </section>
+
+                        <!-- REPORTS -->
+                        <section t-if="state.section === 'reports'" class="o_tcrm_mh_section">
+                            <div class="o_tcrm_mh_quick mb-3">
+                                <button class="btn btn-secondary" t-on-click="openLeadGraph">Odoo Graph / Pivot Aç</button>
+                                <button class="btn btn-secondary" t-on-click="openLeadsWindow">Lead Listesi</button>
+                                <span class="text-muted small align-self-center">
+                                    Toplam lead (filtre): <strong t-esc="charts.total_leads or 0"/>
+                                </span>
+                            </div>
+                            <div class="o_tcrm_mh_chart_grid">
+                                <div class="o_tcrm_mh_chart_card">
+                                    <canvas t-ref="chartSource"/>
+                                </div>
+                                <div class="o_tcrm_mh_chart_card">
+                                    <canvas t-ref="chartState"/>
+                                </div>
+                                <div class="o_tcrm_mh_chart_card">
+                                    <canvas t-ref="chartCreative"/>
+                                </div>
+                                <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
+                                    <canvas t-ref="chartDay"/>
+                                </div>
+                                <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
+                                    <canvas t-ref="chartForm"/>
+                                </div>
+                                <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
+                                    <canvas t-ref="chartSpend"/>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ASSETS -->
+                        <section t-if="state.section === 'assets'" class="o_tcrm_mh_section">
+                            <h2>Sayfa Senkronizasyonu</h2>
+                            <p class="text-muted small">
+                                Lead form senkronu yalnızca senkronu açık ve aktif sayfalarda çalışır.
+                                Kapatmak mevcut leadleri silmez.
+                            </p>
+                            <div t-if="state.pageMgmtLoading" class="o_tcrm_mh_loading mb-3">Sayfalar yükleniyor…</div>
+                            <t t-if="state.pageMgmt">
+                                <div class="o_tcrm_mh_page_profile mb-3">
+                                    <div>
+                                        <strong>Bağlı API Profili</strong>
+                                        <div t-if="state.pageMgmt.profile">
+                                            <t t-esc="state.pageMgmt.profile.name"/>
+                                            <span class="text-muted small ms-2"
+                                                  t-esc="'ID: ' + (state.pageMgmt.profile.zernio_id or '')"/>
+                                        </div>
+                                        <div t-else="" class="text-muted">Profil henüz senkronize edilmedi.</div>
+                                    </div>
+                                    <div class="o_tcrm_mh_quick">
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                                t-att-disabled="state.pageMgmtSaving or !state.pageMgmt.can_manage"
+                                                t-on-click="testConnection">
+                                            Bağlantıyı Test Et
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                t-att-disabled="state.pageMgmtSaving or !state.pageMgmt.can_manage"
+                                                t-on-click="refreshPages">
+                                            Sayfaları Yenile
+                                        </button>
+                                        <button class="btn btn-sm btn-primary"
+                                                t-att-disabled="state.pageMgmtSaving or !state.pageMgmt.can_manage"
+                                                t-on-click="savePageSelection">
+                                            Atamaları Kaydet
+                                        </button>
+                                    </div>
+                                </div>
+                                <div t-if="state.connectionTest"
+                                     t-att-class="'alert mb-3 ' + (state.connectionTest.success ? 'alert-success' : 'alert-danger')"
+                                     t-esc="state.connectionTest.message"/>
+                                <div t-if="!state.pageMgmt.can_manage" class="alert alert-warning mb-3">
+                                    Sayfa seçimini değiştirmek için Marketing Yönetici yetkisi gerekir. Görüntüleme serbest.
+                                </div>
+                                <div class="table-responsive o_tcrm_mh_table_scroll mb-4">
+                                    <table class="table table-sm o_tcrm_mh_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Senkron</th>
+                                                <th>Sayfa</th>
+                                                <th>Platform</th>
+                                                <th>Durum</th>
+                                                <th>Son Senkron</th>
+                                                <th>Hata</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="state.pageMgmt.accounts or []" t-as="pg" t-key="pg.id">
+                                                <td>
+                                                    <input type="checkbox"
+                                                           t-att-checked="state.pageSelectedIds[pg.id]"
+                                                           t-att-disabled="!state.pageMgmt.can_manage or state.pageMgmtSaving"
+                                                           t-on-change="() => this.togglePageSync(pg.id)"/>
+                                                </td>
+                                                <td>
+                                                    <div t-esc="pg.display_name or pg.name"/>
+                                                    <small class="text-muted" t-esc="pg.profile_name or ''"/>
+                                                </td>
+                                                <td>
+                                                    <span t-att-class="sourceBadgeClass(pg.platform)" t-esc="pg.platform"/>
+                                                </td>
+                                                <td t-esc="pg.status"/>
+                                                <td t-esc="pg.last_sync_at or '—'"/>
+                                                <td>
+                                                    <span t-if="pg.sync_error" class="text-danger small" t-esc="pg.sync_error"/>
+                                                    <span t-else="" class="text-muted">—</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div t-if="!(state.pageMgmt.accounts || []).length" class="alert alert-info mb-4">
+                                    Henüz sayfa yok. <strong>Sayfaları Yenile</strong> ile Zernio’dan çekin.
+                                </div>
+                            </t>
+
+                            <h2>Sosyal Hesaplar</h2>
+                            <div class="o_tcrm_mh_cards">
+                                <article t-foreach="state.data.accounts" t-as="acc" t-key="acc.id" class="o_tcrm_mh_card">
+                                    <div class="o_tcrm_mh_card_title">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img t-if="acc.avatar_url" t-att-src="acc.avatar_url"
+                                                 class="rounded-circle" style="width:32px;height:32px;object-fit:cover;"
+                                                 alt="Avatar" loading="lazy"
+                                                 t-on-error="(ev) => ev.target.style.display='none'"/>
+                                            <strong t-esc="acc.name"/>
+                                        </div>
+                                        <span t-att-class="sourceBadgeClass(acc.platform)" t-esc="acc.platform"/>
+                                    </div>
+                                    <div class="text-muted" t-esc="'@' + (acc.username or '-')"/>
+                                    <div>Durum: <t t-esc="acc.status"/> · Takipçi: <t t-esc="acc.followers"/></div>
+                                    <div class="small mt-1">
+                                        Senkron:
+                                        <t t-if="acc.sync_enabled">Açık</t>
+                                        <t t-else="">Kapalı</t>
+                                        <t t-if="acc.last_sync_at"> · <t t-esc="acc.last_sync_at"/></t>
+                                    </div>
+                                    <div t-if="acc.sync_error" class="text-danger small mt-1" t-esc="acc.sync_error"/>
+                                </article>
+                            </div>
+                            <h2 class="mt-4">Meta Reklam Hesapları</h2>
+                            <p class="text-muted small">Satıra tıklayarak izleme hesabını seçin. Kampanyalar bu hesaba göre filtrelenir.</p>
+                            <div class="table-responsive o_tcrm_mh_table_scroll">
+                                <table class="table table-sm o_tcrm_mh_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad</th>
+                                            <th>Act ID</th>
+                                            <th>İşletme</th>
+                                            <th>PB</th>
+                                            <th>Min. bütçe</th>
+                                            <th>Sayfa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.ad_accounts" t-as="aa" t-key="aa.id"
+                                            t-att-class="aa.id === state.selectedAdAccountId ? 'table-active' : ''"
+                                            t-on-click="() => { state.selectedAdAccountId = aa.id; this.refresh(); }">
+                                            <td t-esc="aa.name"/>
+                                            <td t-esc="aa.meta_act_id"/>
+                                            <td t-esc="aa.business_name"/>
+                                            <td t-esc="aa.currency"/>
+                                            <td t-esc="aa.min_budget"/>
+                                            <td t-esc="aa.social_account"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h2 class="mt-4">Lead Formları</h2>
+                            <div class="table-responsive o_tcrm_mh_table_scroll">
+                                <table class="table table-sm o_tcrm_mh_table">
+                                    <thead>
+                                        <tr><th>Form</th><th>Durum</th><th>Meta Lead</th><th>CRM</th><th>Sayfa</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.forms" t-as="f" t-key="f.id">
+                                            <td t-esc="f.name"/>
+                                            <td t-esc="f.status"/>
+                                            <td t-esc="f.leads_count"/>
+                                            <td t-esc="f.imported"/>
+                                            <td t-esc="f.account"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- ADS / CAMPAIGNS -->
+                        <section t-if="state.section === 'ads'" class="o_tcrm_mh_section">
+                            <div class="o_tcrm_mh_quick mb-3">
+                                <button class="btn btn-primary" t-att-disabled="state.syncing" t-on-click="syncCampaigns">
+                                    Tüm Kampanyaları Çek
+                                </button>
+                                <button class="btn btn-secondary" t-on-click="openCampaignsWindow">Liste Penceresinde Aç</button>
+                                <span class="text-muted small align-self-center">
+                                    Üstteki Odoo tarih seçici ile kampanya listesini filtreleyin.
+                                </span>
+                            </div>
+                            <div class="alert alert-info" t-if="!filteredCampaigns.length">
+                                Bu reklam hesabında / tarih aralığında henüz kampanya yok.
+                                <strong>Tüm Kampanyaları Çek</strong> ile Meta’dan senkronize edin.
+                            </div>
+                            <div class="table-responsive o_tcrm_mh_table_scroll" t-if="filteredCampaigns.length">
+                                <table class="table table-sm o_tcrm_mh_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kampanya</th>
+                                            <th>Platform</th>
+                                            <th>Durum</th>
+                                            <th>Harcama</th>
+                                            <th>Gösterim</th>
+                                            <th>Tıklama</th>
+                                            <th>Dönüşüm</th>
+                                            <th>ROAS</th>
+                                            <th>Son Senkron</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="filteredCampaigns" t-as="c" t-key="c.id"
+                                            class="o_tcrm_mh_row_click" t-on-click="() => this.openCampaign(c.id)">
+                                            <td t-esc="c.name"/>
+                                            <td><span t-att-class="sourceBadgeClass(c.platform_key)" t-esc="c.platform"/></td>
+                                            <td t-esc="c.status"/>
+                                            <td t-esc="(c.spend || 0) + ' ' + (c.currency || '')"/>
+                                            <td t-esc="c.impressions"/>
+                                            <td t-esc="c.clicks"/>
+                                            <td t-esc="c.conversions"/>
+                                            <td t-esc="c.roas"/>
+                                            <td t-esc="c.last_sync_at"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- LEADS -->
+                        <section t-if="state.section === 'leads'" class="o_tcrm_mh_section">
+                            <div class="o_tcrm_mh_quick mb-3">
+                                <button class="btn btn-primary" t-on-click="syncLeads">Leadleri Çek ve CRM’e Aktar</button>
+                                <button class="btn btn-secondary" t-on-click="importPending">Bekleyenleri CRM’e Aktar</button>
+                                <button class="btn btn-secondary" t-on-click="openCrmLeads">CRM’de Aç</button>
+                                <button class="btn btn-secondary" t-on-click="openLeadsWindow">Liste / Graph</button>
+                            </div>
+                            <div class="o_tcrm_mh_lead_filters mb-2">
+                                <input type="search" class="form-control form-control-sm"
+                                       placeholder="Lead ara (ad, telefon, kampanya…)"
+                                       t-model="state.leadSearch"/>
+                                <select class="form-select form-select-sm" t-model="state.leadSource">
+                                    <option value="">Tüm kaynaklar</option>
+                                    <option value="instagram">Instagram</option>
+                                    <option value="facebook">Facebook</option>
+                                    <option value="meta">Meta</option>
+                                </select>
+                            </div>
+                            <p class="text-muted small mb-2">
+                                Satıra tıklayın: gönderim tarihi, form cevapları ve reklam kreatifi (görsel/video) önizlenir.
+                            </p>
+                            <div class="table-responsive o_tcrm_mh_table_scroll">
+                                <table class="table table-sm o_tcrm_mh_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad</th>
+                                            <th>Kaynak</th>
+                                            <th>Kreatif</th>
+                                            <th>Telefon</th>
+                                            <th>Kampanya / Reklam</th>
+                                            <th>Form</th>
+                                            <th>Gönderim (Meta)</th>
+                                            <th>CRM</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="filteredLeads" t-as="l" t-key="l.id"
+                                            class="o_tcrm_mh_row_click"
+                                            t-on-click="() => this.openLeadPreview(l.id)">
+                                            <td t-esc="l.name"/>
+                                            <td>
+                                                <span t-att-class="sourceBadgeClass(l.source_platform)" t-esc="l.source"/>
+                                            </td>
+                                            <td>
+                                                <span class="o_tcrm_mh_creative_chip" t-esc="creativeBadge(l.creative_type)"/>
+                                            </td>
+                                            <td t-esc="l.phone"/>
+                                            <td>
+                                                <div t-esc="l.campaign_name or '—'"/>
+                                                <small class="text-muted" t-esc="l.ad_name or ''"/>
+                                            </td>
+                                            <td t-esc="l.form"/>
+                                            <td t-esc="l.created_time_display or l.created_time"/>
+                                            <td>
+                                                <button t-if="l.crm_lead_id" class="btn btn-link btn-sm"
+                                                        t-on-click.stop="() => this.openCrmLead(l.crm_lead_id)">CRM</button>
+                                                <span t-else="" class="text-muted">Bekliyor</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div t-if="!filteredLeads.length" class="alert alert-info mt-2">
+                                Filtreye uyan lead yok. Tarihi genişletin veya Leadleri Çek ile senkronize edin.
+                            </div>
+                        </section>
+
+                        <!-- INBOX -->
+                        <section t-if="state.section === 'inbox'" class="o_tcrm_mh_section">
+                            <div class="o_tcrm_mh_quick mb-3">
+                                <button class="btn btn-primary" t-att-disabled="state.syncing" t-on-click="syncInbox">
+                                    Gelen Kutusunu Çek
+                                </button>
+                                <button class="btn btn-secondary" t-on-click="openInboxWindow">Liste Penceresinde Aç</button>
+                            </div>
+                            <div class="o_tcrm_mh_cards" t-if="(state.data.conversations || []).length">
+                                <article t-foreach="state.data.conversations" t-as="cv" t-key="cv.id"
+                                         class="o_tcrm_mh_card o_tcrm_mh_row_click"
+                                         t-on-click="() => this.openConversation(cv.id)">
+                                    <div class="o_tcrm_mh_card_title">
+                                        <strong t-esc="cv.name"/>
+                                        <span t-att-class="sourceBadgeClass(cv.platform)" t-esc="cv.platform"/>
+                                    </div>
+                                    <div class="text-muted small" t-esc="cv.last_message_at"/>
+                                    <div t-esc="cv.last_message"/>
+                                </article>
+                            </div>
+                            <div t-else="" class="alert alert-info">
+                                Henüz DM konuşması yok. <strong>Gelen Kutusunu Çek</strong> ile Facebook / Instagram mesajlarını senkronize edin.
+                            </div>
+                        </section>
+
+                        <!-- POSTS -->
+                        <section t-if="state.section === 'posts'" class="o_tcrm_mh_section">
+                            <button class="btn btn-primary mb-3" t-on-click="openCompose">Yeni Gönderi</button>
+                            <div class="o_tcrm_mh_cards" t-if="(state.data.posts || []).length">
+                                <article t-foreach="state.data.posts" t-as="p" t-key="p.id" class="o_tcrm_mh_card">
+                                    <img t-if="p.media_url" t-att-src="p.media_url"
+                                         class="w-100 rounded mb-2" style="max-height:180px;object-fit:cover;"
+                                         alt="Post media" loading="lazy"
+                                         t-on-error="(ev) => ev.target.style.display='none'"/>
+                                    <div class="o_tcrm_mh_card_title">
+                                        <strong t-esc="p.name" style="word-break:break-word;"/>
+                                        <span class="badge text-bg-light" t-esc="p.status"/>
+                                    </div>
+                                    <div t-if="p.platforms" class="text-muted small mt-1" t-esc="p.platforms"/>
+                                    <a t-if="p.platform_url" t-att-href="p.platform_url" target="_blank"
+                                       rel="noopener" class="btn btn-sm btn-outline-secondary mt-2">Gönderiyi Aç</a>
+                                </article>
+                            </div>
+                            <div t-else="" class="alert alert-info">Gönderi yok. Yeni Gönderi ile oluşturun.</div>
+                        </section>
+                    </t>
+                </div>
+            </main>
+
+            <!-- Lead detail drawer -->
+            <div t-if="state.drawerOpen" class="o_tcrm_mh_drawer_backdrop" t-on-click="closeDrawer"/>
+            <aside t-att-class="'o_tcrm_mh_drawer' + (state.drawerOpen ? ' open' : '')">
+                <div class="o_tcrm_mh_drawer_head">
+                    <h2>Lead Detayı</h2>
+                    <button type="button" class="btn btn-sm btn-light" t-on-click="closeDrawer">✕</button>
+                </div>
+                <div class="o_tcrm_mh_drawer_body" t-if="state.leadDetailLoading">
+                    <div class="o_tcrm_mh_loading">Lead yükleniyor…</div>
+                </div>
+                <div class="o_tcrm_mh_drawer_body" t-elif="state.leadDetail">
+                    <t t-set="d" t-value="state.leadDetail"/>
+                    <div class="o_tcrm_mh_drawer_title">
+                        <strong t-esc="d.name"/>
+                        <span t-att-class="sourceBadgeClass(d.source_platform)" t-esc="d.source"/>
+                    </div>
+                    <dl class="o_tcrm_mh_dl">
+                        <div><dt>Gönderim (Meta)</dt><dd t-esc="d.created_time_display or d.created_time or '—'"/></div>
+                        <div><dt>Telefon</dt><dd t-esc="d.phone or '—'"/></div>
+                        <div><dt>E-posta</dt><dd t-esc="d.email or '—'"/></div>
+                        <div><dt>Şirket</dt><dd t-esc="d.company or '—'"/></div>
+                        <div><dt>Form</dt><dd t-esc="d.form or '—'"/></div>
+                        <div><dt>Sayfa</dt><dd t-esc="d.page_name or d.account or '—'"/></div>
+                        <div><dt>Kampanya</dt><dd t-esc="d.campaign_name or '—'"/></div>
+                        <div><dt>Reklam</dt><dd t-esc="d.ad_name or '—'"/></div>
+                        <div><dt>Ad ID</dt><dd class="small" t-esc="d.ad_id or '—'"/></div>
+                        <div><dt>Lead ID</dt><dd class="small" t-esc="d.leadgen_id or '—'"/></div>
+                        <div><dt>Durum</dt><dd t-esc="d.state_label or d.state"/></div>
+                    </dl>
+
+                    <h3>Reklam Kreatifi</h3>
+                    <div class="o_tcrm_mh_creative" t-if="d.creative">
+                        <span class="o_tcrm_mh_creative_chip mb-2" t-esc="creativeBadge(d.creative.media_type)"/>
+                        <t t-if="d.creative.media_type === 'video'">
+                            <a t-att-href="d.creative.video_url or d.creative.permalink or d.creative.thumbnail_url"
+                               target="_blank" rel="noopener" class="o_tcrm_mh_creative_media">
+                                <img t-if="d.creative.thumbnail_url or d.creative.image_url"
+                                     t-att-src="d.creative.thumbnail_url or d.creative.image_url"
+                                     alt="Video kreatif"/>
+                                <span class="o_tcrm_mh_play">▶ Video</span>
+                            </a>
+                        </t>
+                        <t t-elif="d.creative.media_type === 'image'">
+                            <img class="o_tcrm_mh_creative_img"
+                                 t-att-src="d.creative.image_url or d.creative.thumbnail_url"
+                                 alt="Görsel kreatif"/>
+                        </t>
+                        <t t-else="">
+                            <p class="text-muted small">Kreatif önizleme yok. Kampanyaları senkronize edin.</p>
+                        </t>
+                        <p t-if="d.creative.body" class="o_tcrm_mh_creative_body" t-esc="d.creative.body"/>
+                        <a t-if="d.creative.permalink" class="btn btn-sm btn-outline-secondary mt-2"
+                           t-att-href="d.creative.permalink" target="_blank" rel="noopener">
+                            Orijinal gönderiyi aç
+                        </a>
+                    </div>
+
+                    <h3>Form Cevapları</h3>
+                    <ul class="o_tcrm_mh_answers" t-if="(d.field_answers || []).length">
+                        <li t-foreach="d.field_answers" t-as="fa" t-key="fa_index">
+                            <strong t-esc="fa.key"/>: <span t-esc="fa.value"/>
+                        </li>
+                    </ul>
+                    <p t-else="" class="text-muted small">Form alanı yok.</p>
+
+                    <div class="o_tcrm_mh_drawer_actions">
+                        <button class="btn btn-primary btn-sm" t-on-click="() => this.openMetaLead(d.id)">Tam Form</button>
+                        <button t-if="d.crm_lead_id" class="btn btn-secondary btn-sm"
+                                t-on-click="() => this.openCrmLead(d.crm_lead_id)">CRM Lead</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </t>
+</templates>

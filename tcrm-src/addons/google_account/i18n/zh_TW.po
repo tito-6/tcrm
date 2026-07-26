@@ -1,0 +1,52 @@
+﻿# Translation of Tcrm Server.
+# This file contains the translation of the following modules:
+# * google_account
+#
+# Translators:
+# Wil Tcrm, 2025
+#
+# "Dylan Kiss (dyki)" <dyki@tcrm.com>, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tcrm Server saas~18.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2025-09-16 08:10+0000\n"
+"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@tcrm.com>\n"
+"Language-Team: Chinese (Traditional Han script) <https://translate.tcrm.com/"
+"projects/tcrm-19/google_account/zh_Hant/>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.12.2\n"
+
+#. module: google_account
+#: model:ir.model.fields,field_description:google_account.field_google_service__display_name
+msgid "Display Name"
+msgstr "顯示名稱"
+
+#. module: google_account
+#: model:ir.model,name:google_account.model_google_service
+msgid "Google Service"
+msgstr "Google服務"
+
+#. module: google_account
+#: model:ir.model.fields,field_description:google_account.field_google_service__id
+msgid "ID"
+msgstr "識別號"
+
+#. module: google_account
+#. tcrm-python
+#: code:addons/google_account/models/google_service.py:0
+msgid "Method not supported [%s] not in [GET, POST, PUT, PATCH or DELETE]!"
+msgstr "該方法不支援 [%s] 於 [GET, POST, PUT, PATCH or DELETE]!"
+
+#. module: google_account
+#. tcrm-python
+#: code:addons/google_account/models/google_service.py:0
+msgid ""
+"Something went wrong during your token generation. Maybe your Authorization "
+"Code is invalid or already expired"
+msgstr "金鑰生成過程中出現錯誤。或許您的授權碼無效或已過期。"

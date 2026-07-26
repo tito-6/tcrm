@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_form_marketing_hub" model="ir.ui.view">
+        <field name="name">crm.lead.form.marketing.hub.source</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Kaynak Bilgileri" name="marketing_source">
+                    <field name="marketing_has_meta_lead" invisible="1"/>
+                    <field name="marketing_meta_lead_ids" invisible="1"/>
+                    <div class="alert alert-info" role="alert" invisible="marketing_has_meta_lead">
+                        Bu lead’e bağlı Marketing Hub / Zernio kaynağı yok.
+                    </div>
+                    <group invisible="not marketing_has_meta_lead">
+                        <group string="Kaynak / Platform">
+                            <field name="mh_source_platform"/>
+                            <field name="mh_sync_state"/>
+                            <field name="mh_leadgen_id"/>
+                            <field name="mh_created_time"/>
+                            <field name="mh_last_sync_at"/>
+                        </group>
+                        <group string="UTM">
+                            <field name="source_id"/>
+                            <field name="medium_id"/>
+                            <field name="campaign_id"/>
+                        </group>
+                    </group>
+                    <group invisible="not marketing_has_meta_lead">
+                        <group string="Kampanya / Reklam">
+                            <field name="mh_campaign_name"/>
+                            <field name="mh_campaign_id_remote"/>
+                            <field name="mh_ad_name"/>
+                            <field name="mh_ad_id"/>
+                        </group>
+                        <group string="Form / Sayfa">
+                            <field name="mh_form_name"/>
+                            <field name="mh_form_zernio_id"/>
+                            <field name="mh_page_name"/>
+                            <field name="mh_page_zernio_id"/>
+                            <field name="mh_profile_name"/>
+                        </group>
+                    </group>
+                    <!-- Creative preview lives under Kaynak Bilgileri (no separate tab) -->
+                    <group string="Reklam Kreatifi" invisible="not marketing_has_meta_lead">
+                        <group>
+                            <field name="mh_creative_media_type"/>
+                            <field name="mh_creative_permalink" widget="url"/>
+                            <field name="mh_creative_image_url" widget="url"/>
+                            <field name="mh_creative_video_url" widget="url"/>
+                            <field name="mh_creative_thumbnail_url" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="mh_creative_body"/>
+                        </group>
+                    </group>
+                    <div class="o_tcrm_mh_crm_creative_preview mb-3 text-center"
+                         invisible="not marketing_has_meta_lead"
+                         style="background:#f8f9fa;border-radius:8px;padding:12px;">
+                        <field name="mh_creative_html" nolabel="1" colspan="2"
+                               invisible="not marketing_has_meta_lead"/>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

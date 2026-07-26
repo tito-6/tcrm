@@ -1,0 +1,7 @@
+/* Active menu state for Santral module */
+.o_main_navbar .o_menu_sections .active[data-menu-xmlid^="tcrm_call_center."],
+.o_main_navbar .o_menu_sections .dropdown-item.active[data-menu-xmlid^="tcrm_call_center."] {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 3px solid #ff0000 !important;
+    font-weight: bold;
+}

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_market_analysis.App">
+        <div class="o_tcrm_market_app">
+            <aside class="o_tcrm_market_nav">
+                <div class="o_tcrm_market_brand">
+                    <span class="o_tcrm_market_mark">PA</span>
+                    <div>
+                        <strong>Piyasa Analizi</strong>
+                        <small>Asking prices · tenant-local</small>
+                    </div>
+                </div>
+                <button t-foreach="sections" t-as="s" t-key="s.id"
+                        t-att-class="'o_tcrm_market_nav_item' + (state.section === s.id ? ' active' : '')"
+                        t-on-click="() => this.setSection(s.id)">
+                    <t t-esc="s.label"/>
+                </button>
+            </aside>
+            <main class="o_tcrm_market_main">
+                <header class="o_tcrm_market_header">
+                    <div>
+                        <h1 t-esc="sections.find(s => s.id === state.section)?.label or 'Piyasa Analizi'"/>
+                        <p class="o_tcrm_market_disclaimer" t-esc="state.label"/>
+                    </div>
+                    <div class="o_tcrm_market_actions">
+                        <button class="btn btn-secondary" t-on-click="loadDemo">Demo Veri Yükle</button>
+                        <button class="btn btn-secondary" t-on-click="() => this.scrapeSource(false)">Scrape Now</button>
+                        <button class="btn btn-secondary" t-on-click="openBackendListings">Liste</button>
+                        <button class="btn btn-primary" t-on-click="saveAnalysis">Analizi Kaydet</button>
+                    </div>
+                </header>
+                <div t-if="state.lastError" class="o_tcrm_market_error" t-esc="state.lastError"/>
+
+                <section class="o_tcrm_market_filters" t-if="['explorer','map','overview','trends','inventory','quality'].includes(state.section)">
+                    <select t-model="state.filters.transaction_type">
+                        <option value="">İşlem (tümü)</option>
+                        <option value="sale">Satılık</option>
+                        <option value="rent">Kiralık</option>
+                        <option value="short_term_rent">Günlük</option>
+                    </select>
+                    <select t-model="state.filters.category_code">
+                        <option value="">Kategori</option>
+                        <option value="residential">Konut</option>
+                        <option value="commercial">Ticari / İşyeri</option>
+                        <option value="land">Arsa</option>
+                    </select>
+                    <select t-model="state.filters.subcategory_code">
+                        <option value="">Alt kategori</option>
+                        <option value="apartment">Daire</option>
+                        <option value="residence">Rezidans</option>
+                        <option value="villa">Villa</option>
+                        <option value="detached">Müstakil Ev</option>
+                        <option value="workplace">İşyeri</option>
+                        <option value="land">Arsa</option>
+                    </select>
+
+                    <div class="o_tcrm_market_suggest">
+                        <input type="text" placeholder="İl ara…" t-att-value="state.provinceQuery"
+                               t-on-input="(ev) => this.onProvinceQuery(ev.target.value)"/>
+                        <ul t-if="state.provinceSuggestions.length">
+                            <li t-foreach="state.provinceSuggestions" t-as="p" t-key="p.slug"
+                                t-on-click="() => this.selectProvince(p)" t-esc="p.name"/>
+                        </ul>
+                    </div>
+                    <div class="o_tcrm_market_suggest">
+                        <input type="text" placeholder="İlçe ara…" t-att-value="state.districtQuery"
+                               t-att-disabled="!state.filters.province"
+                               t-on-input="(ev) => this.onDistrictQuery(ev.target.value)"/>
+                        <ul t-if="state.districtSuggestions.length">
+                            <li t-foreach="state.districtSuggestions" t-as="d" t-key="d.slug"
+                                t-on-click="() => this.selectDistrict(d)" t-esc="d.name"/>
+                        </ul>
+                    </div>
+                    <div class="o_tcrm_market_suggest">
+                        <input type="text" placeholder="Semt / Mahalle ara…" t-att-value="state.neighborhoodQuery"
+                               t-att-disabled="!state.filters.district"
+                               t-on-input="(ev) => this.onNeighborhoodQuery(ev.target.value)"/>
+                        <ul t-if="state.neighborhoodSuggestions.length">
+                            <li t-foreach="state.neighborhoodSuggestions" t-as="n" t-key="n.slug"
+                                t-on-click="() => this.selectNeighborhood(n)" t-esc="n.name"/>
+                        </ul>
+                    </div>
+
+                    <input type="number" placeholder="Min asking" t-model="state.filters.price_min"/>
+                    <input type="number" placeholder="Max asking" t-model="state.filters.price_max"/>
+                    <input type="text" placeholder="Oda (örn 2+1)" t-model="state.filters.rooms"/>
+                    <input type="text" placeholder="Isıtma" t-model="state.filters.heating"/>
+                    <input type="text" placeholder="Kimden" t-model="state.filters.seller_type"/>
+                    <select t-model="state.filters.state">
+                        <option value="active">Aktif</option>
+                        <option value="removed_from_source">Kaynaktan kaldırılan</option>
+                        <option value="">Tümü</option>
+                    </select>
+                    <button class="btn btn-primary" t-on-click="applyFilters">Uygula</button>
+                </section>
+
+                <div t-if="state.loading" class="o_tcrm_market_loading">Yükleniyor…</div>
+
+                <t t-elif="state.section === 'overview' or state.section === 'trends' or state.section === 'inventory'">
+                    <t t-if="state.overview and state.overview.empty">
+                        <div class="o_tcrm_market_empty">
+                            <h2>Veritabanında henüz ilan yok</h2>
+                            <p>
+                                Filtreler sadece kayıtlı ilanları arar — Sahibinden’den otomatik çekmez.
+                                Bu sunucudan canlı scrape şu an Cloudflare ile engelleniyor (HTTP 403 / Just a moment).
+                                Önce demo veri yükleyin; canlı scrape engel kalkınca Scrape Now kullanın.
+                            </p>
+                            <button class="btn btn-primary" t-on-click="loadDemo">Demo Veri Yükle</button>
+                            <button class="btn btn-secondary" t-on-click="() => this.scrapeSource(false)">Scrape Now dene</button>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o_tcrm_market_kpis">
+                            <article>
+                                <span>Aktif ilan</span>
+                                <strong t-esc="state.overview and state.overview.active_count"/>
+                            </article>
+                            <article>
+                                <span>Medyan asking fiyat</span>
+                                <strong t-esc="formatMoney(state.overview and state.overview.asking_price and state.overview.asking_price.median)"/>
+                            </article>
+                            <article>
+                                <span>Medyan asking ₺/m²</span>
+                                <strong t-esc="formatMoney(state.overview and state.overview.median_price_m2)"/>
+                            </article>
+                            <article>
+                                <span>Medyan ilan yaşı (gün)</span>
+                                <strong t-esc="state.overview and state.overview.median_listing_age"/>
+                            </article>
+                            <article>
+                                <span>Kaynaktan kaldırılan</span>
+                                <strong t-esc="state.overview and state.overview.removed_count"/>
+                            </article>
+                        </div>
+                        <div class="o_tcrm_market_chart" t-if="state.chart and !state.chart.empty">
+                            <h3>İl bazında envanter (asking)</h3>
+                            <div class="o_tcrm_market_bars">
+                                <div class="o_tcrm_market_bar" t-foreach="state.chart.by_province or []" t-as="row" t-key="row.name">
+                                    <span t-esc="row.name"/>
+                                    <div class="track"><i t-att-style="'width:' + Math.min(100, row.count * 8) + '%'"/></div>
+                                    <em t-esc="row.count + ' · ort ' + formatMoney(row.avg_asking)"/>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="o_tcrm_market_note" t-esc="state.overview and state.overview.label"/>
+                    </t>
+                </t>
+
+                <t t-elif="state.section === 'explorer' or state.section === 'map' or state.section === 'quality'">
+                    <div class="o_tcrm_market_view_toggle">
+                        <button t-att-class="state.viewMode === 'table' ? 'active' : ''" t-on-click="() => state.viewMode = 'table'">Tablo</button>
+                        <button t-att-class="state.viewMode === 'cards' ? 'active' : ''" t-on-click="() => state.viewMode = 'cards'">Kart</button>
+                        <button t-if="state.section === 'map'" t-att-class="state.viewMode === 'map' ? 'active' : ''" t-on-click="() => state.viewMode = 'map'">Harita</button>
+                        <span t-esc="state.listingsTotal + ' kayıt'"/>
+                    </div>
+                    <t t-if="!state.listings.length">
+                        <div class="o_tcrm_market_empty">
+                            <h2>Bu filtreyle kayıt yok</h2>
+                            <p>Önce Demo Veri Yükle veya Scrape Now. İl filtresi boşken tüm kayıtlar görünür.</p>
+                            <button class="btn btn-primary" t-on-click="loadDemo">Demo Veri Yükle</button>
+                        </div>
+                    </t>
+                    <table t-elif="state.viewMode === 'table'" class="o_tcrm_market_table">
+                        <thead>
+                            <tr>
+                                <th>Başlık</th><th>İşlem</th><th>Konum</th><th>Asking</th><th>m²</th><th>Oda</th>
+                                <th>Yaş</th><th>Kat</th><th>Kimden</th><th>Durum</th><th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="state.listings" t-as="row" t-key="row.id">
+                                <td t-esc="row.title or row.name"/>
+                                <td t-esc="row.transaction_type"/>
+                                <td><t t-esc="row.province"/> / <t t-esc="row.district"/> / <t t-esc="row.neighborhood"/></td>
+                                <td t-esc="formatMoney(row.asking_price)"/>
+                                <td t-esc="row.gross_area or '—'"/>
+                                <td t-esc="row.rooms or '—'"/>
+                                <td t-esc="row.building_age or '—'"/>
+                                <td t-esc="row.floor or '—'"/>
+                                <td t-esc="row.seller_type or '—'"/>
+                                <td t-esc="row.state"/>
+                                <td>
+                                    <a t-if="row.permitted_source_url" t-att-href="row.permitted_source_url" target="_blank">aç</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div t-elif="state.viewMode === 'cards'" class="o_tcrm_market_cards">
+                        <article t-foreach="state.listings" t-as="row" t-key="row.id">
+                            <h3 t-esc="row.title or row.name"/>
+                            <p><t t-esc="row.province"/> · <t t-esc="row.district"/> · <t t-esc="row.transaction_type"/></p>
+                            <strong t-esc="formatMoney(row.asking_price) + ' ' + (row.currency_name or '')"/>
+                            <small>Asking · <t t-esc="row.rooms or ''"/> · <t t-esc="row.gross_area or ''"/> m²</small>
+                        </article>
+                    </div>
+                    <div t-else="" class="o_tcrm_market_map_panel">
+                        <p t-if="!mapListings().length">Koordinatlı ilan yok — il bazlı özet:</p>
+                        <div class="o_tcrm_market_bars" t-if="state.chart and state.chart.by_province">
+                            <div class="o_tcrm_market_bar" t-foreach="state.chart.by_province" t-as="row" t-key="row.name">
+                                <span t-esc="row.name"/>
+                                <div class="track"><i t-att-style="'width:' + Math.min(100, row.count * 8) + '%'"/></div>
+                                <em t-esc="row.count"/>
+                            </div>
+                        </div>
+                        <ul class="o_tcrm_market_map_points">
+                            <li t-foreach="mapListings()" t-as="row" t-key="row.id">
+                                <t t-esc="row.name"/> — <t t-esc="row.latitude"/>, <t t-esc="row.longitude"/> —
+                                <t t-esc="formatMoney(row.asking_price)"/>
+                            </li>
+                        </ul>
+                    </div>
+                </t>
+
+                <t t-elif="state.section === 'sources' or state.section === 'imports'">
+                    <table class="o_tcrm_market_table">
+                        <thead>
+                            <tr>
+                                <th>Kaynak</th><th>Tip</th><th>Filtre</th><th>Durum</th><th>İlerleme</th>
+                                <th>Son koşu</th><th>Hata</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="state.sources" t-as="s" t-key="s.id">
+                                <td t-esc="s.name"/>
+                                <td t-esc="s.source_type"/>
+                                <td>
+                                    <t t-esc="s.filter_transaction or ''"/>
+                                    <t t-esc="s.filter_category or ''"/>
+                                    <t t-esc="s.filter_province or ''"/>
+                                    <t t-esc="s.filter_district or ''"/>
+                                </td>
+                                <td t-esc="s.scrape_state or s.state"/>
+                                <td t-esc="(s.scrape_progress or 0) + '% ' + (s.scrape_progress_message or '')"/>
+                                <td t-esc="s.last_run_at or s.last_success_at or '—'"/>
+                                <td class="text-danger" t-esc="(s.error_log or s.last_failure_at) and (s.error_log or '—') or '—'"/>
+                                <td>
+                                    <button t-if="s.source_type === 'sahibinden' and s.state === 'enabled'"
+                                            class="btn btn-sm btn-primary"
+                                            t-on-click="() => this.scrapeSource(s.id)">Scrape Now</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="o_tcrm_market_note">Engelleme / CAPTCHA durumunda job durur; bypass uygulanmaz. Sırlar listelenmez.</p>
+                </t>
+
+                <t t-elif="state.section === 'saved'">
+                    <ul class="o_tcrm_market_saved">
+                        <li t-foreach="state.saved or []" t-as="a" t-key="a.id">
+                            <strong t-esc="a.name"/>
+                            <span t-esc="a.last_calculated_at or '—'"/>
+                        </li>
+                    </ul>
+                    <div class="o_tcrm_market_save_box">
+                        <input type="text" placeholder="Analiz adı" t-model="state.saveName"/>
+                        <button class="btn btn-primary" t-on-click="saveAnalysis">Kaydet</button>
+                    </div>
+                </t>
+
+                <t t-elif="state.section === 'comparables'">
+                    <div class="o_tcrm_market_empty">
+                        <h2>Emsal çalışma alanı</h2>
+                        <p>Birim formundan “Emsal” ile karşılaştırma seti oluşturun. Sonuçlar asking fiyat tahminidir.</p>
+                    </div>
+                </t>
+            </main>
+        </div>
+    </t>
+</templates>

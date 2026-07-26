@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_market_listing_list" model="ir.ui.view">
+        <field name="name">tcrm.market.listing.list</field>
+        <field name="model">tcrm.market.listing</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="transaction_type"/>
+                <field name="category_code"/>
+                <field name="province"/>
+                <field name="district"/>
+                <field name="asking_price" string="Asking Price"/>
+                <field name="currency_name"/>
+                <field name="gross_price_m2" string="Asking ₺/m²"/>
+                <field name="state"/>
+                <field name="quality_status"/>
+                <field name="last_observed_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_market_listing_form" model="ir.ui.view">
+        <field name="name">tcrm.market.listing.form</field>
+        <field name="model">tcrm.market.listing</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_mark_removed_from_source" type="object"
+                            string="Mark Removed From Source"
+                            invisible="state != 'active'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="source_id"/>
+                            <field name="external_listing_id"/>
+                            <field name="transaction_type"/>
+                            <field name="category_code"/>
+                            <field name="subcategory_code"/>
+                            <field name="asking_price"/>
+                            <field name="currency_name"/>
+                            <field name="gross_area"/>
+                            <field name="net_area"/>
+                            <field name="gross_price_m2"/>
+                        </group>
+                        <group>
+                            <field name="province"/>
+                            <field name="district"/>
+                            <field name="neighborhood"/>
+                            <field name="rooms"/>
+                            <field name="seller_type"/>
+                            <field name="seller_id"/>
+                            <field name="quality_status"/>
+                            <field name="duplicate_cluster"/>
+                            <field name="first_observed_at"/>
+                            <field name="last_observed_at"/>
+                            <field name="permitted_source_url" widget="url"/>
+                            <field name="image_urls_json"/>
+                            <field name="heating"/>
+                            <field name="kitchen"/>
+                            <field name="balcony"/>
+                            <field name="elevator"/>
+                            <field name="parking"/>
+                            <field name="furnished"/>
+                            <field name="use_status"/>
+                            <field name="in_compound"/>
+                            <field name="mortgage_eligible"/>
+                            <field name="title_deed_status"/>
+                            <field name="source_listing_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Snapshots">
+                            <field name="snapshot_ids">
+                                <list>
+                                    <field name="observed_at"/>
+                                    <field name="asking_price"/>
+                                    <field name="gross_price_m2"/>
+                                    <field name="change_flags"/>
+                                    <field name="checksum"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_market_listing_search" model="ir.ui.view">
+        <field name="name">tcrm.market.listing.search</field>
+        <field name="model">tcrm.market.listing</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="title"/>
+                <field name="province"/>
+                <field name="district"/>
+                <field name="external_listing_id"/>
+                <filter name="active" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="sale" string="Sale" domain="[('transaction_type', '=', 'sale')]"/>
+                <filter name="rent" string="Rent" domain="[('transaction_type', '=', 'rent')]"/>
+                <filter name="duplicates" string="Duplicates" domain="[('duplicate_cluster', '!=', False)]"/>
+                <group>
+                    <filter name="group_province" string="Province" context="{'group_by': 'province'}"/>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category_code'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tcrm_market_listing" model="ir.actions.act_window">
+        <field name="name">Piyasa Gezgini</field>
+        <field name="res_model">tcrm.market.listing</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+</odoo>

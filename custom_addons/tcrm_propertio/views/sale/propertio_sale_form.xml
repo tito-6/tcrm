@@ -1,0 +1,246 @@
+<odoo>
+    <record id="view_propertio_sale_form" model="ir.ui.view">
+        <field name="name">propertio.sale.form</field>
+        <field name="model">propertio.sale</field>
+        <field name="arch" type="xml">
+            <form string="Satış Sözleşmesi" chatter_position="bottom">
+                <header>
+                    <button name="action_confirm" string="Satışı Onayla" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="İptal Et" type="object" invisible="state not in ('draft', 'confirmed')"
+                            confirm="Bu satış sözleşmesini iptal etmek istediğinize emin misiniz? Birim yeniden müsait olacaktır."/>
+                    <button name="action_refund" string="İade" type="object" class="btn-warning"
+                            invisible="state != 'confirmed'"
+                            confirm="Sözleşmeyi iade olarak işaretlemek istediğinize emin misiniz? Ödeme iadeleri için ayrıca Para İade sürecini kullanın."/>
+                    <button name="action_reset_to_draft" string="Taslağa Al" type="object"
+                            invisible="state not in ('cancel', 'refund')"/>
+                    <button name="%(tcrm_propertio.action_propertio_print_options)d" string="Yazdır / Dışa Aktar" type="action" class="btn-secondary" icon="fa-print" context="{'default_sale_id': id}"/>
+                    <button name="action_send_whatsapp" string="WhatsApp" type="object" class="btn-secondary" icon="fa-whatsapp"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancel,refund"/>
+                </header>
+                <sheet class="o_form_sheet_full_width oe_form_sheet_full_width" style="max-width: 100% !important; width: 100% !important;">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_unit" type="object" class="oe_stat_button" icon="fa-building-o">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Gayrimenkul</span>
+                             </div>
+                        </button>
+                        <button name="action_view_customer" type="object" class="oe_stat_button" icon="fa-user">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Müşteri</span>
+                             </div>
+                        </button>
+                        <button name="action_view_opportunity" type="object" class="oe_stat_button" icon="fa-star" invisible="not opportunity_id">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Fırsat</span>
+                             </div>
+                        </button>
+                        <button name="action_view_payments" type="object" class="oe_stat_button" icon="fa-credit-card">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Ödemeler</span>
+                             </div>
+                        </button>
+                        <button name="action_view_installments" type="object" class="oe_stat_button" icon="fa-money" invisible="state == 'draft'">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Tahsilat</span>
+                             </div>
+                        </button>
+                        <button name="action_view_handover" type="object" class="oe_stat_button" icon="fa-key">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Teslim</span>
+                             </div>
+                        </button>
+                        <button name="action_view_title_deed" type="object" class="oe_stat_button" icon="fa-file-text">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Tapu</span>
+                             </div>
+                        </button>
+                        <button name="action_view_notary" type="object" class="oe_stat_button" icon="fa-gavel">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Noter</span>
+                             </div>
+                        </button>
+                    </div>
+
+                    <widget name="web_ribbon" title="SATILDI" bg_color="bg-success" invisible="state != 'confirmed'"/>
+                    <widget name="web_ribbon" title="İPTAL" bg_color="bg-danger" invisible="state != 'cancel'"/>
+                    <widget name="web_ribbon" title="İADE" bg_color="bg-warning" invisible="state != 'refund'"/>
+
+                    <div class="oe_title">
+                        <label for="name" string="Sözleşme Ref."/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <label for="contract_no" string="Sözleşme No"/>
+                            <field name="contract_no" class="oe_inline" placeholder="örn. CON-2025-001"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group name="left_header">
+                            <field name="partner_id" widget="res_partner_many2one" context="{'show_address': 1}" options='{"always_reload": True}'/>
+                            <field name="unit_id" options="{'no_create': True}"/>
+                            <field name="project_id"/>
+                            <field name="opportunity_id" string="CRM Fırsatı" options="{'no_create': True}"/>
+                            <field name="date_sale" string="Satış Tarihi"/>
+                        </group>
+                        <group name="right_header">
+                            <field name="sale_price" widget="monetary" options="{'currency_field': 'currency_id'}" style="font-size: 1.25rem; font-weight: bold; color: #1f2937;"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_paid" string="Toplam Ödenen" widget="monetary" decoration-success="total_paid == sale_price"/>
+                            <field name="balance" string="Bakiye" widget="monetary" invisible="balance == 0" decoration-danger="balance > 0"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Ödeme Planı" name="payment_plan">
+                            <div class="mb-2">
+                                <button name="action_rebalance_plan" string="Otomatik Dengele / Kalan Ekle" type="object" class="btn-warning btn-sm" icon="fa-balance-scale"/>
+                            </div>
+                             <field name="installment_ids" mode="list" context="{'default_sale_id': id}">
+                                <list string="Taksitler" editable="bottom" decoration-info="payment_status=='upcoming'" decoration-danger="payment_status=='overdue'" decoration-success="payment_status=='paid'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="date_due" string="Vade Tarihi"/>
+                                    <field name="name" string="Açıklama"/>
+                                    <field name="type" string="Tip"/>
+                                    <field name="amount" string="Tutar" sum="Toplam"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="amount_paid" string="Ödenen" sum="Ödenen"/>
+                                    <field name="residual" string="Kalan" sum="Kalan"/>
+                                    <field name="payment_status" string="Ödeme Durumu" widget="badge" decoration-success="payment_status == 'paid'" decoration-warning="payment_status == 'upcoming'" decoration-danger="payment_status == 'overdue'" decoration-muted="payment_status == 'future'"/>
+                                    <field name="is_paid" column_invisible="1"/>
+                                    <button name="action_open_reallocate_wizard" string="Birleştir/Sil" type="object" class="btn-danger btn-sm" icon="fa-code-fork"/>
+                                </list>
+                            </field>
+                            <group class="mt-2">
+                                <group>
+                                    <field name="calc_discount_amount"/>
+                                    <field name="discount_amount"/>
+                                </group>
+                                <group>
+                                    <field name="calc_maturity_diff"/>
+                                    <field name="maturity_diff"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Genel Bilgi" name="general_info">
+                            <group>
+                                <group string="Müşteri Bilgileri">
+                                    <field name="customer_pid"/>
+                                    <field name="customer_passport"/>
+                                    <field name="father_name"/>
+                                    <field name="spouse_name"/>
+                                </group>
+                                <group string="Satış Detayları">
+                                    <field name="contract_date"/>
+                                    <field name="reserve_date"/>
+                                    <field name="is_project_active"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Organizasyon">
+                                    <field name="sales_office"/>
+                                    <field name="department_name"/>
+                                    <field name="accounting_code"/>
+                                    <field name="status_detail"/>
+                                </group>
+                                <group string="Kategori">
+                                    <field name="is_vip"/>
+                                    <field name="vip_note" invisible="not is_vip"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Birim Özellikleri" name="unit_details">
+                             <group>
+                                <group>
+                                    <field name="block_id"/>
+                                    <field name="entrance"/>
+                                    <field name="floor"/>
+                                    <field name="facade"/>
+                                    <field name="view_type"/>
+                                    <field name="property_category_id"/>
+                                    <field name="status_id"/>
+                                </group>
+                                <group>
+                                    <field name="gross_m2"/>
+                                    <field name="net_m2"/>
+                                    <field name="general_gross_m2"/>
+                                    <field name="balcony_m2"/>
+                                    <field name="terrace_m2"/>
+                                    <field name="garden_m2"/>
+                                </group>
+                            </group>
+                            <group string="Ekstra">
+                                <field name="properties" widget="properties"/>
+                            </group>
+                        </page>
+
+                        <page string="Hukuki ve Banka" name="legal_bank">
+                            <group>
+                                <group string="Noter">
+                                    <field name="is_notarized"/>
+                                    <field name="notary_no" invisible="not is_notarized"/>
+                                    <field name="notary_date" invisible="not is_notarized"/>
+                                </group>
+                                <group string="Finans">
+                                    <field name="bank_approved"/>
+                                    <field name="bank_approval_date" invisible="not bank_approved"/>
+                                    <field name="bank_doc_status"/>
+                                </group>
+                            </group>
+                            <field name="notary_note" placeholder="Hukuki / Noter notları..."/>
+                        </page>
+                        <page string="Belgeler" name="documents_checklist">
+                            <group>
+                                <field name="document_required_count" readonly="1"/>
+                                <field name="document_uploaded_count" readonly="1"/>
+                            </group>
+                            <field name="document_ids" nolabel="1" context="{'default_sale_id': id}">
+                                <list editable="bottom">
+                                    <field name="doc_type"/>
+                                    <field name="filename"/>
+                                    <field name="file" filename="filename"/>
+                                    <field name="upload_date"/>
+                                    <field name="is_required"/>
+                                    <field name="verified"/>
+                                    <field name="verified_by"/>
+                                    <field name="expiry_date"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Ekip" name="sales_team">
+                            <group>
+                                <group string="İç Ekip">
+                                    <field name="sales_person_id" widget="many2one_avatar_user"/>
+                                    <field name="sales_person_2_id" widget="many2one_avatar_user"/>
+                                    <field name="contact_person_id"/>
+                                    <field name="activity_person_id"/>
+                                </group>
+                                <group string="Dış Ekip">
+                                    <field name="agency_id"/>
+                                    <field name="agency_2_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                         <page string="Teknik Finansallar" name="financial_details">
+                            <group>
+                                <group>
+                                    <field name="rate_tcmb"/>
+                                    <field name="rate_down_payment"/>
+                                    <field name="rate_installment"/>
+                                </group>
+                                <group>
+                                    <field name="invoice_status"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Handover -->
+    <record id="view_propertio_handover_tree" model="ir.ui.view">
+        <field name="name">propertio.handover.tree</field>
+        <field name="model">propertio.handover</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="unit_id"/>
+                <field name="handover_date"/>
+                <field name="payment_complete"/>
+                <field name="title_deed_done"/>
+                <field name="keys_handed"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_propertio_handover_form" model="ir.ui.view">
+        <field name="name">propertio.handover.form</field>
+        <field name="model">propertio.handover</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sale_id"/>
+                            <field name="unit_id"/>
+                            <field name="partner_id"/>
+                            <field name="handover_date"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="payment_complete"/>
+                            <field name="title_deed_done"/>
+                            <field name="keys_handed"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Kontrol Listesi" name="checklist">
+                            <field name="checklist_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="done"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sorunlar" name="issues">
+                            <field name="issue_ids">
+                                <list editable="bottom">
+                                    <field name="description"/>
+                                    <field name="reported_date"/>
+                                    <field name="resolved_date"/>
+                                    <field name="assigned_to"/>
+                                    <field name="priority"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <field name="handover_protocol"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_handover" model="ir.actions.act_window">
+        <field name="name">Teslimler</field>
+        <field name="res_model">propertio.handover</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Title Deed -->
+    <record id="view_propertio_title_deed_tree" model="ir.ui.view">
+        <field name="name">propertio.title.deed.tree</field>
+        <field name="model">propertio.title.deed</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="unit_id"/>
+                <field name="tapu_no"/>
+                <field name="tapu_date"/>
+                <field name="tapu_appointment"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_propertio_title_deed_form" model="ir.ui.view">
+        <field name="name">propertio.title.deed.form</field>
+        <field name="model">propertio.title.deed</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sale_id"/>
+                            <field name="unit_id"/>
+                            <field name="partner_id"/>
+                            <field name="tapu_no"/>
+                            <field name="tapu_date"/>
+                            <field name="tapu_type"/>
+                            <field name="tapu_office"/>
+                            <field name="tapu_appointment"/>
+                        </group>
+                        <group>
+                            <field name="tapu_cost"/>
+                            <field name="tapu_cost_paid"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="mortgage_exists"/>
+                            <field name="mortgage_bank" invisible="not mortgage_exists"/>
+                            <field name="mortgage_released"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <field name="document_ids" widget="many2many_binary"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_title_deed" model="ir.actions.act_window">
+        <field name="name">Tapular</field>
+        <field name="res_model">propertio.title.deed</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Service Request -->
+    <record id="view_propertio_service_request_tree" model="ir.ui.view">
+        <field name="name">propertio.service.request.tree</field>
+        <field name="model">propertio.service.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="unit_id"/>
+                <field name="request_type"/>
+                <field name="priority"/>
+                <field name="assigned_to"/>
+                <field name="deadline"/>
+                <field name="sla_status" widget="badge"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_propertio_service_request_form" model="ir.ui.view">
+        <field name="name">propertio.service.request.form</field>
+        <field name="model">propertio.service.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="unit_id"/>
+                            <field name="sale_id"/>
+                            <field name="request_type"/>
+                            <field name="priority"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="assigned_to"/>
+                            <field name="deadline"/>
+                            <field name="sla_status"/>
+                            <field name="resolved_date"/>
+                            <field name="customer_rating"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                    <field name="resolution"/>
+                    <field name="photo_ids" widget="many2many_binary"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_propertio_service_request_kanban" model="ir.ui.view">
+        <field name="name">propertio.service.request.kanban</field>
+        <field name="model">propertio.service.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="request_type"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <br/><field name="partner_id"/>
+                            <br/><field name="request_type"/> - <field name="state"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_propertio_service_request" model="ir.actions.act_window">
+        <field name="name">Servis Talepleri</field>
+        <field name="res_model">propertio.service.request</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Menus: After-Sales -->
+    <menuitem id="menu_propertio_aftersales" name="Satış Sonrası" parent="menu_propertio_root" sequence="35"/>
+    <menuitem id="menu_propertio_handover" name="Teslimler" parent="menu_propertio_aftersales" action="action_propertio_handover" sequence="10"/>
+    <menuitem id="menu_propertio_title_deed" name="Tapular" parent="menu_propertio_aftersales" action="action_propertio_title_deed" sequence="20"/>
+    <menuitem id="menu_propertio_service_request" name="Servis Talepleri" parent="menu_propertio_aftersales" action="action_propertio_service_request" sequence="30"/>
+
+    <!-- Notary -->
+    <record id="view_propertio_notary_tree" model="ir.ui.view">
+        <field name="name">propertio.notary.tree</field>
+        <field name="model">propertio.notary</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="notary_office"/>
+                <field name="appointment_datetime"/>
+                <field name="appointment_type"/>
+                <field name="documents_ready"/>
+                <field name="completed"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_propertio_notary_form" model="ir.ui.view">
+        <field name="name">propertio.notary.form</field>
+        <field name="model">propertio.notary</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sale_id"/>
+                        <field name="partner_id"/>
+                        <field name="notary_office"/>
+                        <field name="appointment_datetime"/>
+                        <field name="appointment_type"/>
+                        <field name="documents_ready"/>
+                        <field name="completed"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_notary" model="ir.actions.act_window">
+        <field name="name">Noter Randevuları</field>
+        <field name="res_model">propertio.notary</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_propertio_notary" name="Noter" parent="menu_propertio_aftersales" action="action_propertio_notary" sequence="40"/>
+</odoo>

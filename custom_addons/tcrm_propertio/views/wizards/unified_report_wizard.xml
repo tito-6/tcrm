@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_propertio_unified_report_wizard_form" model="ir.ui.view">
+        <field name="name">propertio.unified.report.wizard.form</field>
+        <field name="model">propertio.unified.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Rapor Görüntüleyici" class="o_propertio_report_viewer">
+                <sheet>
+                    <div class="row o_propertio_report_layout">
+                        <div class="col-12 col-lg-3 border-end pe-3">
+                            <group string="Rapor">
+                                <field name="report_type" widget="selection"/>
+                            </group>
+                            <group string="Tarih Aralığı">
+                                <field name="date_filter"/>
+                                <field name="date_from" invisible="date_filter != 'custom'"/>
+                                <field name="date_to" invisible="date_filter != 'custom'"/>
+                            </group>
+                            <group string="Filtreler">
+                                <field name="project_id" options="{'no_create': True}"/>
+                                <field name="partner_id" options="{'no_create': True}"/>
+                                <field name="user_id" options="{'no_create': True}"/>
+                            </group>
+
+                            <div class="mb-3">
+                                <button string="Önizleme Oluştur" name="action_refresh_preview"
+                                        type="object" class="btn btn-primary w-100 mb-2"/>
+                            </div>
+
+                            <group string="Dışa Aktar">
+                                <field name="export_format"/>
+                            </group>
+                            <div class="d-flex flex-column gap-1 mb-3">
+                                <button string="Excel İndir (XLSX)" name="action_export_xlsx" type="object" class="btn btn-outline-primary btn-sm"/>
+                                <button string="PDF İndir" name="action_export_pdf" type="object" class="btn btn-outline-primary btn-sm"/>
+                                <button string="CSV İndir" name="action_export_csv" type="object" class="btn btn-outline-secondary btn-sm"/>
+                                <button string="Tarayıcıda Aç" name="action_export_html" type="object" class="btn btn-outline-secondary btn-sm"/>
+                                <button string="Dosyayı İndir" name="action_download" type="object"
+                                        class="btn btn-outline-success btn-sm" invisible="not file_data"/>
+                            </div>
+
+                            <group string="Herkese Açık Paylaşım" col="1">
+                                <field name="share_url" widget="CopyClipboardChar" invisible="not share_url"
+                                       string="Paylaşım Bağlantısı"/>
+                                <field name="share_is_public" invisible="1"/>
+                                <field name="share_id" invisible="1"/>
+                                <div class="d-flex flex-column gap-1">
+                                    <button string="Paylaşılabilir Bağlantı Oluştur"
+                                            name="action_enable_public_link" type="object"
+                                            class="btn btn-success btn-sm"/>
+                                    <button string="Herkese Açık Bağlantıyı Aç"
+                                            name="action_open_public_link" type="object"
+                                            class="btn btn-outline-success btn-sm"
+                                            invisible="not share_is_public"/>
+                                    <button string="Bağlantıyı Kapat"
+                                            name="action_close_public_link" type="object"
+                                            class="btn btn-outline-danger btn-sm"
+                                            invisible="not share_id"/>
+                                </div>
+                                <div class="text-muted small mt-1">
+                                    Bağlantı açıkken giriş yapmadan rapor görüntülenebilir.
+                                    İstediğiniz zaman kapatabilirsiniz.
+                                </div>
+                            </group>
+
+                            <field name="state" invisible="1"/>
+                            <field name="file_data" invisible="1"/>
+                            <field name="file_name" invisible="1"/>
+                        </div>
+
+                        <div class="col-12 col-lg-9 ps-3 o_propertio_report_preview_pane">
+                            <field name="html_preview" widget="html" readonly="1" nolabel="1"
+                                   class="o_propertio_report_preview"/>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_propertio_unified_report_wizard" model="ir.actions.act_window">
+        <field name="name">Raporlar</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="action_report_sales_collection" model="ir.actions.act_window">
+        <field name="name">Satış Tahsilat Özeti</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'sales_collection_summary'}</field>
+    </record>
+
+    <record id="action_report_payment_plan" model="ir.actions.act_window">
+        <field name="name">Ödeme Planı Tablosu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'payment_plan_table'}</field>
+    </record>
+
+    <record id="action_report_expected_payments" model="ir.actions.act_window">
+        <field name="name">Beklenen Ödemeler</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'expected_payment_list'}</field>
+    </record>
+
+    <record id="action_report_sales" model="ir.actions.act_window">
+        <field name="name">Satış Raporu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'sales_report'}</field>
+    </record>
+
+    <record id="action_report_employee_performance" model="ir.actions.act_window">
+        <field name="name">Personel Performansı</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'employee_performance'}</field>
+    </record>
+
+    <record id="action_report_cash_flow" model="ir.actions.act_window">
+        <field name="name">Nakit Akış Tablosu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'cash_flow_statement'}</field>
+    </record>
+
+    <record id="action_report_customer_status" model="ir.actions.act_window">
+        <field name="name">Müşteri Durumu</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'customer_overall_status'}</field>
+    </record>
+
+    <record id="action_report_construction_progress" model="ir.actions.act_window">
+        <field name="name">İnşaat İlerlemesi</field>
+        <field name="res_model">propertio.unified.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_report_type': 'construction_progress'}</field>
+    </record>
+</odoo>

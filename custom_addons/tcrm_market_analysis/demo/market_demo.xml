@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo records are seeded via post_init_hook / explicit seed helper
+         for company isolation and idempotency. This file documents intent. -->
+    <data noupdate="1"/>
+</odoo>

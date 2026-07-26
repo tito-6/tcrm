@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_ai.TcrmAiChat">
+        <div class="o_tcrm_ai_chat d-flex flex-column h-100 p-4">
+            <div class="mb-3">
+                <h4 class="mb-0">TCRM AI</h4>
+                <p class="text-muted small mb-0">Ask about payment plans, sales, clients, or anything. Answers use this database and can include links to records.</p>
+            </div>
+            <div class="flex-grow-1 overflow-auto mb-3 border rounded p-3 bg-light" style="min-height: 200px;">
+                <t t-if="state.history.length === 0">
+                    <p class="text-muted">No messages yet. Type a question below.</p>
+                </t>
+                <t t-else="">
+                    <t t-foreach="state.history" t-as="item" t-key="item_index">
+                        <div t-attf-class="mb-3 #{item.role === 'user' ? 'text-end' : ''}">
+                            <t t-if="item.role === 'user'">
+                                <span class="badge bg-primary p-2"><t t-esc="item.content"/></span>
+                            </t>
+                            <t t-else="">
+                                <div class="text-start">
+                                    <div t-if="item.error" class="text-danger small"><t t-esc="item.answer"/></div>
+                                    <div t-else="" class="small">
+                                        <div class="d-flex flex-wrap gap-1 mb-1">
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onCopy(item)">Copy</button>
+                                            <t t-if="item.tables and item.tables.length">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onExport(item, 'xlsx')">Export Excel</button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onExport(item, 'html')">Preview HTML</button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onExport(item, 'pdf')">Export PDF</button>
+                                            </t>
+                                        </div>
+                                        <div class="o_tcrm_ai_answer text-break" style="white-space: pre-wrap;" t-esc="item.answer"/>
+                                        <t t-if="item.tables and item.tables.length">
+                                            <t t-foreach="item.tables" t-as="tbl" t-key="tbl_index">
+                                                <div class="table-responsive mt-2">
+                                                    <table class="table table-sm table-bordered">
+                                                        <thead><tr>
+                                                            <t t-foreach="tbl.headers" t-as="h" t-key="h"><th t-esc="h"/></t>
+                                                        </tr></thead>
+                                                        <tbody>
+                                                            <t t-foreach="tbl.rows" t-as="row" t-key="row_index">
+                                                                <tr><t t-foreach="row" t-as="cell" t-key="cell_index"><td t-esc="cell"/></t></tr>
+                                                            </t>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-if="item.links and item.links.length">
+                                            <div class="mt-2">
+                                                <t t-foreach="item.links" t-as="link" t-key="link_index">
+                                                    <a t-att-href="link.url" t-esc="link.label" class="btn btn-link btn-sm p-0 me-2"/>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </div>
+            <div class="d-flex gap-2">
+                <input type="text"
+                       class="form-control"
+                       t-att-placeholder="placeholder"
+                       t-model="state.message"
+                       t-on-keydown="onKeydown"
+                       placeholder="Ask anything…"/>
+                <button type="button" class="btn btn-primary" t-on-click="onSend" t-att-disabled="state.loading">
+                    <t t-if="state.loading">...</t>
+                    <t t-else="">Send</t>
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

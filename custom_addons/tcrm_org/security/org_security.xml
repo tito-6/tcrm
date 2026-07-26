@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Tenant Sales → personal CRM salesman -->
+        <record id="tcrm_saas_core.group_tcrm_tenant_sales" model="res.groups">
+            <field name="implied_ids" eval="[
+                (4, ref('base.group_user')),
+                (4, ref('sales_team.group_sale_salesman')),
+            ]"/>
+        </record>
+
+        <!-- Tenant Manager → all leads oversight -->
+        <record id="tcrm_saas_core.group_tcrm_tenant_manager" model="res.groups">
+            <field name="implied_ids" eval="[
+                (4, ref('tcrm_saas_core.group_tcrm_tenant_sales')),
+                (4, ref('tcrm_saas_core.group_tcrm_tenant_operations')),
+                (4, ref('sales_team.group_sale_salesman_all_leads')),
+            ]"/>
+        </record>
+
+        <!-- Tenant Admin → create/configure teams + full sales admin -->
+        <record id="tcrm_saas_core.group_tcrm_tenant_admin" model="res.groups">
+            <field name="implied_ids" eval="[
+                (4, ref('tcrm_saas_core.group_tcrm_tenant_manager')),
+                (4, ref('tcrm_saas_core.group_tcrm_tenant_finance')),
+                (4, ref('sales_team.group_sale_manager')),
+            ]"/>
+        </record>
+    </data>
+</odoo>

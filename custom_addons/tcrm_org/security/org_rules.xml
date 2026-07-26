@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Sales users: only leads/opportunities assigned to them -->
+        <record id="crm.crm_rule_personal_lead" model="ir.rule">
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
+
+        <!--
+            Propertio company rules were bound to base.group_user, which OR'd with
+            personal rules and cancelled "only mine" visibility. Make them global (AND).
+        -->
+        <record id="tcrm_propertio.propertio_rule_sale_company" model="ir.rule">
+            <field name="groups" eval="[(5, 0, 0)]"/>
+        </record>
+        <record id="tcrm_propertio.propertio_rule_collection_task_company" model="ir.rule">
+            <field name="groups" eval="[(5, 0, 0)]"/>
+        </record>
+
+        <!-- Propertio sales: personal vs all -->
+        <record id="rule_propertio_sale_personal" model="ir.rule">
+            <field name="name">Propertio Sale: kendi satışları</field>
+            <field name="model_id" ref="tcrm_propertio.model_propertio_sale"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+        <record id="rule_propertio_sale_all" model="ir.rule">
+            <field name="name">Propertio Sale: tüm satışlar</field>
+            <field name="model_id" ref="tcrm_propertio.model_propertio_sale"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[
+                (4, ref('sales_team.group_sale_salesman_all_leads')),
+                (4, ref('tcrm_saas_core.group_tcrm_tenant_operations')),
+                (4, ref('tcrm_saas_core.group_tcrm_tenant_finance')),
+            ]"/>
+        </record>
+
+        <!-- Collection follow-ups: only assigned -->
+        <record id="rule_propertio_collection_personal" model="ir.rule">
+            <field name="name">Tahsilat görevi: kendisine atanan</field>
+            <field name="model_id" ref="tcrm_propertio.model_propertio_collection_task"/>
+            <field name="domain_force">[('assigned_to', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+        <record id="rule_propertio_collection_all" model="ir.rule">
+            <field name="name">Tahsilat görevi: tümü</field>
+            <field name="model_id" ref="tcrm_propertio.model_propertio_collection_task"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"/>
+        </record>
+
+        <!-- Activities already mostly personal; tighten CRM activities report is stock -->
+
+        <!-- Access grants: company isolation -->
+        <record id="rule_org_access_grant_company" model="ir.rule">
+            <field name="name">Org access grant by company</field>
+            <field name="model_id" ref="model_tcrm_org_access_grant"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+    </data>
+</odoo>

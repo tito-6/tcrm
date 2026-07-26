@@ -1,0 +1,146 @@
+# -*- coding: utf-8 -*-
+# Part of tcrm. See LICENSE file for full copyright and licensing details.
+
+{
+    'name': "MRP Subcontracting",
+    'version': '0.1',
+    'summary': "Subcontract Productions",
+    'website': 'https://www.tcrm.com/app/manufacturing',
+    'category': 'Supply Chain/Manufacturing',
+    'depends': ['mrp'],
+    'data': [
+        'data/mrp_subcontracting_data.xml',
+        'security/mrp_subcontracting_security.xml',
+        'security/ir.model.access.csv',
+        'views/mrp_bom_views.xml',
+        'views/res_partner_views.xml',
+        'views/stock_warehouse_views.xml',
+        'views/stock_move_views.xml',
+        'views/stock_quant_views.xml',
+        'views/stock_picking_views.xml',
+        'views/supplier_info_views.xml',
+        'views/mrp_production_views.xml',
+        'views/subcontracting_portal_views.xml',
+        'views/subcontracting_portal_templates.xml',
+    ],
+    'demo': [
+        'data/mrp_subcontracting_demo.xml',
+    ],
+    'assets': {
+        'web.assets_tests': [
+            'mrp_subcontracting/static/tests/tours/subcontracting_portal_tour.js',
+        ],
+        'web.assets_backend': [
+            'mrp_subcontracting/static/src/components/**/*',
+            'mrp_subcontracting/static/src/subcontracting_portal/move_list_view.js',
+        ],
+        'web.assets_frontend': [
+            'mrp_subcontracting/static/src/scss/subcontracting_portal.scss',
+        ],
+        'mrp_subcontracting.webclient': [
+            ('include', 'web._assets_helpers'),
+            ('include', 'web._assets_backend_helpers'),
+
+            'web/static/src/scss/pre_variables.scss',
+            'web/static/lib/bootstrap/scss/_variables.scss',
+            'web/static/lib/bootstrap/scss/_variables-dark.scss',
+            'web/static/lib/bootstrap/scss/_maps.scss',
+
+            'web/static/src/libs/fontawesome/css/font-awesome.css',
+            'web/static/lib/tcrm_ui_icons/*',
+            'web/static/src/webclient/navbar/navbar.scss',
+            'web/static/src/scss/animation.scss',
+            'web/static/src/core/color_picker/color_picker.scss',
+            'web/static/src/scss/mimetypes.scss',
+            'web/static/src/scss/ui.scss',
+            'web/static/src/views/fields/translation_dialog.scss',
+            'web/static/src/scss/fontawesome_overridden.scss',
+
+            'web/static/src/module_loader.js',
+            'web/static/src/session.js',
+
+            'web/static/lib/luxon/luxon.js',
+            'web/static/lib/owl/owl.js',
+            'web/static/lib/owl/tcrm_module.js',
+            'web/static/lib/jquery/jquery.js',
+            'web/static/lib/popper/popper.js',
+            'web/static/src/libs/popper_core.js',
+            'web/static/lib/bootstrap/js/src/util/index.js',
+            'web/static/lib/bootstrap/js/src/dom/data.js',
+            'web/static/lib/bootstrap/js/src/dom/event-handler.js',
+            'web/static/lib/bootstrap/js/src/dom/manipulator.js',
+            'web/static/lib/bootstrap/js/src/dom/selector-engine.js',
+            'web/static/lib/bootstrap/js/src/util/config.js',
+            'web/static/lib/bootstrap/js/src/util/component-functions.js',
+            'web/static/lib/bootstrap/js/src/util/backdrop.js',
+            'web/static/lib/bootstrap/js/src/util/focustrap.js',
+            'web/static/lib/bootstrap/js/src/util/sanitizer.js',
+            'web/static/lib/bootstrap/js/src/util/scrollbar.js',
+            'web/static/lib/bootstrap/js/src/util/swipe.js',
+            'web/static/lib/bootstrap/js/src/util/template-factory.js',
+            'web/static/lib/bootstrap/js/src/base-component.js',
+            'web/static/lib/bootstrap/js/src/alert.js',
+            'web/static/lib/bootstrap/js/src/button.js',
+            'web/static/lib/bootstrap/js/src/carousel.js',
+            'web/static/lib/bootstrap/js/src/collapse.js',
+            'web/static/lib/bootstrap/js/src/dropdown.js',
+            'web/static/lib/bootstrap/js/src/modal.js',
+            'web/static/lib/bootstrap/js/src/offcanvas.js',
+            'web/static/lib/bootstrap/js/src/tooltip.js',
+            'web/static/lib/bootstrap/js/src/popover.js',
+            'web/static/lib/bootstrap/js/src/scrollspy.js',
+            'web/static/lib/bootstrap/js/src/tab.js',
+            'web/static/lib/bootstrap/js/src/toast.js',
+            'web/static/src/libs/bootstrap.js',
+            'web/static/src/legacy/js/libs/jquery.js',
+
+            ('include', 'web._assets_bootstrap'),
+
+            'base/static/src/css/modules.css',
+
+            'web/static/src/core/utils/transitions.scss',
+            'web/static/src/core/**/*',
+            ('remove', 'web/static/src/core/emoji_picker/emoji_data.js'),
+            'web/static/src/search/**/*',
+            'web/static/src/views/*.js',
+            'web/static/src/views/*.xml',
+            'web/static/src/views/*.scss',
+            'web/static/src/views/fields/**/*',
+            'web/static/src/views/form/**/*',
+            'web/static/src/views/kanban/**/*',
+            'web/static/src/views/list/**/*',
+            'web/static/src/model/**/*',
+            'web/static/src/views/view_button/**/*',
+            'web/static/src/views/view_components/**/*',
+            'web/static/src/views/view_dialogs/**/*',
+            'web/static/src/views/widgets/**/*',
+            'web/static/src/webclient/**/*',
+            ('remove', 'web/static/src/webclient/clickbot/clickbot.js'),  # lazy loaded
+            ('remove', 'web/static/src/views/form/button_box/*.scss'),
+            ('remove', 'web/static/src/webclient/share_target/*'),
+
+            # remove the report code and whitelist only what's needed
+            ('remove', 'web/static/src/webclient/actions/reports/**/*'),
+            'web/static/src/webclient/actions/reports/*.js',
+            'web/static/src/webclient/actions/reports/*.xml',
+
+            'web/static/src/env.js',
+
+            'base/static/src/scss/res_partner.scss',
+
+            # Form style should be computed before
+            'web/static/src/views/form/button_box/*.scss',
+
+            'mrp_subcontracting/static/src/subcontracting_portal/*',
+            'web/static/src/start.js',
+
+            'stock/static/src/widgets/*',
+            'stock/static/src/fields/*',
+            'mrp_subcontracting/static/src/components/subcontracting_production_form_controller.js',
+            'mrp_subcontracting/static/src/components/subcontracting_production_list_controller.js',
+        ],
+    },
+    'uninstall_hook': 'uninstall_hook',
+    'author': 'tcrm S.A.',
+    'license': 'LGPL-3',
+}

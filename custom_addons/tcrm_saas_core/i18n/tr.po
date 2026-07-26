@@ -1,0 +1,232 @@
+# Turkish translations for tcrm_saas_core (Command Center).
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#. module: tcrm_saas_core
+msgid "God command"
+msgstr "Tanrı Görünümü komutu"
+
+#. module: tcrm_saas_core
+msgid "Search tenant, invoice, or user…"
+msgstr "Kiracı, fatura veya kullanıcı ara…"
+
+#. module: tcrm_saas_core
+msgid "No matches."
+msgstr "Sonuç yok."
+
+#. module: tcrm_saas_core
+msgid "Type at least 2 characters."
+msgstr "En az 2 karakter yazın."
+
+#. module: tcrm_saas_core
+msgid "Tenants"
+msgstr "Kiracılar"
+
+#. module: tcrm_saas_core
+msgid "Invoices"
+msgstr "Faturalar"
+
+#. module: tcrm_saas_core
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#. module: tcrm_saas_core
+msgid "Gross Distribution Value"
+msgstr "Brüt Dağıtım Değeri"
+
+#. module: tcrm_saas_core
+msgid "Tenant Health"
+msgstr "Kiracı Sağlığı"
+
+#. module: tcrm_saas_core
+msgid "Monthly Recurring Revenue"
+msgstr "Aylık Tekrarlayan Gelir"
+
+#. module: tcrm_saas_core
+msgid "Total Users"
+msgstr "Toplam Kullanıcı"
+
+#. module: tcrm_saas_core
+msgid "Billing alerts"
+msgstr "Fatura uyarıları"
+
+#. module: tcrm_saas_core
+msgid "VPS performance"
+msgstr "VPS performansı"
+
+#. module: tcrm_saas_core
+msgid "vs prior month"
+msgstr "önceki aya göre"
+
+#. module: tcrm_saas_core
+msgid "Command"
+msgstr "Komut"
+
+#. module: tcrm_saas_core
+msgid "Financials"
+msgstr "Finans"
+
+#. module: tcrm_saas_core
+msgid "Analytics"
+msgstr "Analitik"
+
+#. module: tcrm_saas_core
+msgid "Access"
+msgstr "Erişim"
+
+#. module: tcrm_saas_core
+msgid "New tenant"
+msgstr "Yeni kiracı"
+
+#. module: tcrm_saas_core
+msgid "Tenant footprint (Turkey & Middle East)"
+msgstr "Kiracı yayılımı (Türkiye ve Orta Doğu)"
+
+#. module: tcrm_saas_core
+msgid "Active subs"
+msgstr "Aktif abonelik"
+
+#. module: tcrm_saas_core
+msgid "Operations snapshot"
+msgstr "Operasyon özeti"
+
+#. module: tcrm_saas_core
+msgid "Open Tenant 360 — manage session access from there."
+msgstr "Kiracı 360 açılıyor — oturumu oradan yönetin."
+
+#. module: tcrm_saas_core
+msgid "All clear — no overdue invoices in focus"
+msgstr "Temiz — gecikmiş fatura yok"
+
+#. module: tcrm_saas_core
+msgid "Revenue forecast mix"
+msgstr "Gelir tahmini dağılımı"
+
+#. module: tcrm_saas_core
+msgid "Executive Portfolio"
+msgstr "Yönetici Portföyü"
+
+#. module: tcrm_saas_core
+msgid "TCRM Master Suite"
+msgstr "TCRM Master Suite"
+
+#. module: tcrm_saas_core
+msgid "Executive Suite"
+msgstr "Yönetici Süiti"
+
+#. module: tcrm_saas_core
+msgid "Search portfolio…"
+msgstr "Portföyde ara…"
+
+#. module: tcrm_saas_core
+msgid "Overview"
+msgstr "Genel Bakış"
+
+#. module: tcrm_saas_core
+msgid "Assets"
+msgstr "Varlıklar"
+
+#. module: tcrm_saas_core
+msgid "Capital"
+msgstr "Sermaye"
+
+#. module: tcrm_saas_core
+msgid "Last 30 Days"
+msgstr "Son 30 gün"
+
+#. module: tcrm_saas_core
+msgid "Quarterly"
+msgstr "Çeyreklik"
+
+#. module: tcrm_saas_core
+msgid "Custom Range"
+msgstr "Özel aralık"
+
+#. module: tcrm_saas_core
+msgid "Ghost Mode"
+msgstr "Hayalet modu"
+
+#. module: tcrm_saas_core
+msgid "Advanced Filters"
+msgstr "Gelişmiş filtreler"
+
+#. module: tcrm_saas_core
+msgid "Total Portfolio GDV"
+msgstr "Toplam Portföy GDV"
+
+#. module: tcrm_saas_core
+msgid "Active Tenant Health"
+msgstr "Aktif Kiracı Sağlığı"
+
+#. module: tcrm_saas_core
+msgid "Low"
+msgstr "Düşük"
+
+#. module: tcrm_saas_core
+msgid "Stable"
+msgstr "Stabil"
+
+#. module: tcrm_saas_core
+msgid "AI Engine Load"
+msgstr "AI Motor Yükü"
+
+#. module: tcrm_saas_core
+msgid "DB round-trip latency (proxy for AI gateway load)."
+msgstr "DB gidiş-dönüş gecikmesi (AI ağ geçidi yükü için vekil)."
+
+#. module: tcrm_saas_core
+msgid "Live Activity Stream"
+msgstr "Canlı Aktivite Akışı"
+
+#. module: tcrm_saas_core
+msgid "Download Log"
+msgstr "Günlüğü indir"
+
+#. module: tcrm_saas_core
+msgid "System Red Alerts"
+msgstr "Sistem Kırmızı Uyarıları"
+
+#. module: tcrm_saas_core
+msgid "Intervene"
+msgstr "Müdahale"
+
+#. module: tcrm_saas_core
+msgid "TCRM AI Insight"
+msgstr "TCRM AI Öngörüsü"
+
+#. module: tcrm_saas_core
+msgid "Ask TCRM AI…"
+msgstr "TCRM AI’ya sor…"
+
+#. module: tcrm_saas_core
+msgid "Global Command"
+msgstr "Global komut"
+
+#. module: tcrm_saas_core
+msgid "Tenant / Entity"
+msgstr "Kiracı / Varlık"
+
+#. module: tcrm_saas_core
+msgid "Portfolio data unavailable. Check your connection and try again."
+msgstr "Portföy verisi yok. Bağlantınızı kontrol edip yeniden deneyin."
+
+#. module: tcrm_saas_core
+msgid "Custom date range will be available in a future update."
+msgstr "Özel tarih aralığı ilerideki bir sürümde kullanılabilir olacak."
+
+#. module: tcrm_saas_core
+msgid "Activity log downloaded."
+msgstr "Aktivite günlüğü indirildi."
+
+#. module: tcrm_saas_core
+msgid "Global GDV is tracking near forecast. Subscription renewals look stable; watch overdue invoices for concentration risk. Shall I summarize tenants with past-due balances?"
+msgstr "Genel GDV tahmine yakın seyrediyor. Abonelik yenilemeleri stabil; gecikmiş faturalarda yoğunlaşma riskine dikkat. Gecikmiş bakiyeli kiracıları özetleyeyim mi?"
+
+#. module: tcrm_saas_core
+msgid "Yes — highlight tenants with multiple overdue invoices and suggest next actions in Tenant 360."
+msgstr "Evet — birden fazla gecikmiş faturası olan kiracıları vurgula ve Kiracı 360’ta sonraki adımları öner."
+
+#. module: tcrm_saas_core
+msgid "Noted. For full multi-step analysis and tooling, open TCRM AI from the app menu — this panel mirrors executive highlights only."
+msgstr "Not edildi. Çok adımlı tam analiz ve araçlar için uygulama menüsünden TCRM AI’yı açın — bu panel yalnızca yönetici özetini yansıtır."

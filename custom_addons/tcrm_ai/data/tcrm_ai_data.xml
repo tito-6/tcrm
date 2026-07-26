@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Rename tcrmBot partner to TCRM AI -->
+        <record id="base.partner_root" model="res.partner">
+            <field name="name">TCRM AI</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <!-- AI base URL for Ollama / FastAPI RAG proxy (e.g. VPS). Override in Settings > Technical > System Parameters. -->
+        <record id="ir_config_param_ai_base_url" model="ir.config_parameter">
+            <field name="key">tcrm.ai_base_url</field>
+            <field name="value">http://45.9.191.119:8000</field>
+        </record>
+    </data>
+</odoo>

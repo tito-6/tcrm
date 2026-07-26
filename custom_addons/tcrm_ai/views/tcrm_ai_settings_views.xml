@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_ai_config_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.config.form</field>
+        <field name="model">tcrm.ai.config</field>
+        <field name="arch" type="xml">
+            <form string="TCRM AI Settings">
+                <sheet>
+                    <field name="company_id" invisible="1"/>
+                    <group string="Gemini (fallback when no providers have keys)" name="legacy_gemini">
+                        <field name="gemini_api_key" password="True" placeholder="Your Google AI Studio API key"/>
+                        <field name="gemini_model" options="{'no_create': True}"/>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. Used when no AI providers are configured.
+                    </div>
+
+                    <group string="Local AI / RAG proxy" name="local_ai">
+                        <field name="ai_base_url" placeholder="e.g. http://45.9.191.119:8000"/>
+                    </group>
+
+                    <group string="AI providers (Gemini, OpenAI, Anthropic, Groq, Mistral, Ollama)" name="providers">
+                        <field name="provider_summary" readonly="1" nolabel="1" placeholder="—"/>
+                        <button name="%(tcrm_ai.action_tcrm_ai_provider)d" string="Manage AI providers" type="action" class="btn-link" icon="oi-settings"/>
+                    </group>
+
+                    <group string="Generation (timeout, temperature, max tokens)" name="generation">
+                        <field name="request_timeout" placeholder="45"/>
+                        <field name="temperature"/>
+                        <field name="max_tokens" placeholder="4096"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_config" model="ir.actions.act_window">
+        <field name="name">TCRM AI Settings</field>
+        <field name="res_model">tcrm.ai.config</field>
+        <field name="view_mode">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Configure TCRM AI: Gemini fallback key, Local AI URL, providers, and generation options.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_ai_document_list" model="ir.ui.view">
+        <field name="name">tcrm.ai.document.list</field>
+        <field name="model">tcrm.ai.document</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="workspace_id"/>
+                <field name="sync_state"/>
+                <field name="file_size"/>
+                <field name="uploaded_by"/>
+                <field name="last_synced_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_ai_document_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.document.form</field>
+        <field name="model">tcrm.ai.document</field>
+        <field name="arch" type="xml">
+            <form string="AI Document">
+                <header>
+                    <button name="action_sync" type="object" string="Sync to RAGFlow" class="btn-primary"
+                            invisible="sync_state == 'processing'"/>
+                    <button name="action_refresh_status" type="object" string="Refresh Status"
+                            invisible="not ragflow_document_id"/>
+                    <button name="action_retry_sync" type="object" string="Retry"
+                            invisible="sync_state != 'failed'"/>
+                    <field name="sync_state" widget="statusbar"
+                            statusbar_visible="draft,pending,processing,ready,failed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="workspace_id"/>
+                            <field name="attachment_id"/>
+                            <field name="uploaded_by"/>
+                            <field name="mime_type"/>
+                            <field name="file_size"/>
+                            <field name="checksum"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="lead_id"/>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                            <field name="ragflow_dataset_id"/>
+                            <field name="ragflow_document_id"/>
+                            <field name="last_synced_at"/>
+                            <field name="sync_error"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">tcrm.ai.document</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

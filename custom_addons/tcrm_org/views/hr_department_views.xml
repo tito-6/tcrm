@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_org_department_list" model="ir.ui.view">
+        <field name="name">hr.department.list.org</field>
+        <field name="model">hr.department</field>
+        <field name="arch" type="xml">
+            <list string="Departmanlar" multi_edit="1">
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="manager_user_id" widget="many2one_avatar_user"/>
+                <field name="user_count" string="Personel"/>
+                <field name="team_count" string="Ekip"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_org_department_form" model="ir.ui.view">
+        <field name="name">hr.department.form.org</field>
+        <field name="model">hr.department</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form string="Departman">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_teams" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="team_count" widget="statinfo" string="Ekipler"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Departman"/>
+                        <h1><field name="name" placeholder="örn. Satış"/></h1>
+                    </div>
+                    <group>
+                        <group string="Hiyerarşi">
+                            <field name="parent_id"/>
+                            <field name="manager_user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Özet">
+                            <field name="user_count"/>
+                            <field name="team_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Personel" name="staff">
+                            <field name="user_ids" widget="many2many_tags_avatar"/>
+                        </page>
+                        <page string="Ekipler" name="teams">
+                            <field name="crm_team_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="user_id" widget="many2one_avatar_user" string="Ekip Lideri"/>
+                                    <field name="member_ids" widget="many2many_tags_avatar"/>
+                                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notlar" name="notes">
+                            <field name="note" placeholder="Departman açıklaması..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_org_department_hierarchy" model="ir.ui.view">
+        <field name="name">hr.department.hierarchy.org</field>
+        <field name="model">hr.department</field>
+        <field name="arch" type="xml">
+            <list string="Organizasyon Şeması" default_order="parent_path,name">
+                <field name="complete_name" string="Organizasyon"/>
+                <field name="manager_user_id" widget="many2one_avatar_user" string="Yönetici"/>
+                <field name="user_ids" widget="many2many_tags_avatar" string="Personel"/>
+                <field name="crm_team_ids" widget="many2many_tags" string="Ekipler"/>
+                <field name="parent_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_org_department" model="ir.actions.act_window">
+        <field name="name">Departmanlar</field>
+        <field name="res_model">hr.department</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_tcrm_org_department_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_tcrm_org_department_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">İlk departmanı oluşturun</p>
+            <p>Departmanlar organizasyon şemanızın omurgasıdır. Altına ekipler ve personel bağlayın.</p>
+        </field>
+    </record>
+
+    <record id="action_tcrm_org_chart" model="ir.actions.act_window">
+        <field name="name">Organizasyon Şeması</field>
+        <field name="res_model">hr.department</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_tcrm_org_department_hierarchy')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_tcrm_org_department_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Organizasyon şemanızı oluşturun</p>
+            <p>Hiyerarşik yapı: üst yönetim → departmanlar → ekipler → personel.</p>
+        </field>
+    </record>
+</odoo>

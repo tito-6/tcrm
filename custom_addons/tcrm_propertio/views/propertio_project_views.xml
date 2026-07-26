@@ -1,0 +1,143 @@
+<odoo>
+    <!-- Project View -->
+    <record id="view_propertio_project_form" model="ir.ui.view">
+        <field name="name">propertio.project.form</field>
+        <field name="model">propertio.project</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Proje Adı"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="city"/>
+                            <field name="type_id" options="{'no_create': False}"/>
+                            <field name="stage_id"/>
+                        </group>
+                        <group>
+                            <field name="gdv"/>
+                            <field name="unit_count"/>
+                            <field name="properties" widget="properties"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Olanaklar ve Özellikler">
+                            <group>
+                                <group string="Standart Olanaklar">
+                                    <field name="standard_feature_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </group>
+                                <group string="Mevcut Yükseltmeler">
+                                    <field name="extra_feature_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Birim Stoku">
+                            <field name="unit_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="block_id"/>
+                                    <field name="floor"/>
+                                    <field name="category_id"/>
+                                    <field name="list_price"/>
+                                    <field name="state" widget="badge" decoration-info="state == 'available'" decoration-success="state == 'sold'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Bloklar">
+                            <field name="block_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_propertio_project_tree" model="ir.ui.view">
+        <field name="name">propertio.project.tree</field>
+        <field name="model">propertio.project</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="city"/>
+                <field name="type_id"/>
+                <field name="stage_id"/>
+                <field name="unit_count"/>
+                <field name="gdv" sum="Toplam GDV"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_propertio_project_kanban" model="ir.ui.view">
+        <field name="name">propertio.project.kanban</field>
+        <field name="model">propertio.project</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column" sample="1">
+                <field name="stage_id"/>
+                <field name="type_id"/>
+                <field name="city"/>
+                <field name="unit_count"/>
+                <field name="gdv"/>
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold"/>
+                        <div class="text-muted">
+                            <field name="type_id"/>
+                            <span t-if="record.city.raw_value"> · <field name="city"/></span>
+                        </div>
+                        <footer class="pt-1">
+                            <span><field name="unit_count"/> birim</span>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_propertio_project_stage_list" model="ir.ui.view">
+        <field name="name">propertio.project.stage.list</field>
+        <field name="model">propertio.project.stage</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="fold"/>
+                <field name="color" widget="color_picker"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_propertio_project_type_list" model="ir.ui.view">
+        <field name="name">propertio.project.type.list</field>
+        <field name="model">propertio.project.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_propertio_project" model="ir.actions.act_window">
+        <field name="name">Projeler</field>
+        <field name="res_model">propertio.project</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Proje Stok ve Takibi için ilk projenizi oluşturun
+            </p>
+            <p>
+                Projeler, bloklar, katlar ve birimler burada yönetilir.
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_project" action="action_propertio_project" parent="menu_propertio_inventory" sequence="10"/>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Force-update inventory section label (overrides stale DB/translation values). -->
+    <data noupdate="0">
+        <record id="menu_propertio_inventory" model="ir.ui.menu">
+            <field name="name">Proje stok ve takibi</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_research_hub.Systray">
+        <div class="o_rhub_systray o-dropdown dropdown">
+            <button type="button"
+                    class="dropdown-toggle o-dropdown--narrow"
+                    title="Research Hub"
+                    t-on-click="openResearchHub">
+                <i class="fa fa-flask"/>
+                <span class="o_rhub_systray_label d-none d-md-inline ms-1">Research</span>
+            </button>
+        </div>
+    </t>
+</templates>

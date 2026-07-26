@@ -1,0 +1,196 @@
+<odoo>
+    <!-- Enhanced Collection Map with Multiple Views -->
+    <record id="view_propertio_installment_color_tree" model="ir.ui.view">
+        <field name="name">propertio.installment.color.tree</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <list string="Collection Map" 
+                  decoration-success="payment_status == 'paid'" 
+                  decoration-danger="payment_status == 'overdue'" 
+                  decoration-warning="payment_status == 'upcoming'" 
+                  decoration-muted="payment_status == 'future'"
+                  create="false">
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="date_due"/>
+                <field name="amount" sum="Total Due"/>
+                <field name="amount_paid" sum="Total Paid"/>
+                <field name="residual" sum="Total Residual"/>
+                <field name="payment_status" widget="badge" decoration-success="payment_status == 'paid'" decoration-warning="payment_status == 'upcoming'" decoration-danger="payment_status == 'overdue'" decoration-muted="payment_status == 'future'"/>
+                <field name="type"/>
+                <button name="action_send_whatsapp" string="WhatsApp" type="object" class="btn-link" icon="fa-whatsapp"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Pivot View for Collection Analysis -->
+    <record id="view_propertio_installment_pivot" model="ir.ui.view">
+        <field name="name">propertio.installment.pivot</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <pivot string="Collection Analysis">
+                <field name="payment_status" type="col"/>
+                <field name="partner_id" type="row"/>
+                <field name="amount" type="measure"/>
+                <field name="amount_paid" type="measure"/>
+                <field name="residual" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View for Collection Trends -->
+    <record id="view_propertio_installment_graph" model="ir.ui.view">
+        <field name="name">propertio.installment.graph</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <graph string="Collection Trends" type="bar" stacked="True">
+                <field name="date_due" interval="month"/>
+                <field name="payment_status" type="col"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_propertio_report_collection_map" model="ir.actions.act_window">
+        <field name="name">Satış ve Tahsilat Haritası</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">list,pivot,graph,form</field>
+        <field name="context">{'search_default_group_by_status': 1}</field>
+    </record>
+
+    <menuitem id="menu_collection_map" 
+              action="action_propertio_report_collection_map" 
+              parent="menu_propertio_collections" 
+              sequence="10"/>
+
+    <!-- Enhanced Project GDV Analysis -->
+    <record id="view_propertio_unit_pivot_gdv" model="ir.ui.view">
+        <field name="name">propertio.unit.pivot.gdv</field>
+        <field name="model">propertio.unit</field>
+        <field name="arch" type="xml">
+            <pivot string="Project GDV Analysis">
+                <field name="project_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="list_price" type="measure" string="Total Stock Value"/>
+                <field name="sold_value" type="measure"/>
+                <field name="collected_amount" type="measure"/>
+                <field name="receivable_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_propertio_unit_graph_gdv" model="ir.ui.view">
+        <field name="name">propertio.unit.graph.gdv</field>
+        <field name="model">propertio.unit</field>
+        <field name="arch" type="xml">
+            <graph string="GDV by Project" type="bar">
+                <field name="project_id"/>
+                <field name="state" type="col"/>
+                <field name="list_price" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_propertio_report_gdv" model="ir.actions.act_window">
+        <field name="name">Proje GDV Analizi</field>
+        <field name="res_model">propertio.unit</field>
+        <field name="view_mode">pivot,graph,list</field>
+    </record>
+
+    <menuitem id="menu_gdv_analysis" 
+              action="action_propertio_report_gdv" 
+              parent="menu_propertio_reporting" 
+              sequence="20"/>
+
+    <!-- Enhanced Cash Flow Forecast -->
+    <record id="view_propertio_installment_graph_cashflow" model="ir.ui.view">
+        <field name="name">propertio.installment.graph.cashflow</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <graph string="Cash Flow Forecast" type="line">
+                <field name="date_due" interval="month"/>
+                <field name="amount" type="measure" string="Expected"/>
+                <field name="amount_paid" type="measure" string="Actual"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_propertio_installment_pivot_cashflow" model="ir.ui.view">
+        <field name="name">propertio.installment.pivot.cashflow</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <pivot string="Cash Flow Analysis">
+                <field name="date_due" interval="month" type="row"/>
+                <field name="payment_status" type="col"/>
+                <field name="amount" type="measure"/>
+                <field name="amount_paid" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- List View for Cash Flow Forecast -->
+    <record id="view_propertio_installment_list_cashflow" model="ir.ui.view">
+        <field name="name">propertio.installment.list.cashflow</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <list string="Cash Flow Forecast" 
+                  decoration-success="payment_status == 'paid'" 
+                  decoration-danger="payment_status == 'overdue'" 
+                  decoration-warning="payment_status == 'upcoming'" 
+                  decoration-muted="payment_status == 'future'"
+                  create="false">
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="date_due"/>
+                <field name="amount" sum="Total Expected"/>
+                <field name="amount_paid" sum="Total Actual"/>
+                <field name="residual" sum="Total Residual"/>
+                <field name="payment_status" widget="badge" decoration-success="payment_status == 'paid'" decoration-warning="payment_status == 'upcoming'" decoration-danger="payment_status == 'overdue'" decoration-muted="payment_status == 'future'"/>
+                <field name="type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_propertio_report_cashflow" model="ir.actions.act_window">
+        <field name="name">Nakit Akış Tahmini</field>
+        <field name="res_model">propertio.installment</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_propertio_installment_graph_cashflow')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_propertio_installment_pivot_cashflow')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_propertio_installment_list_cashflow')})]"/>
+    </record>
+
+    <menuitem id="menu_cashflow_forecast" 
+              action="action_propertio_report_cashflow" 
+              parent="menu_propertio_reporting" 
+              sequence="30"/>
+
+    <record id="view_propertio_installment_search_v3" model="ir.ui.view">
+        <field name="name">propertio.installment.search.v3</field>
+        <field name="model">propertio.installment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <filter string="Paid" name="filter_paid" domain="[('payment_status', '=', 'paid')]"/>
+                <filter string="Overdue" name="filter_overdue" domain="[('payment_status', '=', 'overdue')]"/>
+                <filter string="Upcoming" name="filter_upcoming" domain="[('payment_status', '=', 'upcoming')]"/>
+                <filter string="Future" name="filter_future" domain="[('payment_status', '=', 'future')]"/>
+                <separator/>
+                <filter string="Down Payment" name="filter_down" domain="[('type', '=', 'down_payment')]"/>
+                <filter string="Installments" name="filter_inst" domain="[('type', '=', 'installment')]"/>
+                <group>
+                    <filter string="Müşteri" name="group_by_customer" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Satış Sözleşmesi" name="group_by_sale" context="{'group_by': 'sale_id'}"/>
+                    <filter string="Ödeme Durumu" name="group_by_status" context="{'group_by': 'payment_status'}"/>
+                    <filter string="Vade Ayı" name="group_by_month" context="{'group_by': 'date_due:month'}"/>
+                    <filter string="Tip" name="group_by_type" context="{'group_by': 'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

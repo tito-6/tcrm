@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_form_ai_research" model="ir.ui.view">
+        <field name="name">crm.lead.form.ai.research</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_ai_research" type="object"
+                        class="oe_stat_button" icon="fa-flask"
+                        groups="tcrm_ai_research.group_ai_research_user">
+                    <div class="o_stat_info">
+                        <field name="ai_conversation_count" class="o_stat_value"/>
+                        <span class="o_stat_text">AI Research</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

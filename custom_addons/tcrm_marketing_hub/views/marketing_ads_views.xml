@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_marketing_ad_account_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.ad.account.list</field>
+        <field name="model">tcrm.marketing.ad.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="meta_act_id"/>
+                <field name="business_name"/>
+                <field name="currency"/>
+                <field name="account_id"/>
+                <field name="minimum_daily_budget"/>
+                <field name="selectable"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_ad_account_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.ad.account.form</field>
+        <field name="model">tcrm.marketing.ad.account</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="meta_act_id"/>
+                        <field name="business_name"/>
+                        <field name="currency"/>
+                        <field name="timezone_name"/>
+                        <field name="account_id"/>
+                        <field name="minimum_daily_budget"/>
+                        <field name="selectable"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_ad_account" model="ir.actions.act_window">
+        <field name="name">Meta Reklam Hesapları</field>
+        <field name="res_model">tcrm.marketing.ad.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_marketing_campaign_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.campaign.list</field>
+        <field name="model">tcrm.marketing.campaign</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_sync_from_zernio" type="object"
+                            string="Kampanyaları Çek" class="btn-primary"
+                            display="always"/>
+                </header>
+                <field name="name"/>
+                <field name="platform" widget="badge"
+                         decoration-info="platform == 'facebook'"
+                         decoration-danger="platform == 'instagram'"
+                         decoration-muted="platform == 'meta'"/>
+                <field name="ad_account_id" optional="show"/>
+                <field name="status" widget="badge"
+                         decoration-success="status == 'active'"
+                         decoration-warning="status == 'paused'"
+                         decoration-danger="status == 'deleted'"/>
+                <field name="spend"/>
+                <field name="impressions"/>
+                <field name="clicks"/>
+                <field name="conversions"/>
+                <field name="roas"/>
+                <field name="currency"/>
+                <field name="budget_amount" optional="hide"/>
+                <field name="last_sync_at" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_campaign_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.campaign.form</field>
+        <field name="model">tcrm.marketing.campaign</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" type="object" string="Aktifleştir"
+                            invisible="status == 'active'"
+                            groups="tcrm_marketing_hub.group_marketing_manager"/>
+                    <button name="action_pause" type="object" string="Duraklat"
+                            invisible="status != 'active'"
+                            groups="tcrm_marketing_hub.group_marketing_manager"/>
+                    <button name="action_duplicate" type="object" string="Kopyala"
+                            groups="tcrm_marketing_hub.group_marketing_manager"/>
+                    <field name="status" widget="statusbar"
+                            statusbar_visible="active,paused,pending_review"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="platform" widget="badge"/>
+                            <field name="account_id"/>
+                            <field name="ad_account_id"/>
+                            <field name="budget_level"/>
+                            <field name="budget_amount"/>
+                            <field name="budget_type"/>
+                            <field name="currency"/>
+                        </group>
+                        <group>
+                            <field name="zernio_id" readonly="1"/>
+                            <field name="platform_campaign_id" readonly="1"/>
+                            <field name="review_status"/>
+                            <field name="spend"/>
+                            <field name="impressions"/>
+                            <field name="clicks"/>
+                            <field name="conversions"/>
+                            <field name="purchase_value"/>
+                            <field name="roas"/>
+                            <field name="last_sync_at"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_campaign" model="ir.actions.act_window">
+        <field name="name">Meta Kampanyalar</field>
+        <field name="res_model">tcrm.marketing.campaign</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_ad_account': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz kampanya yok</p>
+            <p>Üstteki <b>Kampanyaları Çek</b> ile tüm Meta reklam hesaplarından kampanyaları senkronize edin.</p>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_campaign_search" model="ir.ui.view">
+        <field name="name">tcrm.marketing.campaign.search</field>
+        <field name="model">tcrm.marketing.campaign</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="ad_account_id"/>
+                <filter string="Aktif" name="active" domain="[('status', '=', 'active')]"/>
+                <filter string="Instagram" name="instagram" domain="[('platform', '=', 'instagram')]"/>
+                <filter string="Facebook" name="facebook" domain="[('platform', '=', 'facebook')]"/>
+                <separator/>
+                <filter string="Son Senkron" name="filter_last_sync" date="last_sync_at"/>
+                <filter string="Oluşturma" name="filter_create_date" date="create_date"/>
+                <group>
+                    <filter string="Reklam Hesabı" name="group_ad_account" context="{'group_by': 'ad_account_id'}"/>
+                    <filter string="Platform" name="group_platform" context="{'group_by': 'platform'}"/>
+                    <filter string="Durum" name="group_status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_create_ad_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.create.ad.wizard.form</field>
+        <field name="model">tcrm.marketing.create.ad.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Meta Reklam Oluştur">
+                <group>
+                    <group>
+                        <field name="account_id"/>
+                        <field name="ad_account_id"/>
+                        <field name="name"/>
+                        <field name="goal"/>
+                        <field name="status"/>
+                    </group>
+                    <group>
+                        <field name="budget_amount"/>
+                        <field name="budget_type"/>
+                        <field name="countries"/>
+                        <field name="age_min"/>
+                        <field name="age_max"/>
+                        <field name="call_to_action"/>
+                    </group>
+                </group>
+                <group string="Kreatif">
+                    <field name="headline"/>
+                    <field name="body"/>
+                    <field name="image_url"/>
+                    <field name="link_url"/>
+                </group>
+                <footer>
+                    <button name="action_create" type="object" string="Oluştur" class="btn-primary"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_create_ad" model="ir.actions.act_window">
+        <field name="name">Yeni Meta Reklam</field>
+        <field name="res_model">tcrm.marketing.create.ad.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_tcrm_marketing_boost_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.boost.wizard.form</field>
+        <field name="model">tcrm.marketing.boost.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Gönderiyi Öne Çıkar">
+                <group>
+                    <field name="post_id"/>
+                    <field name="account_id"/>
+                    <field name="ad_account_id"/>
+                    <field name="platform_post_id"/>
+                    <field name="budget_amount"/>
+                    <field name="duration_days"/>
+                    <field name="countries"/>
+                </group>
+                <footer>
+                    <button name="action_boost" type="object" string="Boost Gönder" class="btn-primary"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_boost" model="ir.actions.act_window">
+        <field name="name">Gönderi Boost</field>
+        <field name="res_model">tcrm.marketing.boost.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

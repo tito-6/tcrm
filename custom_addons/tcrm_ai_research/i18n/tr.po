@@ -1,0 +1,121 @@
+# Translation of TCRM AI Research module.
+msgid ""
+msgstr ""
+"Project-Id-Version: tcrm_ai_research 19.0\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: tcrm_ai_research
+msgid "AI Research"
+msgstr "Yapay Zekâ Araştırma"
+
+#. module: tcrm_ai_research
+msgid "Research Assistant"
+msgstr "Araştırma Asistanı"
+
+#. module: tcrm_ai_research
+msgid "Workspaces"
+msgstr "Çalışma Alanları"
+
+#. module: tcrm_ai_research
+msgid "Conversations"
+msgstr "Sohbetler"
+
+#. module: tcrm_ai_research
+msgid "Documents"
+msgstr "Belgeler"
+
+#. module: tcrm_ai_research
+msgid "Citations"
+msgstr "Alıntılar"
+
+#. module: tcrm_ai_research
+msgid "AI Research Result"
+msgstr "YZ Araştırma Sonucu"
+
+#. module: tcrm_ai_research
+msgid "Open AI conversation"
+msgstr "YZ sohbetini aç"
+
+#. module: tcrm_ai_research
+msgid "Saved by %(user)s at %(when)s"
+msgstr "%(user)s tarafından %(when)s tarihinde kaydedildi"
+
+#. module: tcrm_ai_research
+msgid "Create an AI Research workspace for this company first."
+msgstr "Önce bu şirket için bir YZ Araştırma çalışma alanı oluşturun."
+
+#. module: tcrm_ai_research
+msgid "Please enter a question."
+msgstr "Lütfen bir soru girin."
+
+#. module: tcrm_ai_research
+msgid "Document synchronization failed. Please retry later."
+msgstr "Belge eşitleme başarısız oldu. Lütfen daha sonra yeniden deneyin."
+
+#. module: tcrm_ai_research
+msgid "File exceeds maximum upload size of %s MB."
+msgstr "Dosya en fazla %s MB yükleme sınırını aşıyor."
+
+#. module: tcrm_ai_research
+msgid "File type \".%s\" is not allowed."
+msgstr "\".%s\" dosya türüne izin verilmiyor."
+
+#. module: tcrm_ai_research
+msgid "You are not a member of this workspace."
+msgstr "Bu çalışma alanının üyesi değilsiniz."
+
+#. module: tcrm_ai_research
+msgid "You need AI Research User access."
+msgstr "YZ Araştırma Kullanıcısı erişimine ihtiyacınız var."
+
+#. module: tcrm_ai_research
+msgid "No CRM record is linked to this conversation."
+msgstr "Bu sohbete bağlı bir CRM kaydı yok."
+
+#. module: tcrm_ai_research
+msgid "Only assistant messages can be saved as notes."
+msgstr "Yalnızca asistan mesajları not olarak kaydedilebilir."
+
+#. module: tcrm_ai_research
+msgid "AI research result attached."
+msgstr "YZ araştırma sonucu eklendi."
+
+#. module: tcrm_ai_research
+msgid "The research request failed. Please try again."
+msgstr "Araştırma isteği başarısız oldu. Lütfen tekrar deneyin."
+
+#. module: tcrm_ai_research
+msgid "Processing Document"
+msgstr "Belge İşleniyor"
+
+#. module: tcrm_ai_research
+msgid "Retry"
+msgstr "Tekrar Dene"
+
+#. module: tcrm_ai_research
+msgid "Internal Documents Only"
+msgstr "Yalnızca Dahili Belgeler"
+
+#. module: tcrm_ai_research
+msgid "Web Research"
+msgstr "Web Araştırması"
+
+#. module: tcrm_ai_research
+msgid "Save as CRM Note"
+msgstr "CRM Notu Olarak Kaydet"
+
+#. module: tcrm_ai_research
+msgid "Add to Record"
+msgstr "Kayda Ekle"
+
+#. module: tcrm_ai_research
+msgid "New Research"
+msgstr "Yeni Araştırma"
+
+#. module: tcrm_ai_research
+msgid "Sources"
+msgstr "Kaynaklar"

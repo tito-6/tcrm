@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcrm_ai_config_user,tcrm.ai.config.user,model_tcrm_ai_config,base.group_user,1,0,0,0
+access_tcrm_ai_config_manager,tcrm.ai.config.manager,model_tcrm_ai_config,base.group_system,1,1,1,1
+access_tcrm_ai_provider_system,tcrm.ai.provider.system,model_tcrm_ai_provider,base.group_system,1,1,1,1
+access_tcrm_ai_key_system,tcrm.ai.key.system,model_tcrm_ai_key,base.group_system,1,1,1,1

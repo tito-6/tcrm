@@ -1,0 +1,42 @@
+<odoo>
+    <record id="view_propertio_report_export_form" model="ir.ui.view">
+        <field name="name">propertio.report.export.form</field>
+        <field name="model">propertio.report.export</field>
+        <field name="arch" type="xml">
+            <form string="Export Report">
+                <group invisible="state == 'done'">
+                    <group>
+                        <field name="report_type"/>
+                        <field name="export_format"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <group invisible="state != 'done'">
+                    <field name="file_name" invisible="1"/>
+                    <field name="file_data" filename="file_name"/>
+                </group>
+                <field name="state" invisible="1"/>
+                <footer>
+                    <button string="Export" name="action_export" type="object" class="btn-primary" invisible="state == 'done'"/>
+                    <button string="Download" name="action_download" type="object" class="btn-primary" invisible="state != 'done'"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_propertio_export_wizard" model="ir.actions.act_window">
+        <field name="name">Raporları Dışa Aktar</field>
+        <field name="res_model">propertio.report.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_export_reports" 
+              action="action_propertio_export_wizard" 
+              parent="menu_propertio_reporting" 
+              sequence="10"/>
+</odoo>

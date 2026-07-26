@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<tcrm>
+    <data>
+        <menuitem
+            id="discuss_technical"
+            name="Technical"
+            parent="mail.menu_root_discuss"
+            groups="base.group_no_one"
+            sequence="10"
+        />
+    </data>
+</tcrm>

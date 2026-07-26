@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_tcrm_market_sync" model="ir.cron">
+            <field name="name">TCRM Market Analysis: sync enabled demo/authorized sources</field>
+            <field name="model_id" ref="model_tcrm_market_import_job"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_process_due_syncs()</field>
+            <field name="interval_number">6</field>
+            <field name="interval_type">hours</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

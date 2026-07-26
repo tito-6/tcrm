@@ -1,0 +1,124 @@
+<odoo>
+    <!-- Unit View -->
+    <record id="view_propertio_unit_form" model="ir.ui.view">
+        <field name="name">propertio.unit.form</field>
+        <field name="model">propertio.unit</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate_qr" string="QR Oluştur" type="object" class="btn-secondary" icon="fa-qrcode"/>
+                    <field name="state" widget="statusbar" statusbar_visible="available,option,sold,handover"/>
+                </header>
+                <sheet style="max-width: 100% !important; width: 100% !important;">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sales_history" type="object" class="oe_stat_button" icon="fa-history">
+                             <div class="o_stat_info">
+                                <span class="o_stat_text">Satış Geçmişi</span>
+                             </div>
+                        </button>
+                        <button name="action_view_offers" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                             <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="offer_count" widget="statinfo" string="Teklifler"/></span>
+                                <span class="o_stat_text">Teklifler</span>
+                             </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Birim No"/></h1>
+                        <h3>
+                            <field name="project_id" readonly="1" options="{'no_open': True}"/> 
+                            <span> / </span>
+                            <field name="block_id" readonly="1" options="{'no_open': True}"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Birim Bilgisi">
+                            <field name="project_id" invisible="1"/> <!-- Kept for domain if needed -->
+                            <field name="block_id" invisible="1"/>
+                            <field name="floor"/>
+                            <field name="entrance"/>
+                            <field name="category_id"/>
+                            <field name="status_id"/>
+                            <field name="view_type"/>
+                        </group>
+                        <group string="Fiyat ve Özellikler">
+                            <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="gross_m2"/>
+                            <field name="properties" widget="properties"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Genel Bilgi" name="general_info">
+                            <group>
+                                <group string="Alanlar">
+                                    <field name="balcony_m2"/>
+                                    <field name="terrace_m2"/>
+                                    <field name="garden_m2"/>
+                                    <field name="floor_gross_m2"/>
+                                    <field name="ground_floor_m2"/>
+                                    <field name="normal_floor_m2"/>
+                                </group>
+                                <group string="Teknik Özellikler">
+                                    <field name="facade"/>
+                                    <field name="unit_code"/>
+                                    <field name="tapu_ref"/>
+                                    <field name="parking_no"/>
+                                    <field name="parking_type"/>
+                                    <field name="accounting_code"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Özellikler ve Yükseltmeler" name="features">
+                            <group>
+                                <group string="Standart Olanaklar">
+                                    <field name="standard_feature_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': False}"/>
+                                </group>
+                                <group string="Mevcut Yükseltmeler">
+                                    <field name="extra_feature_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': False}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Mali İstatistikler" name="financials">
+                             <group>
+                                <group>
+                                    <field name="sold_value"/>
+                                    <field name="collected_amount"/>
+                                    <field name="receivable_amount"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_propertio_unit_tree" model="ir.ui.view">
+        <field name="name">propertio.unit.tree</field>
+        <field name="model">propertio.unit</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="project_id"/>
+                <field name="block_id"/>
+                <field name="name"/>
+                <field name="floor"/>
+                <field name="category_id"/>
+                <field name="status_id"/>
+                <field name="gross_m2"/>
+                <field name="list_price"/>
+                <field name="state" widget="badge" decoration-success="state == 'available'" decoration-warning="state == 'option'" decoration-danger="state == 'sold'" decoration-primary="state == 'handover'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_propertio_unit" model="ir.actions.act_window">
+        <field name="name">Birimler</field>
+        <field name="res_model">propertio.unit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_unit" action="action_propertio_unit" parent="menu_propertio_inventory" sequence="20"/>
+</odoo>

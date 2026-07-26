@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rename CRM Sales → Teams menu to Organizasyon hub -->
+    <record id="crm.sales_team_menu_team_pipeline" model="ir.ui.menu">
+        <field name="name">Organizasyon</field>
+        <field name="action" eval="False"/>
+        <field name="sequence">4</field>
+    </record>
+
+    <menuitem id="menu_tcrm_org_chart"
+              name="Organizasyon Şeması"
+              parent="crm.sales_team_menu_team_pipeline"
+              action="action_tcrm_org_chart"
+              sequence="1"
+              groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <menuitem id="menu_tcrm_org_departments"
+              name="Departmanlar"
+              parent="crm.sales_team_menu_team_pipeline"
+              action="action_tcrm_org_department"
+              sequence="10"
+              groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <menuitem id="menu_tcrm_org_teams"
+              name="Ekipler"
+              parent="crm.sales_team_menu_team_pipeline"
+              action="action_tcrm_org_teams"
+              sequence="20"
+              groups="sales_team.group_sale_salesman"/>
+
+    <menuitem id="menu_tcrm_org_users"
+              name="Personel"
+              parent="crm.sales_team_menu_team_pipeline"
+              action="action_tcrm_org_users"
+              sequence="30"
+              groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <menuitem id="menu_tcrm_org_access"
+              name="Erişim Yönetimi"
+              parent="crm.sales_team_menu_team_pipeline"
+              action="action_tcrm_org_access_grants"
+              sequence="40"
+              groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
+</odoo>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_propertio.PropertioReportsCenter">
+        <!--
+            One full-page scroller: toolbar + report list + KPIs all live inside
+            .o_content so the user can scroll the whole view (no fixed control
+            strip / tiny nested scroll pane / divider line).
+        -->
+        <div class="o_action o_propertio_reports_center">
+            <div class="o_content">
+            <div class="o_prc_toolbar d-flex flex-column gap-2 p-2">
+                <div class="d-flex align-items-end justify-content-between gap-2 flex-wrap">
+                    <div class="d-flex align-items-end gap-2 flex-wrap flex-grow-1">
+                        <label class="o_prc_report_select flex-grow-1" style="min-width: 280px; max-width: 520px;">
+                            <span class="text-muted small d-block">Rapor</span>
+                            <select class="form-select form-select-lg" t-att-value="state.selectedKey || ''" t-on-change="onReportSelect">
+                                <option value="" disabled="disabled">Rapor seçin...</option>
+                                <t t-foreach="categoryOptions" t-as="category" t-key="'optgroup-' + category.key">
+                                    <optgroup t-att-label="category.label">
+                                        <t t-foreach="reportsInCategory(category.key)" t-as="report" t-key="'opt-' + report.key">
+                                            <option t-att-value="report.key"><t t-esc="report.name"/></option>
+                                        </t>
+                                    </optgroup>
+                                </t>
+                            </select>
+                        </label>
+                        <label>
+                            <span class="text-muted small d-block">Kategori</span>
+                            <select class="form-select" t-att-value="state.category" t-on-change="setCategory">
+                                <option value="All">Tümü</option>
+                                <t t-foreach="categoryOptions" t-as="category" t-key="category.key">
+                                    <option t-att-value="category.key"><t t-esc="category.label"/></option>
+                                </t>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-secondary" type="button" t-on-click="saveTemplate"><i class="fa fa-bookmark-o me-1"/>Kaydet</button>
+                        <a class="btn btn-outline-primary" t-att-href="exportUrl('csv')"><i class="fa fa-table me-1"/>CSV</a>
+                        <a class="btn btn-outline-primary" t-att-href="exportUrl('xlsx')"><i class="fa fa-file-excel-o me-1"/>XLSX</a>
+                        <a class="btn btn-outline-primary" t-att-href="exportUrl('pdf')"><i class="fa fa-file-pdf-o me-1"/>PDF</a>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end gap-2 flex-wrap">
+                    <t t-foreach="selectFilterFields" t-as="field" t-key="'filter-' + field.key">
+                        <label t-if="filterOptions(field).length > 0">
+                            <span class="text-muted small d-block"><t t-esc="field.label"/></span>
+                            <select class="form-select" t-att-value="state.filters[field.key] || ''" t-on-change="(ev) => this.setFilter(field.key, ev)">
+                                <option value="">Tümü</option>
+                                <t t-foreach="filterOptions(field)" t-as="opt" t-key="field.key + '-' + opt.id">
+                                    <option t-att-value="opt.id"><t t-esc="opt.name"/></option>
+                                </t>
+                            </select>
+                        </label>
+                    </t>
+                    <div t-if="hasDateRangeFilter" class="d-flex align-items-end gap-2">
+                        <div>
+                            <span class="text-muted small d-block">Başlangıç</span>
+                            <DateTimePicker t-props="dateFromPickerProps"/>
+                        </div>
+                        <div>
+                            <span class="text-muted small d-block">Bitiş</span>
+                            <DateTimePicker t-props="dateToPickerProps"/>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Hızlı Seçim
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('this_week')">Bu Hafta</a></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('last_week')">Geçen Hafta</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('this_month')">Bu Ay</a></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('last_month')">Geçen Ay</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('this_quarter')">Bu Çeyrek</a></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('last_quarter')">Geçen Çeyrek</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('this_year')">Bu Yıl</a></li>
+                                <li><a class="dropdown-item" href="#" t-on-click.prevent="() => this.setQuickDate('last_year')">Geçen Yıl</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><a class="dropdown-item text-danger" href="#" t-on-click.prevent="() => this.setQuickDate('all_time')">Tüm Zamanlar</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-secondary" type="button" t-on-click="resetFilters">Temizle</button>
+                    <button class="btn btn-primary" type="button" t-on-click="runReport"><i class="fa fa-refresh me-1"/>Çalıştır</button>
+                </div>
+                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap" t-if="state.payload">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <label>
+                            <span class="text-muted small d-block">Grup</span>
+                            <select class="form-select" t-att-value="state.options.group_by" t-on-change="(ev) => this.setOption('group_by', ev)">
+                                <option value="">Yok</option>
+                                <t t-foreach="visibleColumns" t-as="col" t-key="'g' + col.key">
+                                    <option t-att-value="col.key"><t t-esc="col.label"/></option>
+                                </t>
+                            </select>
+                        </label>
+                        <label>
+                            <span class="text-muted small d-block">Grafik Grubu</span>
+                            <select class="form-select" t-att-value="state.options.chart_group_by" t-on-change="(ev) => this.setOption('chart_group_by', ev)">
+                                <option value="">Otomatik</option>
+                                <t t-foreach="chartGroupOptions" t-as="key" t-key="'cg' + key">
+                                    <option t-att-value="key"><t t-esc="columnLabel(key)"/></option>
+                                </t>
+                            </select>
+                        </label>
+                        <label>
+                            <span class="text-muted small d-block">Grafik Metriği</span>
+                            <select class="form-select" t-att-value="state.options.chart_value" t-on-change="(ev) => this.setOption('chart_value', ev)">
+                                <option value="">Otomatik</option>
+                                <t t-foreach="chartValueOptions" t-as="key" t-key="'cv' + key">
+                                    <option t-att-value="key"><t t-esc="columnLabel(key)"/></option>
+                                </t>
+                            </select>
+                        </label>
+                        <button class="btn btn-outline-secondary align-self-end" type="button" t-on-click="runReport">Uygula</button>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="btn-group" role="group">
+                        <button t-att-class="'btn ' + (state.options.accounting_view === 'accrual' ? 'btn-primary' : 'btn-outline-primary')" type="button" t-on-click="() => this.setAccountingView('accrual')">Tahakkuk</button>
+                        <button t-att-class="'btn ' + (state.options.accounting_view === 'cash' ? 'btn-primary' : 'btn-outline-primary')" type="button" t-on-click="() => this.setAccountingView('cash')">Nakit</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <t t-foreach="chartTypes" t-as="type" t-key="'ct-btn-' + type">
+                            <button t-att-class="'btn ' + (state.options.chart_type === type ? 'btn-secondary' : 'btn-outline-secondary')" type="button" t-on-click="() => this.setChartType(type)">
+                                <t t-esc="type"/>
+                            </button>
+                        </t>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button t-att-class="'btn ' + (state.viewMode === 'table' ? 'btn-secondary' : 'btn-outline-secondary')" type="button" t-on-click="() => state.viewMode = 'table'"><i class="fa fa-list me-1"/>Liste</button>
+                        <button t-att-class="'btn ' + (state.viewMode === 'group' ? 'btn-secondary' : 'btn-outline-secondary')" type="button" t-on-click="() => state.viewMode = 'group'"><i class="fa fa-object-group me-1"/>Gruplar</button>
+                        <button t-att-class="'btn ' + (state.viewMode === 'chart' ? 'btn-secondary' : 'btn-outline-secondary')" type="button" t-on-click="() => state.viewMode = 'chart'"><i class="fa fa-bar-chart me-1"/>Grafik</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="container-fluid py-3">
+                <div class="row g-3 o_prc_body">
+                    <main class="col-12 o_prc_main_pane">
+                        <div class="alert alert-info" t-if="selectedReport.description">
+                            <t t-esc="selectedReport.description"/>
+                        </div>
+
+                        <div class="text-muted" t-if="state.loading">Rapor yükleniyor...</div>
+                        <t t-if="state.payload &amp;&amp; !state.loading">
+                            <div class="row g-2 mb-3">
+                                <t t-foreach="state.payload.kpis" t-as="kpi" t-key="kpi.label">
+                                    <div class="col-6 col-xl-3">
+                                        <div class="border rounded p-2 bg-white">
+                                            <span class="text-muted small"><t t-esc="kpi.label"/></span>
+                                            <div class="fs-4"><t t-esc="formatValue(kpi.value)"/></div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <section t-if="state.viewMode === 'chart'" class="border rounded p-3 mb-3 bg-white">
+                                <div class="position-relative w-100" style="height: 400px; display: flex; align-items: center; justify-content: center;">
+                                    <t t-if="!state.payload.chart.length">
+                                        <div class="text-muted">Mevcut filtreler için grafik verisi yok.</div>
+                                    </t>
+                                    <canvas id="prc_chart_canvas" t-ref="chartCanvas" style="width: 100%; height: 100%;" t-attf-class="{{ state.payload.chart.length ? '' : 'd-none' }}"></canvas>
+                                </div>
+                            </section>
+
+                            <section t-if="state.viewMode === 'group'" class="list-group mb-3">
+                                <t t-if="state.payload.groups.length">
+                                    <t t-foreach="state.payload.groups" t-as="group" t-key="group.key">
+                                        <button type="button" class="list-group-item list-group-item-action" t-on-click="() => this.drill({_ids: group.ids})">
+                                            <strong><t t-esc="group.key"/></strong>
+                                            <span class="ms-2 text-muted"><t t-esc="group.count"/> satır</span>
+                                        </button>
+                                    </t>
+                                </t>
+                                <div class="text-muted" t-else="">Bir grup alanı seçip uygulayın.</div>
+                            </section>
+
+                            <section t-if="state.viewMode === 'table'" class="table-responsive">
+                                <div class="text-muted small mb-2">
+                                    <t t-esc="state.payload.row_count"/> satır
+                                    <span t-if="rowLimitMessage"> - <t t-esc="rowLimitMessage"/></span>
+                                </div>
+                                <table class="table table-hover table-sm table-bordered table-striped o_list_table bg-white" t-if="state.payload.rows.length">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <t t-foreach="visibleColumns" t-as="col" t-key="'h' + col.key">
+                                                <th t-on-click="() => this.sortBy(col.key)">
+                                                    <t t-esc="col.label"/>
+                                                    <i t-if="state.options.sort_by === col.key" t-att-class="'fa ' + (state.options.sort_dir === 'asc' ? 'fa-sort-up' : 'fa-sort-down')"/>
+                                                </th>
+                                            </t>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="state.payload.rows" t-as="row" t-key="row_index">
+                                            <tr t-on-click="() => this.drill(row)">
+                                                <t t-foreach="visibleColumns" t-as="col" t-key="'cell' + row_index + col.key">
+                                                    <td t-att-class="col.type === 'number' ? 'text-end' : ''"><t t-esc="formatValue(row[col.key])"/></td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <div class="text-muted" t-else="">Seçilen filtreler için veri bulunamadı.</div>
+                            </section>
+                        </t>
+                    </main>
+                </div>
+            </div>
+            </div>
+        </div>
+    </t>
+</templates>

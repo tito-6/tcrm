@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Category reuses the TCRM Tenant category from tcrm_saas_core -->
+
+        <!--
+            group_research_hub_user
+            ───────────────────────
+            Non-admin users that the owner explicitly grants Research Hub access.
+            Implies base.group_user so Odoo standard model access is inherited.
+            Tenant entitlement is still required — the access management screen
+            in the Command Center controls which tenants can use this module.
+        -->
+        <record id="group_research_hub_user" model="res.groups">
+            <field name="name">Research Hub User</field>
+            <field name="privilege_id" ref="tcrm_saas_core.privilege_tcrm_tenant_roles"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

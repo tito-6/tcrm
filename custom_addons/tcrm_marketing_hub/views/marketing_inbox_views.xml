@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_marketing_conversation_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.conversation.list</field>
+        <field name="model">tcrm.marketing.conversation</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_sync_from_zernio" type="object"
+                            string="Gelen Kutusunu Çek" class="btn-primary"
+                            display="always"/>
+                </header>
+                <field name="name"/>
+                <field name="platform" widget="badge"/>
+                <field name="account_id"/>
+                <field name="last_message"/>
+                <field name="last_message_at"/>
+                <field name="message_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_conversation_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.conversation.form</field>
+        <field name="model">tcrm.marketing.conversation</field>
+        <field name="arch" type="xml">
+            <form string="Konuşma">
+                <header>
+                    <button name="action_load_messages" type="object" string="Mesajları Yükle"/>
+                    <button name="action_open_reply_wizard" type="object" string="Yanıtla" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="platform"/>
+                            <field name="account_id"/>
+                            <field name="participant_username"/>
+                        </group>
+                        <group>
+                            <field name="zernio_id" readonly="1"/>
+                            <field name="status"/>
+                            <field name="last_message_at"/>
+                            <field name="last_sync_at"/>
+                        </group>
+                    </group>
+                    <group string="Son Mesaj">
+                        <field name="last_message" nolabel="1" colspan="2"/>
+                    </group>
+                    <notebook>
+                        <page string="Mesajlar">
+                            <field name="inbox_message_ids">
+                                <list create="0" delete="0">
+                                    <field name="sent_at"/>
+                                    <field name="direction"/>
+                                    <field name="sender_name"/>
+                                    <field name="body"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_conversation_search" model="ir.ui.view">
+        <field name="name">tcrm.marketing.conversation.search</field>
+        <field name="model">tcrm.marketing.conversation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="participant_username"/>
+                <field name="account_id"/>
+                <filter string="Instagram" name="ig" domain="[('platform', '=', 'instagram')]"/>
+                <filter string="Facebook" name="fb" domain="[('platform', '=', 'facebook')]"/>
+                <group>
+                    <filter string="Platform" name="group_platform" context="{'group_by': 'platform'}"/>
+                    <filter string="Hesap" name="group_account" context="{'group_by': 'account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_conversation" model="ir.actions.act_window">
+        <field name="name">Gelen Kutusu</field>
+        <field name="res_model">tcrm.marketing.conversation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz konuşma yok</p>
+            <p>Marketing Hub’dan <b>Gelen Kutusunu Çek</b> ile Facebook / Instagram DM’lerini senkronize edin.</p>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_comment_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.comment.list</field>
+        <field name="model">tcrm.marketing.comment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="platform"/>
+                <field name="account_id"/>
+                <field name="author_name"/>
+                <field name="commented_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_comment_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.comment.form</field>
+        <field name="model">tcrm.marketing.comment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_reply" type="object" string="Yanıtla" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="platform"/>
+                        <field name="account_id"/>
+                        <field name="author_name"/>
+                        <field name="commented_at"/>
+                        <field name="post_id_remote"/>
+                    </group>
+                    <group string="İçerik">
+                        <field name="content" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_comment" model="ir.actions.act_window">
+        <field name="name">Yorumlar</field>
+        <field name="res_model">tcrm.marketing.comment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_marketing_reply_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.reply.wizard.form</field>
+        <field name="model">tcrm.marketing.reply.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Yanıt Gönder">
+                <group>
+                    <field name="conversation_id" readonly="1"/>
+                    <field name="message" placeholder="Yanıtınızı yazın…"/>
+                </group>
+                <footer>
+                    <button name="action_send" type="object" string="Gönder" class="btn-primary"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_comment_reply_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.comment.reply.wizard.form</field>
+        <field name="model">tcrm.marketing.comment.reply.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Yoruma Yanıt">
+                <group>
+                    <field name="comment_id" readonly="1"/>
+                    <field name="message"/>
+                </group>
+                <footer>
+                    <button name="action_send" type="object" string="Gönder" class="btn-primary"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

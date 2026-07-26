@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_call_config_user,tcrm.call.provider.config.user,model_tcrm_call_provider_config,group_santral_user,1,0,0,0
+access_call_config_admin,tcrm.call.provider.config.admin,model_tcrm_call_provider_config,group_santral_admin,1,1,1,1
+access_call_record_user,tcrm.call.record.user,model_tcrm_call_record,group_santral_user,1,1,1,0
+access_call_record_admin,tcrm.call.record.admin,model_tcrm_call_record,group_santral_admin,1,1,1,1
+access_call_recording_user,tcrm.call.recording.user,model_tcrm_call_recording,group_santral_user,1,0,0,0
+access_call_recording_listen,tcrm.call.recording.listen,model_tcrm_call_recording,group_santral_recording_listen,1,0,0,0
+access_call_recording_admin,tcrm.call.recording.admin,model_tcrm_call_recording,group_santral_admin,1,1,1,1
+access_call_webhook_admin,tcrm.call.webhook.event.admin,model_tcrm_call_webhook_event,group_santral_admin,1,0,0,0

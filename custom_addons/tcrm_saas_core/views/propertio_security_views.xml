@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="tcrm_propertio.action_report_cash_flow" model="ir.actions.act_window">
+            <field name="group_ids" eval="[(6, 0, [ref('tcrm_saas_core.group_tcrm_tenant_admin'), ref('base.group_system')])]"/>
+        </record>
+
+        <record id="tcrm_propertio.menu_report_cash_flow" model="ir.ui.menu">
+            <field name="group_ids" eval="[(6, 0, [ref('tcrm_saas_core.group_tcrm_tenant_admin'), ref('base.group_system')])]"/>
+        </record>
+    </data>
+</odoo>

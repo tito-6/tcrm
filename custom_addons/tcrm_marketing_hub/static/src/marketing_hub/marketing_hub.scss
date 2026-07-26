@@ -1,0 +1,719 @@
+.o_tcrm_mh_app {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+    background:
+        radial-gradient(900px 420px at 0% 0%, rgba(15, 118, 110, 0.14), transparent 55%),
+        linear-gradient(180deg, #f0f4f3 0%, #e4ecea 100%);
+    color: #13221f;
+    font-family: "Source Serif 4", "Georgia", serif;
+    position: relative;
+}
+
+/* Fill client action host when hub is open (avoid CSS min()/ :has for libsass) */
+.o_action_manager .o_action.o_tcrm_mh_host,
+.o_action_manager .o_content.o_tcrm_mh_host {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.o_tcrm_mh_nav {
+    padding: 1.25rem 0.85rem;
+    border-right: 1px solid rgba(19, 34, 31, 0.08);
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.o_tcrm_mh_nav_scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.o_tcrm_mh_brand {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.4rem;
+    padding: 0 0.35rem;
+    flex-shrink: 0;
+
+    strong {
+        display: block;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
+        font-family: "Fraunces", "Source Serif 4", serif;
+    }
+    small {
+        color: #5b6f6a;
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 0.75rem;
+    }
+}
+
+.o_tcrm_mh_mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.6rem;
+    display: grid;
+    place-items: center;
+    background: #0f766e;
+    color: #fff;
+    font-weight: 700;
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.o_tcrm_mh_nav_item {
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background: transparent;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.45rem;
+    margin-bottom: 0.15rem;
+    color: #334155;
+    font-family: "IBM Plex Sans", sans-serif;
+
+    &.active,
+    &:hover {
+        background: rgba(15, 118, 110, 0.12);
+        color: #0f766e;
+    }
+}
+
+.o_tcrm_mh_nav_footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    flex-shrink: 0;
+}
+
+.o_tcrm_mh_main {
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.o_tcrm_mh_main_scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    padding: 1.5rem 1.75rem 2.5rem;
+    scroll-behavior: smooth;
+}
+
+.o_tcrm_mh_header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding-bottom: 0.75rem;
+    background: linear-gradient(180deg, rgba(240, 244, 243, 0.97) 70%, rgba(240, 244, 243, 0));
+
+    h1 {
+        font-family: "Fraunces", "Source Serif 4", serif;
+        font-size: 1.75rem;
+        margin: 0 0 0.25rem;
+        letter-spacing: -0.02em;
+    }
+    p {
+        margin: 0;
+        color: #4b635d;
+        font-size: 0.92rem;
+    }
+}
+
+.o_tcrm_mh_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.o_tcrm_mh_ad_select {
+    min-width: 240px;
+}
+
+.o_tcrm_mh_datebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 1.15rem;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(19, 34, 31, 0.08);
+    border-radius: 0.7rem;
+}
+
+.o_tcrm_mh_datebar_fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+
+    label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin: 0;
+        font-size: 0.78rem;
+        color: #5b6f6a;
+        min-width: 150px;
+
+        .o_input,
+        input {
+            font-size: 0.88rem;
+            min-height: 32px;
+        }
+    }
+}
+
+.o_tcrm_mh_datebar_presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+.o_tcrm_mh_stat_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.o_tcrm_mh_stat {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(19, 34, 31, 0.08);
+    border-radius: 0.75rem;
+    padding: 1rem 0.9rem;
+
+    span {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #0f766e;
+        font-family: "Fraunces", serif;
+        line-height: 1.1;
+    }
+    small {
+        color: #5b6f6a;
+        font-size: 0.78rem;
+    }
+}
+
+.o_tcrm_mh_chart_grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+}
+
+.o_tcrm_mh_chart_card {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(19, 34, 31, 0.08);
+    border-radius: 0.75rem;
+    padding: 0.85rem 0.9rem 0.6rem;
+    height: 260px;
+    min-width: 0;
+}
+
+.o_tcrm_mh_chart_wide {
+    grid-column: span 2;
+    height: 280px;
+}
+
+.o_tcrm_mh_quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.o_tcrm_mh_lead_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    input {
+        flex: 1 1 220px;
+        max-width: 360px;
+    }
+    select {
+        width: 160px;
+    }
+}
+
+.o_tcrm_mh_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.75rem;
+}
+
+.o_tcrm_mh_card {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(19, 34, 31, 0.08);
+    border-radius: 0.75rem;
+    padding: 0.9rem 1rem;
+}
+
+.o_tcrm_mh_card_title {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.35rem;
+}
+
+.o_tcrm_mh_table {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 0.6rem;
+}
+
+.o_tcrm_mh_table_scroll {
+    max-height: 520px;
+    overflow: auto;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(19, 34, 31, 0.08);
+    overscroll-behavior: contain;
+
+    thead th {
+        position: sticky;
+        top: 0;
+        background: #f8faf9;
+        z-index: 1;
+    }
+}
+
+.o_tcrm_mh_row_click {
+    cursor: pointer;
+    &:hover td {
+        background: rgba(15, 118, 110, 0.06);
+    }
+}
+
+.o_tcrm_mh_loading {
+    padding: 2rem;
+    color: #5b6f6a;
+}
+
+.o_tcrm_mh_section h2 {
+    font-family: "Fraunces", serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.o_tcrm_mh_badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.o_tcrm_mh_badge_ig {
+    background: rgba(219, 39, 119, 0.12);
+    color: #9d174d;
+}
+
+.o_tcrm_mh_badge_fb {
+    background: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+}
+
+.o_tcrm_mh_badge_meta {
+    background: rgba(15, 118, 110, 0.12);
+    color: #0f766e;
+}
+
+.o_tcrm_mh_creative_chip {
+    display: inline-block;
+    padding: 0.12rem 0.45rem;
+    border-radius: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(124, 58, 237, 0.1);
+    color: #6d28d9;
+}
+
+.o_tcrm_mh_drawer_backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.28);
+    z-index: 20;
+}
+
+.o_tcrm_mh_drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 100%;
+    height: 100%;
+    background: #fff;
+    box-shadow: -8px 0 28px rgba(15, 23, 42, 0.12);
+    z-index: 21;
+    transform: translateX(105%);
+    transition: transform 0.22s ease;
+    display: flex;
+    flex-direction: column;
+    font-family: "IBM Plex Sans", sans-serif;
+
+    &.open {
+        transform: translateX(0);
+    }
+}
+
+.o_tcrm_mh_drawer_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid rgba(19, 34, 31, 0.08);
+    flex-shrink: 0;
+
+    h2 {
+        margin: 0;
+        font-family: "Fraunces", serif;
+        font-size: 1.15rem;
+    }
+}
+
+.o_tcrm_mh_drawer_body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1rem 1.1rem 1.5rem;
+}
+
+.o_tcrm_mh_drawer_title {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.85rem;
+
+    strong {
+        font-size: 1.1rem;
+    }
+}
+
+.o_tcrm_mh_dl {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+
+    > div {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 0.35rem;
+        font-size: 0.88rem;
+    }
+    dt {
+        margin: 0;
+        color: #5b6f6a;
+        font-weight: 500;
+    }
+    dd {
+        margin: 0;
+        word-break: break-word;
+    }
+}
+
+.o_tcrm_mh_drawer_body h3 {
+    font-family: "Fraunces", serif;
+    font-size: 0.98rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.o_tcrm_mh_creative_media {
+    position: relative;
+    display: block;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    background: #0f172a;
+
+    img {
+        width: 100%;
+        max-height: 240px;
+        object-fit: contain;
+        display: block;
+    }
+}
+
+.o_tcrm_mh_play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 23, 42, 0.72);
+    color: #fff;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.o_tcrm_mh_creative_img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+    border-radius: 0.6rem;
+    background: #f1f5f4;
+}
+
+.o_tcrm_mh_creative_body {
+    margin-top: 0.65rem;
+    font-size: 0.86rem;
+    white-space: pre-wrap;
+    color: #334155;
+}
+
+.o_tcrm_mh_answers {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.86rem;
+
+    li {
+        padding: 0.35rem 0;
+        border-bottom: 1px solid rgba(19, 34, 31, 0.06);
+    }
+}
+
+.o_tcrm_mh_drawer_actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.o_tcrm_mh_page_profile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem 1.1rem;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(19, 34, 31, 0.08);
+
+    strong {
+        display: block;
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #5b6f6a;
+        margin-bottom: 0.25rem;
+    }
+}
+
+@media (max-width: 1100px) {
+    .o_tcrm_mh_chart_grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .o_tcrm_mh_chart_wide {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 900px) {
+    .o_tcrm_mh_app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        height: calc(100vh - 90px);
+    }
+    .o_tcrm_mh_nav {
+        border-right: 0;
+        border-bottom: 1px solid rgba(19, 34, 31, 0.08);
+        max-height: 200px;
+        padding: 0.75rem 0.85rem;
+    }
+    .o_tcrm_mh_brand {
+        margin-bottom: 0.5rem;
+    }
+    .o_tcrm_mh_nav_scroll {
+        display: flex;
+        flex-direction: row;
+        gap: 0.25rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    .o_tcrm_mh_nav_item {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 0.4rem 0.65rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+    }
+    .o_tcrm_mh_nav_footer {
+        display: none;
+    }
+    .o_tcrm_mh_header {
+        flex-direction: column;
+        position: static;
+        gap: 0.65rem;
+    }
+    .o_tcrm_mh_header h1 {
+        font-size: 1.35rem;
+    }
+    .o_tcrm_mh_main_scroll {
+        padding: 1rem 1rem 2rem;
+    }
+    .o_tcrm_mh_chart_grid {
+        grid-template-columns: 1fr;
+    }
+    .o_tcrm_mh_chart_wide {
+        grid-column: span 1;
+    }
+    .o_tcrm_mh_ad_select {
+        min-width: 180px;
+        width: 100%;
+    }
+    .o_tcrm_mh_datebar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .o_tcrm_mh_datebar_fields {
+        width: 100%;
+    }
+    .o_tcrm_mh_datebar_fields label {
+        flex: 1 1 auto;
+        min-width: 120px;
+    }
+    .o_tcrm_mh_page_profile {
+        flex-direction: column;
+    }
+}
+
+/* ========== Small phone breakpoint ========== */
+@media (max-width: 576px) {
+    .o_tcrm_mh_app {
+        height: calc(100vh - 56px);
+    }
+    .o_tcrm_mh_nav {
+        max-height: 120px;
+        padding: 0.5rem 0.65rem;
+    }
+    .o_tcrm_mh_brand {
+        display: none;
+    }
+    .o_tcrm_mh_nav_item {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.55rem;
+    }
+    .o_tcrm_mh_main_scroll {
+        padding: 0.75rem 0.75rem 2rem;
+    }
+    .o_tcrm_mh_header h1 {
+        font-size: 1.15rem;
+    }
+    .o_tcrm_mh_stat_grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    .o_tcrm_mh_stat {
+        padding: 0.65rem 0.6rem;
+    }
+    .o_tcrm_mh_stat span {
+        font-size: 1.25rem;
+    }
+    .o_tcrm_mh_stat small {
+        font-size: 0.7rem;
+    }
+    .o_tcrm_mh_chart_card {
+        height: 200px;
+        padding: 0.5rem;
+    }
+    .o_tcrm_mh_chart_wide {
+        height: 220px;
+    }
+    .o_tcrm_mh_actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    .o_tcrm_mh_actions .btn {
+        width: 100%;
+    }
+    .o_tcrm_mh_ad_select {
+        min-width: 100%;
+    }
+    .o_tcrm_mh_quick {
+        flex-direction: column;
+    }
+    .o_tcrm_mh_quick .btn {
+        width: 100%;
+    }
+    .o_tcrm_mh_lead_filters {
+        flex-direction: column;
+    }
+    .o_tcrm_mh_lead_filters input {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+    .o_tcrm_mh_lead_filters select {
+        width: 100%;
+    }
+    .o_tcrm_mh_cards {
+        grid-template-columns: 1fr;
+    }
+    .o_tcrm_mh_drawer {
+        width: 100%;
+    }
+    .o_tcrm_mh_drawer_head {
+        padding: 0.75rem;
+    }
+    .o_tcrm_mh_drawer_body {
+        padding: 0.75rem;
+    }
+    .o_tcrm_mh_dl > div {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+    }
+    .o_tcrm_mh_dl dt {
+        font-size: 0.78rem;
+    }
+    .o_tcrm_mh_table_scroll {
+        max-height: 400px;
+    }
+    .o_tcrm_mh_table {
+        font-size: 0.82rem;
+    }
+    .o_tcrm_mh_table th,
+    .o_tcrm_mh_table td {
+        padding: 0.4rem 0.5rem;
+    }
+    .o_tcrm_mh_datebar {
+        padding: 0.5rem 0.65rem;
+    }
+    .o_tcrm_mh_datebar_presets {
+        width: 100%;
+    }
+    .o_tcrm_mh_datebar_presets .btn {
+        flex: 1 1 auto;
+    }
+}
+

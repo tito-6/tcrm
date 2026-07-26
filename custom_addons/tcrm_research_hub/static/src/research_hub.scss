@@ -1,0 +1,329 @@
+/**
+ * TCRM Research Hub — Styles
+ *
+ * Matches the Command Center aesthetic:
+ *   • Dark-toned sidebar/topbar panels
+ *   • Bootstrap 5 utilities for spacing
+ *   • Full-viewport layout with CSS flex
+ *   • No-zoom mandate: all sizes in rem/px, no viewport-relative font sizing
+ */
+
+// ── Layout tokens (reuse Command Center palette) ──────────────────────────────
+$rhub-topbar-bg:    #1a1d23;
+$rhub-topbar-color: #c9cdd8;
+$rhub-border:       rgba(255, 255, 255, 0.08);
+$rhub-left-bg:      #1e2128;
+$rhub-left-width:   320px;
+$rhub-item-hover:   rgba(255, 255, 255, 0.05);
+$rhub-item-active:  rgba(var(--bs-primary-rgb), 0.15);
+$rhub-item-border:  rgba(var(--bs-primary-rgb), 0.5);
+
+// ── Root action wrapper ───────────────────────────────────────────────────────
+.o_rhub_action {
+    // Fill the space that Odoo gives a client action.
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: #12151c;
+    color: $rhub-topbar-color;
+
+    // Override the default Layout padding so we own the full viewport.
+    .o_content {
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+    }
+}
+
+// ── Gate (loading / access denied) ────────────────────────────────────────────
+.o_rhub_gate {
+    background: #12151c;
+    color: #8a90a2;
+
+    h4 { color: #c9cdd8; }
+
+    pre {
+        background: #1e2128;
+        border: 1px solid $rhub-border;
+        color: #c9cdd8;
+        border-radius: 6px;
+        padding: 10px 16px;
+        font-size: 0.8125rem;
+    }
+}
+
+// ── Top bar ───────────────────────────────────────────────────────────────────
+.o_rhub_topbar {
+    background: $rhub-topbar-bg;
+    border-bottom: 1px solid $rhub-border !important;
+    flex-shrink: 0;
+    min-height: 52px;
+
+    // Keep brand color consistent
+    .fa-flask { color: var(--bs-primary); }
+
+    // Tight buttons to match Command Center chrome
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.625rem;
+    }
+
+    .btn-outline-secondary {
+        color: $rhub-topbar-color;
+        border-color: rgba(255, 255, 255, 0.2);
+        &:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.35); }
+    }
+    .btn-outline-info {
+        color: #79c7e3;
+        border-color: rgba(121, 199, 227, 0.4);
+        &:hover { background: rgba(121, 199, 227, 0.1); }
+    }
+    .btn-outline-success {
+        color: #63e6a0;
+        border-color: rgba(99, 230, 160, 0.4);
+        &:hover { background: rgba(99, 230, 160, 0.1); }
+    }
+}
+
+// ── Body container (full / split) ─────────────────────────────────────────────
+.o_rhub_body {
+    flex: 1 1 0;
+    display: flex;
+    overflow: hidden;
+
+    &.is-full {
+        .o_rhub_right { flex: 1 1 0; }
+    }
+
+    &.is-split {
+        .o_rhub_left  { flex: 0 0 $rhub-left-width; }
+        .o_rhub_right { flex: 1 1 0; }
+    }
+}
+
+// ── Left context panel ────────────────────────────────────────────────────────
+.o_rhub_left {
+    background: $rhub-left-bg;
+    border-right: 1px solid $rhub-border;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+
+    .o_rhub_left_header {
+        background: $rhub-topbar-bg;
+        border-bottom: 1px solid $rhub-border !important;
+        flex-shrink: 0;
+
+        .btn-sm { font-size: 0.6875rem; padding: 0.2rem 0.5rem; }
+        .btn-outline-secondary {
+            color: $rhub-topbar-color;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    // Search input override for dark theme
+    .form-control {
+        background: #12151c;
+        border-color: rgba(255, 255, 255, 0.15);
+        color: $rhub-topbar-color;
+        font-size: 0.8125rem;
+
+        &::placeholder { color: #5a6070; }
+        &:focus {
+            background: #1a1d23;
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.15rem rgba(var(--bs-primary-rgb), 0.2);
+            color: #e0e4ef;
+        }
+    }
+
+    .o_rhub_context_list {
+        flex: 1 1 0;
+    }
+}
+
+// ── Context item card ─────────────────────────────────────────────────────────
+.o_rhub_ctx_item {
+    cursor: pointer;
+    transition: background 0.12s ease;
+    border: 1px solid transparent;
+
+    &:hover { background: $rhub-item-hover; }
+
+    &.is-active {
+        background: $rhub-item-active;
+        border-color: $rhub-item-border;
+    }
+
+    .badge {
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #c9cdd8 !important;
+        border-color: rgba(255, 255, 255, 0.12) !important;
+    }
+}
+
+// Probability pill: colour shifts green→yellow→red via CSS custom property
+.o_rhub_prob_pill {
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 20px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    // --prob is set inline from JS (0–100)
+    background: color-mix(
+        in srgb,
+        hsl(calc(var(--prob, 50) * 1.2deg), 70%, 45%) 80%,
+        transparent
+    );
+    color: #fff;
+}
+
+// ── Right panel: iframe container ─────────────────────────────────────────────
+.o_rhub_right {
+    position: relative;
+    overflow: hidden;
+    background: #fff;       // fallback while iframe loads
+    display: flex;
+    flex-direction: column;
+}
+
+.o_rhub_iframe {
+    display: block;
+    border: none;
+    flex: 1 1 0;
+    width: 100%;
+    height: 100%;
+}
+
+// Translucent overlay shown until the first iframe load event fires
+.o_rhub_iframe_overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 21, 28, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+// ── Proxy-unavailable notice ──────────────────────────────────────────────────
+.o_rhub_proxy_warn {
+    background: #12151c;
+    color: #8a90a2;
+
+    h5 { color: #c9cdd8; }
+
+    pre {
+        background: #1e2128;
+        border: 1px solid $rhub-border;
+        color: #c9cdd8;
+        border-radius: 6px;
+        font-size: 0.8125rem;
+        text-align: left;
+    }
+}
+
+// ── Launch workspace (recommended Google-window mode) ─────────────────────────
+.o_rhub_launch {
+    background: #12151c;
+    color: $rhub-topbar-color;
+    min-height: 0;
+}
+
+.o_rhub_launch_hero {
+    background: linear-gradient(160deg, #1a1d23 0%, #151922 55%, #12151c 100%);
+
+    h4 { color: #e8ebf4; font-size: 1.25rem; }
+}
+
+.o_rhub_brief {
+    min-height: 0;
+}
+
+.o_rhub_brief_input {
+    min-height: 220px;
+    resize: vertical;
+    background: #1a1d23;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #e0e4ef;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8125rem;
+
+    &:focus {
+        background: #1e2128;
+        border-color: var(--bs-primary);
+        color: #e0e4ef;
+        box-shadow: 0 0 0 0.15rem rgba(var(--bs-primary-rgb), 0.2);
+    }
+}
+
+.o_rhub_proxy_banner {
+    background: rgba(255, 193, 7, 0.08);
+    color: #e6d7a2;
+    flex-shrink: 0;
+}
+
+.o_rhub_library {
+    background: #12151c;
+    color: $rhub-topbar-color;
+    min-height: 0;
+}
+
+.o_rhub_nb_card {
+    background: #1e2128;
+    border: 1px solid $rhub-border;
+    transition: border-color 0.12s ease, background 0.12s ease;
+
+    &:hover {
+        border-color: rgba(var(--bs-primary-rgb), 0.45);
+        background: #232733;
+    }
+}
+
+.o_rhub_systray {
+    button {
+        border: 0;
+        background: transparent;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 0.5rem;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .fa-flask {
+            font-size: 1.1rem;
+            color: var(--bs-primary);
+        }
+    }
+}
+
+// ── Responsive: collapse left panel on narrow screens ─────────────────────────
+@media (max-width: 768px) {
+    .o_rhub_body.is-split {
+        flex-direction: column;
+
+        .o_rhub_left {
+            flex: 0 0 220px;
+            border-right: none;
+            border-bottom: 1px solid $rhub-border;
+        }
+        .o_rhub_right { flex: 1 1 0; }
+    }
+
+    .o_rhub_topbar {
+        flex-wrap: wrap;
+        padding-bottom: 0.5rem !important;
+
+        .me-auto { width: 100%; }
+    }
+}

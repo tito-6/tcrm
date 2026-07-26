@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_ai_conversation_list" model="ir.ui.view">
+        <field name="name">tcrm.ai.conversation.list</field>
+        <field name="model">tcrm.ai.conversation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="workspace_id"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="lead_id"/>
+                <field name="state"/>
+                <field name="last_activity_at"/>
+                <field name="message_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_ai_conversation_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.conversation.form</field>
+        <field name="model">tcrm.ai.conversation</field>
+        <field name="arch" type="xml">
+            <form string="AI Conversation">
+                <header>
+                    <button name="action_open_assistant" type="object" string="Open Assistant" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="workspace_id"/>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="language"/>
+                            <field name="allow_web_research"/>
+                            <field name="internal_documents_only"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="lead_id"/>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                            <field name="record_name"/>
+                            <field name="ragflow_session_id"/>
+                            <field name="last_activity_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Messages" name="messages">
+                            <field name="ai_message_ids">
+                                <list>
+                                    <field name="create_date"/>
+                                    <field name="role"/>
+                                    <field name="status"/>
+                                    <field name="language"/>
+                                    <field name="content"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <field name="document_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_ai_conversation_search" model="ir.ui.view">
+        <field name="name">tcrm.ai.conversation.search</field>
+        <field name="model">tcrm.ai.conversation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="workspace_id"/>
+                <field name="partner_id"/>
+                <field name="lead_id"/>
+                <filter name="my_conversations" string="My Conversations" domain="[('user_id', '=', uid)]"/>
+                <filter name="active" string="Active" domain="[('state', '=', 'active')]"/>
+                <group>
+                    <filter name="group_workspace" string="Workspace" context="{'group_by': 'workspace_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_conversation" model="ir.actions.act_window">
+        <field name="name">Conversations</field>
+        <field name="res_model">tcrm.ai.conversation</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_my_conversations': 1}</field>
+    </record>
+</odoo>

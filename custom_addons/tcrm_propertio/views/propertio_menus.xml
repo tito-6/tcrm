@@ -1,0 +1,122 @@
+<odoo>
+    <!-- Menus -->
+    <menuitem id="menu_propertio_root" name="Propertio" sequence="10" web_icon="tcrm_propertio,static/description/icon.png"/>
+    <menuitem id="menu_propertio_inventory" name="Proje stok ve takibi" parent="menu_propertio_root" sequence="10"/>
+    <menuitem id="menu_propertio_sales" name="Satışlar" parent="menu_propertio_root" sequence="20"/>
+    <menuitem id="menu_propertio_collections" name="Tahsilat" parent="menu_propertio_root" sequence="30"/>
+    <menuitem id="menu_propertio_reporting" name="Raporlama" parent="menu_propertio_root" sequence="40"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_propertio_config" name="Yapılandırma" parent="menu_propertio_root" sequence="100"/>
+    <menuitem id="menu_propertio_master_data" name="Ana Veriler" parent="menu_propertio_config" sequence="20"/>
+    <menuitem id="menu_propertio_contact_mgmt" name="Personel ve İş Ortakları" parent="menu_propertio_config" sequence="30"/>
+
+    <!-- Feature View -->
+    <record id="view_propertio_feature_tree" model="ir.ui.view">
+        <field name="name">propertio.feature.tree</field>
+        <field name="model">propertio.feature</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="icon" widget="char" placeholder="fa-car"/>
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_propertio_feature" model="ir.actions.act_window">
+        <field name="name">Birim Özellikleri</field>
+        <field name="res_model">propertio.feature</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_propertio_feature" action="action_propertio_feature" parent="menu_propertio_config" sequence="10"/>
+
+    <!-- Project Type -->
+    <record id="view_propertio_project_type_form" model="ir.ui.view">
+        <field name="name">propertio.project.type.form</field>
+        <field name="model">propertio.project.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="properties_definition" widget="properties_definition"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_project_type" model="ir.actions.act_window">
+        <field name="name">Proje Tipleri</field>
+        <field name="res_model">propertio.project.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_project_type" action="action_propertio_project_type" parent="menu_propertio_master_data" sequence="10"/>
+
+    <!-- Project Stage -->
+    <record id="action_propertio_project_stage" model="ir.actions.act_window">
+        <field name="name">Proje Aşamaları</field>
+        <field name="res_model">propertio.project.stage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_project_stage" action="action_propertio_project_stage" parent="menu_propertio_master_data" sequence="20"/>
+
+    <!-- Unit Category -->
+    <record id="view_propertio_unit_category_form" model="ir.ui.view">
+        <field name="name">propertio.unit.category.form</field>
+        <field name="model">propertio.unit.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="properties_definition" widget="properties_definition"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_unit_category" model="ir.actions.act_window">
+        <field name="name">Gayrimenkul Kategorileri</field>
+        <field name="res_model">propertio.unit.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_unit_category" action="action_propertio_unit_category" parent="menu_propertio_master_data" sequence="30"/>
+
+    <!-- Unit Status -->
+    <record id="action_propertio_unit_status" model="ir.actions.act_window">
+        <field name="name">Detaylı Durumlar</field>
+        <field name="res_model">propertio.unit.status</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_unit_status" action="action_propertio_unit_status" parent="menu_propertio_master_data" sequence="40"/>
+
+    <!-- Sale Stage -->
+    <record id="action_propertio_sale_stage" model="ir.actions.act_window">
+        <field name="name">Satış Aşamaları</field>
+        <field name="res_model">propertio.sale.stage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_sale_stage" action="action_propertio_sale_stage" parent="menu_propertio_master_data" sequence="50"/>
+
+    <!-- Agencies -->
+    <record id="action_propertio_agencies" model="ir.actions.act_window">
+        <field name="name">Acenteler</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_company', '=', True)]</field>
+        <field name="context">{'default_is_company': True}</field>
+    </record>
+    <menuitem id="menu_agencies_config" action="action_propertio_agencies" parent="menu_propertio_contact_mgmt" sequence="10"/>
+
+    <!-- Users -->
+    <record id="action_propertio_users" model="ir.actions.act_window">
+        <field name="name">Satış Personeli</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_users_config" action="action_propertio_users" parent="menu_propertio_contact_mgmt" sequence="20"/>
+
+</odoo>

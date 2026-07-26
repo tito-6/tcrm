@@ -1,0 +1,5833 @@
+# Turkish (Turkey) translation for TCRM Propertio.
+# Copyright (C) TCRM
+# This file is distributed under the same license as the tcrm_propertio package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TCRM Propertio 1.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-24 00:00+0000\n"
+"PO-Revision-Date: 2026-07-24 00:00+0000\n"
+"Last-Translator: TCRM <info@tcrm.com>\n"
+"Language-Team: Turkish\n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: tcrm_propertio
+#: scripts/check_untranslated_ui.py
+msgid "Module folder names under custom_addons (default: propertio + marketing_hub)"
+msgstr "Module folder names under custom_addons (default: propertio + marketing_hub)"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Beklemede"
+msgstr "Beklemede"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Kabul"
+msgstr "Kabul"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "İptal"
+msgstr "İptal"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "İade"
+msgstr "İade"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Durum"
+msgstr "Durum"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Danışman"
+msgstr "Danışman"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Kabul Et → Satış"
+msgstr "Kabul Et → Satış"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Reddet"
+msgstr "Reddet"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "İptal Et"
+msgstr "İptal Et"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Rezervasyonu iptal etmek istediğinize emin misiniz?"
+msgstr "Rezervasyonu iptal etmek istediğinize emin misiniz?"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Rezervasyonu iade olarak işaretlemek istediğinize emin misiniz?"
+msgstr "Rezervasyonu iade olarak işaretlemek istediğinize emin misiniz?"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Beklemeye Al"
+msgstr "Beklemeye Al"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Satışa Dönüştür"
+msgstr "Satışa Dönüştür"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "İPTAL"
+msgstr "İPTAL"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "İADE"
+msgstr "İADE"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Müzakere / kapora notları…"
+msgstr "Müzakere / kapora notları…"
+
+#. module: tcrm_propertio
+#: views/propertio_offer_views.xml
+msgid "Teklifler / Rezervasyonlar"
+msgstr "Teklifler / Rezervasyonlar"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Kontrol Listesi"
+msgstr "Kontrol Listesi"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Sorunlar"
+msgstr "Sorunlar"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Satış Sonrası"
+msgstr "Satış Sonrası"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Teslimler"
+msgstr "Teslimler"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Tapular"
+msgstr "Tapular"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Servis Talepleri"
+msgstr "Servis Talepleri"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Noter"
+msgstr "Noter"
+
+#. module: tcrm_propertio
+#: views/propertio_aftersales_views.xml
+msgid "Noter Randevuları"
+msgstr "Noter Randevuları"
+
+#. module: tcrm_propertio
+#: views/propertio_audit_log_views.xml
+msgid "Audit log"
+msgstr "Denetim Kaydı"
+
+#. module: tcrm_propertio
+#: views/propertio_audit_log_views.xml
+msgid "Audit entry"
+msgstr "Denetim Girdisi"
+
+#. module: tcrm_propertio
+#: views/propertio_audit_log_views.xml
+msgid "Denetim kaydı"
+msgstr "Denetim kaydı"
+
+#. module: tcrm_propertio
+#: views/propertio_audit_log_views.xml
+msgid "Propertio Denetim Kaydı"
+msgstr "Propertio Denetim Kaydı"
+
+#. module: tcrm_propertio
+#: views/mail_activity_schedule_views.xml
+msgid "Hatırlatıcı oluştur"
+msgstr "Hatırlatıcı oluştur"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "QR Oluştur"
+msgstr "QR Oluştur"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Teklifler"
+msgstr "Teklifler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Birim No"
+msgstr "Birim No"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Birim Bilgisi"
+msgstr "Birim Bilgisi"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Fiyat ve Özellikler"
+msgstr "Fiyat ve Özellikler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Genel Bilgi"
+msgstr "Genel Bilgi"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Alanlar"
+msgstr "Alanlar"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Teknik Özellikler"
+msgstr "Teknik Özellikler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Özellikler ve Yükseltmeler"
+msgstr "Özellikler ve Yükseltmeler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Standart Olanaklar"
+msgstr "Standart Olanaklar"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Mevcut Yükseltmeler"
+msgstr "Mevcut Yükseltmeler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Mali İstatistikler"
+msgstr "Mali İstatistikler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Documents"
+msgstr "Belgeler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Birimler"
+msgstr "Birimler"
+
+#. module: tcrm_propertio
+#: views/propertio_unit_views.xml
+msgid "Satış Geçmişi"
+msgstr "Satış Geçmişi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_center_views.xml
+msgid "Genel Bakış"
+msgstr "Genel Bakış"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_center_views.xml
+msgid "Rapor Genel Bakış"
+msgstr "Rapor Genel Bakış"
+
+#. module: tcrm_propertio
+#: views/propertio_project_views.xml
+msgid "Proje Adı"
+msgstr "Proje Adı"
+
+#. module: tcrm_propertio
+#: views/propertio_project_views.xml
+msgid "Olanaklar ve Özellikler"
+msgstr "Olanaklar ve Özellikler"
+
+#. module: tcrm_propertio
+#: views/propertio_project_views.xml
+msgid "Birim Stoku"
+msgstr "Birim Stoku"
+
+#. module: tcrm_propertio
+#: views/propertio_project_views.xml
+msgid "Bloklar"
+msgstr "Bloklar"
+
+#. module: tcrm_propertio
+#: views/propertio_project_views.xml
+msgid "Projeler"
+msgstr "Projeler"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Collection Map"
+msgstr "Tahsilat Haritası"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Collection Analysis"
+msgstr "Tahsilat Analizi"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Collection Trends"
+msgstr "Tahsilat Trendleri"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Project GDV Analysis"
+msgstr "Proje GDV Analysis"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Total Stock Value"
+msgstr "Toplam Stock Value"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "GDV by Project"
+msgstr "Proje Bazlı GDV"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Cash Flow Forecast"
+msgstr "Gelecek Nakit Akışı"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Expected"
+msgstr "Beklenen"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Actual"
+msgstr "Gerçekleşen"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Cash Flow Analysis"
+msgstr "Nakit Akış Analizi"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Paid"
+msgstr "Ödendi"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Overdue"
+msgstr "Gecikmiş"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Upcoming"
+msgstr "Yaklaşan"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Future"
+msgstr "Gelecek"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Down Payment"
+msgstr "Peşinat"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Installments"
+msgstr "Taksitler"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Müşteri"
+msgstr "Müşteri"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Satış Sözleşmesi"
+msgstr "Satış Sözleşmesi"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Ödeme Durumu"
+msgstr "Ödeme Durumu"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Vade Ayı"
+msgstr "Vade Ayı"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Tip"
+msgstr "Tip"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Satış ve Tahsilat Haritası"
+msgstr "Satış ve Tahsilat Haritası"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Proje GDV Analizi"
+msgstr "Proje GDV Analizi"
+
+#. module: tcrm_propertio
+#: views/propertio_reporting_views.xml
+msgid "Nakit Akış Tahmini"
+msgstr "Nakit Akış Tahmini"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Lead Havuzu"
+msgstr "Lead Havuzu"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Lead / Fırsat"
+msgstr "Lead / Fırsat"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Oluşturma Tarihi"
+msgstr "Oluşturma Tarihi"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Etiket"
+msgstr "Etiket"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Yeni Leadler"
+msgstr "Yeni Leadler"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Yeni aşamasındaki leadler (dönüştürülmemiş)"
+msgstr "Yeni aşamasındaki leadler (dönüştürülmemiş)"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Nitelikli Leadler"
+msgstr "Nitelikli Leadler"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Nitelikli aşamasındaki leadler"
+msgstr "Nitelikli aşamasındaki leadler"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Fırsatlar"
+msgstr "Fırsatlar"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Satış Yapıldı"
+msgstr "Satış Yapıldı"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Kaybedildi"
+msgstr "Kaybedildi"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Arşivlendi"
+msgstr "Arşivlendi"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Leadlerim"
+msgstr "Leadlerim"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Bana atanmış"
+msgstr "Bana atanmış"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Atanmamış"
+msgstr "Atanmamış"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Satış Danışmanı"
+msgstr "Satış Danışmanı"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Satış Ekibi"
+msgstr "Satış Ekibi"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Aşama"
+msgstr "Aşama"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Kaynak"
+msgstr "Kaynak"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Kanal"
+msgstr "Kanal"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Kampanya"
+msgstr "Kampanya"
+
+#. module: tcrm_propertio
+#: views/crm_lead_havuzu_views.xml
+msgid "Proje"
+msgstr "Proje"
+
+#. module: tcrm_propertio
+#: views/propertio_dashboard_views.xml
+msgid "Gösterge Paneli"
+msgstr "Gösterge Paneli"
+
+#. module: tcrm_propertio
+#: views/propertio_menus_actions.xml
+msgid "Sözleşmeleri Dışa Aktar (Word)"
+msgstr "Sözleşmeleri Dışa Aktar (Word)"
+
+#. module: tcrm_propertio
+#: views/propertio_menus_actions.xml
+msgid "Satış Sözleşmeleri"
+msgstr "Satış Sözleşmeleri"
+
+#. module: tcrm_propertio
+#: views/propertio_menus_actions.xml
+msgid "Ödemeler"
+msgstr "Ödemeler"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Request payment cancellation"
+msgstr "Ödeme iptal talebi oluştur"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Explain why this posted payment should be reversed/refunded"
+msgstr "Bu onaylı ödemenin neden iptal/iade edilmesi gerektiğini açıklayın"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Submit request"
+msgstr "Talebi gönder"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Close"
+msgstr "Kapat"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Payment cancellation requests"
+msgstr "Ödeme cancellation requests"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Pending"
+msgstr "Beklemede"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Approved"
+msgstr "Onaylandı"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Payment cancellation request"
+msgstr "Ödeme cancellation request"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Approve"
+msgstr "Onayla"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Reject"
+msgstr "Reddet"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Ödeme iptal talepleri"
+msgstr "Ödeme iptal talepleri"
+
+#. module: tcrm_propertio
+#: views/propertio_payment_cancel_views.xml
+msgid "Ödeme İptal Talepleri"
+msgstr "Ödeme İptal Talepleri"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Dönem"
+msgstr "Dönem"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Başlangıç"
+msgstr "Başlangıç"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Bitiş"
+msgstr "Bitiş"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Hedef Birim"
+msgstr "Hedef Birim"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Hedef Tutar"
+msgstr "Hedef Tutar"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Gerçekleşen"
+msgstr "Gerçekleşen"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Gerçekleşen Tutar"
+msgstr "Gerçekleşen Tutar"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Başarı %"
+msgstr "Başarı %"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Dönem Başlangıç"
+msgstr "Dönem Başlangıç"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Dönem Bitiş"
+msgstr "Dönem Bitiş"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Brüt Komisyon"
+msgstr "Brüt Komisyon"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Kesintiler"
+msgstr "Kesintiler"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Net Komisyon"
+msgstr "Net Komisyon"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Yönetim"
+msgstr "Yönetim"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Hedefler"
+msgstr "Hedefler"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Komisyonlar"
+msgstr "Komisyonlar"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Komisyon Kuralları"
+msgstr "Komisyon Kuralları"
+
+#. module: tcrm_propertio
+#: views/propertio_management_views.xml
+msgid "Kasalar"
+msgstr "Kasalar"
+
+#. module: tcrm_propertio
+#: views/propertio_whatsapp_views.xml
+msgid "Message"
+msgstr "Mesaj"
+
+#. module: tcrm_propertio
+#: views/propertio_whatsapp_views.xml
+msgid "WhatsApp Şablonları"
+msgstr "WhatsApp Şablonları"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Propertio"
+msgstr "Propertio"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Proje stok ve takibi"
+msgstr "Proje stok ve takibi"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Satışlar"
+msgstr "Satışlar"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Tahsilat"
+msgstr "Tahsilat"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Raporlama"
+msgstr "Raporlama"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Yapılandırma"
+msgstr "Yapılandırma"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Ana Veriler"
+msgstr "Ana Veriler"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Personel ve İş Ortakları"
+msgstr "Personel ve İş Ortakları"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Birim Özellikleri"
+msgstr "Birim Özellikleri"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Proje Tipleri"
+msgstr "Proje Tipleri"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Proje Aşamaları"
+msgstr "Proje Aşamaları"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Gayrimenkul Kategorileri"
+msgstr "Gayrimenkul Kategorileri"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Detaylı Durumlar"
+msgstr "Detaylı Durumlar"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Satış Aşamaları"
+msgstr "Satış Aşamaları"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Acenteler"
+msgstr "Acenteler"
+
+#. module: tcrm_propertio
+#: views/propertio_menus.xml
+msgid "Satış Personeli"
+msgstr "Satış Personeli"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Rapor Merkezi"
+msgstr "Rapor Merkezi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Raporları Dışa Aktar"
+msgstr "Raporları Dışa Aktar"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "1. Tahsilat ve Ödemeler"
+msgstr "1. Tahsilat ve Ödemeler"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Satış Tahsilat Özeti"
+msgstr "Satış Tahsilat Özeti"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Ödeme Planı Tablosu"
+msgstr "Ödeme Planı Tablosu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Beklenen Ödeme Listesi"
+msgstr "Beklenen Ödeme Listesi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Ödeme Planı (KDV Dahil)"
+msgstr "Ödeme Planı (KDV Dahil)"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Gelen ve Beklenen Ödemeler"
+msgstr "Gelen ve Beklenen Ödemeler"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "2. Satış Raporları"
+msgstr "2. Satış Raporları"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Satış Raporu"
+msgstr "Satış Raporu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Tipe Göre Satış ve Proje Stok ve Takibi"
+msgstr "Tipe Göre Satış ve Proje Stok ve Takibi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Onaya Göre Satış Grafiği"
+msgstr "Onaya Göre Satış Grafiği"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Toplam Satış Grafiği"
+msgstr "Toplam Satış Grafiği"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Günlük Satış Adedi"
+msgstr "Günlük Satış Adedi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Satış Durum Raporu"
+msgstr "Satış Durum Raporu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Satış Kur Analizi"
+msgstr "Satış Kur Analizi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "3. Müşteri Raporları"
+msgstr "3. Müşteri Raporları"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Müşteri Yolculuğu"
+msgstr "Müşteri Yolculuğu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Bireysel Müşteri Yolculuğu"
+msgstr "Bireysel Müşteri Yolculuğu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Müşteri Genel Durumu"
+msgstr "Müşteri Genel Durumu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "4. Mali Raporlar"
+msgstr "4. Mali Raporlar"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Kasa Raporu"
+msgstr "Kasa Raporu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Günlük Kasa"
+msgstr "Günlük Kasa"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Nakit Akış Tablosu"
+msgstr "Nakit Akış Tablosu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "5. Performans Raporları"
+msgstr "5. Performans Raporları"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Personel Performansı"
+msgstr "Personel Performansı"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Gün Sonu Toplantısı"
+msgstr "Gün Sonu Toplantısı"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "6. Gayrimenkul Raporları"
+msgstr "6. Gayrimenkul Raporları"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Bağımsız Bölümler"
+msgstr "Bağımsız Bölümler"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "İnşaat İlerlemesi"
+msgstr "İnşaat İlerlemesi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Tapu ve Fatura"
+msgstr "Tapu ve Fatura"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "7. Yönetim ve Uyum"
+msgstr "7. Yönetim ve Uyum"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Yetki Matrisi"
+msgstr "Yetki Matrisi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "CRM Aktivite Kaydı"
+msgstr "CRM Aktivite Kaydı"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "8. Pazarlama ve Müşteri Adayları"
+msgstr "8. Pazarlama ve Müşteri Adayları"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Müşteri Adayı Raporu"
+msgstr "Müşteri Adayı Raporu"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Reklam Kaynaklı Adaylar"
+msgstr "Reklam Kaynaklı Adaylar"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Web Form Takibi"
+msgstr "Web Form Takibi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Ödeme Planı (KDV)"
+msgstr "Ödeme Planı (KDV)"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Gelen Ödeme Tahmini"
+msgstr "Gelen Ödeme Tahmini"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Tipe Göre Satış Analizi"
+msgstr "Tipe Göre Satış Analizi"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Onaya Göre Satışlar"
+msgstr "Onaya Göre Satışlar"
+
+#. module: tcrm_propertio
+#: views/propertio_reports_menu.xml
+msgid "Satış Durumu"
+msgstr "Satış Durumu"
+
+#. module: tcrm_propertio
+#: views/crm_lead_ui_tr.xml
+msgid "Aday Analizi"
+msgstr "Aday Analizi"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Tahsilat Kuyruğu"
+msgstr "Tahsilat Kuyruğu"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Gecikmişlerden Görev Oluştur"
+msgstr "Gecikmişlerden Görev Oluştur"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Arama Kaydet"
+msgstr "Arama Kaydet"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Ödendi İşaretle"
+msgstr "Ödendi İşaretle"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Hatırlatıcı Gönder"
+msgstr "Hatırlatıcı Gönder"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Arama notları..."
+msgstr "Arama notları..."
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Ödeme Gir"
+msgstr "Ödeme Gir"
+
+#. module: tcrm_propertio
+#: views/propertio_collection_views.xml
+msgid "Kaydet"
+msgstr "Kaydet"
+
+#. module: tcrm_propertio
+#: views/res_partner_views.xml
+msgid "Real Estate Profile"
+msgstr "Gayrimenkul Profili"
+
+#. module: tcrm_propertio
+#: views/res_partner_views.xml
+msgid "Identity"
+msgstr "Kimlik"
+
+#. module: tcrm_propertio
+#: views/res_partner_views.xml
+msgid "Budget &amp; Preferences"
+msgstr "Bütçe ve Tercihler"
+
+#. module: tcrm_propertio
+#: views/res_partner_views.xml
+msgid "Summary"
+msgstr "Özet"
+
+#. module: tcrm_propertio
+#: views/res_partner_views.xml
+msgid "Real Estate History"
+msgstr "Gayrimenkul Geçmişi"
+
+#. module: tcrm_propertio
+#: views/crm_lead_views_inherit.xml
+msgid "Sözleşmeler"
+msgstr "Sözleşmeler"
+
+#. module: tcrm_propertio
+#: views/crm_lead_views_inherit.xml
+msgid "Gayrimenkul"
+msgstr "Gayrimenkul"
+
+#. module: tcrm_propertio
+#: views/crm_lead_views_inherit.xml
+msgid "Hedef Gayrimenkul"
+msgstr "Hedef Gayrimenkul"
+
+#. module: tcrm_propertio
+#: views/propertio_export_wizard.xml
+msgid "Export Report"
+msgstr "Export Rapor"
+
+#. module: tcrm_propertio
+#: views/propertio_export_wizard.xml
+msgid "Export"
+msgstr "Dışa Aktar"
+
+#. module: tcrm_propertio
+#: views/propertio_export_wizard.xml
+msgid "Download"
+msgstr "İndir"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Tahsilat ve Satış Durumu"
+msgstr "Tahsilat ve Satış Durumu"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Proje Nakit Durumu"
+msgstr "Proje Nakit Durumu"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Toplam Değer"
+msgstr "Toplam Değer"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Toplam Tahsilat"
+msgstr "Toplam Tahsilat"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Kalan"
+msgstr "Kalan"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Toplam"
+msgstr "Toplam"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Beklenen (Vade Tarihine Göre)"
+msgstr "Beklenen (Vade Tarihine Göre)"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Beklenen"
+msgstr "Beklenen"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Gerçekleşen (Ödeme Tarihine Göre)"
+msgstr "Gerçekleşen (Ödeme Tarihine Göre)"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Gelecek Nakit Akışı"
+msgstr "Gelecek Nakit Akışı"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Danışman Karnesi"
+msgstr "Danışman Karnesi"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Bu Ay Tahsilat"
+msgstr "Bu Ay Tahsilat"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Kırmızı Alarm Müşteriler"
+msgstr "Kırmızı Alarm Müşteriler"
+
+#. module: tcrm_propertio
+#: views/propertio_core_reports_views.xml
+msgid "Danışman Karnesi (Bu Ay)"
+msgstr "Danışman Karnesi (Bu Ay)"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Rapor Görüntüleyici"
+msgstr "Rapor Görüntüleyici"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Rapor"
+msgstr "Rapor"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Tarih Aralığı"
+msgstr "Tarih Aralığı"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Filtreler"
+msgstr "Filtreler"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Önizleme Oluştur"
+msgstr "Önizleme Oluştur"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Dışa Aktar"
+msgstr "Dışa Aktar"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Excel İndir (XLSX)"
+msgstr "Excel İndir (XLSX)"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "PDF İndir"
+msgstr "PDF İndir"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "CSV İndir"
+msgstr "CSV İndir"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Tarayıcıda Aç"
+msgstr "Tarayıcıda Aç"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Dosyayı İndir"
+msgstr "Dosyayı İndir"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Herkese Açık Paylaşım"
+msgstr "Herkese Açık Paylaşım"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Paylaşım Bağlantısı"
+msgstr "Paylaşım Bağlantısı"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Paylaşılabilir Bağlantı Oluştur"
+msgstr "Paylaşılabilir Bağlantı Oluştur"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Herkese Açık Bağlantıyı Aç"
+msgstr "Herkese Açık Bağlantıyı Aç"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Bağlantıyı Kapat"
+msgstr "Bağlantıyı Kapat"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Raporlar"
+msgstr "Raporlar"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Beklenen Ödemeler"
+msgstr "Beklenen Ödemeler"
+
+#. module: tcrm_propertio
+#: views/wizards/unified_report_wizard.xml
+msgid "Müşteri Durumu"
+msgstr "Müşteri Durumu"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Yeni Satış ve Ödeme Planı"
+msgstr "Yeni Satış ve Ödeme Planı"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Ödeme Koşulları"
+msgstr "Ödeme Koşulları"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Peşinat"
+msgstr "Peşinat"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Finansal"
+msgstr "Finansal"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Taksit Planı"
+msgstr "Taksit Planı"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Döviz Kurları"
+msgstr "Döviz Kurları"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Plan Oluştur ve Satışı Kaydet"
+msgstr "Plan Oluştur ve Satışı Kaydet"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Yeni Satış"
+msgstr "Yeni Satış"
+
+#. module: tcrm_propertio
+#: views/wizards/sale_wizard.xml
+msgid "Yeni Satış Sözleşmesi"
+msgstr "Yeni Satış Sözleşmesi"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "Print &amp; Export Options"
+msgstr "Yazdır / Dışa Aktar Seçenekleri"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "Download PDF"
+msgstr "PDF İndir"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "Download Word"
+msgstr "Word İndir"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "View HTML"
+msgstr "HTML Görüntüle"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "Batch Word Export"
+msgstr "Toplu Word Dışa Aktar"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "Yazdır / Dışa Aktar"
+msgstr "Yazdır / Dışa Aktar"
+
+#. module: tcrm_propertio
+#: views/wizards/print_wizard.xml
+msgid "Select Format"
+msgstr "Format Seç"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Ödeme"
+msgstr "Ödeme"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Ödemeyi Onayla"
+msgstr "Ödemeyi Onayla"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Vazgeç"
+msgstr "Vazgeç"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "İptal talebi"
+msgstr "İptal talebi"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "İptal Edildi"
+msgstr "İptal Edildi"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Ödeme referansı"
+msgstr "Ödeme referansı"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Müşteri ve tahsis"
+msgstr "Müşteri ve tahsis"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Tutar ve para birimi"
+msgstr "Tutar ve para birimi"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "Çek bilgileri"
+msgstr "Çek bilgileri"
+
+#. module: tcrm_propertio
+#: views/payment/propertio_payment_views.xml
+msgid "İptal / İade"
+msgstr "İptal / İade"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Satışı Onayla"
+msgstr "Satışı Onayla"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Bu satış sözleşmesini iptal etmek istediğinize emin misiniz? Birim yeniden müsait olacaktır."
+msgstr "Bu satış sözleşmesini iptal etmek istediğinize emin misiniz? Birim yeniden müsait olacaktır."
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Sözleşmeyi iade olarak işaretlemek istediğinize emin misiniz? Ödeme iadeleri için ayrıca Para İade sürecini kullanın."
+msgstr "Sözleşmeyi iade olarak işaretlemek istediğinize emin misiniz? Ödeme iadeleri için ayrıca Para İade sürecini kullanın."
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Taslağa Al"
+msgstr "Taslağa Al"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "SATILDI"
+msgstr "SATILDI"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Sözleşme Ref."
+msgstr "Sözleşme Ref."
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Sözleşme No"
+msgstr "Sözleşme No"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "örn. CON-2025-001"
+msgstr "örn. CON-2025-001"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "CRM Fırsatı"
+msgstr "CRM Fırsatı"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Satış Tarihi"
+msgstr "Satış Tarihi"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Toplam Ödenen"
+msgstr "Toplam Ödenen"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Bakiye"
+msgstr "Bakiye"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Ödeme Planı"
+msgstr "Ödeme Planı"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Otomatik Dengele / Kalan Ekle"
+msgstr "Otomatik Dengele / Kalan Ekle"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Taksitler"
+msgstr "Taksitler"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Vade Tarihi"
+msgstr "Vade Tarihi"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Açıklama"
+msgstr "Açıklama"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Tutar"
+msgstr "Tutar"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Ödenen"
+msgstr "Ödenen"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Müşteri Bilgileri"
+msgstr "Müşteri Bilgileri"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Satış Detayları"
+msgstr "Satış Detayları"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Organizasyon"
+msgstr "Organizasyon"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Kategori"
+msgstr "Kategori"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Ekstra"
+msgstr "Ekstra"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Hukuki ve Banka"
+msgstr "Hukuki ve Banka"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Finans"
+msgstr "Finans"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Hukuki / Noter notları..."
+msgstr "Hukuki / Noter notları..."
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Belgeler"
+msgstr "Belgeler"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Ekip"
+msgstr "Ekip"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "İç Ekip"
+msgstr "İç Ekip"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Dış Ekip"
+msgstr "Dış Ekip"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Teknik Finansallar"
+msgstr "Teknik Finansallar"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Fırsat"
+msgstr "Fırsat"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Teslim"
+msgstr "Teslim"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_form.xml
+msgid "Tapu"
+msgstr "Tapu"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_search.xml
+msgid "Taslak"
+msgstr "Taslak"
+
+#. module: tcrm_propertio
+#: views/sale/propertio_sale_search.xml
+msgid "Onaylandı"
+msgstr "Onaylandı"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "proj.sold +"
+msgstr "proj.sold +"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Uygula"
+msgstr "Uygula"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Sıfırla"
+msgstr "Sıfırla"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Hazır Aralıklar"
+msgstr "Hazır Aralıklar"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Bu ay"
+msgstr "Bu ay"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Geçen ay"
+msgstr "Geçen ay"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "YTD"
+msgstr "YTD"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Rapor Merkezi →"
+msgstr "Rapor Merkezi →"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Birimleri Gör"
+msgstr "Birimleri Gör"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Tümünü Gör"
+msgstr "Tümünü Gör"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.xml
+msgid "Ödemeleri Gör"
+msgstr "Ödemeleri Gör"
+
+#. module: tcrm_propertio
+#: static/src/dashboard/propertio_dashboard.js
+msgid "Date range was adjusted so the start date is not after the end date."
+msgstr "Başlangıç tarihi bitiş tarihinden sonra olamayacağı için tarih aralığı otomatik düzeltildi."
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.js
+msgid "İlk 500 satır gösteriliyor. Dışa aktarımlar filtrelenmiş sonucu içerir."
+msgstr "İlk 500 satır gösteriliyor. Dışa aktarımlar filtrelenmiş sonucu içerir."
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.js
+msgid "Rapor oluşturulamadı. Ayrıntılar için sunucu günlüklerine bakın."
+msgstr "Rapor oluşturulamadı. Ayrıntılar için sunucu günlüklerine bakın."
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.js
+msgid "Rapor ön ayar adı"
+msgstr "Rapor ön ayar adı"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.js
+msgid "Rapor ön ayarı kaydedildi."
+msgstr "Rapor ön ayarı kaydedildi."
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.js
+msgid "All"
+msgstr "Tümü"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "CSV"
+msgstr "CSV"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "XLSX"
+msgstr "XLSX"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "PDF"
+msgstr "PDF"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "Çalıştır"
+msgstr "Çalıştır"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "Tahakkuk"
+msgstr "Tahakkuk"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "Nakit"
+msgstr "Nakit"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "Liste"
+msgstr "Liste"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "Gruplar"
+msgstr "Gruplar"
+
+#. module: tcrm_propertio
+#: static/src/reports_center/propertio_reports_center.xml
+msgid "Grafik"
+msgstr "Grafik"
+
+#. module: tcrm_propertio
+#: models/mail_activity_schedule.py
+msgid "CRM lead aktivitesi planlanırken takvim etkinliği ve kişisel Yapılacak oluştur."
+msgstr "CRM lead aktivitesi planlanırken takvim etkinliği ve kişisel Yapılacak oluştur."
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Ortak alanlar dahil"
+msgstr "Ortak alanlar dahil"
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Kuzey, Güney vb."
+msgstr "Kuzey, Güney vb."
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Attach Catalogs, Factsheets, Renders here."
+msgstr "Katalogları, Bilgi Föylerini, Renderları buraya ekleyin."
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "FontAwesome class, e.g. fa-swimming-pool"
+msgstr "FontAwesome sınıfı, örn. fa-swimming-pool"
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Açık"
+msgstr "Açık"
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Kapalı"
+msgstr "Kapalı"
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Müsait"
+msgstr "Müsait"
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Opsiyon"
+msgstr "Opsiyon"
+
+#. module: tcrm_propertio
+#: models/propertio_unit.py
+msgid "Satıldı"
+msgstr "Satıldı"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "TC Kimlik"
+msgstr "TC Kimlik"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Pasaport"
+msgstr "Pasaport"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Yabancı Kimlik"
+msgstr "Yabancı Kimlik"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Bekar"
+msgstr "Bekar"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Evli"
+msgstr "Evli"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Web Sitesi"
+msgstr "Web Sitesi"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Instagram"
+msgstr "Instagram"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Facebook"
+msgstr "Facebook"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Sahibinden"
+msgstr "Sahibinden"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Sabit Hat"
+msgstr "Sabit Hat"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Ofis / Showroom"
+msgstr "Ofis / Showroom"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Referans"
+msgstr "Referans"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Google Ads"
+msgstr "Google Ads"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Ofis Ziyareti"
+msgstr "Ofis Ziyareti"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Fuar"
+msgstr "Fuar"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Diğer"
+msgstr "Diğer"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Low"
+msgstr "Düşük"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "Medium"
+msgstr "Orta"
+
+#. module: tcrm_propertio
+#: models/res_partner.py
+msgid "High"
+msgstr "Yüksek"
+
+#. module: tcrm_propertio
+#: models/propertio_project.py
+msgid "Stable technical code for idempotent seeding."
+msgstr "Idempotent veritabanı yüklemesi için sabit teknik kod."
+
+#. module: tcrm_propertio
+#: models/propertio_project.py
+msgid "Projects in this stage are folded by default in the kanban view."
+msgstr "Bu aşamadaki projeler kanban görünümünde varsayılan olarak katlanmış olarak görünür."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Yalnızca bekleyen rezervasyonlar kabul edilebilir."
+msgstr "Yalnızca bekleyen rezervasyonlar kabul edilebilir."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Yalnızca bekleyen rezervasyonlar reddedilebilir."
+msgstr "Yalnızca bekleyen rezervasyonlar reddedilebilir."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Süresi dolmuş veya iade edilmiş rezervasyon iptal edilemez."
+msgstr "Süresi dolmuş veya iade edilmiş rezervasyon iptal edilemez."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Bağlı onaylı satış sözleşmesi var. Önce sözleşmeyi iptal veya iade edin."
+msgstr "Bağlı onaylı satış sözleşmesi var. Önce sözleşmeyi iptal veya iade edin."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Rezervasyon / teklif iptal edildi."
+msgstr "Rezervasyon / teklif iptal edildi."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "İade yalnızca kabul edilmiş veya iptal edilmiş rezervasyonlar için geçerlidir."
+msgstr "İade yalnızca kabul edilmiş veya iptal edilmiş rezervasyonlar için geçerlidir."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Rezervasyon iade olarak işaretlendi. Kapora iadesi için ödeme sürecini tamamlayın."
+msgstr "Rezervasyon iade olarak işaretlendi. Kapora iadesi için ödeme sürecini tamamlayın."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Bu durumdan taslağa dönülemez."
+msgstr "Bu durumdan taslağa dönülemez."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Rezervasyon tekrar beklemede."
+msgstr "Rezervasyon tekrar beklemede."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Bu rezervasyondan satış oluşturulamaz."
+msgstr "Bu rezervasyondan satış oluşturulamaz."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Bu rezervasyonun bağlandığı CRM lead / fırsat."
+msgstr "Bu rezervasyonun bağlandığı CRM lead / fırsat."
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Kabul Edildi"
+msgstr "Kabul Edildi"
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Reddedildi"
+msgstr "Reddedildi"
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "Süresi Doldu"
+msgstr "Süresi Doldu"
+
+#. module: tcrm_propertio
+#: models/propertio_offer.py
+msgid "New"
+msgstr "Yeni"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Blocked financial mutation. Use the Cancellation/Refund workflow instead."
+msgstr "Finansal değişiklik engellendi. İptal/İade akışını kullanın."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Posted or cancelled payments are immutable. Use Cancellation/Refund (Para İade)."
+msgstr "Onaylanmış veya iptal edilmiş ödemeler değiştirilemez. İptal/İade kullanın."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Deletion blocked by financial anti-fraud protocol. Use Cancellation/Refund (Para İade)."
+msgstr "Silme işlemi finansal güvenlik protokolü tarafından engellendi. İptal/İade kullanın."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Payments cannot be deleted. Use Cancellation/Refund (Para İade); only the Software Owner can physically delete."
+msgstr "Ödemeler silinemez. İptal/İade kullanın; yalnızca Yazılım Sahibi fiziksel silme işlemi yapabilir."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Payment amount must be positive."
+msgstr "Ödeme amount must be positive."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Could not reverse the full allocation. Contact support."
+msgstr "Tam tahsis iptal edilemedi. Destek ekibiyle iletişime geçin."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Only posted payments can be reversed."
+msgstr "Yalnızca onaylanmış ödemeler iptal edilebilir."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Refund"
+msgstr "İade"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Posted payment cancelled and refund/reversal entry %s created. Reason: %s"
+msgstr "Onaylı ödeme iptal edildi ve iptal/iade kaydı %s oluşturuldu. Neden: %s"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Refund / Para İade reversal for original payment %s."
+msgstr "Orijinal ödeme %s için İptal / Para İade işlemi."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Only posted payments require a cancellation request."
+msgstr "Yalnızca onaylanmış ödemeler için iptal talebi gerekir."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Posted payments cannot be cancelled directly."
+msgstr "Onaylanmış ödemeler doğrudan iptal edilemez."
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Ödeme para birimini satış para birimine çevirme kuru"
+msgstr "Ödeme para birimini satış para birimine çevirme kuru"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Havale/EFT"
+msgstr "Havale/EFT"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Çek"
+msgstr "Çek"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Senet"
+msgstr "Senet"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Kredi Kartı"
+msgstr "Kredi Kartı"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Döviz Nakit"
+msgstr "Döviz Nakit"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Banka Taksiti"
+msgstr "Banka Taksiti"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Yanlış Tutar"
+msgstr "Yanlış Tutar"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Yanlış Sözleşme"
+msgstr "Yanlış Sözleşme"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Mükerrer Kayıt"
+msgstr "Mükerrer Kayıt"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Müşteri İadesi / Para İade"
+msgstr "Müşteri İadesi / Para İade"
+
+#. module: tcrm_propertio
+#: models/propertio_payment.py
+msgid "Banka veya POS Hatası"
+msgstr "Banka veya POS Hatası"
+
+#. module: tcrm_propertio
+#: models/propertio_notary.py
+msgid "Ön Protokol/Vaat"
+msgstr "Ön Protokol/Vaat"
+
+#. module: tcrm_propertio
+#: models/propertio_notary.py
+msgid "Satış"
+msgstr "Satış"
+
+#. module: tcrm_propertio
+#: models/propertio_notary.py
+msgid "Vekaletname"
+msgstr "Vekaletname"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Bakım"
+msgstr "Bakım"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Eksiklik/Arıza"
+msgstr "Eksiklik/Arıza"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Belge Talebi"
+msgstr "Belge Talebi"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Şikayet"
+msgstr "Şikayet"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Bilgi Talebi"
+msgstr "Bilgi Talebi"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Düşük"
+msgstr "Düşük"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Normal"
+msgstr "Normal"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Yüksek"
+msgstr "Yüksek"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Acil"
+msgstr "Acil"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "On Time"
+msgstr "On Time"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Approaching"
+msgstr "Approaching"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Yeni"
+msgstr "Yeni"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "İşlemde"
+msgstr "İşlemde"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Çözüldü"
+msgstr "Çözüldü"
+
+#. module: tcrm_propertio
+#: models/propertio_service_request.py
+msgid "Kapatıldı"
+msgstr "Kapatıldı"
+
+#. module: tcrm_propertio
+#: models/propertio_holiday.py
+msgid "National"
+msgstr "National"
+
+#. module: tcrm_propertio
+#: models/propertio_holiday.py
+msgid "Religious"
+msgstr "Religious"
+
+#. module: tcrm_propertio
+#: models/propertio_holiday.py
+msgid "Regional"
+msgstr "Regional"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Bekliyor"
+msgstr "Bekliyor"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Randevu Verildi"
+msgstr "Randevu Verildi"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Teslim Edildi"
+msgstr "Teslim Edildi"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Sorun Var"
+msgstr "Sorun Var"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Urgent"
+msgstr "Urgent"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Open"
+msgstr "Açık"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "In Progress"
+msgstr "Devam Ediyor"
+
+#. module: tcrm_propertio
+#: models/propertio_handover.py
+msgid "Resolved"
+msgstr "Resolved"
+
+#. module: tcrm_propertio
+#: models/propertio_title_deed.py
+msgid "Kat İrtifakı"
+msgstr "Kat İrtifakı"
+
+#. module: tcrm_propertio
+#: models/propertio_title_deed.py
+msgid "Kat Mülkiyeti"
+msgstr "Kat Mülkiyeti"
+
+#. module: tcrm_propertio
+#: models/propertio_title_deed.py
+msgid "Randevu Var"
+msgstr "Randevu Var"
+
+#. module: tcrm_propertio
+#: models/propertio_title_deed.py
+msgid "Tapu Devredildi"
+msgstr "Tapu Devredildi"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Aktivite"
+msgstr "Aktivite"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Lead / Fırsat: %s"
+msgstr "Lead / Fırsat: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Aktivite Tipi: %s"
+msgstr "Aktivite Tipi: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Son Tarih: %s"
+msgstr "Son Tarih: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Sorumlu: %s"
+msgstr "Sorumlu: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Müşteri / Kişi: %s"
+msgstr "Müşteri / Kişi: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Proje: %s"
+msgstr "Proje: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Notlar: %s"
+msgstr "Notlar: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "CRM Bağlantısı: %s"
+msgstr "CRM Bağlantısı: %s"
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Bu CRM aktivitesi için hatırlatıcı olarak oluşturulan kişisel Yapılacak."
+msgstr "Bu CRM aktivitesi için hatırlatıcı olarak oluşturulan kişisel Yapılacak."
+
+#. module: tcrm_propertio
+#: models/mail_activity.py
+msgid "Hatırlatıcı olarak oluşturulan takvim etkinliği (varsa calendar_event_id kullanılır)."
+msgstr "Hatırlatıcı olarak oluşturulan takvim etkinliği (varsa calendar_event_id kullanılır)."
+
+#. module: tcrm_propertio
+#: models/propertio_audit_log.py
+msgid "Deleted"
+msgstr "Silindi"
+
+#. module: tcrm_propertio
+#: models/propertio_audit_log.py
+msgid "Updated"
+msgstr "Güncellendi"
+
+#. module: tcrm_propertio
+#: models/propertio_audit_log.py
+msgid "Reversed"
+msgstr "Ters Kayıt / İptal Edildi"
+
+#. module: tcrm_propertio
+#: models/propertio_audit_log.py
+msgid "Blocked"
+msgstr "Bloke"
+
+#. module: tcrm_propertio
+#: models/propertio_audit_log.py
+msgid "Approval"
+msgstr "Onay"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Cancellation/refund request %s created. Reason: %s"
+msgstr "İptal/iade talebi %s oluşturuldu. Neden: %s"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Approve repeated payment correction"
+msgstr "Mükerrer ödeme düzeltmesini onayla"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Only Propertio Managers or Admins can approve payment cancellations."
+msgstr "Ödeme iptallerini yalnızca Propertio Yöneticileri veya Yöneticiler onaylayabilir."
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "This request is not pending."
+msgstr "Bu talep beklemede değil."
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Cancellation approved and payment reversed."
+msgstr "İptal onaylandı ve ödeme ters kayıt ile iptal edildi."
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Only Propertio Managers or Admins can reject cancellation requests."
+msgstr "İptal taleplerini yalnızca Propertio Yöneticileri veya Yöneticiler reddedebilir."
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Cancellation request rejected."
+msgstr "İptal talebi reddedildi."
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Wrong Amount"
+msgstr "Wrong Tutar"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Wrong Contract"
+msgstr "Yanlış Sözleşme"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Duplicate Entry"
+msgstr "Mükerrer Kayıt"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Customer Refund / Para İade"
+msgstr "Müşteri Refund / Para İade"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Bank or POS Error"
+msgstr "Banka veya POS Hatası"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Other"
+msgstr "Diğer"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Pending Approval"
+msgstr "Onay Bekliyor"
+
+#. module: tcrm_propertio
+#: models/propertio_payment_cancel_request.py
+msgid "Rejected"
+msgstr "Reddedildi"
+
+#. module: tcrm_propertio
+#: models/propertio_einvoice.py
+msgid "E-Fatura"
+msgstr "E-Fatura"
+
+#. module: tcrm_propertio
+#: models/propertio_einvoice.py
+msgid "E-Arşiv"
+msgstr "E-Arşiv"
+
+#. module: tcrm_propertio
+#: models/propertio_einvoice.py
+msgid "Draft"
+msgstr "Taslak"
+
+#. module: tcrm_propertio
+#: models/propertio_einvoice.py
+msgid "Sent"
+msgstr "Gönderildi"
+
+#. module: tcrm_propertio
+#: models/propertio_einvoice.py
+msgid "Accepted"
+msgstr "Kabul Edildi"
+
+#. module: tcrm_propertio
+#: models/crm_lead_inherit.py
+msgid "Bu fırsatın ilgili olduğu gayrimenkul projesi."
+msgstr "Bu fırsatın ilgili olduğu gayrimenkul projesi."
+
+#. module: tcrm_propertio
+#: models/crm_lead_inherit.py
+msgid "Bu fırsatın hedeflediği birim."
+msgstr "Bu fırsatın hedeflediği birim."
+
+#. module: tcrm_propertio
+#: models/crm_lead_inherit.py
+msgid "★★★★"
+msgstr "★★★★"
+
+#. module: tcrm_propertio
+#: models/crm_lead_inherit.py
+msgid "★★★★★"
+msgstr "★★★★★"
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "Log Call"
+msgstr "Arama Kaydet"
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "Reminder: Your installment of %s is overdue. Please contact us."
+msgstr "Hatırlatma: %s tutarındaki taksitinizin vadesi geçmiştir. Lütfen bizimle iletişime geçin."
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "Cevap Yok"
+msgstr "Cevap Yok"
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "Ödeme Sözü"
+msgstr "Ödeme Sözü"
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "İtiraz"
+msgstr "İtiraz"
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "Kısmi Ödeme"
+msgstr "Kısmi Ödeme"
+
+#. module: tcrm_propertio
+#: models/propertio_collection_task.py
+msgid "Ödendi"
+msgstr "Ödendi"
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "Role used for role-based dashboard and features."
+msgstr "Rol tabanlı gösterge paneli ve özellikler için kullanılan rol."
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "Sales"
+msgstr "Satışlar"
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "Collection"
+msgstr "Tahsilat"
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "After-Sales"
+msgstr "Satış Sonrası"
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "Finance"
+msgstr "Finans"
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "Manager"
+msgstr "Yönetici"
+
+#. module: tcrm_propertio
+#: models/res_users.py
+msgid "Admin"
+msgstr "Yönetici"
+
+#. module: tcrm_propertio
+#: models/propertio_whatsapp_template.py
+msgid "Use placeholders: {customer_name}, {amount}, {due_date}, {contract_ref}, {unit_name}, {sale_price}"
+msgstr "Yer tutucuları kullanın: {customer_name}, {amount}, {due_date}, {contract_ref}, {unit_name}, {sale_price}"
+
+#. module: tcrm_propertio
+#: models/propertio_target.py
+msgid "Aylık"
+msgstr "Aylık"
+
+#. module: tcrm_propertio
+#: models/propertio_target.py
+msgid "Çeyreklik"
+msgstr "Çeyreklik"
+
+#. module: tcrm_propertio
+#: models/propertio_target.py
+msgid "Yıllık"
+msgstr "Yıllık"
+
+#. module: tcrm_propertio
+#: models/propertio_target.py
+msgid "Aktif"
+msgstr "Aktif"
+
+#. module: tcrm_propertio
+#: models/propertio_target.py
+msgid "Tamamlandı"
+msgstr "Tamamlandı"
+
+#. module: tcrm_propertio
+#: models/propertio_cash_register.py
+msgid "Giriş"
+msgstr "Giriş"
+
+#. module: tcrm_propertio
+#: models/propertio_cash_register.py
+msgid "Çıkış"
+msgstr "Çıkış"
+
+#. module: tcrm_propertio
+#: models/propertio_commission.py
+msgid "Sabit Oran"
+msgstr "Sabit Oran"
+
+#. module: tcrm_propertio
+#: models/propertio_commission.py
+msgid "Kademeli"
+msgstr "Kademeli"
+
+#. module: tcrm_propertio
+#: models/propertio_commission.py
+msgid "Hedef Primi"
+msgstr "Hedef Primi"
+
+#. module: tcrm_propertio
+#: models/propertio_commission.py
+msgid "Tahsilat Primi"
+msgstr "Tahsilat Primi"
+
+#. module: tcrm_propertio
+#: models/account_payment.py
+msgid "Blocked account.payment mutation. Create a refund/reversal instead."
+msgstr "Blocked account.payment mutation. Create a refund/reversal instead."
+
+#. module: tcrm_propertio
+#: models/account_payment.py
+msgid "Posted account payments are immutable. Create a refund/reversal; only the Software Owner can physically alter them."
+msgstr "Posted account payments are immutable. Create a refund/reversal; only the Software Owner can physically alter them."
+
+#. module: tcrm_propertio
+#: models/account_payment.py
+msgid "Deletion blocked by financial anti-fraud protocol. Create a refund/reversal instead."
+msgstr "Deletion blocked by financial anti-fraud protocol. Create a refund/reversal instead."
+
+#. module: tcrm_propertio
+#: models/account_payment.py
+msgid "Account payments cannot be deleted. Only the Software Owner can physically delete records."
+msgstr "Account payments cannot be deleted. Only the Software Owner can physically delete records."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "İptal veya iade edilmiş sözleşme onaylanamaz. Önce taslağa alın."
+msgstr "İptal veya iade edilmiş sözleşme onaylanamaz. Önce taslağa alın."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "İade edilmiş sözleşme iptal edilemez."
+msgstr "İade edilmiş sözleşme iptal edilemez."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Satış sözleşmesi iptal edildi."
+msgstr "Satış sözleşmesi iptal edildi."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Taslak sözleşme iade edilemez. Önce onaylayın veya iptal edin."
+msgstr "Taslak sözleşme iade edilemez. Önce onaylayın veya iptal edin."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Satış sözleşmesi iade olarak işaretlendi."
+msgstr "Satış sözleşmesi iade olarak işaretlendi."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Yalnızca iptal veya iade kayıtları taslağa alınabilir."
+msgstr "Yalnızca iptal veya iade kayıtları taslağa alınabilir."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Sözleşme tekrar taslağa alındı."
+msgstr "Sözleşme tekrar taslağa alındı."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Contract %s - Unit %s"
+msgstr "Sözleşme %s - Birim %s"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Blocked installment mutation. Use Cancellation/Refund (Para İade) through the related payment."
+msgstr "Blocked installment mutation. Use Cancellation/Refund (Para İade) through the related payment."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Paid installments are immutable. Use the payment Cancellation/Refund (Para İade) workflow."
+msgstr "Paid installments are immutable. Use the payment Cancellation/Refund (Para İade) workflow."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Deletion blocked by financial anti-fraud protocol. Archive/reverse the related payment instead."
+msgstr "Deletion blocked by financial anti-fraud protocol. Archive/reverse the related payment instead."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Installments cannot be deleted. Only the Software Owner can physically delete records."
+msgstr "Installments cannot be deleted. Only the Software Owner can physically delete records."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Reminder: Installment %s - Amount %s due on %s"
+msgstr "Reminder: Installment %s - Tutar %s due on %s"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Danışman Karnesi (Bu Ay Tahsilat)"
+msgstr "Danışman Karnesi (Bu Ay Tahsilat)"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "CRM opportunity this property sale originated from."
+msgstr "CRM opportunity this property sale originated from."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Compatibility alias used by legacy Propertio reports."
+msgstr "Compatibility alias used by legacy Propertio reports."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Taksitin tamamen ödendiği tarih."
+msgstr "Taksitin tamamen ödendiği tarih."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Number of days past due date (0 if not overdue). Used for Red Alert report."
+msgstr "Number of days past due date (0 if not overdue). Used for Red Alert report."
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Faturalanacak"
+msgstr "Faturalanacak"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Faturalandı"
+msgstr "Faturalandı"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Yok"
+msgstr "Yok"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Hazırlandı"
+msgstr "Hazırlandı"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Gönderildi"
+msgstr "Gönderildi"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Gecikmiş"
+msgstr "Gecikmiş"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Yaklaşan"
+msgstr "Yaklaşan"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "İleri Tarihli"
+msgstr "İleri Tarihli"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Taksit"
+msgstr "Taksit"
+
+#. module: tcrm_propertio
+#: models/propertio_sale.py
+msgid "Balon Ödeme"
+msgstr "Balon Ödeme"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Lead"
+msgstr "Lead"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Rezerve"
+msgstr "Rezerve"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Vacant"
+msgstr "Boş"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Optioned"
+msgstr "Opsiyonlu"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Occupied / Sold"
+msgstr "Dolu / Satıldı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "New Stock"
+msgstr "Yeni Stok"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "30-89 days"
+msgstr "30-89 gün"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "90-179 days"
+msgstr "90-179 gün"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "180+ days"
+msgstr "180+ gün"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Watch"
+msgstr "İzleme"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Red Alert"
+msgstr "Kırmızı Alarm"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Buyer"
+msgstr "Alıcı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Tenant"
+msgstr "Kiracı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Landlord"
+msgstr "Ev Sahibi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Confirmed"
+msgstr "Onaylandı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Cancelled"
+msgstr "İptal Edildi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Call today"
+msgstr "Bugün ara"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Follow this week"
+msgstr "Bu hafta takip et"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Closed"
+msgstr "Kapatıldı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "On time"
+msgstr "Zamanında"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "1-29 days"
+msgstr "1-29 gün"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "30-59 days"
+msgstr "30-59 gün"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "60+ days"
+msgstr "60+ gün"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Cash"
+msgstr "Nakit"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Bank"
+msgstr "Banka"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Credit Card"
+msgstr "Kredi Kartı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Check"
+msgstr "Çek"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Hot"
+msgstr "Sıcak"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Warm"
+msgstr "Ilık"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Cold"
+msgstr "Soğuk"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Complete"
+msgstr "Tamamlandı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Partial"
+msgstr "Kısmi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Missing Evidence"
+msgstr "Eksik Belge"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Needs Review"
+msgstr "İnceleme Gerekiyor"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "OK"
+msgstr "Tamam"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Not Set"
+msgstr "Ayarlanmadı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "To Invoice"
+msgstr "Faturalanacak"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Invoiced"
+msgstr "Faturalandı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Ready"
+msgstr "Hazır"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Needs Data"
+msgstr "Veri Bekliyor"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Incomplete"
+msgstr "Eksik"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Transferred"
+msgstr "Devredildi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Active"
+msgstr "Aktif"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Ending Soon"
+msgstr "Yakında Bitiyor"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Expired"
+msgstr "Süresi Doldu"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Only the TCRM master administrator can save global report templates."
+msgstr "Yalnızca TCRM ana yöneticisi global rapor şablonlarını kaydedebilir."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Unsupported export format."
+msgstr "Desteklenmeyen dışa aktarım formatı."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Unknown report: %s"
+msgstr "Bilinmeyen rapor: %s"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Tenant isolated"
+msgstr "Kiracı izole edildi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Drill-down enabled"
+msgstr "Detaylı analiz etkin"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "CSV/XLSX/HTML/PDF/Word export"
+msgstr "CSV/XLSX/HTML/PDF/Word dışa aktarım"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Receivable aging"
+msgstr "Alacak yaşlandırması"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Legal collection priority"
+msgstr "Yasal tahsilat önceliği"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "VAT-aware totals"
+msgstr "KDV dahil toplamlar"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Contract profitability"
+msgstr "Sözleşme profitability"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Broker and consultant tracking"
+msgstr "Broker ve danışman takibi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "FX exposure"
+msgstr "Döviz riski"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "GDV and sell-through"
+msgstr "GDV ve satış oranı"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Project cash position"
+msgstr "Proje cash position"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Inventory monetization"
+msgstr "Stok paraya çevirme"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Lead source quality"
+msgstr "Lead kaynak kalitesi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Campaign ROI proxy"
+msgstr "Kampanya ROI tahmini"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Pipeline conversion"
+msgstr "Pipeline dönüşümü"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "CRM + Propertio bridge"
+msgstr "CRM + Propertio köprüsü"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Occupancy view"
+msgstr "Doluluk görünümü"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Rental income proxy"
+msgstr "Kira geliri tahmini"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Tenant/landlord segmentation"
+msgstr "Kiracı/ev sahibi segmentasyonu"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Turkey compliance checks"
+msgstr "Türkiye uyumluluk kontrolleri"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Risk scoring"
+msgstr "Risk puanlama"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Audit-ready export"
+msgstr "Denetime hazır dışa aktarım"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Operational KPIs"
+msgstr "Operasyonel KPI'lar"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Management summary"
+msgstr "Yönetim özeti"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Unassigned"
+msgstr "Atanmamış"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "<p>Merhaba,</p>"
+msgstr "<p>Merhaba,</p>"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Empty"
+msgstr "Boş"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Template not found."
+msgstr "Şablon bulunamadı."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Only the TCRM master administrator can edit global templates."
+msgstr "Global şablonları yalnızca TCRM ana yöneticisi düzenleyebilir."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "You do not have access to this report template."
+msgstr "Bu rapor şablonuna erişim izniniz yok."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "xlsxwriter is required for Excel exports."
+msgstr "Excel dışa aktarımı için xlsxwriter gereklidir."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "reportlab is required for PDF exports."
+msgstr "PDF dışa aktarımı için reportlab gereklidir."
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Viewed"
+msgstr "Görüntülendi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_center.py
+msgid "Exported"
+msgstr "Dışa Aktarıldı"
+
+#. module: tcrm_propertio
+#: models/propertio_document.py
+msgid "Kimlik Fotokopisi"
+msgstr "Kimlik Fotokopisi"
+
+#. module: tcrm_propertio
+#: models/propertio_document.py
+msgid "Gelir Belgesi"
+msgstr "Gelir Belgesi"
+
+#. module: tcrm_propertio
+#: models/propertio_document.py
+msgid "Makbuz"
+msgstr "Makbuz"
+
+#. module: tcrm_propertio
+#: models/propertio_document.py
+msgid "Tapu Belgesi"
+msgstr "Tapu Belgesi"
+
+#. module: tcrm_propertio
+#: models/propertio_document.py
+msgid "İpotek Belgesi"
+msgstr "İpotek Belgesi"
+
+#. module: tcrm_propertio
+#: models/propertio_report_share.py
+msgid "Açıkken giriş yapmadan bağlantı ile görüntülenebilir."
+msgstr "Açıkken giriş yapmadan bağlantı ile görüntülenebilir."
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Rapor tipi henüz uygulanmamış: %s"
+msgstr "Rapor tipi henüz uygulanmamış: %s"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Paylaşılabilir Bağlantı"
+msgstr "Paylaşılabilir Bağlantı"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bağlantı herkese açıldı. Kopyalayıp paylaşabilirsiniz:\\n%s"
+msgstr "Bağlantı herkese açıldı. Kopyalayıp paylaşabilirsiniz:\\n%s"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Önce bir rapor oluşturun."
+msgstr "Önce bir rapor oluşturun."
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bağlantı Kapatıldı"
+msgstr "Bağlantı Kapatıldı"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Herkese açık rapor bağlantısı kapatıldı. Artık erişilemez."
+msgstr "Herkese açık rapor bağlantısı kapatıldı. Artık erişilemez."
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Lütfen önce raporu oluşturun."
+msgstr "Lütfen önce raporu oluşturun."
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Tip Bazlı Satış ve Proje Stok ve Takibi"
+msgstr "Tip Bazlı Satış ve Proje Stok ve Takibi"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Onay Bazlı Satışlar"
+msgstr "Onay Bazlı Satışlar"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Lead Raporu"
+msgstr "Lead Raporu"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Reklam Leadleri"
+msgstr "Reklam Leadleri"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Komisyon Raporu"
+msgstr "Komisyon Raporu"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Tapu Durumu"
+msgstr "Tapu Durumu"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Teslim Durumu"
+msgstr "Teslim Durumu"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "KDV Özeti"
+msgstr "KDV Özeti"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Kasa Özeti"
+msgstr "Kasa Özeti"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Müşteri Segmentasyonu"
+msgstr "Müşteri Segmentasyonu"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Proje Kârlılığı"
+msgstr "Proje Kârlılığı"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "İletişim Raporu"
+msgstr "İletişim Raporu"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Excel (XLSX)"
+msgstr "Excel (XLSX)"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "HTML (Tarayıcıda Aç)"
+msgstr "HTML (Tarayıcıda Aç)"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Özel Aralık"
+msgstr "Özel Aralık"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bugün"
+msgstr "Bugün"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Dün"
+msgstr "Dün"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bu Hafta"
+msgstr "Bu Hafta"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Geçen Hafta"
+msgstr "Geçen Hafta"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bu Ay"
+msgstr "Bu Ay"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Geçen Ay"
+msgstr "Geçen Ay"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bu Çeyrek"
+msgstr "Bu Çeyrek"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Bu Yıl"
+msgstr "Bu Yıl"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Geçen Yıl"
+msgstr "Geçen Yıl"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Tüm Zamanlar"
+msgstr "Tüm Zamanlar"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Yapılandır"
+msgstr "Yapılandır"
+
+#. module: tcrm_propertio
+#: wizard/propertio_unified_report_wizard.py
+msgid "Hazır"
+msgstr "Hazır"
+
+#. module: tcrm_propertio
+#: wizard/propertio_sale_wizard.py
+msgid "Fixed Amount"
+msgstr "Fixed Tutar"
+
+#. module: tcrm_propertio
+#: wizard/propertio_sale_wizard.py
+msgid "At End"
+msgstr "Sonda"
+
+#. module: tcrm_propertio
+#: wizard/propertio_sale_wizard.py
+msgid "Middle"
+msgstr "Ortada"
+
+#. module: tcrm_propertio
+#: wizard/propertio_payment_cancel_wizard.py
+msgid "Only posted payments can be submitted for cancellation."
+msgstr "Yalnızca onaylı ödemeler iptal talebine gönderilebilir."
+
+#. module: tcrm_propertio
+#: wizard/propertio_payment_cancel_wizard.py
+msgid "A pending cancellation request already exists for this payment."
+msgstr "Bu ödeme için zaten bekleyen bir iptal talebi var."
+
+#. module: tcrm_propertio
+#: wizard/propertio_payment_cancel_wizard.py
+msgid "Cancellation requested. A sales manager must approve before the payment is reversed."
+msgstr "İptal talep edildi. Ödemenin ters kayıt ile iptal edilmesi için bir satış yöneticisi onaylamalıdır."
+
+#. module: tcrm_propertio
+#: wizard/propertio_log_call_wizard.py
+msgid "No Answer"
+msgstr "Cevap Yok"
+
+#. module: tcrm_propertio
+#: wizard/propertio_log_call_wizard.py
+msgid "Payment Promised"
+msgstr "Ödeme Promised"
+
+#. module: tcrm_propertio
+#: wizard/propertio_log_call_wizard.py
+msgid "Payment Dispute"
+msgstr "Ödeme Dispute"
+
+#. module: tcrm_propertio
+#: wizard/propertio_log_call_wizard.py
+msgid "Partial Payment"
+msgstr "Kısmi Ödeme"
+
+#. module: tcrm_propertio
+#: wizard/propertio_report_export.py
+msgid "Sales & Collection Map"
+msgstr "Satış ve Collection Map"
+
+#. module: tcrm_propertio
+#: wizard/propertio_report_export.py
+msgid "Excel"
+msgstr "Excel"
+
+#. module: tcrm_propertio
+#: wizard/propertio_report_export.py
+msgid "Word"
+msgstr "Word"
+
+#. module: tcrm_propertio
+#: wizard/propertio_report_export.py
+msgid "Done"
+msgstr "Tamamlandı"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Sales Contract"
+msgstr "Satış Contract"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Buyer Details:"
+msgstr "Alıcı Bilgileri:"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Date:"
+msgstr "Tarih:"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Project:"
+msgstr "Proje:"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Unit Code:"
+msgstr "Birim Code:"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Property Details"
+msgstr "Gayrimenkul Detayları"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Block"
+msgstr "Blok"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Unit No"
+msgstr "Birim No"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Floor"
+msgstr "Kat"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Type"
+msgstr "Tip"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Gross Area"
+msgstr "Brüt Alan"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Net Area"
+msgstr "Net Alan"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "View"
+msgstr "Manzara"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Direction"
+msgstr "Cephe Yönü"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Financial Terms"
+msgstr "Finansal Koşullar"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Description"
+msgstr "Açıklama"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Amount"
+msgstr "Tutar"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Total Sale Price"
+msgstr "Toplam Satış Fiyatı"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Payment Plan"
+msgstr "Ödeme Planı"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Date"
+msgstr "Tarih"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Status"
+msgstr "Durum"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Buyer Signature"
+msgstr "Alıcı İmzası"
+
+#. module: tcrm_propertio
+#: reports/contract_template.xml
+msgid "Company Signature"
+msgstr "Şirket İmzası"
+
+#. module: tcrm_propertio
+#: reports/propertio_reports.xml
+msgid "Collection Report"
+msgstr "Collection Rapor"
+
+#. module: tcrm_propertio
+#: reports/propertio_reports.xml
+msgid "Collection Status Report"
+msgstr "Collection Durum Rapor"
+
+#. module: tcrm_propertio
+#: reports/propertio_reports.xml
+msgid "Sale Ref"
+msgstr "Satış Ref"
+
+#. module: tcrm_propertio
+#: reports/propertio_reports.xml
+msgid "Due Date"
+msgstr "Vade Tarihi"
+
+#. module: tcrm_propertio
+#: reports/propertio_reports.xml
+msgid "Residual"
+msgstr "Kalan (Bakiye)"
+
+#. module: tcrm_propertio
+#: data/propertio_cron.xml
+msgid "Propertio: Expire Offers"
+msgstr "Propertio: Teklifleri Sonlandır"
+
+#. module: tcrm_propertio
+#: data/propertio_cron.xml
+msgid "Propertio: Daily Advanced Leads Report Email"
+msgstr "Propertio: Daily Advanced Leads Rapor Email"
+
+#. module: tcrm_propertio
+#: data/crm_home_defaults.xml
+msgid "CRM"
+msgstr "CRM"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Konut Projesi"
+msgstr "Konut Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Villa Projesi"
+msgstr "Villa Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Ticari Dükkan Projesi"
+msgstr "Ticari Dükkan Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Karma Proje"
+msgstr "Karma Proje"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Devremülk Projesi"
+msgstr "Devremülk Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Arsa ve Parsel Projesi"
+msgstr "Arsa ve Parsel Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Kentsel Dönüşüm Projesi"
+msgstr "Kentsel Dönüşüm Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Rezidans Projesi"
+msgstr "Rezidans Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Ofis Projesi"
+msgstr "Ofis Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Sanayi veya Depo Projesi"
+msgstr "Sanayi veya Depo Projesi"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Planlama"
+msgstr "Planlama"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Ruhsat Süreci"
+msgstr "Ruhsat Süreci"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Projelendirme"
+msgstr "Projelendirme"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Satışa Hazır"
+msgstr "Satışa Hazır"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Ön Satışta"
+msgstr "Ön Satışta"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "İnşaat Başladı"
+msgstr "İnşaat Başladı"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "İnşaat Devam Ediyor"
+msgstr "İnşaat Devam Ediyor"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Teslime Hazır"
+msgstr "Teslime Hazır"
+
+#. module: tcrm_propertio
+#: data/propertio_project_master_data.xml
+msgid "Durduruldu"
+msgstr "Durduruldu"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Propertio Offer"
+msgstr "Propertio Teklifi"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Propertio Handover"
+msgstr "Propertio Teslimi"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Propertio Service Request"
+msgstr "Propertio Servis Talebi"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Legal Review"
+msgstr "Hukuki İnceleme"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Signed"
+msgstr "İmzalandı"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Completed"
+msgstr "Tamamlandı"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Contact - General"
+msgstr "Kişi - Genel"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Contract Ready"
+msgstr "Sözleşme Ready"
+
+#. module: tcrm_propertio
+#: data/propertio_data.xml
+msgid "Payment Reminder"
+msgstr "Ödeme Reminder"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Project by Company"
+msgstr "Propertio Proje by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Block by Company"
+msgstr "Propertio Block by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Unit by Company"
+msgstr "Propertio Birim by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Feature by Company"
+msgstr "Propertio Feature by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Sale by Company"
+msgstr "Propertio Satış by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Installment by Company"
+msgstr "Propertio Installment by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Payment by Company"
+msgstr "Propertio Ödeme by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Unit Category by Company"
+msgstr "Propertio Birim Category by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Unit Status by Company"
+msgstr "Propertio Birim Durum by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Project Type by Company"
+msgstr "Propertio Proje Tip by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Project Stage by Company"
+msgstr "Propertio Proje Stage by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Sale Stage by Company"
+msgstr "Propertio Satış Stage by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Collection Task by Company"
+msgstr "Propertio Collection Task by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio WhatsApp Template by Company"
+msgstr "Propertio WhatsApp Template by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Offer by Company"
+msgstr "Propertio Offer by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Document by Company"
+msgstr "Propertio Document by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Handover by Company"
+msgstr "Propertio Handover by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Handover Checklist by Company"
+msgstr "Propertio Handover Checklist by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Handover Issue by Company"
+msgstr "Propertio Handover Issue by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Title Deed by Company"
+msgstr "Propertio Title Deed by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Service Request by Company"
+msgstr "Propertio Service Request by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Target by Company"
+msgstr "Propertio Target by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Commission Rule by Company"
+msgstr "Propertio Commission Rule by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Commission by Company"
+msgstr "Propertio Commission by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Cash Register by Company"
+msgstr "Propertio Cash Register by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Cash Transaction by Company"
+msgstr "Propertio Cash Transaction by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio E-Invoice by Company"
+msgstr "Propertio E-Invoice by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Revenue Period by Company"
+msgstr "Propertio Revenue Period by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Notary by Company"
+msgstr "Propertio Notary by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Holiday by Company"
+msgstr "Propertio Holiday by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Audit Log by Company"
+msgstr "Propertio Audit Log by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Payment Cancel Request by Company"
+msgstr "Propertio Ödeme Cancel Request by Company"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Report Template by Company/User"
+msgstr "Propertio Rapor Template by Company/User"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Report Favorite by Company/User"
+msgstr "Propertio Rapor Favorite by Company/User"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Report Access Log by Company/User"
+msgstr "Propertio Rapor Access Log by Company/User"
+
+#. module: tcrm_propertio
+#: security/propertio_rules.xml
+msgid "Propertio Report Share by Company"
+msgstr "Propertio Rapor Share by Company"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Dashboard"
+msgstr "Gösterge Paneli"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Inventory"
+msgstr "Proje stok ve takibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Envanter"
+msgstr "Proje stok ve takibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Proje Stok ve Takibi"
+msgstr "Proje stok ve takibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Enter Payment"
+msgstr "Ödeme Gir"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Post Payment"
+msgstr "Ödemeyi Onayla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Discard"
+msgstr "Vazgeç"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment Ref"
+msgstr "Ödeme Ref"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment reference"
+msgstr "Ödeme referansı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Amount Paid"
+msgstr "Ödenen Tutar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment Currency"
+msgstr "Ödeme Para Birimi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment Date"
+msgstr "Ödeme Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Exchange Rate"
+msgstr "Döviz Kuru"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Covered Amount (Sale Curr)"
+msgstr "Karşılanan Tutar (Satış PB)"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Covered Amount"
+msgstr "Karşılanan Tutar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Amount & currency"
+msgstr "Tutar ve para birimi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Amount &amp; currency"
+msgstr "Tutar ve para birimi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Refund / Reversal Entry"
+msgstr "İade / Ters Kayıt"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Posted"
+msgstr "Onaylandı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Method"
+msgstr "Yöntem"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Option"
+msgstr "Opsiyon"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Handover"
+msgstr "Teslim"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Unit Number"
+msgstr "Birim No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gross M²"
+msgstr "Brüt m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Custom Status"
+msgstr "Özel Durum"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Document Type"
+msgstr "Belge Tipi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Filename"
+msgstr "Dosya Adı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "File"
+msgstr "Dosya"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Upload Date"
+msgstr "Yükleme Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Verified"
+msgstr "Doğrulandı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Verified By"
+msgstr "Doğrulayan"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Expiry Date"
+msgstr "Son Geçerlilik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Required for Sale"
+msgstr "Satış İçin Zorunlu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tapu Date"
+msgstr "Tapu Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Appointment"
+msgstr "Randevu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Notary Office"
+msgstr "Noterlik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Documents Ready"
+msgstr "Belgeler Alındı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Documents Received"
+msgstr "Belgeler Alındı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "TCMB Rate"
+msgstr "TCMB Kuru"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Down Payment Rate"
+msgstr "Peşinat Kuru"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Installment Rate"
+msgstr "Taksit Kuru"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Project Active?"
+msgstr "Proje Aktif mi?"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sale"
+msgstr "Satış"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "None"
+msgstr "Yok"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Collections"
+msgstr "Tahsilat"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "After Sales"
+msgstr "Satış Sonrası"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reporting"
+msgstr "Raporlama"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reports"
+msgstr "Raporlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Management"
+msgstr "Yönetim"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Configuration"
+msgstr "Yapılandırma"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Master Data"
+msgstr "Ana Veriler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Personnel & Partners"
+msgstr "Personel ve İş Ortakları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Personnel &amp; Partners"
+msgstr "Personel ve İş Ortakları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Unit Features"
+msgstr "Birim Özellikleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Project Types"
+msgstr "Proje Tipleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Project Stages"
+msgstr "Proje Aşamaları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property Categories"
+msgstr "Gayrimenkul Kategorileri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Detailed Statuses"
+msgstr "Detaylı Durumlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sale Stages"
+msgstr "Satış Aşamaları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Agencies"
+msgstr "Acenteler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Personnel"
+msgstr "Satış Personeli"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Contracts"
+msgstr "Satış Sözleşmeleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sale Contract"
+msgstr "Satış Sözleşmesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property Sale Contract"
+msgstr "Satış Sözleşmesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment Installment"
+msgstr "Taksit"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Installment"
+msgstr "Taksit"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Projects"
+msgstr "Projeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Units"
+msgstr "Birimler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Blocks"
+msgstr "Bloklar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Offers"
+msgstr "Teklifler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payments"
+msgstr "Ödemeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Audit Log"
+msgstr "Denetim Kaydı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reports Center"
+msgstr "Rapor Merkezi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Report Center"
+msgstr "Rapor Merkezi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tahsilat ve Ödemeler"
+msgstr "Tahsilat ve Ödemeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Satış Raporları"
+msgstr "Satış Raporları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Müşteri Raporları"
+msgstr "Müşteri Raporları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Mali Raporlar"
+msgstr "Mali Raporlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Performans Raporları"
+msgstr "Performans Raporları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gayrimenkul Raporları"
+msgstr "Gayrimenkul Raporları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Yönetim ve Uyum"
+msgstr "Yönetim ve Uyum"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Pazarlama ve Müşteri Adayları"
+msgstr "Pazarlama ve Müşteri Adayları"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Create Reminder"
+msgstr "Hatırlatıcı oluştur"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reminder To-Do"
+msgstr "Hatırlatıcı Yapılacak"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reminder Calendar Event"
+msgstr "Hatırlatıcı Takvim Etkinliği"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Contract Reference"
+msgstr "Sözleşme Referansı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Contract Ref"
+msgstr "Sözleşme Ref."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Contract No"
+msgstr "Sözleşme No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Manual Contract No"
+msgstr "Manuel Sözleşme No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Customer"
+msgstr "Müşteri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "CRM Opportunity"
+msgstr "CRM Fırsatı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Unit"
+msgstr "Birim"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Company"
+msgstr "Şirket"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sale Stage"
+msgstr "Satış Aşaması"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Project"
+msgstr "Proje"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Entrance"
+msgstr "Giriş"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gross M2"
+msgstr "Brüt m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Net M2"
+msgstr "Net m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gen. Gross M2"
+msgstr "Gen. Brüt m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Facade"
+msgstr "Cephe"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property Category"
+msgstr "Gayrimenkul Kategorisi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Master Status"
+msgstr "Ana Durum"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Parking No"
+msgstr "Otopark No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Parking Type"
+msgstr "Otopark Tipi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Unit Code"
+msgstr "Birim Kodu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tapu Ref"
+msgstr "Tapu Ref."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Balcony M2"
+msgstr "Balkon m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Terrace M2"
+msgstr "Teras m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Garden M2"
+msgstr "Bahçe m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Floor Gross M2"
+msgstr "Kat Brüt m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Ground M2"
+msgstr "Zemin m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Normal M2"
+msgstr "Normal m²"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sale Price"
+msgstr "Satış Fiyatı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Currency"
+msgstr "Para Birimi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Agency 1"
+msgstr "Acente 1"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Agency 2"
+msgstr "Acente 2"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Person 1"
+msgstr "Satış Danışmanı 1"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Person 2"
+msgstr "Satış Danışmanı 2"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Person"
+msgstr "Satış Danışmanı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Office"
+msgstr "Satış Ofisi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Department"
+msgstr "Departman"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Contact Person"
+msgstr "İlgili Kişi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Activity Person"
+msgstr "Aktivite Sorumlusu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "TC/National ID"
+msgstr "TC Kimlik No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Passport No"
+msgstr "Pasaport No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Father Name"
+msgstr "Baba Adı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Spouse Name"
+msgstr "Eş Adı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Accounting Code"
+msgstr "Muhasebe Kodu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Status Detail"
+msgstr "Durum Detayı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "VIP Customer"
+msgstr "VIP Müşteri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "VIP Note"
+msgstr "VIP Notu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Contract Date"
+msgstr "Sözleşme Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Notary Date"
+msgstr "Noter Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Notary Ref No"
+msgstr "Noter Ref. No"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Notarized?"
+msgstr "Noter Onaylı mı?"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Notary Note"
+msgstr "Noter Notu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment Method Detail"
+msgstr "Ödeme Yöntemi Detayı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Bank Validated?"
+msgstr "Banka Onaylı mı?"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Bank Approval Date"
+msgstr "Banka Onay Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Discount Amount"
+msgstr "İndirim Tutarı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Calc. Discount"
+msgstr "Hesaplanan İndirim"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Maturity Diff."
+msgstr "Vade Farkı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Calc. Maturity Diff."
+msgstr "Hesaplanan Vade Farkı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Invoice Status"
+msgstr "Fatura Durumu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Bank Doc Status"
+msgstr "Banka Belge Durumu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reserve Date"
+msgstr "Rezervasyon Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Credit Usage Date"
+msgstr "Kredi Kullandırım Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sale Date"
+msgstr "Satış Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Order Date"
+msgstr "Sipariş Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Required"
+msgstr "Zorunlu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Uploaded"
+msgstr "Yüklendi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Total Paid"
+msgstr "Toplam Ödenen"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Balance"
+msgstr "Bakiye"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Total Amount"
+msgstr "Toplam Tutar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Canceled"
+msgstr "İptal Edildi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Confirm Sale"
+msgstr "Satışı Onayla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Cancel"
+msgstr "İptal"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Name"
+msgstr "Ad"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Notes"
+msgstr "Notlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sequence"
+msgstr "Sıra"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Color"
+msgstr "Renk"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Icon"
+msgstr "İkon"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "City"
+msgstr "Şehir"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Country"
+msgstr "Ülke"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Address"
+msgstr "Adres"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Phone"
+msgstr "Telefon"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Email"
+msgstr "E-posta"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Priority"
+msgstr "Öncelik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Source"
+msgstr "Kaynak"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Lead Source"
+msgstr "Müşteri Kaynağı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Campaign"
+msgstr "Kampanya"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tags"
+msgstr "Etiketler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Stage"
+msgstr "Aşama"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Probability"
+msgstr "Olasılık"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Expected Revenue"
+msgstr "Beklenen Gelir"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Available"
+msgstr "Müsait"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reserved"
+msgstr "Rezerve"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sold"
+msgstr "Satıldı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Delivered"
+msgstr "Teslim Edildi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Under Construction"
+msgstr "İnşaat Halinde"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Ready to Move"
+msgstr "Yerleşime Hazır"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Residential"
+msgstr "Konut"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Commercial"
+msgstr "Ticari"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Selling"
+msgstr "Satışta"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Planning"
+msgstr "Planlama"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Referral"
+msgstr "Referans"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Social Media"
+msgstr "Sosyal Medya"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Website"
+msgstr "Web Sitesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Walk-in"
+msgstr "Ofis Ziyareti"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Exhibition"
+msgstr "Fuar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Indoor / Showroom"
+msgstr "İç Mekan / Showroom"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Landline"
+msgstr "Sabit Hat"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Portal"
+msgstr "Portal"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment"
+msgstr "Ödeme"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Installment Amount"
+msgstr "Taksit Tutarı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Payment Method"
+msgstr "Ödeme Yöntemi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Bank Transfer"
+msgstr "Havale/EFT"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Cheque"
+msgstr "Çek"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Receipt"
+msgstr "Makbuz"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales & Collection Report"
+msgstr "Tahsilat ve Satış Durumu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales &amp; Collection Report"
+msgstr "Tahsilat ve Satış Durumu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Project GDV / Plan Table"
+msgstr "Proje Nakit Durumu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Agent Leaderboard"
+msgstr "Danışman Karnesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Red Alert Customers"
+msgstr "Kırmızı Alarm Müşteriler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Global period"
+msgstr "Global dönem"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "From"
+msgstr "Başlangıç"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "To"
+msgstr "Bitiş"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reset"
+msgstr "Sıfırla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Print"
+msgstr "Yazdır"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Generate"
+msgstr "Oluştur"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Preview"
+msgstr "Önizleme"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Filter"
+msgstr "Filtre"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Search"
+msgstr "Ara"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Group By"
+msgstr "Grupla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Favorites"
+msgstr "Favoriler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Save"
+msgstr "Kaydet"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Create"
+msgstr "Oluştur"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Edit"
+msgstr "Düzenle"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Delete"
+msgstr "Sil"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Confirm"
+msgstr "Onayla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Lost"
+msgstr "Kayıp"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Won"
+msgstr "Satış Yapıldı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Kazanıldı"
+msgstr "Kazanıldı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Created"
+msgstr "Oluşturma Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Creation Date"
+msgstr "Oluşturma Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Oluşturuldu"
+msgstr "Oluşturma Tarihi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Generate Leads"
+msgstr "Lead Oluştur"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Inbox"
+msgstr "Gelen Kutusu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Today"
+msgstr "Bugün"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "This Week"
+msgstr "Bu Hafta"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "This Month"
+msgstr "Bu Ay"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Later"
+msgstr "Daha Sonra"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Investor"
+msgstr "Yatırımcı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Contracts"
+msgstr "Sözleşmeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property"
+msgstr "Gayrimenkul"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Target Property"
+msgstr "Hedef Gayrimenkul"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property Project"
+msgstr "Gayrimenkul Projesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property Unit"
+msgstr "Gayrimenkul Birimi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Property Contracts"
+msgstr "Gayrimenkul Sözleşmeleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gayrimenkul Projesi"
+msgstr "Gayrimenkul Projesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gayrimenkul Birimi"
+msgstr "Gayrimenkul Birimi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Gayrimenkul Sözleşmeleri"
+msgstr "Gayrimenkul Sözleşmeleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Lead / Opportunity"
+msgstr "Lead / Fırsat"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "New Leads"
+msgstr "Yeni Leadler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Qualified Leads"
+msgstr "Nitelikli Leadler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Opportunities"
+msgstr "Fırsatlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "My Leads"
+msgstr "Leadlerim"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Salesperson"
+msgstr "Satış Danışmanı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sales Team"
+msgstr "Satış Ekibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tag"
+msgstr "Etiket"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Project Name"
+msgstr "Proje Adı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Amenities & Features"
+msgstr "Olanaklar ve Özellikler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Amenities &amp; Features"
+msgstr "Olanaklar ve Özellikler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Standard Amenities"
+msgstr "Standart Olanaklar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Available Upgrades"
+msgstr "Mevcut Yükseltmeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Total GDV"
+msgstr "Toplam GDV"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Toplam GDV"
+msgstr "Toplam GDV"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Features & Upgrades"
+msgstr "Özellikler ve Yükseltmeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Features &amp; Upgrades"
+msgstr "Özellikler ve Yükseltmeler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Financial Stats"
+msgstr "Mali İstatistikler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Addable Features"
+msgstr "Eklenebilir Özellikler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Eklenebilir Özellikler"
+msgstr "Eklenebilir Özellikler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Category"
+msgstr "Kategori"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Search reports"
+msgstr "Rapor ara"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Rapor ara"
+msgstr "Rapor ara"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Ara"
+msgstr "Ara"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Run"
+msgstr "Çalıştır"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "List"
+msgstr "Liste"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Groups"
+msgstr "Gruplar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Chart"
+msgstr "Grafik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Loading report..."
+msgstr "Rapor yükleniyor..."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Rapor yükleniyor..."
+msgstr "Rapor yükleniyor..."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Accrual"
+msgstr "Tahakkuk"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Group"
+msgstr "Grup"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Grup"
+msgstr "Grup"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Chart Group"
+msgstr "Grafik Grubu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Grafik Grubu"
+msgstr "Grafik Grubu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Chart Metric"
+msgstr "Grafik Metriği"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Grafik Metriği"
+msgstr "Grafik Metriği"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Auto"
+msgstr "Otomatik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Otomatik"
+msgstr "Otomatik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tümü"
+msgstr "Tümü"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Showing first 500 rows. Exports include the filtered result set."
+msgstr "İlk 500 satır gösteriliyor. Dışa aktarımlar filtrelenmiş sonucu içerir."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "The report could not be generated. Check server logs for details."
+msgstr "Rapor oluşturulamadı. Ayrıntılar için sunucu günlüklerine bakın."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Report preset name"
+msgstr "Rapor ön ayar adı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Report preset saved."
+msgstr "Rapor ön ayarı kaydedildi."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "No chart data for current filters."
+msgstr "Mevcut filtreler için grafik verisi yok."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Mevcut filtreler için grafik verisi yok."
+msgstr "Mevcut filtreler için grafik verisi yok."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Choose a Group field and apply."
+msgstr "Bir grup alanı seçip uygulayın."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Bir grup alanı seçip uygulayın."
+msgstr "Bir grup alanı seçip uygulayın."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "No data found for the selected filters."
+msgstr "Seçilen filtreler için veri bulunamadı."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Seçilen filtreler için veri bulunamadı."
+msgstr "Seçilen filtreler için veri bulunamadı."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Hatırlatıcı Yapılacak"
+msgstr "Hatırlatıcı Yapılacak"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Hatırlatıcı Takvim Etkinliği"
+msgstr "Hatırlatıcı Takvim Etkinliği"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Create a calendar event and personal To-Do when scheduling a CRM lead activity."
+msgstr "CRM lead aktivitesi planlanırken takvim etkinliği ve kişisel Yapılacak oluştur."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tip Bazlı Satış ve Envanter"
+msgstr "Tip Bazlı Satış ve Proje Stok ve Takibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tipe Göre Satış ve Envanter"
+msgstr "Tipe Göre Satış ve Proje Stok ve Takibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "2. Tipe Göre Satış ve Envanter"
+msgstr "2. Tipe Göre Satış ve Proje Stok ve Takibi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Related Sale"
+msgstr "İlgili Satış"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Create Sale Contract"
+msgstr "Satış Sözleşmesi Oluştur"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Reservation"
+msgstr "Rezervasyon"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Complaint"
+msgstr "Şikayet"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Request"
+msgstr "Talep"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Ticket"
+msgstr "Destek Kaydı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Assigned To"
+msgstr "Atanan"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Created On"
+msgstr "Oluşturulma"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Last Update"
+msgstr "Son Güncelleme"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Total"
+msgstr "Toplam"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Subtotal"
+msgstr "Ara Toplam"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Tax"
+msgstr "Vergi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "List Price"
+msgstr "Liste Fiyatı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Discount"
+msgstr "İndirim"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Commission"
+msgstr "Komisyon"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Broker"
+msgstr "Broker"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Agency"
+msgstr "Acente"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Customer Type"
+msgstr "Müşteri Tipi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Individual"
+msgstr "Bireysel"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Marital Status"
+msgstr "Medeni Durum"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Single"
+msgstr "Bekar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Married"
+msgstr "Evli"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Divorced"
+msgstr "Boşanmış"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Widowed"
+msgstr "Dul"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "ID Type"
+msgstr "Kimlik Tipi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "National ID"
+msgstr "TC Kimlik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Passport"
+msgstr "Pasaport"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Risk Level"
+msgstr "Risk Seviyesi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Too expensive"
+msgstr "Çok pahalı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Unit Reservation Fee"
+msgstr "Birim Rezervasyon Ücreti"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Residential Unit (Property Sale)"
+msgstr "Konut Birimi (Gayrimenkul Satışı)"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "1+1 Apartment"
+msgstr "1+1 Daire"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "2+1 Apartment"
+msgstr "2+1 Daire"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "3+1 Apartment"
+msgstr "3+1 Daire"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Villa"
+msgstr "Villa"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Swimming Pool"
+msgstr "Yüzme Havuzu"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Fitness Center"
+msgstr "Fitness Merkezi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Sea View"
+msgstr "Deniz Manzarası"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Covered Parking"
+msgstr "Kapalı Otopark"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "City View"
+msgstr "Şehir Manzarası"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Garden View"
+msgstr "Bahçe Manzarası"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Pool View"
+msgstr "Havuz Manzarası"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Panoramic"
+msgstr "Panoramik"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Block A"
+msgstr "Blok A"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Block B"
+msgstr "Blok B"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Block C"
+msgstr "Blok C"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Yes"
+msgstr "Evet"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "No"
+msgstr "Hayır"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "This Year"
+msgstr "Bu Yıl"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Custom"
+msgstr "Özel"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Actions"
+msgstr "İşlemler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "More"
+msgstr "Daha Fazla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Settings"
+msgstr "Ayarlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Help"
+msgstr "Yardım"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Information"
+msgstr "Bilgi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "General"
+msgstr "Genel"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Details"
+msgstr "Detaylar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "History"
+msgstr "Geçmiş"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Attachments"
+msgstr "Ekler"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Messages"
+msgstr "Mesajlar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Schedule"
+msgstr "Planla"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Activity"
+msgstr "Aktivite"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Log Note"
+msgstr "Not Ekle"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Send Message"
+msgstr "Mesaj Gönder"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Mark as Done"
+msgstr "Tamamlandı İşaretle"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "On Hold"
+msgstr "Beklemede"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Archived"
+msgstr "Arşivlendi"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Archive"
+msgstr "Arşivle"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Unarchive"
+msgstr "Arşivden Çıkar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Duplicate"
+msgstr "Çoğalt"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Import"
+msgstr "İçe Aktar"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Refresh"
+msgstr "Yenile"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Apply"
+msgstr "Uygula"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Clear"
+msgstr "Temizle"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Back"
+msgstr "Geri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Next"
+msgstr "İleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Previous"
+msgstr "Önceki"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Finish"
+msgstr "Bitir"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Start"
+msgstr "Başlat"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Stop"
+msgstr "Durdur"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Warning"
+msgstr "Uyarı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Error"
+msgstr "Hata"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Success"
+msgstr "Başarılı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Loading"
+msgstr "Yükleniyor"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "No data"
+msgstr "Veri yok"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "No records found"
+msgstr "Kayıt bulunamadı"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Are you sure?"
+msgstr "Emin misiniz?"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "This action cannot be undone."
+msgstr "Bu işlem geri alınamaz."
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Print & Export Options"
+msgstr "Yazdır / Dışa Aktar Seçenekleri"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "dosyayı İndir"
+msgstr "Dosyayı İndir"
+
+#. module: tcrm_propertio
+#: glossary
+msgid "Budget & Preferences"
+msgstr "Bütçe ve Tercihler"
+
+# ========== CRM term overrides (import into crm tr.po if needed) ==========
+#. module: crm
+msgid "CRM"
+msgstr "Müşteri Takibi"
+
+#. module: crm
+msgid "Leads"
+msgstr "Yeni Müşteriler"
+
+#. module: crm
+msgid "Lead"
+msgstr "Yeni Müşteri"
+
+#. module: crm
+msgid "Opportunity"
+msgstr "Satış Bekleyen"
+
+#. module: crm
+msgid "Opportunities"
+msgstr "Satış Bekleyenler"
+
+#. module: crm
+msgid "Source"
+msgstr "Kaynak"
+

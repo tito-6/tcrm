@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_tcrm_tenant_invoice" model="ir.sequence">
+            <field name="name">Tenant Billing Invoice</field>
+            <field name="code">tcrm.tenant.invoice</field>
+            <field name="prefix">TINV/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="cron_tcrm_generate_recurring_invoices" model="ir.cron">
+            <field name="name">TCRM Generate Recurring Tenant Invoices</field>
+            <field name="model_id" ref="model_tcrm_tenant_invoice"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_recurring_invoices()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_tcrm_mark_overdue_and_notify" model="ir.cron">
+            <field name="name">TCRM Mark Overdue Tenant Invoices</field>
+            <field name="model_id" ref="model_tcrm_tenant_invoice"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_mark_overdue_and_notify()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_tcrm_santral" model="ir.module.category">
+            <field name="name">Santral</field>
+            <field name="sequence">47</field>
+        </record>
+
+        <record id="privilege_tcrm_santral" model="res.groups.privilege">
+            <field name="name">Santral</field>
+            <field name="category_id" ref="module_category_tcrm_santral"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_santral_user" model="res.groups">
+            <field name="name">Santral Kullanıcısı</field>
+            <field name="privilege_id" ref="privilege_tcrm_santral"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Place permitted browser calls and view own/team call records.</field>
+        </record>
+
+        <record id="group_santral_admin" model="res.groups">
+            <field name="name">Santral Yöneticisi</field>
+            <field name="privilege_id" ref="privilege_tcrm_santral"/>
+            <field name="implied_ids" eval="[(4, ref('group_santral_user'))]"/>
+            <field name="comment">Manage tenant provider configuration and reporting.</field>
+        </record>
+
+        <record id="group_santral_recording_listen" model="res.groups">
+            <field name="name">Çağrı Kaydı Dinleme Yetkisi</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Explicit permission to play call recordings.</field>
+        </record>
+
+        <record id="group_santral_recording_download" model="res.groups">
+            <field name="name">Çağrı Kaydı İndirme Yetkisi</field>
+            <field name="implied_ids" eval="[(4, ref('group_santral_recording_listen'))]"/>
+            <field name="comment">Explicit permission to download call recordings.</field>
+        </record>
+    </data>
+</odoo>

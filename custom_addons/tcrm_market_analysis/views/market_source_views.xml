@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_market_source_list" model="ir.ui.view">
+        <field name="name">tcrm.market.source.list</field>
+        <field name="model">tcrm.market.source</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="source_type"/>
+                <field name="state"/>
+                <field name="authorization_state"/>
+                <field name="health"/>
+                <field name="last_success_at"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_market_source_form" model="ir.ui.view">
+        <field name="name">tcrm.market.source.form</field>
+        <field name="model">tcrm.market.source</field>
+        <field name="arch" type="xml">
+            <form string="Market Source">
+                <header>
+                    <button name="action_enable" type="object" string="Enable" class="btn-primary"
+                            invisible="state == 'enabled'"/>
+                    <button name="action_disable" type="object" string="Disable"
+                            invisible="state != 'enabled'"/>
+                    <button name="action_scrape_now" type="object" string="Scrape Now" class="btn-primary"
+                            invisible="source_type != 'sahibinden' or state != 'enabled'"/>
+                    <button name="action_test_connection" type="object" string="Test Connection"/>
+                    <button name="action_kill_switch" type="object" string="Kill Switch" class="btn-danger"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,enabled,disabled,error"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="source_type"/>
+                            <field name="authorization_state"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="health"/>
+                            <field name="kill_switch"/>
+                        </group>
+                        <group>
+                            <field name="last_success_at"/>
+                            <field name="last_failure_at"/>
+                            <field name="rate_limit_state"/>
+                            <field name="retention_days"/>
+                            <field name="max_pages"/>
+                            <field name="max_records"/>
+                            <field name="mapping_version"/>
+                        </group>
+                    </group>
+                    <group string="Authorization (admins)" groups="tcrm_market_analysis.group_market_admin">
+                        <field name="authorized_endpoint"/>
+                        <field name="api_scope"/>
+                        <field name="credential_ref" password="True"/>
+                        <field name="credential_secret" password="True"/>
+                        <field name="authorization_evidence"/>
+                    </group>
+                    <group string="Browser session (manual paste)" groups="tcrm_market_analysis.group_market_admin"
+                           invisible="source_type != 'sahibinden'">
+                        <div colspan="2" class="text-muted">
+                            1) In the same network/IP as this TCRM server, open
+                            https://www.sahibinden.com/satilik-daire and get HTTP 200.
+                            2) DevTools → Network → that document request → Request Headers.
+                            3) Paste User-Agent below, and paste Cookie (or the whole Request Headers block)
+                            into the cookie field. cf_clearance expires quickly and is IP+UA bound.
+                            TCRM does not read your browser profile and does not bypass Cloudflare.
+                        </div>
+                        <field name="browser_user_agent" placeholder="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ..."/>
+                        <field name="browser_cookie" widget="text"
+                                 placeholder="cookie: vid=...; cf_clearance=...&#10;or paste full Request Headers block"/>
+                    </group>
+                    <group string="Collection Filters" invisible="source_type != 'sahibinden'">
+                        <group>
+                            <field name="filter_transaction"/>
+                            <field name="filter_category"/>
+                            <field name="filter_province" placeholder="e.g. İstanbul"/>
+                            <field name="filter_district" placeholder="e.g. Kadıköy"/>
+                            <field name="filter_neighborhood" placeholder="e.g. Moda"/>
+                            <field name="fetch_details"/>
+                            <field name="schedule_enabled"/>
+                        </group>
+                        <group string="Run Status">
+                            <field name="scrape_state"/>
+                            <field name="scrape_progress" widget="progressbar"/>
+                            <field name="scrape_progress_message"/>
+                            <field name="last_run_at"/>
+                            <field name="error_log"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="capabilities_display"/>
+                        <field name="capabilities_json" groups="tcrm_market_analysis.group_market_admin"/>
+                        <field name="last_error"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_market_source" model="ir.actions.act_window">
+        <field name="name">Veri Kaynakları</field>
+        <field name="res_model">tcrm.market.source</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_propertio_collection_task_tree" model="ir.ui.view">
+        <field name="name">propertio.collection.task.tree</field>
+        <field name="model">propertio.collection.task</field>
+        <field name="arch" type="xml">
+            <list string="Tahsilat Kuyruğu" create="false" delete="false">
+                <header>
+                    <button name="action_generate_tasks" string="Gecikmişlerden Görev Oluştur" type="object" class="btn-primary" display="always"/>
+                </header>
+                <field name="partner_id"/>
+                <field name="sale_id"/>
+                <field name="installment_id"/>
+                <field name="overdue_days"/>
+                <field name="amount_due"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="contact_attempts"/>
+                <field name="last_contact_date"/>
+                <field name="last_contact_result"/>
+                <field name="next_action_date"/>
+                <field name="assigned_to"/>
+                <button name="action_log_call" string="Arama Kaydet" type="object" class="btn-link" icon="fa-phone"/>
+                <button name="action_mark_paid" string="Ödendi İşaretle" type="object" class="btn-link" icon="fa-money"/>
+                <button name="action_send_reminder" string="Hatırlatıcı Gönder" type="object" class="btn-link" icon="fa-bell"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_propertio_collection_task_form" model="ir.ui.view">
+        <field name="name">propertio.collection.task.form</field>
+        <field name="model">propertio.collection.task</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="installment_id"/>
+                            <field name="partner_id"/>
+                            <field name="sale_id"/>
+                            <field name="overdue_days"/>
+                            <field name="amount_due"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="contact_attempts"/>
+                            <field name="last_contact_date"/>
+                            <field name="last_contact_result"/>
+                            <field name="promise_date"/>
+                            <field name="next_action_date"/>
+                            <field name="assigned_to"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" nolabel="1" placeholder="Arama notları..."/>
+                    </group>
+                    <footer>
+                        <button name="action_log_call" string="Arama Kaydet" type="object" class="btn-primary"/>
+                        <button name="action_mark_paid" string="Ödeme Gir" type="object" class="btn-secondary"/>
+                        <button name="action_send_reminder" string="Hatırlatıcı Gönder" type="object" class="btn-link"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_propertio_collection_queue" model="ir.actions.act_window">
+        <field name="name">Tahsilat Kuyruğu</field>
+        <field name="res_model">propertio.collection.task</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Gecikmiş taksitlerden görev oluşturmak için "Gecikmişlerden Görev Oluştur"a tıklayın.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_propertio_collection_queue"
+              name="Tahsilat Kuyruğu"
+              parent="menu_propertio_collections"
+              action="action_propertio_collection_queue"
+              sequence="5"/>
+
+    <!-- Log Call Wizard -->
+    <record id="view_propertio_log_call_wizard_form" model="ir.ui.view">
+        <field name="name">propertio.log.call.wizard.form</field>
+        <field name="model">propertio.log.call.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Arama Kaydet">
+                <group>
+                    <field name="task_id" invisible="1"/>
+                    <field name="last_contact_result"/>
+                    <field name="promise_date" invisible="last_contact_result != 'promise'"/>
+                    <field name="next_action_date"/>
+                    <field name="notes" placeholder="Arama notları..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Kaydet" type="object" class="btn-primary"/>
+                    <button string="İptal" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

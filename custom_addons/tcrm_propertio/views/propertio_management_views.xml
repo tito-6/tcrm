@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Targets -->
+    <record id="view_propertio_target_tree" model="ir.ui.view">
+        <field name="name">propertio.target.tree</field>
+        <field name="model">propertio.target</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id" string="Danışman"/>
+                <field name="period_type" string="Dönem"/>
+                <field name="date_from" string="Başlangıç"/>
+                <field name="date_to" string="Bitiş"/>
+                <field name="project_id" string="Proje"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="target_units" string="Hedef Birim"/>
+                <field name="target_amount" string="Hedef Tutar" widget="monetary"/>
+                <field name="actual_units" string="Gerçekleşen"/>
+                <field name="actual_amount" string="Gerçekleşen Tutar" widget="monetary"/>
+                <field name="achievement_pct" string="Başarı %"/>
+                <field name="state" string="Durum" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_propertio_target_form" model="ir.ui.view">
+        <field name="name">propertio.target.form</field>
+        <field name="model">propertio.target</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="user_id"/>
+                        <field name="period_type"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="project_id"/>
+                        <field name="target_units"/>
+                        <field name="target_amount"/>
+                        <field name="target_collection"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="actual_units"/>
+                        <field name="actual_amount"/>
+                        <field name="actual_collection"/>
+                        <field name="achievement_pct"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_target" model="ir.actions.act_window">
+        <field name="name">Hedefler</field>
+        <field name="res_model">propertio.target</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Commission -->
+    <record id="view_propertio_commission_rule_tree" model="ir.ui.view">
+        <field name="name">propertio.commission.rule.tree</field>
+        <field name="model">propertio.commission.rule</field>
+        <field name="arch" type="xml">
+            <list><field name="name"/><field name="rule_type"/><field name="rate_pct"/><field name="active"/></list>
+        </field>
+    </record>
+    <record id="view_propertio_commission_tree" model="ir.ui.view">
+        <field name="name">propertio.commission.tree</field>
+        <field name="model">propertio.commission</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id" string="Danışman"/>
+                <field name="period_from" string="Dönem Başlangıç"/>
+                <field name="period_to" string="Dönem Bitiş"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="gross_commission" string="Brüt Komisyon" widget="monetary"/>
+                <field name="deductions" string="Kesintiler" widget="monetary"/>
+                <field name="net_commission" string="Net Komisyon" widget="monetary"/>
+                <field name="state" string="Durum" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_propertio_commission" model="ir.actions.act_window">
+        <field name="name">Komisyonlar</field>
+        <field name="res_model">propertio.commission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_propertio_commission_rule" model="ir.actions.act_window">
+        <field name="name">Komisyon Kuralları</field>
+        <field name="res_model">propertio.commission.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Cash Register -->
+    <record id="view_propertio_cash_register_tree" model="ir.ui.view">
+        <field name="name">propertio.cash.register.tree</field>
+        <field name="model">propertio.cash.register</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="currency_id"/>
+                <field name="responsible_id"/>
+                <field name="opening_balance"/>
+                <field name="current_balance"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_propertio_cash_register_form" model="ir.ui.view">
+        <field name="name">propertio.cash.register.form</field>
+        <field name="model">propertio.cash.register</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="currency_id"/>
+                        <field name="responsible_id"/>
+                        <field name="opening_balance"/>
+                        <field name="current_balance"/>
+                    </group>
+                    <field name="transaction_ids">
+                        <list editable="bottom">
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="amount"/>
+                            <field name="reference"/>
+                            <field name="description"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_propertio_cash_register" model="ir.actions.act_window">
+        <field name="name">Kasalar</field>
+        <field name="res_model">propertio.cash.register</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menus: Management -->
+    <menuitem id="menu_propertio_management" name="Yönetim" parent="menu_propertio_root" sequence="45"/>
+    <menuitem id="menu_propertio_target" name="Hedefler" parent="menu_propertio_management" action="action_propertio_target" sequence="10"/>
+    <menuitem id="menu_propertio_commission" name="Komisyonlar" parent="menu_propertio_management" action="action_propertio_commission" sequence="20"/>
+    <menuitem id="menu_propertio_commission_rule" name="Komisyon Kuralları" parent="menu_propertio_management" action="action_propertio_commission_rule" sequence="25"/>
+    <menuitem id="menu_propertio_cash_register" name="Kasalar" parent="menu_propertio_management" action="action_propertio_cash_register" sequence="30"/>
+</odoo>

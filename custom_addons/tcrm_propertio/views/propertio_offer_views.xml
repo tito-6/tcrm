@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_propertio_offer_tree" model="ir.ui.view">
+        <field name="name">propertio.offer.tree</field>
+        <field name="model">propertio.offer</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="unit_id"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="opportunity_id" optional="hide"/>
+                <field name="offer_price"/>
+                <field name="list_price"/>
+                <field name="discount_pct"/>
+                <field name="date_offer"/>
+                <field name="date_expiry"/>
+                <field name="state" widget="badge"
+                         decoration-muted="state == 'draft'"
+                         decoration-success="state == 'accepted'"
+                         decoration-danger="state in ('refused', 'expired', 'cancel')"
+                         decoration-warning="state == 'refund'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_propertio_offer_search" model="ir.ui.view">
+        <field name="name">propertio.offer.search</field>
+        <field name="model">propertio.offer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="unit_id"/>
+                <field name="user_id"/>
+                <filter string="Beklemede" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Kabul" name="accepted" domain="[('state', '=', 'accepted')]"/>
+                <filter string="İptal" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                <filter string="İade" name="refund" domain="[('state', '=', 'refund')]"/>
+                <group>
+                    <filter string="Durum" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Danışman" name="group_user" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_propertio_offer_form" model="ir.ui.view">
+        <field name="name">propertio.offer.form</field>
+        <field name="model">propertio.offer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_accept" string="Kabul Et → Satış" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_refuse" string="Reddet" type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="İptal Et" type="object"
+                            invisible="state not in ('draft', 'accepted')"
+                            confirm="Rezervasyonu iptal etmek istediğinize emin misiniz?"/>
+                    <button name="action_refund" string="İade" type="object" class="btn-warning"
+                            invisible="state not in ('accepted', 'cancel')"
+                            confirm="Rezervasyonu iade olarak işaretlemek istediğinize emin misiniz?"/>
+                    <button name="action_reset_to_draft" string="Beklemeye Al" type="object"
+                            invisible="state not in ('refused', 'expired', 'cancel', 'refund')"/>
+                    <button name="action_convert_to_sale" string="Satışa Dönüştür" type="object"
+                            invisible="state != 'accepted'"/>
+                    <field name="state" widget="statusbar"
+                            statusbar_visible="draft,accepted,cancel,refund"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="İPTAL" bg_color="bg-danger" invisible="state != 'cancel'"/>
+                    <widget name="web_ribbon" title="İADE" bg_color="bg-warning" invisible="state != 'refund'"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="unit_id"/>
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                            <field name="opportunity_id"/>
+                            <field name="sale_id" readonly="1"/>
+                            <field name="date_offer"/>
+                            <field name="date_expiry"/>
+                        </group>
+                        <group>
+                            <field name="offer_price"/>
+                            <field name="list_price"/>
+                            <field name="discount_pct"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="state_reason"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Müzakere / kapora notları…"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_propertio_offer" model="ir.actions.act_window">
+        <field name="name">Teklifler / Rezervasyonlar</field>
+        <field name="res_model">propertio.offer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_propertio_offer"
+              name="Teklifler / Rezervasyonlar"
+              parent="menu_propertio_sales"
+              action="action_propertio_offer"
+              sequence="15"/>
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_propertio_offer" model="ir.sequence">
+            <field name="name">Propertio Offer</field>
+            <field name="code">propertio.offer</field>
+            <field name="prefix">OFFER-</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_propertio_handover" model="ir.sequence">
+            <field name="name">Propertio Handover</field>
+            <field name="code">propertio.handover</field>
+            <field name="prefix">TSLM-</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_propertio_service_request" model="ir.sequence">
+            <field name="name">Propertio Service Request</field>
+            <field name="code">propertio.service.request</field>
+            <field name="prefix">SRV-</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_propertio_payment_cancel_request" model="ir.sequence">
+            <field name="name">Payment cancellation request</field>
+            <field name="code">propertio.payment.cancel.request</field>
+            <field name="prefix">PCAN-</field>
+            <field name="padding">5</field>
+        </record>
+        <!-- Sale Stages -->
+        <record id="stage_draft" model="propertio.sale.stage">
+            <field name="name">Draft</field>
+            <field name="sequence">10</field>
+            <field name="properties_definition">[
+                {"name": "contract_type", "type": "selection", "string": "Contract Type", "selection": [["standard", "Standard"], ["vip", "VIP"]]},
+                {"name": "initial_deposit_received", "type": "boolean", "string": "Initial Deposit Received?"}
+            ]</field>
+        </record>
+
+        <record id="stage_legal" model="propertio.sale.stage">
+            <field name="name">Legal Review</field>
+            <field name="sequence">20</field>
+            <field name="properties_definition">[
+                {"name": "lawyer_name", "type": "char", "string": "Lawyer Name"},
+                {"name": "documents_verified", "type": "boolean", "string": "Documents Verified?"},
+                {"name": "risk_level", "type": "selection", "string": "Risk Level", "selection": [["low", "Low"], ["medium", "Medium"], ["high", "High"]]}
+            ]</field>
+        </record>
+
+        <record id="stage_signed" model="propertio.sale.stage">
+            <field name="name">Signed</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="stage_completed" model="propertio.sale.stage">
+            <field name="name">Completed</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- WhatsApp Templates -->
+        <record id="whatsapp_template_contact" model="propertio.whatsapp.template">
+            <field name="name">Contact - General</field>
+            <field name="model">res.partner</field>
+            <field name="body">Hello {customer_name}, this is a message from Propertio.</field>
+        </record>
+        <record id="whatsapp_template_sale" model="propertio.whatsapp.template">
+            <field name="name">Contract Ready</field>
+            <field name="model">propertio.sale</field>
+            <field name="body">Hello, your contract {contract_ref} for unit {unit_name} is ready. Sale price: {sale_price}.</field>
+        </record>
+        <record id="whatsapp_template_installment" model="propertio.whatsapp.template">
+            <field name="name">Payment Reminder</field>
+            <field name="model">propertio.installment</field>
+            <field name="body">Reminder: Dear {customer_name}, your installment of {amount} is due on {due_date}. Contract: {contract_ref}.</field>
+        </record>
+    </data>
+</odoo>

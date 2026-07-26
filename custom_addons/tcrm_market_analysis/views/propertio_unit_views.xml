@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_propertio_unit_form_market" model="ir.ui.view">
+        <field name="name">propertio.unit.form.market</field>
+        <field name="model">propertio.unit</field>
+        <field name="inherit_id" ref="tcrm_propertio.view_propertio_unit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_market_comparables" type="object"
+                        class="oe_stat_button" icon="fa-balance-scale"
+                        groups="tcrm_market_analysis.group_market_viewer">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Emsal</span>
+                        <span class="o_stat_value"><field name="market_comparable_count"/></span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
