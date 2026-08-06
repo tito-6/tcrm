@@ -493,12 +493,6 @@ const callCenterServiceFactory = {
 
         async function hangup() {
             const callId = state.callId;
-            try {
-                activeCall?.disconnect?.();
-            } catch (_) {}
-            try {
-                if (device && device.disconnectAll) device.disconnectAll();
-            } catch (_) {}
             state.inCall = false;
             state.connecting = false;
             stopTimer();
@@ -512,6 +506,12 @@ const callCenterServiceFactory = {
                     console.warn("Server hangup RPC error:", e);
                 }
             }
+            try {
+                if (activeCall) activeCall.disconnect();
+            } catch (_) {}
+            try {
+                if (device && device.disconnectAll) device.disconnectAll();
+            } catch (_) {}
         }
 
         async function wrapup(payload = {}) {

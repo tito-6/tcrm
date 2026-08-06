@@ -174,29 +174,45 @@ class TwilioCallProvider(CallProviderBase):
             return 'Twilio, Türkiye aramalarında Türk caller ID kullanımına izin vermedi.'
         return ''
 
-    def terminate_call_leg(self, call_sid: str) -> bool:
-        if not call_sid:
+    def terminate_call_leg(self, call_sid: str = None, destination_number: str = None) -> bool:
+        if not call_sid and not destination_number:
             return False
         try:
             client = self._client()
-            # 1. Terminate target call SID directly
-            try:
-                client.calls(call_sid).update(status='completed')
-                _logger.info('Santral: Terminated call leg %s', call_sid)
-            except Exception as e:
-                _logger.info('Santral: direct update for leg %s: %s', call_sid, e)
+            sids_to_cancel = set()
 
-            # 2. Also terminate any child legs under this parent_call_sid
-            try:
-                children = client.calls.list(parent_call_sid=call_sid)
-                for child in children:
-                    if child.status in ('queued', 'ringing', 'in-progress'):
-                        client.calls(child.sid).update(status='completed')
-                        _logger.info('Santral: Terminated child leg %s under parent %s', child.sid, call_sid)
-            except Exception as e:
-                _logger.info('Santral: child list for parent %s: %s', call_sid, e)
+            if call_sid:
+                sids_to_cancel.add(call_sid)
+                try:
+                    children = client.calls.list(parent_call_sid=call_sid)
+                    for child in children:
+                        if child.status in ('queued', 'ringing', 'in-progress'):
+                            sids_to_cancel.add(child.sid)
+                except Exception as e:
+                    _logger.info('Santral: child list for parent %s: %s', call_sid, e)
+
+            if destination_number:
+                try:
+                    for st in ('ringing', 'queued', 'in-progress'):
+                        active_calls = client.calls.list(to=destination_number, status=st)
+                        for c in active_calls:
+                            sids_to_cancel.add(c.sid)
+                except Exception as e:
+                    _logger.info('Santral: list by destination %s: %s', destination_number, e)
+
+            for sid in sids_to_cancel:
+                try:
+                    client.calls(sid).update(status='completed')
+                    _logger.info('Santral: Force completed call leg %s', sid)
+                except Exception as e:
+                    try:
+                        client.calls(sid).update(status='canceled')
+                        _logger.info('Santral: Force canceled call leg %s', sid)
+                    except Exception as e2:
+                        _logger.info('Santral: failed update for sid %s: %s', sid, e2)
             return True
         except Exception as exc:
-            _logger.warning('Santral: Failed to terminate call leg %s: %s', call_sid, exc)
+            _logger.warning('Santral: Failed to terminate call leg: %s', exc)
             return False
+
 

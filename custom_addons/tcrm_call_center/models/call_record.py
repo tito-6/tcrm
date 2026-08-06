@@ -393,7 +393,9 @@ class TcrmCallRecord(models.Model):
                 provider = get_provider(self.env, config)
                 for sid in (self.child_call_sid, self.parent_call_sid, self.provider_call_sid):
                     if sid:
-                        provider.terminate_call_leg(sid)
+                        provider.terminate_call_leg(call_sid=sid, destination_number=self.destination_number)
+                if not (self.child_call_sid or self.parent_call_sid or self.provider_call_sid):
+                    provider.terminate_call_leg(destination_number=self.destination_number)
             except Exception as exc:
                 _logger.warning('Santral: action_hangup_local provider error for call %s: %s', self.id, exc)
 
