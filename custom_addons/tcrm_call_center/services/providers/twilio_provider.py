@@ -173,3 +173,30 @@ class TwilioCallProvider(CallProviderBase):
         if code in ('31005', '32009', '32102', '32205'):
             return 'Twilio, Türkiye aramalarında Türk caller ID kullanımına izin vermedi.'
         return ''
+
+    def terminate_call_leg(self, call_sid: str) -> bool:
+        if not call_sid:
+            return False
+        try:
+            client = self._client()
+            # 1. Terminate target call SID directly
+            try:
+                client.calls(call_sid).update(status='completed')
+                _logger.info('Santral: Terminated call leg %s', call_sid)
+            except Exception as e:
+                _logger.info('Santral: direct update for leg %s: %s', call_sid, e)
+
+            # 2. Also terminate any child legs under this parent_call_sid
+            try:
+                children = client.calls.list(parent_call_sid=call_sid)
+                for child in children:
+                    if child.status in ('queued', 'ringing', 'in-progress'):
+                        client.calls(child.sid).update(status='completed')
+                        _logger.info('Santral: Terminated child leg %s under parent %s', child.sid, call_sid)
+            except Exception as e:
+                _logger.info('Santral: child list for parent %s: %s', call_sid, e)
+            return True
+        except Exception as exc:
+            _logger.warning('Santral: Failed to terminate call leg %s: %s', call_sid, exc)
+            return False
+

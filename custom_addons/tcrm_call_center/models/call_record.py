@@ -387,3 +387,13 @@ class TcrmCallRecord(models.Model):
             'end_time': fields.Datetime.now(),
             'active_browser_session': False,
         })
+        config = self.env['tcrm.call.provider.config'].get_for_company(self.company_id)
+        if config:
+            try:
+                provider = get_provider(self.env, config)
+                for sid in (self.child_call_sid, self.parent_call_sid, self.provider_call_sid):
+                    if sid:
+                        provider.terminate_call_leg(sid)
+            except Exception as exc:
+                _logger.warning('Santral: action_hangup_local provider error for call %s: %s', self.id, exc)
+

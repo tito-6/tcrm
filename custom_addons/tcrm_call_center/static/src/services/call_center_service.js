@@ -491,15 +491,26 @@ const callCenterServiceFactory = {
             activeCall.mute(state.muted);
         }
 
-        function hangup() {
+        async function hangup() {
+            const callId = state.callId;
             try {
                 activeCall?.disconnect?.();
+            } catch (_) {}
+            try {
+                if (device && device.disconnectAll) device.disconnectAll();
             } catch (_) {}
             state.inCall = false;
             state.connecting = false;
             stopTimer();
             if (state.callStatus !== "completed") {
                 setStatus("canceled");
+            }
+            if (callId) {
+                try {
+                    await rpc(`/tcrm/voice/call/${callId}/hangup`, {});
+                } catch (e) {
+                    console.warn("Server hangup RPC error:", e);
+                }
             }
         }
 

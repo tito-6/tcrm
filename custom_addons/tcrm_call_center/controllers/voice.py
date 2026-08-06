@@ -150,3 +150,15 @@ class SantralVoiceController(http.Controller):
             'outcome': call.outcome,
             'notes': call.notes or '',
         })
+
+    @http.route('/tcrm/voice/call/<int:call_id>/hangup', type='jsonrpc', auth='user', methods=['POST'])
+    def call_hangup(self, call_id, **kwargs):
+        if not request.env.user.has_group('tcrm_call_center.group_santral_user'):
+            return _err(_('Santral Kullanıcısı yetkisi gerekli.'), code='access', status=403)
+        call = request.env['tcrm.call.record'].browse(int(call_id))
+        call.check_access('write')
+        if not call.exists():
+            return _err(_('Çağrı bulunamadı.'), code='not_found', status=404)
+        call.action_hangup_local()
+        return _ok({'call_id': call.id, 'status': call.status})
+
