@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Client actions are registered from command_center_entry.js in __manifest__ web.assets_backend.
-         Legacy ir.asset append was unreliable for minified bundles; keep record inactive to avoid double load. -->
     <data>
+        <!-- Client actions are registered from command_center_entry.js in __manifest__ web.assets_backend.
+             Legacy ir.asset append was unreliable for minified bundles; keep record inactive to avoid double load. -->
         <record id="asset_tcrm_command_center_entry_backend" model="ir.asset">
             <field name="name">TCRM Command Center — register client actions (manifest only; inactive)</field>
             <field name="bundle">web.assets_backend</field>
@@ -10,6 +10,16 @@
             <field name="path">tcrm_saas_core/static/src/command_center/command_center_entry.js</field>
             <field name="sequence">100</field>
             <field name="active" eval="False"/>
+        </record>
+
+        <!-- Explicitly register Master form SCSS so Domains/full-width styles hit prod bundles. -->
+        <record id="asset_tcrm_master_forms_scss" model="ir.asset">
+            <field name="name">TCRM Master — full-width form layouts</field>
+            <field name="bundle">web.assets_backend</field>
+            <field name="directive">append</field>
+            <field name="path">tcrm_saas_core/static/src/scss/master_forms.scss</field>
+            <field name="sequence">20</field>
+            <field name="active" eval="True"/>
         </record>
     </data>
 </odoo>

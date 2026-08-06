@@ -9,7 +9,7 @@
               name="Marketing Hub"
               web_icon="tcrm_marketing_hub,static/description/icon.png"
               action="action_tcrm_marketing_hub_app"
-              sequence="35"
+              sequence="4"
               groups="tcrm_marketing_hub.group_marketing_user"/>
 
     <menuitem id="menu_tcrm_marketing_hub_home"
@@ -60,9 +60,15 @@
               sequence="20"/>
 
     <menuitem id="menu_tcrm_marketing_ads_root"
-              name="Meta Reklamlar"
+              name="Kampanyalar"
               parent="menu_tcrm_marketing_root"
               sequence="25"/>
+
+    <menuitem id="menu_tcrm_marketing_hub_campaigns"
+              name="Kampanya Merkezi (Meta · Google)"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_hub_app"
+              sequence="1"/>
 
     <menuitem id="menu_tcrm_marketing_create_ad"
               name="Yeni Meta Reklam"
@@ -72,16 +78,48 @@
               groups="tcrm_marketing_hub.group_marketing_manager"/>
 
     <menuitem id="menu_tcrm_marketing_campaigns"
-              name="Kampanyalar"
+              name="Meta Kampanyalar"
               parent="menu_tcrm_marketing_ads_root"
               action="action_tcrm_marketing_campaign"
               sequence="10"/>
+
+    <menuitem id="menu_tcrm_marketing_adsets"
+              name="Reklam Setleri"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_adset"
+              sequence="12"/>
+
+    <menuitem id="menu_tcrm_marketing_meta_ads"
+              name="Reklamlar &amp; Kreatifler"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_meta_ad"
+              sequence="15"/>
 
     <menuitem id="menu_tcrm_marketing_ad_accounts"
               name="Reklam Hesapları"
               parent="menu_tcrm_marketing_ads_root"
               action="action_tcrm_marketing_ad_account"
               sequence="20"/>
+
+    <menuitem id="menu_tcrm_marketing_google_hub"
+              name="Google Ads Görünümü"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_hub_app"
+              sequence="30"/>
+
+    <menuitem id="menu_tcrm_marketing_google_keywords"
+              name="Google Anahtar Kelimeler"
+              parent="menu_tcrm_marketing_ads_root"
+              action="action_tcrm_marketing_google_keyword"
+              sequence="35"/>
+
+    <!-- Keep xml id for upgrades; hide empty old root -->
+    <record id="menu_tcrm_marketing_google_root" model="ir.ui.menu">
+        <field name="name">Google Ads</field>
+        <field name="parent_id" ref="menu_tcrm_marketing_root"/>
+        <field name="sequence">26</field>
+        <field name="active" eval="False"/>
+    </record>
 
     <menuitem id="menu_tcrm_marketing_leads_root"
               name="Meta Leadler"

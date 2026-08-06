@@ -388,8 +388,8 @@ msgstr "Facebook Bağla"
 
 #. module: tcrm_marketing_hub
 #: static/src/marketing_hub/marketing_hub.xml
-msgid "Odoo Graph / Pivot Aç"
-msgstr "Odoo Graph / Pivot Aç"
+msgid "Grafik / Pivot Aç"
+msgstr "Grafik / Pivot Aç"
 
 #. module: tcrm_marketing_hub
 #: static/src/marketing_hub/marketing_hub.xml

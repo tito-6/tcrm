@@ -78,6 +78,13 @@
                     background-color: #f8f9fa !important;
                     color: #101E55 !important;
                 }
+                /* Hide Shop cart / wishlist on public header */
+                .o_wsale_my_cart,
+                .o_wsale_my_wish,
+                a[href="/shop/cart"],
+                a[href="/shop/wishlist"] {
+                    display: none !important;
+                }
             </style>
             <script type="text/javascript">
                 document.addEventListener('DOMContentLoaded', function() {
@@ -144,7 +151,7 @@
         </xpath>
     </template>
 
-    <!-- Homepage: TCRM / AK KOD landing with login -->
+    <!-- Homepage: TCRM / AKOD landing with login (no Product/Services/Careers block) -->
     <template id="tcrm_homepage" inherit_id="website.homepage" name="TCRM Homepage" priority="99">
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="oe_structure">
@@ -157,7 +164,7 @@
                                 <p class="lead mb-2">Connect · Grow · Win</p>
                                 <p class="mb-4 opacity-75">
                                     Enterprise real-estate ERP and agentic CRM by
-                                    <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
+                                    <strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
                                 </p>
                                 <div class="d-flex flex-wrap gap-2">
                                     <a href="/web/login" class="btn btn-light btn-lg px-4">Sign in</a>
@@ -172,30 +179,9 @@
                                         <li class="mb-2">Centralized command center</li>
                                         <li class="mb-2">Full property lifecycle (Propertio)</li>
                                         <li class="mb-2">Agentic AI over live CRM data</li>
-                                        <li>Secure hosted platform by AK KOD</li>
+                                        <li>Secure hosted platform by AKOD</li>
                                     </ul>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="s_text_block pt64 pb64">
-                    <div class="container">
-                        <div class="row g-4">
-                            <div class="col-md-4">
-                                <h3 class="h5">Product</h3>
-                                <p class="text-muted">Explore what TCRM includes for inventory, sales, collections, and AI.</p>
-                                <a href="/products">View products</a>
-                            </div>
-                            <div class="col-md-4">
-                                <h3 class="h5">Services</h3>
-                                <p class="text-muted">Software, AI automation, and digital growth from AK KOD.</p>
-                                <a href="/services">View services</a>
-                            </div>
-                            <div class="col-md-4">
-                                <h3 class="h5">Careers</h3>
-                                <p class="text-muted">Join the AK KOD team building TCRM and digital platforms.</p>
-                                <a href="/jobs">Open roles</a>
                             </div>
                         </div>
                     </div>
@@ -204,8 +190,8 @@
         </xpath>
     </template>
 
-    <!-- AK KOD footer branding -->
-    <template id="tcrm_akkod_footer" inherit_id="website.footer_custom" name="AK KOD Footer" priority="99">
+    <!-- AKOD footer branding -->
+    <template id="tcrm_akkod_footer" inherit_id="website.footer_custom" name="AKOD Footer" priority="99">
         <xpath expr="//div[@id='footer']" position="replace">
             <div id="footer" class="oe_structure oe_structure_solo border text-break" t-ignore="true" t-if="not no_footer">
                 <section class="s_text_block pt40 pb16" data-snippet="s_text_block" data-name="Container">
@@ -213,10 +199,10 @@
                         <div class="row align-items-start">
                             <div class="col-lg-3 pt24 pb24">
                                 <a href="/" class="d-inline-block mb-3">
-                                    <img src="/web/static/img/akkod_logo_tiny.png" alt="AK KOD" style="max-height:48px;width:auto;"/>
+                                    <img src="/web/static/img/akkod_logo_tiny.png" alt="AKOD" style="max-height:48px;width:auto;"/>
                                 </a>
                                 <p class="small text-muted mb-0">
-                                    TCRM by <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
+                                    TCRM by <strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>
                                 </p>
                             </div>
                             <div class="col-lg-2 pt24 pb24">
@@ -236,7 +222,7 @@
                             <div class="col-lg-4 pt24 pb24">
                                 <h5>About us</h5>
                                 <p>
-                                    AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. develops software, AI automation,
+                                    AKOD YAZILIM BİLİŞİM LTD. ŞTİ. develops software, AI automation,
                                     and digital growth systems. We build TCRM and related platforms for
                                     measurable demand, strong digital infrastructure, and sustainable growth.
                                 </p>
@@ -267,9 +253,21 @@
         </xpath>
     </template>
 
-    <template id="tcrm_akkod_copyright" inherit_id="website.footer_copyright_company_name" name="AK KOD Copyright" priority="99">
+    <template id="tcrm_akkod_copyright" inherit_id="website.footer_copyright_company_name" name="AKOD Copyright" priority="99">
         <xpath expr="//span[hasclass('o_footer_copyright_name')]" position="replace">
-            <span class="o_footer_copyright_name me-2 small">Copyright &#169; AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</span>
+            <span class="o_footer_copyright_name me-2 small">Copyright &#169; AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</span>
+        </xpath>
+    </template>
+
+    <template id="tcrm_brand_promotion" inherit_id="website.brand_promotion" name="AKOD Brand Promotion" priority="99">
+        <xpath expr="//div[hasclass('o_brand_promotion')]" position="replace">
+            <div class="o_brand_promotion">
+                Tarafından desteklenmektedir
+                <a target="_blank" href="https://akod.tech/" class="badge text-bg-light">
+                    <img alt="AKOD" src="/web/static/img/akkod_logo_tiny.png" height="20" style="width: auto; height: 1em; vertical-align: baseline; margin-right: 4px;" loading="lazy"/>
+                    AKOD
+                </a>
+            </div>
         </xpath>
     </template>
 
@@ -281,15 +279,15 @@
         </xpath>
     </template>
 
-    <!-- Jobs page: AK KOD careers sidebar -->
-    <template id="tcrm_jobs_sidebar" inherit_id="website_hr_recruitment.job_right_side_bar" name="AK KOD Jobs Sidebar" priority="99">
+    <!-- Jobs page: AKOD careers sidebar -->
+    <template id="tcrm_jobs_sidebar" inherit_id="website_hr_recruitment.job_right_side_bar" name="AKOD Jobs Sidebar" priority="99">
         <xpath expr="//div[@id='jobs_grid_right']" position="replace">
             <div class="col-lg-4" id="jobs_grid_right">
                 <section class="p-3 border rounded">
                     <img src="/web/static/img/tcrm_logo.svg" class="img-fluid mb-3" alt="TCRM" style="max-height:48px;width:auto;"/>
-                    <h5>Careers at AK KOD</h5>
+                    <h5>Careers at AKOD</h5>
                     <p class="mt24 mb8">
-                        AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. builds TCRM and digital growth systems in Istanbul.
+                        AKOD YAZILIM BİLİŞİM LTD. ŞTİ. builds TCRM and digital growth systems in Istanbul.
                         Join us if you care about software, AI automation, and measurable product outcomes.
                     </p>
                     <div class="s_hr pt16 pb16">
@@ -318,9 +316,9 @@
         </xpath>
     </template>
 
-    <template id="tcrm_jobs_title" inherit_id="website_hr_recruitment.index" name="AK KOD Jobs Title" priority="99">
+    <template id="tcrm_jobs_title" inherit_id="website_hr_recruitment.index" name="AKOD Jobs Title" priority="99">
         <xpath expr="//h1" position="replace">
-            <h1 class="me-auto mb-0 h4">Careers at AK KOD</h1>
+            <h1 class="me-auto mb-0 h4">Careers at AKOD</h1>
         </xpath>
     </template>
 </odoo>

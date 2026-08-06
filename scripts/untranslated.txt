@@ -1,0 +1,712 @@
+Module folder names under custom_addons (default: propertio + marketing_hub)
+Beklemede
+Kabul
+İptal
+İade
+Durum
+Danışman
+Kabul Et → Satış
+Reddet
+İptal Et
+Rezervasyonu iptal etmek istediğinize emin misiniz?
+Rezervasyonu iade olarak işaretlemek istediğinize emin misiniz?
+Beklemeye Al
+Satışa Dönüştür
+İPTAL
+İADE
+Müzakere / kapora notları…
+Teklifler / Rezervasyonlar
+Kontrol Listesi
+Sorunlar
+Satış Sonrası
+Teslimler
+Tapular
+Servis Talepleri
+Noter
+Noter Randevuları
+Audit log
+Audit entry
+Denetim kaydı
+Propertio Denetim Kaydı
+Hatırlatıcı oluştur
+QR Oluştur
+Teklifler
+Birim No
+Birim Bilgisi
+Fiyat ve Özellikler
+Genel Bilgi
+Alanlar
+Teknik Özellikler
+Özellikler ve Yükseltmeler
+Standart Olanaklar
+Mevcut Yükseltmeler
+Mali İstatistikler
+Birimler
+Satış Geçmişi
+Genel Bakış
+Rapor Genel Bakış
+Proje Adı
+Olanaklar ve Özellikler
+Birim Stoku
+Bloklar
+Projeler
+Collection Map
+WhatsApp
+Collection Analysis
+Collection Trends
+GDV by Project
+Expected
+Actual
+Cash Flow Analysis
+Upcoming
+Future
+Installments
+Müşteri
+Satış Sözleşmesi
+Ödeme Durumu
+Vade Ayı
+Tip
+Satış ve Tahsilat Haritası
+Proje GDV Analizi
+Nakit Akış Tahmini
+Lead Havuzu
+Lead / Fırsat
+Oluşturma Tarihi
+Etiket
+Yeni Leadler
+Yeni aşamasındaki leadler (dönüştürülmemiş)
+Nitelikli Leadler
+Nitelikli aşamasındaki leadler
+Fırsatlar
+Satış Yapıldı
+Kaybedildi
+Arşivlendi
+Leadlerim
+Bana atanmış
+Atanmamış
+Satış Danışmanı
+Satış Ekibi
+Aşama
+Kaynak
+Kanal
+Kampanya
+Proje
+Gösterge Paneli
+Sözleşmeleri Dışa Aktar (Word)
+Satış Sözleşmeleri
+Ödemeler
+Request payment cancellation
+Explain why this posted payment should be reversed/refunded
+Submit request
+Approved
+Ödeme iptal talepleri
+Ödeme İptal Talepleri
+Dönem
+Başlangıç
+Bitiş
+Hedef Birim
+Hedef Tutar
+Gerçekleşen
+Gerçekleşen Tutar
+Başarı %
+Dönem Başlangıç
+Dönem Bitiş
+Brüt Komisyon
+Kesintiler
+Net Komisyon
+Yönetim
+Hedefler
+Komisyonlar
+Komisyon Kuralları
+Kasalar
+Message
+WhatsApp Şablonları
+Propertio
+Proje stok ve takibi
+Satışlar
+Tahsilat
+Raporlama
+Yapılandırma
+Ana Veriler
+Personel ve İş Ortakları
+Birim Özellikleri
+Proje Tipleri
+Proje Aşamaları
+Gayrimenkul Kategorileri
+Detaylı Durumlar
+Satış Aşamaları
+Acenteler
+Satış Personeli
+Rapor Merkezi
+Raporları Dışa Aktar
+1. Tahsilat ve Ödemeler
+Satış Tahsilat Özeti
+Ödeme Planı Tablosu
+Beklenen Ödeme Listesi
+Ödeme Planı (KDV Dahil)
+Gelen ve Beklenen Ödemeler
+2. Satış Raporları
+Satış Raporu
+Tipe Göre Satış ve Proje Stok ve Takibi
+Onaya Göre Satış Grafiği
+Toplam Satış Grafiği
+Günlük Satış Adedi
+Satış Durum Raporu
+Satış Kur Analizi
+3. Müşteri Raporları
+Müşteri Yolculuğu
+Bireysel Müşteri Yolculuğu
+Müşteri Genel Durumu
+4. Mali Raporlar
+Kasa Raporu
+Günlük Kasa
+Nakit Akış Tablosu
+5. Performans Raporları
+Personel Performansı
+Gün Sonu Toplantısı
+6. Gayrimenkul Raporları
+Bağımsız Bölümler
+İnşaat İlerlemesi
+Tapu ve Fatura
+7. Yönetim ve Uyum
+Yetki Matrisi
+CRM Aktivite Kaydı
+8. Pazarlama ve Müşteri Adayları
+Müşteri Adayı Raporu
+Reklam Kaynaklı Adaylar
+Web Form Takibi
+Ödeme Planı (KDV)
+Gelen Ödeme Tahmini
+Tipe Göre Satış Analizi
+Onaya Göre Satışlar
+Satış Durumu
+Aday Analizi
+Tahsilat Kuyruğu
+Gecikmişlerden Görev Oluştur
+Arama Kaydet
+Ödendi İşaretle
+Hatırlatıcı Gönder
+Arama notları...
+Ödeme Gir
+Kaydet
+Real Estate Profile
+Identity
+Budget &amp; Preferences
+Summary
+Real Estate History
+Sözleşmeler
+Gayrimenkul
+Hedef Gayrimenkul
+Download
+Tahsilat ve Satış Durumu
+Proje Nakit Durumu
+Toplam Değer
+Toplam Tahsilat
+Kalan
+Toplam
+Beklenen (Vade Tarihine Göre)
+Beklenen
+Gerçekleşen (Ödeme Tarihine Göre)
+Gelecek Nakit Akışı
+Danışman Karnesi
+Bu Ay Tahsilat
+Kırmızı Alarm Müşteriler
+Danışman Karnesi (Bu Ay)
+Rapor Görüntüleyici
+Rapor
+Tarih Aralığı
+Filtreler
+Önizleme Oluştur
+Dışa Aktar
+Excel İndir (XLSX)
+PDF İndir
+CSV İndir
+Tarayıcıda Aç
+Dosyayı İndir
+Herkese Açık Paylaşım
+Paylaşım Bağlantısı
+Paylaşılabilir Bağlantı Oluştur
+Herkese Açık Bağlantıyı Aç
+Bağlantıyı Kapat
+Raporlar
+Beklenen Ödemeler
+Müşteri Durumu
+Yeni Satış ve Ödeme Planı
+Ödeme Koşulları
+Peşinat
+Finansal
+Taksit Planı
+Döviz Kurları
+Plan Oluştur ve Satışı Kaydet
+Yeni Satış
+Yeni Satış Sözleşmesi
+Print &amp; Export Options
+Download PDF
+Download Word
+View HTML
+Batch Word Export
+Yazdır / Dışa Aktar
+Select Format
+Ödeme
+Ödemeyi Onayla
+Vazgeç
+İptal talebi
+İptal Edildi
+Ödeme referansı
+Müşteri ve tahsis
+Tutar ve para birimi
+Çek bilgileri
+İptal / İade
+Satışı Onayla
+Bu satış sözleşmesini iptal etmek istediğinize emin misiniz? Birim yeniden müsait olacaktır.
+Sözleşmeyi iade olarak işaretlemek istediğinize emin misiniz? Ödeme iadeleri için ayrıca Para İade sürecini kullanın.
+Taslağa Al
+SATILDI
+Sözleşme Ref.
+Sözleşme No
+örn. CON-2025-001
+CRM Fırsatı
+Satış Tarihi
+Toplam Ödenen
+Bakiye
+Ödeme Planı
+Otomatik Dengele / Kalan Ekle
+Taksitler
+Vade Tarihi
+Açıklama
+Tutar
+Ödenen
+Müşteri Bilgileri
+Satış Detayları
+Organizasyon
+Kategori
+Ekstra
+Hukuki ve Banka
+Finans
+Hukuki / Noter notları...
+Belgeler
+Ekip
+İç Ekip
+Dış Ekip
+Teknik Finansallar
+Fırsat
+Teslim
+Tapu
+Taslak
+Onaylandı
+proj.sold +
+Uygula
+Sıfırla
+Hazır Aralıklar
+Bu ay
+Geçen ay
+YTD
+Rapor Merkezi →
+Birimleri Gör
+Tümünü Gör
+Ödemeleri Gör
+İlk 500 satır gösteriliyor. Dışa aktarımlar filtrelenmiş sonucu içerir.
+Rapor oluşturulamadı. Ayrıntılar için sunucu günlüklerine bakın.
+Rapor ön ayar adı
+Rapor ön ayarı kaydedildi.
+CSV
+XLSX
+PDF
+Çalıştır
+Tahakkuk
+Nakit
+Liste
+Gruplar
+Grafik
+CRM lead aktivitesi planlanırken takvim etkinliği ve kişisel Yapılacak oluştur.
+Ortak alanlar dahil
+Kuzey, Güney vb.
+Attach Catalogs, Factsheets, Renders here.
+FontAwesome class, e.g. fa-swimming-pool
+Açık
+Kapalı
+Müsait
+Opsiyon
+Satıldı
+TC Kimlik
+Pasaport
+Yabancı Kimlik
+Bekar
+Evli
+Web Sitesi
+Instagram
+Facebook
+Sahibinden
+Sabit Hat
+Ofis / Showroom
+Referans
+Google Ads
+Ofis Ziyareti
+Fuar
+Diğer
+Stable technical code for idempotent seeding.
+Projects in this stage are folded by default in the kanban view.
+Yalnızca bekleyen rezervasyonlar kabul edilebilir.
+Yalnızca bekleyen rezervasyonlar reddedilebilir.
+Süresi dolmuş veya iade edilmiş rezervasyon iptal edilemez.
+Bağlı onaylı satış sözleşmesi var. Önce sözleşmeyi iptal veya iade edin.
+Rezervasyon / teklif iptal edildi.
+İade yalnızca kabul edilmiş veya iptal edilmiş rezervasyonlar için geçerlidir.
+Rezervasyon iade olarak işaretlendi. Kapora iadesi için ödeme sürecini tamamlayın.
+Bu durumdan taslağa dönülemez.
+Rezervasyon tekrar beklemede.
+Bu rezervasyondan satış oluşturulamaz.
+Bu rezervasyonun bağlandığı CRM lead / fırsat.
+Kabul Edildi
+Reddedildi
+Süresi Doldu
+Blocked financial mutation. Use the Cancellation/Refund workflow instead.
+Posted or cancelled payments are immutable. Use Cancellation/Refund (Para İade).
+Deletion blocked by financial anti-fraud protocol. Use Cancellation/Refund (Para İade).
+Payments cannot be deleted. Use Cancellation/Refund (Para İade); only the Software Owner can physically delete.
+Could not reverse the full allocation. Contact support.
+Only posted payments can be reversed.
+Refund
+Posted payment cancelled and refund/reversal entry %s created. Reason: %s
+Refund / Para İade reversal for original payment %s.
+Only posted payments require a cancellation request.
+Posted payments cannot be cancelled directly.
+Ödeme para birimini satış para birimine çevirme kuru
+Havale/EFT
+Çek
+Senet
+Kredi Kartı
+Döviz Nakit
+Banka Taksiti
+Yanlış Tutar
+Yanlış Sözleşme
+Mükerrer Kayıt
+Müşteri İadesi / Para İade
+Banka veya POS Hatası
+Ön Protokol/Vaat
+Satış
+Vekaletname
+Bakım
+Eksiklik/Arıza
+Belge Talebi
+Şikayet
+Bilgi Talebi
+Düşük
+Normal
+Yüksek
+Acil
+On Time
+Approaching
+Yeni
+İşlemde
+Çözüldü
+Kapatıldı
+National
+Religious
+Regional
+Bekliyor
+Randevu Verildi
+Teslim Edildi
+Sorun Var
+Urgent
+Resolved
+Kat İrtifakı
+Kat Mülkiyeti
+Randevu Var
+Tapu Devredildi
+Aktivite
+Lead / Fırsat: %s
+Aktivite Tipi: %s
+Son Tarih: %s
+Sorumlu: %s
+Müşteri / Kişi: %s
+Proje: %s
+Notlar: %s
+CRM Bağlantısı: %s
+Bu CRM aktivitesi için hatırlatıcı olarak oluşturulan kişisel Yapılacak.
+Hatırlatıcı olarak oluşturulan takvim etkinliği (varsa calendar_event_id kullanılır).
+Deleted
+Updated
+Reversed
+Approval
+Cancellation/refund request %s created. Reason: %s
+Approve repeated payment correction
+Only Propertio Managers or Admins can approve payment cancellations.
+This request is not pending.
+Cancellation approved and payment reversed.
+Only Propertio Managers or Admins can reject cancellation requests.
+Cancellation request rejected.
+Wrong Contract
+Duplicate Entry
+Bank or POS Error
+Pending Approval
+Rejected
+E-Fatura
+E-Arşiv
+Sent
+Accepted
+Bu fırsatın ilgili olduğu gayrimenkul projesi.
+Bu fırsatın hedeflediği birim.
+★★★★
+★★★★★
+Log Call
+Reminder: Your installment of %s is overdue. Please contact us.
+Cevap Yok
+Ödeme Sözü
+İtiraz
+Kısmi Ödeme
+Ödendi
+Role used for role-based dashboard and features.
+Finance
+Manager
+Admin
+Use placeholders: {customer_name}, {amount}, {due_date}, {contract_ref}, {unit_name}, {sale_price}
+Aylık
+Çeyreklik
+Yıllık
+Aktif
+Tamamlandı
+Giriş
+Çıkış
+Sabit Oran
+Kademeli
+Hedef Primi
+Tahsilat Primi
+Blocked account.payment mutation. Create a refund/reversal instead.
+Posted account payments are immutable. Create a refund/reversal; only the Software Owner can physically alter them.
+Deletion blocked by financial anti-fraud protocol. Create a refund/reversal instead.
+Account payments cannot be deleted. Only the Software Owner can physically delete records.
+İptal veya iade edilmiş sözleşme onaylanamaz. Önce taslağa alın.
+İade edilmiş sözleşme iptal edilemez.
+Satış sözleşmesi iptal edildi.
+Taslak sözleşme iade edilemez. Önce onaylayın veya iptal edin.
+Satış sözleşmesi iade olarak işaretlendi.
+Yalnızca iptal veya iade kayıtları taslağa alınabilir.
+Sözleşme tekrar taslağa alındı.
+Blocked installment mutation. Use Cancellation/Refund (Para İade) through the related payment.
+Paid installments are immutable. Use the payment Cancellation/Refund (Para İade) workflow.
+Deletion blocked by financial anti-fraud protocol. Archive/reverse the related payment instead.
+Installments cannot be deleted. Only the Software Owner can physically delete records.
+Danışman Karnesi (Bu Ay Tahsilat)
+CRM opportunity this property sale originated from.
+Compatibility alias used by legacy Propertio reports.
+Taksitin tamamen ödendiği tarih.
+Number of days past due date (0 if not overdue). Used for Red Alert report.
+Faturalanacak
+Faturalandı
+Yok
+Hazırlandı
+Gönderildi
+Gecikmiş
+Yaklaşan
+İleri Tarihli
+Taksit
+Balon Ödeme
+Lead
+Rezerve
+Vacant
+Optioned
+Occupied / Sold
+New Stock
+30-89 days
+90-179 days
+180+ days
+Watch
+Red Alert
+Buyer
+Tenant
+Landlord
+Call today
+Follow this week
+Closed
+On time
+1-29 days
+30-59 days
+60+ days
+Bank
+Check
+Warm
+Cold
+Complete
+Missing Evidence
+Needs Review
+OK
+Not Set
+Ready
+Needs Data
+Incomplete
+Transferred
+Ending Soon
+Expired
+Only the TCRM master administrator can save global report templates.
+Unsupported export format.
+Unknown report: %s
+Tenant isolated
+Drill-down enabled
+CSV/XLSX/HTML/PDF/Word export
+Receivable aging
+Legal collection priority
+VAT-aware totals
+Broker and consultant tracking
+FX exposure
+GDV and sell-through
+Inventory monetization
+Lead source quality
+Campaign ROI proxy
+Pipeline conversion
+CRM + Propertio bridge
+Occupancy view
+Rental income proxy
+Tenant/landlord segmentation
+Turkey compliance checks
+Risk scoring
+Audit-ready export
+Operational KPIs
+Management summary
+<p>Merhaba,</p>
+Empty
+Template not found.
+Only the TCRM master administrator can edit global templates.
+You do not have access to this report template.
+xlsxwriter is required for Excel exports.
+reportlab is required for PDF exports.
+Viewed
+Exported
+Kimlik Fotokopisi
+Gelir Belgesi
+Makbuz
+Tapu Belgesi
+İpotek Belgesi
+Açıkken giriş yapmadan bağlantı ile görüntülenebilir.
+Rapor tipi henüz uygulanmamış: %s
+Paylaşılabilir Bağlantı
+Bağlantı herkese açıldı. Kopyalayıp paylaşabilirsiniz:\\n%s
+Önce bir rapor oluşturun.
+Bağlantı Kapatıldı
+Herkese açık rapor bağlantısı kapatıldı. Artık erişilemez.
+Lütfen önce raporu oluşturun.
+Tip Bazlı Satış ve Proje Stok ve Takibi
+Onay Bazlı Satışlar
+Lead Raporu
+Reklam Leadleri
+Komisyon Raporu
+Tapu Durumu
+Teslim Durumu
+KDV Özeti
+Kasa Özeti
+Müşteri Segmentasyonu
+Proje Kârlılığı
+İletişim Raporu
+Excel (XLSX)
+HTML (Tarayıcıda Aç)
+Özel Aralık
+Bugün
+Dün
+Bu Hafta
+Geçen Hafta
+Bu Ay
+Geçen Ay
+Bu Çeyrek
+Bu Yıl
+Geçen Yıl
+Tüm Zamanlar
+Yapılandır
+Hazır
+At End
+Middle
+Only posted payments can be submitted for cancellation.
+A pending cancellation request already exists for this payment.
+Cancellation requested. A sales manager must approve before the payment is reversed.
+No Answer
+Partial Payment
+Excel
+Word
+Buyer Details:
+Project:
+Property Details
+Gross Area
+Net Area
+Direction
+Financial Terms
+Buyer Signature
+Company Signature
+Residual
+Propertio: Expire Offers
+CRM
+Konut Projesi
+Villa Projesi
+Ticari Dükkan Projesi
+Karma Proje
+Devremülk Projesi
+Arsa ve Parsel Projesi
+Kentsel Dönüşüm Projesi
+Rezidans Projesi
+Ofis Projesi
+Sanayi veya Depo Projesi
+Planlama
+Ruhsat Süreci
+Projelendirme
+Satışa Hazır
+Ön Satışta
+İnşaat Başladı
+İnşaat Devam Ediyor
+Teslime Hazır
+Durduruldu
+Propertio Offer
+Propertio Handover
+Propertio Service Request
+Legal Review
+Signed
+Contact - General
+Propertio Block by Company
+Propertio Feature by Company
+Propertio Installment by Company
+Propertio Collection Task by Company
+Propertio WhatsApp Template by Company
+Propertio Offer by Company
+Propertio Document by Company
+Propertio Handover by Company
+Propertio Handover Checklist by Company
+Propertio Handover Issue by Company
+Propertio Title Deed by Company
+Propertio Service Request by Company
+Propertio Target by Company
+Propertio Commission Rule by Company
+Propertio Commission by Company
+Propertio Cash Register by Company
+Propertio Cash Transaction by Company
+Propertio E-Invoice by Company
+Propertio Revenue Period by Company
+Propertio Notary by Company
+Propertio Holiday by Company
+Propertio Audit Log by Company
+Tahsilat ve Ödemeler
+Satış Raporları
+Müşteri Raporları
+Mali Raporlar
+Performans Raporları
+Gayrimenkul Raporları
+Yönetim ve Uyum
+Pazarlama ve Müşteri Adayları
+Portal
+Kazanıldı
+Gayrimenkul Projesi
+Gayrimenkul Birimi
+Gayrimenkul Sözleşmeleri
+Toplam GDV
+Eklenebilir Özellikler
+Rapor ara
+Ara
+Rapor yükleniyor...
+Grup
+Grafik Grubu
+Grafik Metriği
+Otomatik
+Tümü
+Mevcut filtreler için grafik verisi yok.
+Bir grup alanı seçip uygulayın.
+Seçilen filtreler için veri bulunamadı.
+Hatırlatıcı Yapılacak
+Hatırlatıcı Takvim Etkinliği
+Broker
+Villa

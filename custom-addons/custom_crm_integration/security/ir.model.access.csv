@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_real_estate_project,access_real_estate_project,model_tcrm_real_estate_project,base.group_user,1,1,1,1
+access_real_estate_unit,access_real_estate_unit,model_tcrm_real_estate_unit,base.group_user,1,1,1,1
+access_real_estate_payment_plan,access_real_estate_payment_plan,model_tcrm_real_estate_payment_plan,base.group_user,1,1,1,1
+access_tcrm_integration_request_admin,access_tcrm_integration_request_admin,model_tcrm_integration_request,custom_crm_integration.group_integration_request_admin,1,1,1,1

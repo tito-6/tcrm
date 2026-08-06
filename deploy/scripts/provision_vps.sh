@@ -60,10 +60,25 @@ systemctl enable tcrm
 install -m 644 "$TCRM_ROOT/deploy/nginx/tcrm.online.conf" /etc/nginx/sites-available/tcrm.online
 ln -sfn /etc/nginx/sites-available/tcrm.online /etc/nginx/sites-enabled/tcrm.online
 
+# Tenant SSL expander (spool written by provisioning worker, run as root)
+install -m 755 "$TCRM_ROOT/deploy/scripts/ensure_tenant_ssl.sh" /usr/local/bin/ensure_tenant_ssl.sh
+install -m 644 "$TCRM_ROOT/deploy/systemd/tcrm-ssl.service" /etc/systemd/system/tcrm-ssl.service
+install -m 644 "$TCRM_ROOT/deploy/systemd/tcrm-ssl.timer" /etc/systemd/system/tcrm-ssl.timer
+install -m 440 "$TCRM_ROOT/deploy/sudoers/tcrm-ssl" /etc/sudoers.d/tcrm-ssl
+mkdir -p /var/lib/tcrm/ssl-pending /var/www/certbot
+chown tcrm:tcrm /var/lib/tcrm/ssl-pending
+chmod 775 /var/lib/tcrm/ssl-pending
+systemctl daemon-reload
+systemctl enable --now tcrm-ssl.timer
+
 # Cron backup
 install -m 755 "$TCRM_ROOT/deploy/scripts/backup_tcrm.sh" /usr/local/bin/backup_tcrm.sh
 grep -q backup_tcrm /etc/crontab || echo "15 3 * * * root /usr/local/bin/backup_tcrm.sh >> /var/log/tcrm_backup.log 2>&1" >> /etc/crontab
 
 echo "DB password: ${DB_PASS}"
 echo "Admin master password: ${ADMIN_PASS}"
-echo "Provision base complete. Sync code, init DB modules, start tcrm, then certbot."
+echo "Provision base complete. Sync code, init DB modules, start tcrm, then:"
+echo "  # Preferred (covers ALL future tenant subdomains):"
+echo "  #   put Hostinger API token in /etc/letsencrypt/hostinger.ini"
+echo "  #   ensure_tenant_ssl.sh --issue-wildcard"
+echo "  # Fallback per host: ensure_tenant_ssl.sh <subdomain.tcrm.online>"

@@ -5,6 +5,8 @@ from tcrm.exceptions import UserError
 from ..services.zernio_client import ZernioError
 
 MANAGED_PLATFORMS = ('instagram', 'facebook')
+ADS_PLATFORMS = ('googleads', 'metaads')
+ALL_SYNC_PLATFORMS = MANAGED_PLATFORMS + ADS_PLATFORMS
 
 
 class MarketingAccount(models.Model):
@@ -21,6 +23,8 @@ class MarketingAccount(models.Model):
         [
             ('instagram', 'Instagram'),
             ('facebook', 'Facebook'),
+            ('googleads', 'Google Ads'),
+            ('metaads', 'Meta Ads'),
             ('other', 'Diğer'),
         ],
         string='Platform',
@@ -122,7 +126,7 @@ class MarketingAccount(models.Model):
         Account = self.sudo()
         synced = 0
         try:
-            for platform in MANAGED_PLATFORMS:
+            for platform in ALL_SYNC_PLATFORMS:
                 for item in client.list_accounts(platform=platform):
                     zid = item.get('_id') or item.get('id')
                     if not zid:
@@ -143,6 +147,11 @@ class MarketingAccount(models.Model):
                         status = 'disconnected'
                     else:
                         status = 'connected'
+                    # Map unknown platforms from Zernio ads variants
+                    plat = platform
+                    raw_plat = (item.get('platform') or platform or '').lower()
+                    if raw_plat in dict(self._fields['platform'].selection):
+                        plat = raw_plat
                     vals = {
                         'name': item.get('displayName')
                         or item.get('name')
@@ -150,7 +159,7 @@ class MarketingAccount(models.Model):
                         or zid,
                         'username': item.get('username') or item.get('handle') or False,
                         'zernio_id': zid,
-                        'platform': platform,
+                        'platform': plat,
                         'status': status,
                         'profile_id': profile.id,
                         'avatar_url': item.get('avatarUrl') or item.get('profilePicture') or False,

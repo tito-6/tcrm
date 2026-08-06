@@ -8,6 +8,8 @@ Docs: https://docs.zernio.com/
 from __future__ import annotations
 
 import logging
+import re
+import time
 import uuid
 from typing import Any
 
@@ -57,33 +59,37 @@ class ZernioClient:
         idempotent: bool = False,
     ) -> Any:
         url = f'{self.base_url}{path}'
-        try:
-            response = self.session.request(
-                method,
-                url,
-                headers=self._headers(idempotent=idempotent),
-                params=params,
-                json=json_body,
-                timeout=self.timeout,
-            )
-        except requests.RequestException as exc:
-            _logger.warning('Zernio network error: %s %s', method, path)
-            raise ZernioError(f'Zernio bağlantı hatası: {exc}') from exc
-
-        payload: Any = None
-        if response.content:
+        last_error: ZernioError | None = None
+        for attempt in range(2):
             try:
-                payload = response.json()
-            except ValueError:
-                payload = {'raw': (response.text or '')[:500]}
+                response = self.session.request(
+                    method,
+                    url,
+                    headers=self._headers(idempotent=idempotent),
+                    params=params,
+                    json=json_body,
+                    timeout=self.timeout,
+                )
+            except requests.RequestException as exc:
+                _logger.warning('Zernio network error: %s %s', method, path)
+                raise ZernioError(f'Zernio bağlantı hatası: {exc}') from exc
 
-        if response.status_code in (401, 403):
-            raise ZernioError(
-                'Zernio kimlik doğrulama hatası. API anahtarını kontrol edin.',
-                status_code=response.status_code,
-                payload=payload,
-            )
-        if response.status_code >= 400:
+            payload: Any = None
+            if response.content:
+                try:
+                    payload = response.json()
+                except ValueError:
+                    payload = {'raw': (response.text or '')[:500]}
+
+            if response.status_code in (401, 403):
+                raise ZernioError(
+                    'Zernio kimlik doğrulama hatası. API anahtarını kontrol edin.',
+                    status_code=response.status_code,
+                    payload=payload,
+                )
+            if response.status_code < 400:
+                return payload if payload is not None else {}
+
             message = None
             if isinstance(payload, dict):
                 message = (
@@ -93,12 +99,24 @@ class ZernioClient:
                 )
                 if isinstance(message, dict):
                     message = message.get('message') or str(message)
-            raise ZernioError(
-                str(message or f'Zernio HTTP {response.status_code}'),
+            err_text = str(message or f'Zernio HTTP {response.status_code}')
+            last_error = ZernioError(
+                err_text,
                 status_code=response.status_code,
                 payload=payload,
             )
-        return payload if payload is not None else {}
+            # Auto-backoff on rate limits
+            is_rate = response.status_code == 429 or 'rate limit' in err_text.lower()
+            if is_rate and attempt < 1:
+                wait = 5
+                m = re.search(r'retry after\s+(\d+)', err_text, flags=re.I)
+                if m:
+                    wait = min(int(m.group(1)) + 1, 20)
+                _logger.info('Zernio rate limit; sleeping %ss (%s %s)', wait, method, path)
+                time.sleep(wait)
+                continue
+            raise last_error
+        raise last_error or ZernioError('Zernio request failed')
 
     # ------------------------------------------------------------------
     # Profiles
@@ -329,6 +347,25 @@ class ZernioClient:
                 params['adAccountIds'] = str(ad_account_ids)
         return self._request('GET', '/connect/facebook/ads', params=params)
 
+    def connect_ads(
+        self,
+        platform: str,
+        *,
+        profile_id: str,
+        account_id: str | None = None,
+        ad_account_ids: list[str] | str | None = None,
+    ) -> dict:
+        """Unified ads connect — Meta/TikTok/Google (docs.zernio.com/connect/connect-ads)."""
+        params: dict[str, Any] = {'profileId': profile_id}
+        if account_id:
+            params['accountId'] = account_id
+        if ad_account_ids:
+            if isinstance(ad_account_ids, (list, tuple)):
+                params['adAccountIds'] = ','.join(str(a) for a in ad_account_ids)
+            else:
+                params['adAccountIds'] = str(ad_account_ids)
+        return self._request('GET', f'/connect/{platform}/ads', params=params)
+
     def get_ads_tree(
         self,
         *,
@@ -336,17 +373,67 @@ class ZernioClient:
         limit: int = 50,
         source: str = 'all',
         ad_account_id: str | None = None,
+        account_id: str | None = None,
         date_from: str | None = None,
         date_to: str | None = None,
     ) -> dict:
         params: dict[str, Any] = {'page': page, 'limit': limit, 'source': source}
         if ad_account_id:
             params['adAccountId'] = ad_account_id
+        if account_id:
+            params['accountId'] = account_id
         if date_from:
             params['dateFrom'] = date_from
         if date_to:
             params['dateTo'] = date_to
         return self._request('GET', '/ads/tree', params=params)
+
+    def list_keywords(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 100,
+        account_id: str | None = None,
+        ad_account_id: str | None = None,
+        campaign_id: str | None = None,
+        status: str | None = None,
+        match_type: str | None = None,
+        negative: bool | None = None,
+        search: str | None = None,
+    ) -> dict:
+        """GET /v1/ads/keywords — Google Search keyword criteria."""
+        params: dict[str, Any] = {'page': page, 'limit': limit}
+        if account_id:
+            params['accountId'] = account_id
+        if ad_account_id:
+            params['adAccountId'] = ad_account_id
+        if campaign_id:
+            params['campaignId'] = campaign_id
+        if status:
+            params['status'] = status
+        if match_type:
+            params['matchType'] = match_type
+        if negative is not None:
+            params['negative'] = 'true' if negative else 'false'
+        if search:
+            params['search'] = search
+        return self._request('GET', '/ads/keywords', params=params)
+
+    def query_ad_insights(
+        self,
+        *,
+        account_id: str,
+        query: str,
+        customer_id: str | None = None,
+        page_token: str | None = None,
+    ) -> dict:
+        """GET /v1/ads/insights — Google GAQL passthrough (or Meta insights)."""
+        params: dict[str, Any] = {'accountId': account_id, 'query': query}
+        if customer_id:
+            params['customerId'] = str(customer_id).replace('-', '')
+        if page_token:
+            params['pageToken'] = page_token
+        return self._request('GET', '/ads/insights', params=params)
 
     def list_campaigns(
         self,
@@ -486,3 +573,42 @@ class ZernioClient:
         if cursor:
             params['cursor'] = cursor
         return self._request('GET', '/ads/leads', params=params)
+
+    # ------------------------------------------------------------------
+    # Meta Ad Creatives & Image Library API
+    # ------------------------------------------------------------------
+    def list_ad_images(
+        self,
+        *,
+        account_id: str,
+        ad_account_id: str,
+        fields: str | None = None,
+        limit: int = 50,
+        after: str | None = None,
+    ) -> dict:
+        """GET /v1/ads/images — Lists Meta ad account image library."""
+        params: dict[str, Any] = {
+            'accountId': account_id,
+            'adAccountId': ad_account_id,
+            'limit': limit,
+        }
+        if fields:
+            params['fields'] = fields
+        if after:
+            params['after'] = after
+        return self._request('GET', '/ads/images', params=params)
+
+    def list_ad_creatives(
+        self,
+        *,
+        account_id: str | None = None,
+        ad_account_id: str | None = None,
+        limit: int = 50,
+    ) -> dict:
+        """GET /v1/ads/creatives — Lists Meta ad creatives library."""
+        params: dict[str, Any] = {'limit': limit}
+        if account_id:
+            params['accountId'] = account_id
+        if ad_account_id:
+            params['adAccountId'] = ad_account_id
+        return self._request('GET', '/ads/creatives', params=params)

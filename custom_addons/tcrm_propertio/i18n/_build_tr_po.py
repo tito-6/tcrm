@@ -362,8 +362,8 @@ GLOSSARY = {
     "Aşama": "Aşama",
     "Proje": "Proje",
     "Tip": "Tip",
-    "Kazanıldı": "Kazanıldı",
-    "Kaybedildi": "Kaybedildi",
+    "Kazanıldı": "Satış Yapıldı",
+    "Kaybedildi": "Kayıp",
     "Arşivlendi": "Arşivlendi",
     # Project form
     "Project Name": "Proje Adı",

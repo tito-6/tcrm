@@ -1,0 +1,3 @@
+Content True
+Part True
+ThinkingConfig True

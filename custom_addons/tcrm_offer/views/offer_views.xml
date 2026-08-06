@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List -->
+    <record id="view_tcrm_offer_list" model="ir.ui.view">
+        <field name="name">tcrm.offer.list</field>
+        <field name="model">tcrm.offer</field>
+        <field name="arch" type="xml">
+            <list string="Teklifler" sample="1">
+                <field name="offer_number"/>
+                <field name="partner_id"/>
+                <field name="title"/>
+                <field name="status" widget="badge"
+                         decoration-info="status == 'draft'"
+                         decoration-success="status in ('published', 'viewed', 'approved')"
+                         decoration-warning="status == 'paused'"
+                         decoration-danger="status in ('revoked', 'expired', 'closed')"/>
+                <field name="amount_untaxed" sum="Net"/>
+                <field name="amount_tax" sum="KDV"/>
+                <field name="amount_total" sum="Toplam"/>
+                <field name="created_by"/>
+                <field name="create_date"/>
+                <field name="last_viewed_at"/>
+                <field name="approved_at"/>
+                <field name="valid_until"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_tcrm_offer_search" model="ir.ui.view">
+        <field name="name">tcrm.offer.search</field>
+        <field name="model">tcrm.offer</field>
+        <field name="arch" type="xml">
+            <search string="Teklifler">
+                <field name="offer_number"/>
+                <field name="title"/>
+                <field name="partner_id"/>
+                <field name="created_by"/>
+                <separator/>
+                <filter string="Taslak" name="draft" domain="[('status', '=', 'draft')]"/>
+                <filter string="Yayında" name="published" domain="[('status', 'in', ('published', 'viewed'))]"/>
+                <filter string="Onaylandı" name="approved" domain="[('status', '=', 'approved')]"/>
+                <filter string="Kapalı" name="closed" domain="[('status', 'in', ('closed', 'revoked', 'expired', 'paused'))]"/>
+                <separator/>
+                <filter string="Durum" name="group_status" context="{'group_by': 'status'}"/>
+                <filter string="Müşteri" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                <filter string="Oluşturan" name="group_creator" context="{'group_by': 'created_by'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Item list (embedded) -->
+    <record id="view_tcrm_offer_item_list" model="ir.ui.view">
+        <field name="name">tcrm.offer.item.list</field>
+        <field name="model">tcrm.offer.item</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sort_order" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="pricing_type"/>
+                <field name="unit_price"/>
+                <field name="billing_period"/>
+                <field name="selection_type"/>
+                <field name="default_selected"/>
+                <field name="taxable"/>
+                <field name="exclusive_group"/>
+                <field name="code" optional="hide"/>
+                <field name="custom_fee" optional="hide"/>
+                <field name="admin_note" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_tcrm_offer_form" model="ir.ui.view">
+        <field name="name">tcrm.offer.form</field>
+        <field name="model">tcrm.offer</field>
+        <field name="arch" type="xml">
+            <form string="Teklif">
+                <header>
+                    <button name="action_publish" type="object" string="Yayınla"
+                            class="btn-primary"
+                            invisible="status != 'draft'"
+                            groups="tcrm_offer.group_offer_manager"/>
+                    <button name="action_pause" type="object" string="Duraklat"
+                            invisible="status not in ('published', 'viewed')"
+                            groups="tcrm_offer.group_offer_manager"/>
+                    <button name="action_reopen" type="object" string="Yeniden Aç"
+                            invisible="status != 'paused'"
+                            groups="tcrm_offer.group_offer_manager"/>
+                    <button name="action_revoke" type="object" string="İptal Et"
+                            invisible="status in ('draft', 'closed', 'revoked', 'approved')"
+                            groups="tcrm_offer.group_offer_manager"
+                            confirm="Public link iptal edilecek. Emin misiniz?"/>
+                    <button name="action_close" type="object" string="Kapat"
+                            invisible="status == 'closed'"
+                            groups="tcrm_offer.group_offer_manager"
+                            confirm="Teklif kalıcı olarak kapatılacak. Emin misiniz?"/>
+                    <button name="action_duplicate" type="object" string="Çoğalt"/>
+                    <button name="action_reset_passcode" type="object" string="Passcode Yenile"
+                            invisible="status in ('draft', 'closed', 'revoked', 'approved')"
+                            groups="tcrm_offer.group_offer_manager"/>
+                    <button name="action_copy_public_link" type="object" string="Linki Göster"
+                            invisible="not public_token_plaintext"/>
+                    <field name="status" widget="statusbar"
+                            statusbar_visible="draft,published,viewed,approved,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="offer_number"/>
+                        <h1><field name="offer_number" readonly="1"/></h1>
+                        <h2><field name="title" placeholder="Teklif başlığı"/></h2>
+                    </div>
+                    <group>
+                        <group string="Müşteri">
+                            <field name="partner_id"/>
+                            <field name="partner_contact_name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group string="Ticari">
+                            <field name="valid_until"/>
+                            <field name="tax_rate_snapshot"/>
+                            <field name="discount_amount"/>
+                            <field name="discount_reason" invisible="not discount_amount"/>
+                            <field name="created_by" readonly="1"/>
+                            <field name="version" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Reklam Bütçesi Aralığı">
+                        <field name="ad_budget_default"/>
+                        <field name="ad_budget_min"/>
+                        <field name="ad_budget_max"/>
+                    </group>
+                    <group string="Hizmet Sağlayıcı">
+                        <field name="provider_legal_name"/>
+                        <field name="provider_short_name"/>
+                        <field name="catalogue_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Özet &amp; Kapsam" name="content">
+                            <separator string="Yönetici Özeti"/>
+                            <field name="summary"/>
+                            <separator string="Kapsam / Hedefler"/>
+                            <field name="scope_html"/>
+                            <separator string="Sözleşme Giriş (Taraflar / Konu / Tanımlar)"/>
+                            <field name="contract_intro_html"/>
+                            <separator string="Ticari Şartlar (Maddeler)"/>
+                            <field name="terms_html"/>
+                        </page>
+                        <page string="Hizmet Kalemleri" name="items">
+                            <field name="item_ids" context="{'default_offer_id': id}">
+                                <list editable="bottom">
+                                    <field name="sort_order" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="package_group"/>
+                                    <field name="category"/>
+                                    <field name="pricing_type"/>
+                                    <field name="unit_price"/>
+                                    <field name="custom_fee" optional="show"/>
+                                    <field name="billing_period"/>
+                                    <field name="selection_type"/>
+                                    <field name="default_selected"/>
+                                    <field name="taxable"/>
+                                    <field name="exclusive_group"/>
+                                    <field name="client_choice_label" optional="hide"/>
+                                    <field name="client_choice_options" optional="hide"/>
+                                    <field name="code" optional="hide"/>
+                                    <field name="admin_note" optional="hide"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="category"/>
+                                        <field name="code"/>
+                                        <field name="pricing_type"/>
+                                        <field name="unit_price"/>
+                                        <field name="percentage_rate"/>
+                                        <field name="quantity"/>
+                                        <field name="custom_fee"/>
+                                        <field name="billing_period"/>
+                                        <field name="selection_type"/>
+                                        <field name="default_selected"/>
+                                        <field name="taxable"/>
+                                        <field name="exclusive_group"/>
+                                        <field name="sort_order"/>
+                                    </group>
+                                    <field name="description"/>
+                                    <group>
+                                        <field name="includes_html"/>
+                                        <field name="excludes_html"/>
+                                        <field name="admin_note"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_monthly"/>
+                                <field name="amount_one_time"/>
+                                <field name="amount_per_session"/>
+                                <field name="amount_untaxed"/>
+                                <field name="amount_tax"/>
+                                <div class="oe_subtotal_footer_separator"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="Public Erişim" name="public">
+                            <group>
+                                <field name="public_url"/>
+                                <field name="public_token_plaintext" password="False"/>
+                                <field name="passcode_plaintext"/>
+                                <field name="passcode_attempt_count" readonly="1"/>
+                                <field name="locked_until" readonly="1"/>
+                                <field name="published_at" readonly="1"/>
+                                <field name="first_viewed_at" readonly="1"/>
+                                <field name="last_viewed_at" readonly="1"/>
+                                <field name="kvkk_url"/>
+                                <field name="terms_version"/>
+                                <field name="kvkk_version"/>
+                            </group>
+                            <separator string="Aktif Oturumlar"/>
+                            <field name="session_ids" readonly="1">
+                                <list>
+                                    <field name="authenticated_at"/>
+                                    <field name="expires_at"/>
+                                    <field name="last_seen_at"/>
+                                    <field name="ip_masked"/>
+                                    <field name="revoked"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Onay" name="approval" invisible="not approval_id">
+                            <group>
+                                <field name="approval_id" readonly="1"/>
+                                <field name="approved_at" readonly="1"/>
+                            </group>
+                            <field name="approval_ids" readonly="1">
+                                <list>
+                                    <field name="approver_name"/>
+                                    <field name="approver_email"/>
+                                    <field name="approver_company"/>
+                                    <field name="net_total"/>
+                                    <field name="tax_total"/>
+                                    <field name="gross_total"/>
+                                    <field name="approved_at"/>
+                                    <field name="ip_masked"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="approver_name"/>
+                                        <field name="approver_company"/>
+                                        <field name="approver_email"/>
+                                        <field name="approver_phone"/>
+                                        <field name="ad_budget"/>
+                                        <field name="net_total"/>
+                                        <field name="tax_total"/>
+                                        <field name="gross_total"/>
+                                        <field name="monthly_net"/>
+                                        <field name="one_time_net"/>
+                                        <field name="per_session_net"/>
+                                        <field name="approved_at"/>
+                                        <field name="ip_masked"/>
+                                        <field name="snapshot_checksum"/>
+                                    </group>
+                                    <field name="selected_item_ids_json"/>
+                                    <field name="snapshot_json"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Audit" name="audit">
+                            <field name="event_ids" readonly="1">
+                                <list>
+                                    <field name="create_date"/>
+                                    <field name="event_type"/>
+                                    <field name="actor_type"/>
+                                    <field name="actor_user_id"/>
+                                    <field name="summary"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_offer" model="ir.actions.act_window">
+        <field name="name">Teklifler</field>
+        <field name="res_model">tcrm.offer</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_tcrm_offer_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">İlk teklifinizi oluşturun</p>
+            <p>Şablondan başlayabilir veya sıfırdan hazırlayabilirsiniz.</p>
+        </field>
+    </record>
+</odoo>

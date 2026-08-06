@@ -77,7 +77,18 @@ class TcRmTenant(models.Model):
             values = dict(vals)
             if not values.get('company_id'):
                 company_name = values.get('client_name') or values.get('name')
-                company = self.env['res.company'].create({'name': company_name})
+                company_vals = {'name': company_name}
+                try_cur = self.env['res.currency'].sudo().with_context(
+                    active_test=False
+                ).search([('name', '=', 'TRY')], limit=1)
+                if try_cur:
+                    if not try_cur.active:
+                        try_cur.active = True
+                    company_vals['currency_id'] = try_cur.id
+                country_tr = self.env.ref('base.tr', raise_if_not_found=False)
+                if country_tr:
+                    company_vals['country_id'] = country_tr.id
+                company = self.env['res.company'].create(company_vals)
                 values['company_id'] = company.id
             prepared_vals_list.append(values)
 
@@ -170,6 +181,9 @@ class TcRmTenant(models.Model):
 
     @api.model
     def seed_master_demo_data(self):
+        # Master-only. Never run while installing modules into a tenant DB.
+        if self.env.cr.dbname != 'tcrm_master':
+            return True
         # Coherent multi-tenant scenario aligned with the Nova Estates mock data.
         # Coordinates are real Turkish city pins so the Command Center map is editable
         # and useful out of the box (no "estimated" hash pins).
@@ -503,3 +517,82 @@ class TcRmTenant(models.Model):
             package_module_ids = set(package_modules.ids)
             for entitlement in existing.filtered(lambda e: e.source == 'package' and e.module_id.id not in package_module_ids):
                 entitlement.state = 'blocked'
+
+    def _sync_entitlements_from_module_names(self, module_names, source='provision', state='allowed'):
+        """Create/allow entitlements from a technical module name list (e.g. provision job)."""
+        Module = self.env['ir.module.module'].sudo()
+        Ent = self.env['tcrm.tenant.module.entitlement'].sudo()
+        names = [n.strip() for n in (module_names or []) if n and str(n).strip()]
+        # Skip pure framework modules that clutter Access Management.
+        skip = {'base', 'web', 'mail'}
+        names = [n for n in names if n not in skip]
+        if not names:
+            return Ent
+        modules = Module.search([('name', 'in', names)])
+        created = Ent
+        for tenant in self:
+            for module in modules:
+                existing = Ent.search([
+                    ('tenant_id', '=', tenant.id),
+                    ('module_id', '=', module.id),
+                ], limit=1)
+                if existing:
+                    # Never override a manual block with provision sync.
+                    if existing.source == 'manual' and existing.state == 'blocked':
+                        continue
+                    if existing.state != state or existing.source == 'package':
+                        vals = {'state': state}
+                        if existing.source != 'manual':
+                            vals['source'] = source
+                        existing.write(vals)
+                    created |= existing
+                else:
+                    created |= Ent.create({
+                        'tenant_id': tenant.id,
+                        'module_id': module.id,
+                        'state': state,
+                        'source': source,
+                    })
+        return created
+
+    def _ensure_default_subscription(self, package_code='growth'):
+        """Ensure tenant has an active subscription so Access Management can sync apps."""
+        Package = self.env['tcrm.saas.package'].sudo()
+        Package._ensure_default_package_modules()
+        Sub = self.env['tcrm.tenant.subscription'].sudo()
+        for tenant in self:
+            if tenant.subscription_ids.filtered(lambda s: s.status in ('trial', 'active', 'past_due')):
+                continue
+            pkg = Package.search([('code', '=', package_code), ('active', '=', True)], limit=1)
+            if not pkg:
+                pkg = Package.search([('code', '=', 'all_free_apps')], limit=1)
+            if not pkg:
+                pkg = Package.search([('active', '=', True)], limit=1)
+            if not pkg:
+                continue
+            Sub.create({
+                'tenant_id': tenant.id,
+                'package_id': pkg.id,
+                'billing_cycle': 'monthly',
+                'status': 'trial',
+            })
+            tenant._sync_module_entitlements_from_subscription()
+        return True
+
+    def action_sync_entitlements_from_provision(self):
+        """Backfill Access Management rows from the latest provisioning module_set."""
+        Job = self.env['tcrm.provisioning.job'].sudo() if 'tcrm.provisioning.job' in self.env else None
+        for tenant in self:
+            names = []
+            if Job is not None:
+                job = Job.search([('tenant_id', '=', tenant.id)], order='id desc', limit=1)
+                if job and job.module_set:
+                    names = [n.strip() for n in job.module_set.split(',') if n.strip()]
+            if not names:
+                # Fallback: product defaults used for dedicated tenants.
+                names = [
+                    'crm', 'contacts', 'tcrm_propertio', 'tcrm_call_center', 'tcrm_web_enhance',
+                ]
+            tenant._ensure_default_subscription('growth')
+            tenant._sync_entitlements_from_module_names(names, source='provision')
+        return True

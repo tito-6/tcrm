@@ -59,18 +59,16 @@ class AllProvidersExhaustedError(Exception):
         super().__init__(self.user_message())
 
     def user_message(self):
+        # Legacy multi-provider path — never claim "all services" or "0 minutes".
         if self.next_available_at:
             now = datetime.utcnow()
             if self.next_available_at.tzinfo:
                 from datetime import timezone
                 now = datetime.now(timezone.utc).replace(tzinfo=None)
             delta = self.next_available_at - now
-            mins = max(0, int(delta.total_seconds() / 60))
-            return (
-                f"All AI services are temporarily at capacity. "
-                f"Please try again in {mins} minutes."
-            )
-        return (
-            "All AI services are temporarily unavailable. "
-            "Please try again later."
-        )
+            secs = max(5, int(delta.total_seconds()))
+            if secs < 60:
+                return f"AI isteği geçici olarak sınırlandı. {secs} saniye sonra tekrar deneyin."
+            mins = max(1, secs // 60)
+            return f"AI isteği geçici olarak sınırlandı. {mins} dakika sonra tekrar deneyin."
+        return "AI sağlayıcısına şu an ulaşılamıyor. Lütfen kısa süre sonra tekrar deneyin."

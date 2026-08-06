@@ -1,3 +1,5 @@
+import re
+
 from dateutil.relativedelta import relativedelta
 
 from tcrm import api, fields, models, _
@@ -58,10 +60,7 @@ class TcrmSaasPackage(models.Model):
     def action_fill_all_installed_apps(self):
         """Super-admin helper: put every installed application module on this package."""
         self.ensure_one()
-        apps = self.env["ir.module.module"].sudo().search([
-            ("application", "=", True),
-            ("state", "=", "installed"),
-        ])
+        apps = self._installed_application_modules()
         self.module_ids = [(6, 0, apps.ids)]
         # Re-sync entitlements for tenants on this package
         subs = self.env["tcrm.tenant.subscription"].sudo().search([
@@ -72,14 +71,58 @@ class TcrmSaasPackage(models.Model):
         return True
 
     @api.model
-    def _ensure_all_apps_package(self):
-        """Create/update the master 'All Free Apps' package for super-admin assignment."""
-        Package = self.sudo()
-        pkg = Package.search([("code", "=", "all_free_apps")], limit=1)
-        apps = self.env["ir.module.module"].sudo().search([
+    def _installed_application_modules(self):
+        return self.env["ir.module.module"].sudo().search([
             ("application", "=", True),
             ("state", "=", "installed"),
-        ])
+        ], order="shortdesc, name")
+
+    @api.model
+    def _modules_by_technical_names(self, names):
+        """Resolve ir.module.module rows by technical name (application or not)."""
+        names = [n for n in (names or []) if n]
+        if not names:
+            return self.env["ir.module.module"]
+        return self.env["ir.module.module"].sudo().search([("name", "in", names)])
+
+    @api.model
+    def _ensure_default_package_modules(self):
+        """Ensure Starter/Growth packages reference real installed modules by name.
+
+        XML refs like base.module_tcrm_* can be empty after noupdate installs;
+        resolve by technical name instead so Access Management is never stuck
+        with a package that grants nothing useful.
+        """
+        Package = self.sudo()
+        defaults = {
+            "starter": ["crm", "tcrm_propertio", "contacts"],
+            "growth": [
+                "crm", "tcrm_propertio", "tcrm_call_center", "tcrm_web_enhance",
+                "contacts", "calendar", "project_todo", "account",
+            ],
+        }
+        for code, names in defaults.items():
+            pkg = Package.search([("code", "=", code)], limit=1)
+            if not pkg:
+                continue
+            mods = self._modules_by_technical_names(names)
+            # Prefer application modules when present; keep non-apps that matter for product.
+            apps = mods.filtered(lambda m: m.application and m.state == "installed")
+            extras = mods.filtered(lambda m: not m.application and m.state == "installed")
+            target = apps | extras
+            if target and (not pkg.module_ids or set(pkg.module_ids.ids) != set(target.ids)):
+                # Only auto-fill when package is empty or missing key product apps.
+                if not pkg.module_ids or not (pkg.module_ids & apps):
+                    pkg.module_ids = [(6, 0, target.ids)]
+        return True
+
+    @api.model
+    def _ensure_all_apps_package(self):
+        """Create/update the master 'All Free Apps' package for super-admin assignment."""
+        self._ensure_default_package_modules()
+        Package = self.sudo()
+        pkg = Package.search([("code", "=", "all_free_apps")], limit=1)
+        apps = self._installed_application_modules()
         vals = {
             "name": "All Free Apps",
             "code": "all_free_apps",
@@ -211,6 +254,56 @@ class TcrmTenantDomain(models.Model):
         ("tcrm_tenant_domain_uniq", "unique(domain)", "Domain must be unique."),
     ]
 
+    # Allow a single subdomain label (perlavillalari) or a FQDN
+    # (perlavillalari.tcrm.online). Emails and spaces are rejected separately.
+    _DOMAIN_RE = re.compile(
+        r"^(?=.{1,253}$)(?!-)[a-z0-9-]+(?:\.[a-z0-9-]+)*$"
+    )
+
+    @api.model
+    def _normalize_domain(self, value):
+        d = (value or "").strip().lower().rstrip(".")
+        if d.startswith("https://"):
+            d = d[8:]
+        elif d.startswith("http://"):
+            d = d[7:]
+        d = d.split("/")[0].split("?")[0]
+        return d
+
+    @api.constrains("domain")
+    def _check_domain_format(self):
+        for rec in self:
+            d = self._normalize_domain(rec.domain)
+            if not d:
+                raise ValidationError(_("Domain is required."))
+            if "@" in d:
+                raise ValidationError(_(
+                    "Domain cannot be an email address (got %r). "
+                    "Use a hostname such as perlavillalari.tcrm.online."
+                ) % (rec.domain,))
+            if " " in d or not self._DOMAIN_RE.match(d):
+                raise ValidationError(_(
+                    "Invalid domain %r. Use a lowercase hostname like "
+                    "tenant.tcrm.online (letters, digits, dots, hyphens)."
+                ) % (rec.domain,))
+            # Stored value must already be normalized by create/write.
+            if d != (rec.domain or "").strip().lower().rstrip("."):
+                raise ValidationError(_(
+                    "Domain must be a normalized hostname (got %r)."
+                ) % (rec.domain,))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("domain"):
+                vals["domain"] = self._normalize_domain(vals["domain"])
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get("domain"):
+            vals = dict(vals, domain=self._normalize_domain(vals["domain"]))
+        return super().write(vals)
+
     @api.constrains("tenant_id", "is_primary", "active")
     def _check_single_primary(self):
         for rec in self.filtered(lambda r: r.is_primary and r.active):
@@ -230,7 +323,11 @@ class TcrmTenantModuleEntitlement(models.Model):
     company_id = fields.Many2one(related="tenant_id.company_id", store=True, readonly=True)
     module_id = fields.Many2one("ir.module.module", required=True, ondelete="cascade")
     state = fields.Selection([("allowed", "Allowed"), ("blocked", "Blocked"), ("trial", "Trial")], default="allowed", required=True)
-    source = fields.Selection([("package", "Package"), ("manual", "Manual")], default="manual", required=True)
+    source = fields.Selection(
+        [("package", "Package"), ("manual", "Manual"), ("provision", "Provision")],
+        default="manual",
+        required=True,
+    )
     note = fields.Char(translate=True)
 
     _sql_constraints = [

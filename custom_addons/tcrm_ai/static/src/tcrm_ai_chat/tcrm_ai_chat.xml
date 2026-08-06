@@ -1,76 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="tcrm_ai.TcrmAiChat">
-        <div class="o_tcrm_ai_chat d-flex flex-column h-100 p-4">
-            <div class="mb-3">
-                <h4 class="mb-0">TCRM AI</h4>
-                <p class="text-muted small mb-0">Ask about payment plans, sales, clients, or anything. Answers use this database and can include links to records.</p>
-            </div>
-            <div class="flex-grow-1 overflow-auto mb-3 border rounded p-3 bg-light" style="min-height: 200px;">
-                <t t-if="state.history.length === 0">
-                    <p class="text-muted">No messages yet. Type a question below.</p>
-                </t>
-                <t t-else="">
+        <div class="o_tcrm_ai_chat o_tcrm_ai_shell d-flex h-100">
+            <aside t-att-class="{'o_tcrm_ai_sidebar': true, 'o_tcrm_ai_sidebar--closed': !state.sidebarOpen}">
+                <div class="o_tcrm_ai_sidebar_head">
+                    <button class="btn btn-primary btn-sm w-100" t-on-click="onNewConversation" t-att-disabled="state.loading">
+                        <i class="fa fa-plus me-1"/> Yeni sohbet
+                    </button>
+                </div>
+                <div class="o_tcrm_ai_sidebar_list">
+                    <t t-foreach="state.conversations" t-as="conv" t-key="conv.id">
+                        <button type="button"
+                                t-att-class="{'o_tcrm_ai_conv_item': true, 'active': state.conversationId === conv.id}"
+                                t-on-click="() => this.selectConversation(conv.id)">
+                            <span class="o_tcrm_ai_conv_title text-truncate" t-esc="conv.name"/>
+                            <span class="o_tcrm_ai_conv_meta" t-esc="formatTime(conv.last_message_date)"/>
+                        </button>
+                    </t>
+                    <div t-if="!state.conversations.length" class="text-muted small p-3">Henüz sohbet yok.</div>
+                </div>
+            </aside>
+
+            <section class="o_tcrm_ai_main d-flex flex-column flex-grow-1 min-w-0">
+                <header class="o_tcrm_ai_header">
+                    <button class="btn btn-link d-lg-none p-0 me-2" t-on-click="toggleSidebar" aria-label="Sohbetler">
+                        <i class="fa fa-bars"/>
+                    </button>
+                    <div class="o_tcrm_ai_header_title">
+                        <h4 class="mb-0">TCRM AI Asistan</h4>
+                    </div>
+                </header>
+
+                <div t-if="!chatEnabled" class="alert alert-warning m-3" role="alert">
+                    <t t-esc="state.disabledReason || 'TCRM AI kullanılamıyor.'"/>
+                </div>
+
+                <div class="o_tcrm_ai_messages flex-grow-1 overflow-auto" t-ref="messages">
                     <t t-foreach="state.history" t-as="item" t-key="item_index">
-                        <div t-attf-class="mb-3 #{item.role === 'user' ? 'text-end' : ''}">
-                            <t t-if="item.role === 'user'">
-                                <span class="badge bg-primary p-2"><t t-esc="item.content"/></span>
-                            </t>
-                            <t t-else="">
-                                <div class="text-start">
-                                    <div t-if="item.error" class="text-danger small"><t t-esc="item.answer"/></div>
-                                    <div t-else="" class="small">
-                                        <div class="d-flex flex-wrap gap-1 mb-1">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onCopy(item)">Copy</button>
-                                            <t t-if="item.tables and item.tables.length">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onExport(item, 'xlsx')">Export Excel</button>
-                                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onExport(item, 'html')">Preview HTML</button>
-                                                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="() =&gt; this.onExport(item, 'pdf')">Export PDF</button>
-                                            </t>
-                                        </div>
-                                        <div class="o_tcrm_ai_answer text-break" style="white-space: pre-wrap;" t-esc="item.answer"/>
-                                        <t t-if="item.tables and item.tables.length">
-                                            <t t-foreach="item.tables" t-as="tbl" t-key="tbl_index">
-                                                <div class="table-responsive mt-2">
-                                                    <table class="table table-sm table-bordered">
-                                                        <thead><tr>
-                                                            <t t-foreach="tbl.headers" t-as="h" t-key="h"><th t-esc="h"/></t>
-                                                        </tr></thead>
-                                                        <tbody>
-                                                            <t t-foreach="tbl.rows" t-as="row" t-key="row_index">
-                                                                <tr><t t-foreach="row" t-as="cell" t-key="cell_index"><td t-esc="cell"/></t></tr>
+                        <div t-att-class="{'o_tcrm_ai_row': true, 'o_tcrm_ai_row--user': item.role === 'user', 'o_tcrm_ai_row--assistant': item.role !== 'user'}">
+                            <div class="o_tcrm_ai_avatar" t-esc="item.role === 'user' ? (userName || 'S').charAt(0) : 'AI'"/>
+                            <div class="o_tcrm_ai_bubble_wrap">
+                                <div class="o_tcrm_ai_meta">
+                                    <span t-esc="item.role === 'user' ? userName : 'TCRM AI'"/>
+                                    <span class="o_tcrm_ai_time" t-esc="formatTime(item.create_date)"/>
+                                </div>
+                                <t t-if="item.role === 'user'">
+                                    <div class="o_tcrm_ai_bubble o_tcrm_ai_bubble--user" t-esc="item.content"/>
+                                </t>
+                                <t t-else="">
+                                    <div t-att-class="{'o_tcrm_ai_bubble': true, 'o_tcrm_ai_bubble--assistant': true, 'o_tcrm_ai_bubble--error': item.error}"
+                                         t-esc="item.answer"/>
+                                    <t t-if="item.tables and item.tables.length">
+                                        <t t-foreach="item.tables" t-as="tbl" t-key="tbl_index">
+                                            <div class="table-responsive mt-2 o_tcrm_ai_report_card">
+                                                <table class="table table-sm table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <t t-foreach="tbl.headers || []" t-as="h" t-key="h_index">
+                                                                <th t-esc="h"/>
                                                             </t>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </t>
-                                        </t>
-                                        <t t-if="item.links and item.links.length">
-                                            <div class="mt-2">
-                                                <t t-foreach="item.links" t-as="link" t-key="link_index">
-                                                    <a t-att-href="link.url" t-esc="link.label" class="btn btn-link btn-sm p-0 me-2"/>
-                                                </t>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <t t-foreach="tbl.rows || []" t-as="row" t-key="row_index">
+                                                            <tr>
+                                                                <t t-foreach="row" t-as="cell" t-key="cell_index">
+                                                                    <td t-esc="cell"/>
+                                                                </t>
+                                                            </tr>
+                                                        </t>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </t>
+                                        <div class="btn-group btn-group-sm mt-1">
+                                            <button class="btn btn-outline-secondary" t-on-click="() => this.onExport(item, 'xlsx')">Excel</button>
+                                            <button class="btn btn-outline-secondary" t-on-click="() => this.onExport(item, 'html')">HTML</button>
+                                        </div>
+                                    </t>
+                                    <t t-if="(item.citations and item.citations.length) or (item.links and item.links.length)">
+                                        <div class="o_tcrm_ai_sources mt-2">
+                                            <div class="small fw-semibold mb-1">İnternet kaynakları</div>
+                                            <t t-foreach="item.citations and item.citations.length ? item.citations : item.links" t-as="link" t-key="link_index">
+                                                <button class="btn btn-link btn-sm p-0 d-block text-start"
+                                                        t-on-click="() => this.openLink(link.url)"
+                                                        t-esc="link.title || link.label || link.url"/>
+                                            </t>
+                                        </div>
+                                    </t>
+                                    <div class="o_tcrm_ai_actions mt-1">
+                                        <button class="btn btn-link btn-sm p-0 me-2" t-on-click="() => this.onCopy(item)">Kopyala</button>
+                                        <button t-if="item.error and state.lastFailedText"
+                                                class="btn btn-link btn-sm p-0"
+                                                t-on-click="onRetry">Tekrar dene</button>
                                     </div>
-                                </div>
-                            </t>
+                                </t>
+                            </div>
                         </div>
                     </t>
-                </t>
-            </div>
-            <div class="d-flex gap-2">
-                <input type="text"
-                       class="form-control"
-                       t-att-placeholder="placeholder"
-                       t-model="state.message"
-                       t-on-keydown="onKeydown"
-                       placeholder="Ask anything…"/>
-                <button type="button" class="btn btn-primary" t-on-click="onSend" t-att-disabled="state.loading">
-                    <t t-if="state.loading">...</t>
-                    <t t-else="">Send</t>
-                </button>
-            </div>
+                    <div t-if="state.loading" class="o_tcrm_ai_typing">
+                        <span class="o_tcrm_ai_avatar">AI</span>
+                        <span class="o_tcrm_ai_typing_dots" aria-live="polite">Yanıtlanıyor…</span>
+                    </div>
+                </div>
+
+                <footer class="o_tcrm_ai_composer">
+                    <textarea class="form-control"
+                              rows="2"
+                              t-att-disabled="state.loading || !chatEnabled"
+                              t-att-placeholder="placeholder"
+                              t-model="state.message"
+                              t-on-keydown="onKeydown"/>
+                    <button class="btn btn-primary"
+                            t-att-disabled="state.loading || !chatEnabled"
+                            t-on-click="() => this.onSend()">
+                        Gönder
+                    </button>
+                </footer>
+            </section>
         </div>
     </t>
 </templates>

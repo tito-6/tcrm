@@ -1,0 +1,41 @@
+﻿# Translation of Tcrm Server.
+# This file contains the translation of the following modules:
+# * pos_self_order_pine_labs
+#
+# "Junko Augias (juau)" <juau@tcrm.com>, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tcrm Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-30 18:37+0000\n"
+"PO-Revision-Date: 2025-10-21 05:30+0000\n"
+"Last-Translator: \"Junko Augias (juau)\" <juau@tcrm.com>\n"
+"Language-Team: Japanese <https://translate.tcrm.com/projects/tcrm-19/"
+"pos_self_order_pine_labs/ja/>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.12.2\n"
+
+#. module: pos_self_order_pine_labs
+#: model:ir.model.fields,field_description:pos_self_order_pine_labs.field_pos_payment_method__display_name
+msgid "Display Name"
+msgstr "表示名"
+
+#. module: pos_self_order_pine_labs
+#: model:ir.model.fields,field_description:pos_self_order_pine_labs.field_pos_payment_method__id
+msgid "ID"
+msgstr "ID"
+
+#. module: pos_self_order_pine_labs
+#. tcrm-javascript
+#: code:addons/pos_self_order_pine_labs/static/src/app/services/self_order_service.js:0
+msgid "Pine Labs Error: %(errorMessage)s"
+msgstr "Pine Labs エラー: %(errorMessage)s"
+
+#. module: pos_self_order_pine_labs
+#: model:ir.model,name:pos_self_order_pine_labs.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "POS支払方法"

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data numupdate="1">
+        <record id="group_integration_request_admin" model="res.groups">
+            <field name="name">TCRM Integration Request Administrator</field>
+            <field name="comment">Restricted group for managing security and idempotency integration requests.</field>
+        </record>
+    </data>
+</odoo>

@@ -106,7 +106,7 @@
                             <field name="currency"/>
                         </group>
                         <group>
-                            <field name="zernio_id" readonly="1"/>
+                            <field name="zernio_id" string="TCRM Meta ID" readonly="1"/>
                             <field name="platform_campaign_id" readonly="1"/>
                             <field name="review_status"/>
                             <field name="spend"/>
@@ -118,6 +118,37 @@
                             <field name="last_sync_at"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Reklam Setleri (AdSets)" name="adsets">
+                            <field name="adset_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="platform_adset_id"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="daily_budget"/>
+                                    <field name="spend"/>
+                                    <field name="impressions"/>
+                                    <field name="clicks"/>
+                                    <field name="ad_count"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Reklamlar &amp; Kreatifler (Ads &amp; Artworks)" name="ads">
+                            <field name="meta_ad_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="platform_ad_id"/>
+                                    <field name="adset_name"/>
+                                    <field name="source_platform" widget="badge"/>
+                                    <field name="status"/>
+                                    <field name="creative_media_type"/>
+                                    <field name="spend"/>
+                                    <field name="impressions"/>
+                                    <field name="clicks"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
                 <chatter/>
             </form>
@@ -227,5 +258,153 @@
         <field name="res_model">tcrm.marketing.boost.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+    </record>
+
+    <!-- AdSet Views -->
+    <record id="view_tcrm_marketing_adset_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.adset.list</field>
+        <field name="model">tcrm.marketing.adset</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="platform_adset_id"/>
+                <field name="campaign_id"/>
+                <field name="status" widget="badge"/>
+                <field name="daily_budget"/>
+                <field name="spend"/>
+                <field name="impressions"/>
+                <field name="clicks"/>
+                <field name="ad_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_adset_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.adset.form</field>
+        <field name="model">tcrm.marketing.adset</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="platform_adset_id"/>
+                            <field name="campaign_id"/>
+                            <field name="ad_account_id"/>
+                            <field name="status"/>
+                            <field name="daily_budget"/>
+                            <field name="lifetime_budget"/>
+                        </group>
+                        <group>
+                            <field name="spend"/>
+                            <field name="impressions"/>
+                            <field name="clicks"/>
+                            <field name="ad_count"/>
+                            <field name="last_sync_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Reklamlar &amp; Kreatifler" name="ads">
+                            <field name="ad_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="platform_ad_id"/>
+                                    <field name="source_platform" widget="badge"/>
+                                    <field name="status"/>
+                                    <field name="creative_media_type"/>
+                                    <field name="spend"/>
+                                    <field name="impressions"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_adset" model="ir.actions.act_window">
+        <field name="name">Meta Reklam Setleri</field>
+        <field name="res_model">tcrm.marketing.adset</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Meta Ad Views with Visual Artwork Preview -->
+    <record id="view_tcrm_marketing_meta_ad_list" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.ad.list</field>
+        <field name="model">tcrm.marketing.meta.ad</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="platform_ad_id"/>
+                <field name="campaign_id"/>
+                <field name="adset_name"/>
+                <field name="source_platform" widget="badge"/>
+                <field name="status" widget="badge"/>
+                <field name="creative_media_type"/>
+                <field name="spend"/>
+                <field name="impressions"/>
+                <field name="clicks"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_marketing_meta_ad_form" model="ir.ui.view">
+        <field name="name">tcrm.marketing.meta.ad.form</field>
+        <field name="model">tcrm.marketing.meta.ad</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_refresh_creative_from_zernio" type="object"
+                            string="Kreatifi TCRM Meta API’den Güncelle" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Genel Bilgiler">
+                            <field name="name"/>
+                            <field name="platform_ad_id"/>
+                            <field name="zernio_id" string="TCRM Meta ID"/>
+                            <field name="source_platform" widget="badge"/>
+                            <field name="status"/>
+                            <field name="campaign_id"/>
+                            <field name="adset_id"/>
+                            <field name="ad_account_id"/>
+                            <field name="meta_ads_manager_url" widget="url"/>
+                        </group>
+                        <group string="Performans">
+                            <field name="spend"/>
+                            <field name="impressions"/>
+                            <field name="clicks"/>
+                            <field name="ctr"/>
+                            <field name="cpc"/>
+                            <field name="cpm"/>
+                            <field name="last_sync_at"/>
+                        </group>
+                    </group>
+                    <group string="Kreatif Görsel / Video Sanat Eseri (Artwork)">
+                        <group>
+                            <field name="creative_media_type"/>
+                            <field name="creative_title"/>
+                            <field name="creative_permalink" widget="url"/>
+                            <field name="creative_image_url" widget="url"/>
+                            <field name="creative_video_url" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="creative_body"/>
+                        </group>
+                    </group>
+                    <div class="o_tcrm_mh_crm_creative_preview mb-3 text-center"
+                         style="background:#f8f9fa;border-radius:8px;padding:16px;">
+                        <field name="creative_html" nolabel="1" colspan="2"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_marketing_meta_ad" model="ir.actions.act_window">
+        <field name="name">Meta Reklamlar &amp; Kreatifler</field>
+        <field name="res_model">tcrm.marketing.meta.ad</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>

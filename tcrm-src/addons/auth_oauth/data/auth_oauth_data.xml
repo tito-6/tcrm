@@ -8,7 +8,7 @@
             <field name="validation_endpoint">https://accounts.tcrm.com/oauth2/tokeninfo</field>
             <field name="css_class">o_auth_oauth_provider_icon o_tcrm_provider</field>
             <field name="body">Sign in with Tcrm.com</field>
-            <field name="enabled" eval="True"/>
+            <field name="enabled" eval="False"/>
         </record>
         <record id="provider_facebook" model="auth.oauth.provider">
             <field name="name">Facebook Graph</field>

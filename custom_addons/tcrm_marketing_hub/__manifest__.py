@@ -2,17 +2,18 @@
 # Part of TCRM. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Marketing Hub',
-    'version': '1.5.3',
+    'version': '1.6.11',
     'category': 'Marketing',
-    'summary': 'Meta Business hub: reklamlar, lead formları, CRM entegrasyonu (Zernio)',
+    'summary': 'Meta + Google Ads hub: kreatifler, reklamlar, lead formları (Zernio)',
     'description': """
 Marketing Hub
 =============
-Full-page Meta Business workspace powered by Zernio API:
+Full-page Meta + Google Ads workspace powered by Zernio API:
 
-* Hub app (OWL) — assets, ads monitor, Meta leads, inbox, posts
+* Hub app (OWL) — assets, Meta/Google ads, creatives gallery, Meta leads, inbox
 * Lead Gen forms + leads → crm.lead
-* Ad account selector and campaign monitoring
+* Google Ads: campaigns, keywords, GAQL insights, IMAGE/YOUTUBE assets
+* Meta creatives library (images, videos, reels)
 * Instagram / Facebook publish, inbox, comments
     """,
     'author': 'Tcrm S.A.',
@@ -28,11 +29,13 @@ Full-page Meta Business workspace powered by Zernio API:
     'data': [
         'security/marketing_security.xml',
         'security/ir.model.access.csv',
+        'data/ir_cron.xml',
         'views/marketing_profile_views.xml',
         'views/marketing_account_views.xml',
         'views/marketing_post_views.xml',
         'views/marketing_inbox_views.xml',
         'views/marketing_ads_views.xml',
+        'views/marketing_google_views.xml',
         'views/marketing_analytics_views.xml',
         'views/marketing_lead_views.xml',
         'views/crm_lead_views.xml',

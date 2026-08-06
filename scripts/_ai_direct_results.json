@@ -1,0 +1,195 @@
+[
+  {
+    "q": "kaç tane satışımız var",
+    "direct": true,
+    "answer": "Toplam 7 onaylı satışımız var.",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "confirmed_sales",
+        "7",
+        "propertio.sale.state"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "satışlarımızı listele",
+    "direct": true,
+    "answer": "7 onaylı satış listelendi.",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "PROP-2026/0055",
+        "Mehmet Yılmaz",
+        "MB-A03",
+        "250,000"
+      ],
+      [
+        "PROP-2026/0056",
+        "Ayşe Kaya",
+        "MB-A04",
+        "320,000"
+      ],
+      [
+        "PROP-2026/0057",
+        "İbrahim Çelik",
+        "MB-A07",
+        "355,000"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "hangi daireler müsait",
+    "direct": true,
+    "answer": "10 müsait daire (toplam 18 birim).",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "MB-A02",
+        "Mavi Bahçe Rezidans",
+        "2+1",
+        "245,000"
+      ],
+      [
+        "MB-A05",
+        "Mavi Bahçe Rezidans",
+        "3+1",
+        "335,000"
+      ],
+      [
+        "MB-A08",
+        "Mavi Bahçe Rezidans",
+        "Penthouse",
+        "620,000"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "Mavi Bahçe projesi hakkında bilgi ver",
+    "direct": true,
+    "answer": "Mavi Bahçe Rezidans: şehir=İstanbul, tip=Rezidans, aşama=İnşaat, birim=10 (müsait=4, satılan=5).",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "Mavi Bahçe Rezidans",
+        "İstanbul",
+        "10",
+        "4",
+        "5"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "gecikmiş ödemeler var mı",
+    "direct": true,
+    "answer": "6 gecikmiş taksit var.",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "Mehmet Yılmaz",
+        "PROP-2026/0055",
+        "2026-06-18",
+        "30",
+        "16,566.67"
+      ],
+      [
+        "Ayşe Kaya",
+        "PROP-2026/0056",
+        "2026-06-18",
+        "30",
+        "12,444.44"
+      ],
+      [
+        "İbrahim Çelik",
+        "PROP-2026/0057",
+        "2026-06-18",
+        "30",
+        "11,093.75"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "toplam tahsilat ne kadar",
+    "direct": true,
+    "answer": "Toplam tahsilat (posted): 768,204.18.",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "total_collections",
+        "28",
+        "768204.18"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "Mehmet Yılmaz ödeme planı",
+    "direct": true,
+    "answer": "Mehmet Yılmaz — PROP-2026/0055 ödeme planı (14 taksit).",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "Ön Ödeme",
+        "2025-11-20",
+        "50,000.00",
+        "50,000.00",
+        "paid"
+      ],
+      [
+        "Taksit 1/12",
+        "2025-12-20",
+        "16,666.67",
+        "16,666.67",
+        "paid"
+      ],
+      [
+        "Taksit 2/12",
+        "2026-01-19",
+        "16,666.67",
+        "16,666.67",
+        "paid"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "OVER-999 kontratı",
+    "direct": true,
+    "answer": "\"OVER-999\" kontratı bulunamadı.",
+    "tables": 0,
+    "sample_rows": [],
+    "error": false
+  },
+  {
+    "q": "iptal satışlar",
+    "direct": true,
+    "answer": "İptal satış kaydı bulunamadı.",
+    "tables": 0,
+    "sample_rows": [],
+    "error": false
+  },
+  {
+    "q": "kaç satışımız var",
+    "direct": true,
+    "answer": "Toplam 7 onaylı satışımız var.",
+    "tables": 1,
+    "sample_rows": [
+      [
+        "confirmed_sales",
+        "7",
+        "propertio.sale.state"
+      ]
+    ],
+    "error": false
+  },
+  {
+    "q": "müşterilerimizi listele",
+    "direct": false,
+    "answer": null
+  }
+]

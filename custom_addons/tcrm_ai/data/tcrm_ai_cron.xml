@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_tcrm_ai_purge_conversations" model="ir.cron">
+        <field name="name">TCRM AI: purge old conversations</field>
+        <field name="model_id" ref="model_tcrm_ai_config"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_purge_old_conversations()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

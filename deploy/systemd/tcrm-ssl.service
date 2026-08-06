@@ -1,0 +1,13 @@
+[Unit]
+Description=TCRM tenant SSL cert expand (process spool)
+After=network-online.target nginx.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/usr/local/bin/ensure_tenant_ssl.sh --from-spool
+
+[Install]
+WantedBy=multi-user.target

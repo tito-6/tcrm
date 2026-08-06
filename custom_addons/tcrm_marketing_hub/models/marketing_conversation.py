@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
 import json
+from urllib.parse import quote
 
 from tcrm import _, api, fields, models
 from tcrm.exceptions import UserError
 
 from ..services.zernio_client import META_PLATFORMS, ZernioError
+
+
+def _avatar_fallback_url(name, username=None):
+    """Initials avatar when Meta/Zernio does not return participantPicture."""
+    label = (username or name or 'U').strip().lstrip('@') or 'U'
+    return (
+        'https://ui-avatars.com/api/?name=%s&background=0D9488&color=fff&size=128&bold=true'
+        % quote(label[:40])
+    )
 
 
 class MarketingConversation(models.Model):
@@ -32,6 +42,12 @@ class MarketingConversation(models.Model):
     participant_id = fields.Char(string='Katılımcı ID')
     participant_username = fields.Char(string='Kullanıcı Adı')
     participant_picture = fields.Char(string='Profil Fotoğrafı')
+    avatar_url = fields.Char(
+        string='Avatar',
+        compute='_compute_avatar_url',
+        store=True,
+        help='Profil fotoğrafı veya baş harf avatarı (liste / hub görüntüsü).',
+    )
     status = fields.Char(string='Durum')
     last_message = fields.Text(string='Son Mesaj')
     last_message_at = fields.Datetime(string='Son Mesaj Tarihi')
@@ -54,6 +70,35 @@ class MarketingConversation(models.Model):
     def _compute_message_count(self):
         for rec in self:
             rec.message_count = len(rec.inbox_message_ids)
+
+    @api.depends('participant_picture', 'participant_username', 'name')
+    def _compute_avatar_url(self):
+        for rec in self:
+            pic = (rec.participant_picture or '').strip()
+            if pic and pic.lower() not in ('none', 'null', 'false'):
+                rec.avatar_url = pic
+            else:
+                rec.avatar_url = _avatar_fallback_url(rec.name, rec.participant_username)
+
+    @api.model
+    def _extract_participant_picture(self, item):
+        part_dict = item.get('participant') if isinstance(item.get('participant'), dict) else {}
+        meta = item.get('metadata') if isinstance(item.get('metadata'), dict) else {}
+        pic = (
+            item.get('participantPicture')
+            or item.get('profilePicture')
+            or item.get('picture')
+            or item.get('avatar')
+            or part_dict.get('profilePicture')
+            or part_dict.get('picture')
+            or part_dict.get('avatar')
+            or part_dict.get('profile_pic')
+            or meta.get('participant_picture')
+            or False
+        )
+        if pic and str(pic).lower() not in ('none', 'null', 'false'):
+            return str(pic)
+        return False
 
     @api.model
     def action_sync_from_zernio(self):
@@ -78,18 +123,21 @@ class MarketingConversation(models.Model):
                     account = Account.search([('zernio_id', '=', acc_zid)], limit=1)
                     if not account:
                         continue
+                    part_dict = item.get('participant') if isinstance(item.get('participant'), dict) else {}
+                    part_pic = self._extract_participant_picture(item)
+                    last_at = item.get('lastMessageAt') or item.get('updatedTime')
                     vals = {
-                        'name': item.get('participantName') or item.get('participantUsername') or zid,
+                        'name': item.get('participantName') or item.get('participantUsername') or part_dict.get('name') or zid,
                         'zernio_id': zid,
                         'platform': platform if platform in ('instagram', 'facebook') else 'other',
                         'account_id': account.id,
-                        'participant_id': item.get('participantId') or False,
-                        'participant_username': item.get('participantUsername') or False,
-                        'participant_picture': item.get('participantPicture') or False,
+                        'participant_id': item.get('participantId') or part_dict.get('id') or False,
+                        'participant_username': item.get('participantUsername') or part_dict.get('username') or False,
+                        'participant_picture': part_pic,
                         'status': item.get('status') or False,
                         'last_message': item.get('lastMessage') or False,
-                        'last_message_at': fields.Datetime.to_datetime(item.get('lastMessageAt'))
-                        if item.get('lastMessageAt') else False,
+                        'last_message_at': fields.Datetime.to_datetime(last_at) if last_at else False,
+                        'unread': bool(item.get('unreadCount')),
                         'last_sync_at': fields.Datetime.now(),
                         'raw_json': json.dumps(item, ensure_ascii=False, default=str)[:8000],
                     }
@@ -106,6 +154,11 @@ class MarketingConversation(models.Model):
                 cursor = pagination.get('nextCursor') or pagination.get('cursor')
                 if not pagination.get('hasMore') or not cursor:
                     break
+
+        # Ensure avatar_url is populated for rows that still lack a picture URL
+        missing = self.sudo().search([('avatar_url', '=', False)])
+        if missing:
+            missing._compute_avatar_url()
 
         return {
             'type': 'ir.actions.client',

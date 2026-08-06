@@ -278,7 +278,7 @@ msgstr ""
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_copyright
 msgid ""
-"<span class=\"o_footer_copyright_name me-2 small\">Copyright © AK KOD "
+"<span class=\"o_footer_copyright_name me-2 small\">Copyright © AKOD "
 "YAZILIM BİLİŞİM LTD. ŞTİ.</span>"
 msgstr ""
 
@@ -372,38 +372,38 @@ msgstr "AI otomasyonu ve CRM/ERP entegrasyonları"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
-msgid "AK KOD"
+msgid "AKOD"
 msgstr ""
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
-msgid "AK KOD YAZILIM BİLİŞİM LTD. ŞTİ."
+msgid "AKOD YAZILIM BİLİŞİM LTD. ŞTİ."
 msgstr ""
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
 msgid ""
-"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. builds TCRM and digital growth systems in Istanbul.\n"
+"AKOD YAZILIM BİLİŞİM LTD. ŞTİ. builds TCRM and digital growth systems in Istanbul.\n"
 "                        Join us if you care about software, AI automation, and measurable product outcomes."
 msgstr ""
-"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ., İstanbul'da TCRM ve dijital büyüme sistemleri geliştirir.\n"
+"AKOD YAZILIM BİLİŞİM LTD. ŞTİ., İstanbul'da TCRM ve dijital büyüme sistemleri geliştirir.\n"
 "                        Yazılıma, AI otomasyonuna ve ölçülebilir ürün sonuçlarına önem veriyorsanız bize katılın."
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
 msgid ""
-"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ. develops software, AI automation,\n"
+"AKOD YAZILIM BİLİŞİM LTD. ŞTİ. develops software, AI automation,\n"
 "                                    and digital growth systems. We build TCRM and related platforms for\n"
 "                                    measurable demand, strong digital infrastructure, and sustainable growth."
 msgstr ""
-"AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.; yazılım, AI otomasyonu\n"
+"AKOD YAZILIM BİLİŞİM LTD. ŞTİ.; yazılım, AI otomasyonu\n"
 "                                    ve dijital büyüme sistemleri geliştirir. Ölçülebilir talep, güçlü dijital altyapı\n"
 "                                    ve sürdürülebilir büyüme için TCRM ve ilgili platformları inşa ediyoruz."
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_about_us_template
-msgid "About AK KOD"
-msgstr "AK KOD Hakkında"
+msgid "About AKOD"
+msgstr "AKOD Hakkında"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
@@ -498,8 +498,8 @@ msgstr "Kariyer"
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_sidebar
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_jobs_title
-msgid "Careers at AK KOD"
-msgstr "AK KOD'da Kariyer"
+msgid "Careers at AKOD"
+msgstr "AKOD'da Kariyer"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
@@ -540,9 +540,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_index_template
 msgid ""
 "Comprehensive technical &amp; operational documentation for the real estate "
-"ERP and agentic CRM platform powered by AK KOD YAZILIM."
+"ERP and agentic CRM platform powered by AKOD YAZILIM."
 msgstr ""
-"AK KOD YAZILIM güvencesiyle gayrimenkul ERP ve ajan tabanlı CRM platformu için "
+"AKOD YAZILIM güvencesiyle gayrimenkul ERP ve ajan tabanlı CRM platformu için "
 "kapsamlı teknik ve operasyonel dokümantasyon."
 
 #. module: tcrm_web_enhance
@@ -604,9 +604,9 @@ msgstr "E-ticaret ve e-ihracat altyapısı"
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
 msgid ""
 "Enterprise real-estate ERP and agentic CRM by\n"
-"                                    <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>"
+"                                    <strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>"
 msgstr ""
-"<strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong> tarafından geliştirilen\n"
+"<strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong> tarafından geliştirilen\n"
 "                                    kurumsal gayrimenkul ERP ve ajan tabanlı CRM"
 
 #. module: tcrm_web_enhance
@@ -750,8 +750,8 @@ msgstr ""
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
-msgid "Join the AK KOD team building TCRM and digital platforms."
-msgstr "TCRM ve dijital platformları geliştiren AK KOD ekibine katılın."
+msgid "Join the AKOD team building TCRM and digital platforms."
+msgstr "TCRM ve dijital platformları geliştiren AKOD ekibine katılın."
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_crm_template
@@ -944,8 +944,8 @@ msgstr "Sektör"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
-msgid "Secure hosted platform by AK KOD"
-msgstr "AK KOD tarafından güvenli barındırılan platform"
+msgid "Secure hosted platform by AKOD"
+msgstr "AKOD tarafından güvenli barındırılan platform"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.docs_vector_sync_template
@@ -981,8 +981,8 @@ msgstr "Yazılım geliştirme ve UI/UX tasarımı"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_homepage
-msgid "Software, AI automation, and digital growth from AK KOD."
-msgstr "AK KOD'dan yazılım, AI otomasyonu ve dijital büyüme."
+msgid "Software, AI automation, and digital growth from AKOD."
+msgstr "AKOD'dan yazılım, AI otomasyonu ve dijital büyüme."
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_form
@@ -1023,8 +1023,8 @@ msgstr "TCRM Kurumsal Platform"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.tcrm_akkod_footer
-msgid "TCRM by <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>"
-msgstr "<strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong> tarafından TCRM"
+msgid "TCRM by <strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>"
+msgstr "<strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong> tarafından TCRM"
 
 #. module: tcrm_web_enhance
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.demo_request_thanks
@@ -1054,11 +1054,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:tcrm_web_enhance.page_legal_template
 msgid ""
 "This website and the TCRM platform are operated by\n"
-"                            <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>\n"
+"                            <strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>\n"
 "                            (Besiktas, Istanbul)."
 msgstr ""
 "Bu web sitesi ve TCRM platformu\n"
-"                            <strong>AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>\n"
+"                            <strong>AKOD YAZILIM BİLİŞİM LTD. ŞTİ.</strong>\n"
 "                            (Beşiktaş, İstanbul) tarafından işletilmektedir."
 
 #. module: tcrm_web_enhance

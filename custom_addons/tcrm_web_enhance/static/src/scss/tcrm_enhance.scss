@@ -9,6 +9,17 @@
   --tcrm-transition: 0.2s ease;
 }
 
+// CRM lead form: one status line (stage statusbar). Hide Enrich header noise.
+.o_form_view .o_form_statusbar button[name="iap_enrich"],
+.o_form_view header button[name="iap_enrich"] {
+  display: none !important;
+}
+
+.tcrm_help_link_box {
+  padding: 0.25rem 1rem 0;
+  text-align: right;
+}
+
 // Navbar and primary buttons already use $o-brand-tcrm from primary_variables.
 // Reinforce for any overrides and add smooth transition.
 .o_main_navbar {
@@ -88,22 +99,287 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-// Loading overlay helper
-.tcrm-loading-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+// Animated TCRM SVG Loading Indicator & Overlay
+.tcrm-loading-overlay,
+.o_blockUI {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(14, 20, 44, 0.75) !important;
+  backdrop-filter: blur(6px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999 !important;
   border-radius: inherit;
+
+  .o_spinner,
+  .tcrm-spinner-container {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Custom SVG Animated Logo Spinner
+  svg.tcrm-logo-spinner {
+    width: 80px;
+    height: 80px;
+    animation: tcrm-pulse-glow 2s infinite ease-in-out;
+
+    .tcrm-outer-ring {
+      transform-origin: center;
+      animation: tcrm-spin 1.8s linear infinite;
+    }
+
+    .tcrm-inner-brand {
+      transform-origin: center;
+      animation: tcrm-pulse-scale 1.5s ease-in-out infinite alternate;
+    }
+  }
 }
 
-// Responsive: touch-friendly hit areas on small screens
+.o_loading {
+  background-color: var(--tcrm-primary, #101E55) !important;
+  color: #ffffff !important;
+  border-radius: 20px !important;
+  padding: 6px 16px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  font-weight: 600 !important;
+}
+
+@keyframes tcrm-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes tcrm-pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.5)); }
+  50% { filter: drop-shadow(0 0 24px rgba(224, 0, 0, 0.8)); }
+}
+
+@keyframes tcrm-pulse-scale {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  100% { transform: scale(1.05); opacity: 1; }
+}
+
+
+// Responsive: Mobile UX Polish (< 768px & < 576px)
 @media (max-width: 768px) {
+  // Hit areas & touch targets
   .o_list_table .o_data_cell,
-  .o_list_table .o_list_button {
+  .o_list_table .o_list_button,
+  .btn,
+  .o_nav_entry {
     min-height: 44px;
+    align-content: center;
   }
+
+  // Navigation Bar: compact header on mobile
+  .o_main_navbar {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    
+    .o_menu_brand {
+      font-size: 1.1rem !important;
+    }
+    
+    .o_menu_sections {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  // Form View & Sheet spacing
+  .o_form_view {
+    .o_form_sheet_bg {
+      padding: 0.5rem !important;
+    }
+    
+    .o_form_sheet {
+      padding: 1rem 0.75rem !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-shadow: none !important;
+    }
+
+    // Stack form columns on mobile screens
+    .o_group {
+      display: block !important;
+      width: 100% !important;
+      
+      .o_group_col_6,
+      .o_group_col_4,
+      .o_group_col_8,
+      .o_group_col_12,
+      tr, td {
+        display: block !important;
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      .o_td_label {
+        font-weight: 600;
+        margin-top: 0.5rem;
+      }
+    }
+
+    // Statusbar buttons auto-wrap smoothly
+    .o_statusbar_buttons {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 0.35rem !important;
+      
+      .btn {
+        flex: 1 1 auto !important;
+        text-align: center !important;
+      }
+    }
+
+    .o_form_statusbar {
+      flex-direction: column-reverse !important;
+      align-items: stretch !important;
+      gap: 0.5rem !important;
+      
+      .o_statusbar_status {
+        width: 100% !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+      }
+    }
+  }
+
+  // List Views: scrollable table container
+  .o_list_renderer {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    
+    .o_list_table {
+      min-width: 100% !important;
+    }
+  }
+
+  // Kanban View: responsive grid
+  .o_kanban_view {
+    padding: 0.5rem !important;
+    
+    .o_kanban_group {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-bottom: 1rem !important;
+    }
+    
+    .o_kanban_record {
+      width: 100% !important;
+    }
+  }
+
+  // Discuss & Meeting Call UI (Mobile Adaptations)
+  .o_discuss,
+  .o_discuss_public {
+    height: 100vh !important;
+    
+    .o_discuss_sidebar {
+      width: 100% !important;
+      position: absolute !important;
+      z-index: 100;
+      background: var(--tcrm-secondary, #0e142c);
+    }
+
+    .o_RTC_call {
+      padding: 0.5rem !important;
+
+      // Call control bar fixed at thumb position
+      .o_RTC_control_panel {
+        position: fixed !important;
+        bottom: 1.5rem !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 1000;
+        background: rgba(14, 20, 44, 0.95) !important;
+        backdrop-filter: blur(8px);
+        padding: 0.5rem 1rem !important;
+        border-radius: 30px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        display: flex !important;
+        gap: 0.75rem !important;
+
+        .btn {
+          width: 48px !important;
+          height: 48px !important;
+          border-radius: 50% !important;
+          padding: 0 !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+      }
+      
+      // Video grid scaling
+      .o_RTC_video_container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        max-height: calc(100vh - 120px) !important;
+        overflow-y: auto !important;
+
+        .o_RTC_video_card {
+          width: 100% !important;
+          max-height: 250px !important;
+          border-radius: 12px !important;
+          overflow: hidden !important;
+        }
+      }
+    }
+  }
+}
+
+
+// Hide external documentation / video / info links in Settings (and elsewhere).
+// These point at tcrm.com/odoo.com docs and show as "video" / help icons.
+.o_doc_link,
+.o_setting_box a.o_doc_link,
+.o_base_settings a.o_doc_link,
+a[href*="tcrm.com/documentation"],
+a[href*="odoo.com/documentation"],
+a[href*="www.odoo.com"],
+a[href*="//odoo.com"],
+a[href*="www.tcrm.com/documentation"],
+a[href*="tcrm.com/buy"],
+a[href*="accounts.tcrm.com"],
+a[href*="chromewebstore.google.com"],
+a[href*="ringover"] {
+  display: none !important;
+}
+
+// Hide Enterprise upsell chrome + embedded YouTube promo videos.
+.o_enterprise_label,
+.badge.o_enterprise_label,
+.o_video_embed,
+.o_setting_box iframe[src*="youtube.com"],
+.o_setting_box iframe[src*="youtu.be"],
+.o_base_settings iframe[src*="youtube.com"],
+.o_base_settings iframe[src*="youtu.be"],
+.o_view_nocontent iframe[src*="youtube.com"],
+.o_view_nocontent iframe[src*="youtu.be"],
+.o_nocontent_help iframe[src*="youtube.com"],
+.o_nocontent_help iframe[src*="youtu.be"],
+.o_nocontent_help .o_view_nocontent_smiling_face + .oe_view_nocontent_alias a[href*="youtube"],
+iframe[src*="youtube.com/embed/nbso3NVz3p8"],
+iframe[src*="youtube.com/embed/N4zw-2t6spk"],
+a[href*="tcrm.com/tcrm-enterprise"],
+a[href*="tcrm.com/editions"],
+a[href*="odoo.com/pricing"],
+a[href*="odoo.com/trial"],
+.o_discuss_PTT_ad_banner,
+.o_PttAdBanner,
+div[class*="ptt_ad"],
+div[class*="PttAd"] {
+  display: none !important;
 }

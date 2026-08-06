@@ -16,7 +16,7 @@
         <field name="name">tcrm.tenant.sector.form</field>
         <field name="model">tcrm.tenant.sector</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_tcrm_master_form">
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -56,7 +56,7 @@
         <field name="name">tcrm.saas.package.form</field>
         <field name="model">tcrm.saas.package</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_tcrm_master_form">
                 <header>
                     <button name="action_fill_all_installed_apps" type="object" string="Fill All Free Apps"
                             class="btn-primary" groups="base.group_system"
@@ -124,19 +124,23 @@
         <field name="name">tcrm.tenant.subscription.form</field>
         <field name="model">tcrm.tenant.subscription</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_tcrm_master_form">
                 <sheet>
                     <group>
-                        <field name="tenant_id"/>
-                        <field name="package_id"/>
-                        <field name="billing_cycle"/>
-                        <field name="status"/>
-                        <field name="start_date"/>
-                        <field name="end_date"/>
-                        <field name="next_invoice_date"/>
-                        <field name="amount" readonly="1"/>
-                        <field name="auto_renew"/>
-                        <field name="notes"/>
+                        <group>
+                            <field name="tenant_id"/>
+                            <field name="package_id"/>
+                            <field name="billing_cycle"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="next_invoice_date"/>
+                            <field name="amount" readonly="1"/>
+                            <field name="auto_renew"/>
+                            <field name="notes"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -169,7 +173,7 @@
         <field name="name">tcrm.tenant.invoice.form</field>
         <field name="model">tcrm.tenant.invoice</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_tcrm_master_form">
                 <header>
                     <button name="action_open" string="Open" type="object" class="btn-primary" invisible="state not in ['draft']"/>
                     <button name="action_mark_paid" string="Mark Paid" type="object" class="btn-success" invisible="state not in ['open','overdue']"/>

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Add Help Button to CRM Lead Form -->
+    <!-- Help moved out of <header> so the lead form keeps a single status line -->
     <record id="tcrm_crm_lead_form_help" model="ir.ui.view">
         <field name="name">tcrm.crm.lead.form.help</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
-                <a href="/docs/crm" target="_blank" class="btn btn-secondary btn-sm float-end" title="Help">
-                    <i class="fa fa-question-circle"/> Help
-                </a>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <div class="tcrm_help_link_box">
+                    <a href="/docs/crm" target="_blank" class="btn btn-link btn-sm" title="Help">
+                        <i class="fa fa-question-circle"/> Yardım
+                    </a>
+                </div>
             </xpath>
         </field>
     </record>

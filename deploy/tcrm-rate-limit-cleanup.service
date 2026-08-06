@@ -1,0 +1,34 @@
+[Unit]
+Description=TCRM Rate Limit Counter Cleanup
+After=postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=oneshot
+
+# Run as a restricted OS user, NOT postgres or root
+User=tcrm_maintenance
+Group=tcrm_maintenance
+
+# Database credentials loaded from a protected environment file.
+# This file must be owned by root:tcrm_maintenance with mode 0640.
+# It must contain: PGPASSWORD=<maintenance_role_password>
+# Do NOT place passwords directly in the unit file.
+EnvironmentFile=/etc/tcrm/rate-limit-maintenance.env
+
+ExecStart=/usr/bin/psql \
+    -h localhost \
+    -U tcrm_public_rate_limit_maintenance \
+    -d tcrm_master \
+    -c "SELECT public_web.cleanup_expired_rate_limits(1000);"
+
+TimeoutStartSec=30
+StandardOutput=journal
+StandardError=journal
+
+# Security hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadOnlyPaths=/

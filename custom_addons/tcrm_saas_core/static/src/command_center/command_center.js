@@ -51,6 +51,8 @@ export class TcrmCommandCenter extends Component {
             tenantEditLat: "",
             tenantEditLon: "",
             tenantEditLink: "",
+            tenantAdminResetPassword: "",
+            tenantAdminResetLogin: "",
 
             // Users
             users: [],
@@ -59,6 +61,8 @@ export class TcrmCommandCenter extends Component {
 
             // Access
             accessData: null,
+            accessAppSearch: "",
+            accessCredModal: null,
 
             // Financials
             financials: null,
@@ -87,8 +91,21 @@ export class TcrmCommandCenter extends Component {
 
             // Create/Edit Modals
             showCreateTenant: false,
+            createTenantBusy: false,
             editTenant: null,
-            newTenant: { name: "", client_name: "", support_email: "", support_phone: "", sector_id: false },
+            newTenant: {
+                name: "",
+                client_name: "",
+                support_email: "",
+                support_phone: "",
+                sector_id: false,
+                domain: "",
+                db_name: "",
+                admin_login: "admin",
+                admin_password: "",
+                _domainTouched: false,
+                _dbTouched: false,
+            },
 
             // Reference data
             packages: [],
@@ -99,6 +116,10 @@ export class TcrmCommandCenter extends Component {
             selectedPackageForApps: null,
             packageModuleDraftIds: [],
             grantModuleId: false,
+
+            // TCRM AI (tenant entitlement matrix — safe fields only)
+            aiTenants: [],
+            aiBusyId: null,
 
             /** Executive Portfolio (master suite) */
             portfolioRange: "30d",
@@ -141,12 +162,18 @@ export class TcrmCommandCenter extends Component {
         });
 
         onMounted(() => {
+            this._markHost();
             this.state.isMobile = window.innerWidth < 992;
             this.state.sidebarOpen = !this.state.isMobile;
             this._onResize = () => {
                 const mobile = window.innerWidth < 992;
+                const wasMobile = this.state.isMobile;
                 this.state.isMobile = mobile;
-                this.state.sidebarOpen = !mobile;
+                // Only auto-toggle sidebar when crossing the breakpoint.
+                if (mobile !== wasMobile) {
+                    this.state.sidebarOpen = !mobile;
+                }
+                this._markHost();
             };
             window.addEventListener("resize", this._onResize);
         });
@@ -155,6 +182,28 @@ export class TcrmCommandCenter extends Component {
             if (this._onResize) {
                 window.removeEventListener("resize", this._onResize);
             }
+            this._unmarkHost();
+        });
+    }
+
+    _markHost() {
+        const root = document.querySelector(".o_tcrm_command_center");
+        if (!root) {
+            return;
+        }
+        const action = root.closest(".o_action");
+        const content = root.closest(".o_content");
+        if (action) {
+            action.classList.add("o_tcrm_cc_action", "o_tcrm_cc_host");
+        }
+        if (content) {
+            content.classList.add("o_tcrm_cc_host");
+        }
+    }
+
+    _unmarkHost() {
+        document.querySelectorAll(".o_tcrm_cc_host").forEach((el) => {
+            el.classList.remove("o_tcrm_cc_host");
         });
     }
 
@@ -201,6 +250,7 @@ export class TcrmCommandCenter extends Component {
             { id: "employees", label: _t("Global Employees"), iconClass: "fa fa-users" },
             { id: "access", label: _t("Access Management"), iconClass: "fa fa-shield" },
             { id: "apps", label: _t("App Catalog"), iconClass: "fa fa-shopping-cart" },
+            { id: "tcrm_ai", label: _t("TCRM AI"), iconClass: "fa fa-bolt" },
             { id: "financials", label: _t("Financials"), iconClass: "fa fa-credit-card" },
             { id: "technical", label: _t("Tech Stack"), iconClass: "fa fa-microchip" },
             { id: "db_console", label: _t("DB Management"), iconClass: "fa fa-database" },
@@ -227,6 +277,7 @@ export class TcrmCommandCenter extends Component {
                 await this._loadEmployees();
             }             else if (screen === "access") await this._loadAccess();
             else if (screen === "apps") await this._loadAppsCatalog();
+            else if (screen === "tcrm_ai") await this._loadAiTenants();
             else if (screen === "financials") await this._loadFinancials();
             else if (screen === "technical") await this._loadTechnical();
             else if (screen === "analytics") await this._loadAnalytics();
@@ -1022,6 +1073,8 @@ export class TcrmCommandCenter extends Component {
                 this.state.tenantEditLat = this.state.tenantDetail.latitude ? String(this.state.tenantDetail.latitude) : "";
                 this.state.tenantEditLon = this.state.tenantDetail.longitude ? String(this.state.tenantDetail.longitude) : "";
                 this.state.tenantEditLink = this.state.tenantDetail.google_maps_link || "";
+                this.state.tenantAdminResetLogin = this.state.tenantDetail.provision?.admin_login || "admin";
+                this.state.tenantAdminResetPassword = "";
             }
         } catch (e) {
             this.notification.add(e.message || "Failed to load tenant", { type: "danger" });
@@ -1078,18 +1131,69 @@ export class TcrmCommandCenter extends Component {
         }
     }
 
-    // Tenant CRUD
+    // Tenant CRUD — one-screen create + provision
+    _slugTenantToken(value) {
+        return String(value || "")
+            .toLowerCase()
+            .normalize("NFKD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "_")
+            .replace(/^_+|_+$/g, "")
+            .replace(/_+/g, "_")
+            .slice(0, 40);
+    }
+
     openCreateTenant() {
         this.state.showCreateTenant = true;
-        this.state.newTenant = { name: "", client_name: "", support_email: "", support_phone: "", sector_id: false };
+        this.state.createTenantBusy = false;
+        this.state.newTenant = {
+            name: "",
+            client_name: "",
+            support_email: "",
+            support_phone: "",
+            sector_id: false,
+            domain: "",
+            db_name: "",
+            admin_login: "admin",
+            admin_password: "",
+            _domainTouched: false,
+            _dbTouched: false,
+        };
     }
 
     closeCreateTenant() {
+        if (this.state.createTenantBusy) {
+            return;
+        }
         this.state.showCreateTenant = false;
     }
 
     onNewTenantInput(field, ev) {
-        this.state.newTenant[field] = ev.target.value;
+        const value = ev.target.value;
+        this.state.newTenant[field] = value;
+        if (field === "domain") {
+            this.state.newTenant._domainTouched = true;
+        }
+        if (field === "db_name") {
+            this.state.newTenant._dbTouched = true;
+        }
+        if (field === "name") {
+            let slug = this._slugTenantToken(value);
+            if (slug && /^[0-9]/.test(slug)) {
+                slug = `t_${slug}`;
+            }
+            if (!this.state.newTenant._dbTouched) {
+                this.state.newTenant.db_name = slug ? `${slug}_db`.replace(/_+/g, "_") : "";
+            }
+            if (!this.state.newTenant._domainTouched) {
+                this.state.newTenant.domain = slug
+                    ? `${slug.replace(/_/g, "-").replace(/-+/g, "-")}.tcrm.online`
+                    : "";
+            }
+            if (!this.state.newTenant.client_name) {
+                this.state.newTenant.client_name = value;
+            }
+        }
     }
 
     onNewTenantSelect(field, ev) {
@@ -1097,21 +1201,58 @@ export class TcrmCommandCenter extends Component {
     }
 
     async saveTenant() {
-        if (!this.state.newTenant.name) {
+        const t = this.state.newTenant;
+        if (!t.name?.trim()) {
             this.notification.add(_t("Tenant name is required"), { type: "warning" });
             return;
         }
+        if (!t.domain?.trim()) {
+            this.notification.add(_t("Domain is required"), { type: "warning" });
+            return;
+        }
+        if (!t.db_name?.trim()) {
+            this.notification.add(_t("Database name is required"), { type: "warning" });
+            return;
+        }
+        if (!t.admin_login?.trim()) {
+            this.notification.add(_t("Admin username is required"), { type: "warning" });
+            return;
+        }
+        if (!t.admin_password || t.admin_password.length < 8) {
+            this.notification.add(_t("Admin password must be at least 8 characters"), { type: "warning" });
+            return;
+        }
+        this.state.createTenantBusy = true;
         try {
-            const result = await rpc("/tcrm_master/tenant/create", this.state.newTenant);
+            const result = await rpc("/tcrm_master/tenant/create_and_provision", {
+                name: t.name.trim(),
+                client_name: (t.client_name || t.name).trim(),
+                support_email: t.support_email || "",
+                support_phone: t.support_phone || "",
+                sector_id: t.sector_id || false,
+                domain: t.domain.trim(),
+                db_name: t.db_name.trim().toLowerCase(),
+                admin_login: t.admin_login.trim(),
+                admin_password: t.admin_password,
+            });
             if (result.error) {
                 this.notification.add(result.error, { type: "danger" });
                 return;
             }
-            this.notification.add(_t("Tenant created successfully"), { type: "success" });
+            this.notification.add(
+                _t("Tenant queued for provisioning. Worker will create DB, apply domain/SSL, and set the admin login."),
+                { type: "success" },
+            );
             this.state.showCreateTenant = false;
-            await this.navigateTo("tenants");
+            if (result.tenant_id) {
+                await this.openTenantDetail(result.tenant_id);
+            } else {
+                await this.navigateTo("tenants");
+            }
         } catch (e) {
             this.notification.add(e.message || "Error", { type: "danger" });
+        } finally {
+            this.state.createTenantBusy = false;
         }
     }
 
@@ -1170,9 +1311,13 @@ export class TcrmCommandCenter extends Component {
 
     // ── Tenant 360 module toggle ──────────────────────────────────
 
-    async toggleModule(entitlementId) {
+    async toggleModule(entitlementId, tenantId = null, moduleId = null) {
         try {
-            const res = await rpc("/tcrm_master/module_entitlement/toggle", { entitlement_id: entitlementId });
+            const res = await rpc("/tcrm_master/module_entitlement/toggle", {
+                entitlement_id: entitlementId || false,
+                tenant_id: tenantId || this.state.tenantDetail?.id || false,
+                module_id: moduleId || false,
+            });
             if (res.error) {
                 this.notification.add(res.error, { type: "danger" });
                 return;
@@ -1324,6 +1469,71 @@ export class TcrmCommandCenter extends Component {
         }
     }
 
+    async requestDomainSsl(domainId) {
+        try {
+            const res = await rpc("/tcrm_master/domain/request_ssl", { domain_id: domainId });
+            if (res.error) {
+                this.notification.add(res.error, { type: "danger" });
+                return;
+            }
+            this.notification.add(res.message || _t("SSL expand queued"), { type: "success" });
+            if (this.state.tenantDetail) {
+                await this.openTenantDetail(this.state.tenantDetail.id);
+            }
+        } catch (e) {
+            this.notification.add(e.message || "Error", { type: "danger" });
+        }
+    }
+
+    onTenantAdminResetInput(ev) {
+        this.state.tenantAdminResetPassword = ev.target.value;
+    }
+
+    onTenantAdminLoginInput(ev) {
+        this.state.tenantAdminResetLogin = ev.target.value;
+    }
+
+    async resetTenantAdminPassword(tenantId = null) {
+        const detail = this.state.tenantDetail;
+        const tid = tenantId || detail?.id;
+        if (!tid) {
+            return;
+        }
+        const pwd = (this.state.tenantAdminResetPassword || this.state.accessCredModal?.password || "").trim();
+        if (pwd.length < 8) {
+            this.notification.add(_t("Password must be at least 8 characters"), { type: "warning" });
+            return;
+        }
+        try {
+            const login = (
+                this.state.tenantAdminResetLogin
+                || this.state.accessCredModal?.login
+                || detail?.provision?.admin_login
+                || "admin"
+            ).trim();
+            const res = await rpc("/tcrm_master/tenant/reset_admin_password", {
+                tenant_id: tid,
+                new_password: pwd,
+                admin_login: login,
+            });
+            if (res.error) {
+                this.notification.add(res.error, { type: "danger" });
+                return;
+            }
+            this.notification.add(res.message || _t("Tenant credentials updated"), { type: "success" });
+            this.state.tenantAdminResetPassword = "";
+            this.state.accessCredModal = null;
+            if (detail && detail.id === tid) {
+                await this.openTenantDetail(detail.id);
+            }
+            if (this.state.screen === "access") {
+                await this._loadAccess();
+            }
+        } catch (e) {
+            this.notification.add(e.message || "Error", { type: "danger" });
+        }
+    }
+
     // ── Users ─────────────────────────────────────────────────────
 
     async _loadUsers() {
@@ -1363,12 +1573,127 @@ export class TcrmCommandCenter extends Component {
     // ── Access ────────────────────────────────────────────────────
 
     async _loadAccess() {
-        this.state.accessData = await rpc("/tcrm_master/access");
+        try {
+            this.state.accessData = await rpc("/tcrm_master/access");
+        } catch (e) {
+            this.state.accessData = null;
+            this.notification.add(e.message || _t("Failed to load Access Management"), { type: "danger" });
+        }
     }
 
-    async toggleModuleAccess(entitlementId) {
-        await this.toggleModule(entitlementId);
-        await this._loadAccess();
+    get filteredAccessCatalog() {
+        const catalog = this.state.accessData?.catalog || [];
+        const q = (this.state.accessAppSearch || "").trim().toLowerCase();
+        if (!q) {
+            return catalog;
+        }
+        return catalog.filter((a) =>
+            (a.display_name || "").toLowerCase().includes(q)
+            || (a.name || "").toLowerCase().includes(q)
+        );
+    }
+
+    onAccessAppSearchInput(ev) {
+        this.state.accessAppSearch = ev.target.value;
+    }
+
+    async toggleModuleAccess(row, module) {
+        const moduleId = module.module_id;
+        const target = (row.modules || []).find((m) => m.module_id === moduleId) || module;
+        try {
+            const res = await rpc("/tcrm_master/module_entitlement/toggle", {
+                entitlement_id: target.id || false,
+                tenant_id: row.id,
+                module_id: moduleId,
+            });
+            if (res.error) {
+                this.notification.add(res.error, { type: "danger" });
+                return;
+            }
+            target.state = res.new_state;
+            target.entitled = res.new_state === "allowed";
+            target.id = res.entitlement_id || target.id;
+            target.source = "manual";
+            if (!(row.modules || []).includes(target)) {
+                row.modules = [...(row.modules || []), target];
+            }
+        } catch (e) {
+            this.notification.add(e.message || "Error", { type: "danger" });
+            await this._loadAccess();
+        }
+    }
+
+    async syncTenantEntitlements(tenantId = null, allTenants = false) {
+        try {
+            const res = await rpc("/tcrm_master/tenant/sync_entitlements", {
+                tenant_id: tenantId || false,
+                all_tenants: allTenants,
+            });
+            if (res.error) {
+                this.notification.add(res.error, { type: "danger" });
+                return;
+            }
+            this.notification.add(_t("Entitlements synced from provision / package"), { type: "success" });
+            await this._loadAccess();
+            if (this.state.tenantDetail) {
+                await this.openTenantDetail(this.state.tenantDetail.id);
+            }
+        } catch (e) {
+            this.notification.add(e.message || "Error", { type: "danger" });
+        }
+    }
+
+    openAccessCredModal(row) {
+        if (!row?.db_name) {
+            this.notification.add(_t("This tenant has no dedicated database"), { type: "warning" });
+            return;
+        }
+        this.state.accessCredModal = {
+            tenant_id: row.id,
+            name: row.name,
+            login: row.provision?.admin_login || "admin",
+            password: "",
+            login_url: row.provision?.login_url || "",
+        };
+        this.state.tenantAdminResetLogin = row.provision?.admin_login || "admin";
+        this.state.tenantAdminResetPassword = "";
+    }
+
+    closeAccessCredModal() {
+        this.state.accessCredModal = null;
+    }
+
+    onAccessCredLoginInput(ev) {
+        if (this.state.accessCredModal) {
+            this.state.accessCredModal.login = ev.target.value;
+        }
+        this.state.tenantAdminResetLogin = ev.target.value;
+    }
+
+    onAccessCredPasswordInput(ev) {
+        if (this.state.accessCredModal) {
+            this.state.accessCredModal.password = ev.target.value;
+        }
+        this.state.tenantAdminResetPassword = ev.target.value;
+    }
+
+    async saveAccessCredModal() {
+        if (!this.state.accessCredModal) {
+            return;
+        }
+        await this.resetTenantAdminPassword(this.state.accessCredModal.tenant_id);
+    }
+
+    moduleForTenant(row, catalogApp) {
+        const modules = row.modules || [];
+        return modules.find((m) => m.module_id === catalogApp.id) || {
+            id: false,
+            module_id: catalogApp.id,
+            name: catalogApp.display_name,
+            state: "blocked",
+            entitled: false,
+            source: "",
+        };
     }
 
     // ── Financials ────────────────────────────────────────────────
@@ -1604,6 +1929,95 @@ export class TcrmCommandCenter extends Component {
             this.state.aiHealth = data || [];
         } catch (e) {
             this.state.aiHealth = [];
+        }
+    }
+
+    // ── TCRM AI tenant entitlement ────────────────────────────────
+
+    async _loadAiTenants() {
+        const data = await rpc("/tcrm_master/ai/tenants", {});
+        this.state.aiTenants = data?.rows || [];
+    }
+
+    aiEntitlementLabel(state) {
+        const map = {
+            unavailable: _t("Kullanılamaz"),
+            granted: _t("Erişim Verildi"),
+            config_required: _t("Yapılandırma Gerekli"),
+            active: _t("Aktif"),
+            suspended: _t("Askıya Alındı"),
+            quota_exceeded: _t("Kota Aşıldı"),
+            connection_error: _t("Bağlantı Hatası"),
+        };
+        return map[state] || state || "—";
+    }
+
+    async onAiGrant(row) {
+        this.state.aiBusyId = row.tenant_id;
+        try {
+            const res = await rpc("/tcrm_master/ai/grant", { tenant_id: row.tenant_id });
+            if (res.error) throw new Error(res.error);
+            this.notification.add(_t("TCRM AI erişimi verildi."), { type: "success" });
+            await this._loadAiTenants();
+        } catch (e) {
+            this.notification.add(e.message || String(e), { type: "danger" });
+        }
+        this.state.aiBusyId = null;
+    }
+
+    async onAiRevoke(row) {
+        this.state.aiBusyId = row.tenant_id;
+        try {
+            const res = await rpc("/tcrm_master/ai/revoke", { tenant_id: row.tenant_id });
+            if (res.error) throw new Error(res.error);
+            this.notification.add(_t("TCRM AI erişimi kaldırıldı."), { type: "warning" });
+            await this._loadAiTenants();
+        } catch (e) {
+            this.notification.add(e.message || String(e), { type: "danger" });
+        }
+        this.state.aiBusyId = null;
+    }
+
+    async onAiSuspend(row) {
+        this.state.aiBusyId = row.tenant_id;
+        try {
+            const res = await rpc("/tcrm_master/ai/suspend", { tenant_id: row.tenant_id });
+            if (res.error) throw new Error(res.error);
+            this.notification.add(_t("TCRM AI askıya alındı."), { type: "warning" });
+            await this._loadAiTenants();
+        } catch (e) {
+            this.notification.add(e.message || String(e), { type: "danger" });
+        }
+        this.state.aiBusyId = null;
+    }
+
+    async onAiManageConfig(row) {
+        try {
+            const res = await rpc("/tcrm_master/ai/manage_config", { tenant_id: row.tenant_id });
+            if (res.error) throw new Error(res.error);
+            this.notification.add(res.message || _t("Yapılandırma tenant veritabanında yönetilir."), {
+                type: "info",
+                sticky: true,
+            });
+            if (res.login_url) {
+                window.open(res.login_url, "_blank");
+            }
+            await this._loadAiTenants();
+        } catch (e) {
+            this.notification.add(e.message || String(e), { type: "danger" });
+        }
+    }
+
+    async onAiUsage(row) {
+        try {
+            const res = await rpc("/tcrm_master/ai/usage", { tenant_id: row.tenant_id });
+            if (res.error) throw new Error(res.error);
+            this.notification.add(
+                `${row.tenant}: ${res.requests_this_month || 0} req / ${res.tokens_this_month || 0} tokens (${this.aiEntitlementLabel(res.entitlement)})`,
+                { type: "info", sticky: true }
+            );
+        } catch (e) {
+            this.notification.add(e.message || String(e), { type: "danger" });
         }
     }
 

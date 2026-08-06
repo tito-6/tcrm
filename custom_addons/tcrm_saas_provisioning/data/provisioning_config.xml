@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+      Version-locked module set installed into every new tenant database.
+      Change this ONLY server-side; it is never taken from browser input.
+    -->
+    <record id="ir_config_module_set" model="ir.config_parameter">
+        <field name="key">tcrm_provisioning.module_set</field>
+        <field name="value">base,web,mail,contacts,crm,tcrm_propertio,tcrm_call_center,tcrm_web_enhance</field>
+    </record>
+</odoo>

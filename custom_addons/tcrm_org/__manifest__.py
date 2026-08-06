@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 {
     "name": "TCRM Organizasyon",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "category": "Sales/CRM",
-    "summary": "Organizasyon şeması, ekipler, departmanlar ve ekran erişimi",
+    "summary": "Organizasyon bağları ve CRM erişim yönetimi",
     "description": """
-Tenant-friendly organization management for TCRM:
-- Create and configure sales teams (Ekipler) from CRM
-- Hierarchical departments linked to teams and users
-- Tenant admin module/screen access grants
+Tenant-friendly organization links for TCRM:
+- Departments / teams / personnel are managed under Çalışanlar (HR)
+- CRM keeps only access-management configuration
 - Assigned-only visibility for leads, sales, tasks
     """,
     "author": "Tcrm S.A.",

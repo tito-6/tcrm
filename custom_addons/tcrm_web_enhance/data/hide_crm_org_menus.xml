@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Hide CRM Teams / Organizasyon menus on every DB (incl. tenants without tcrm_org).
+      Departments / teams / personnel are managed under Çalışanlar.
+    -->
+    <record id="crm.sales_team_menu_team_pipeline" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+        <field name="action" eval="False"/>
+    </record>
+    <record id="crm.crm_team_config" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="crm.crm_team_member_config" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_tcrm_offer" model="ir.module.category">
+            <field name="name">Teklif Paneli</field>
+            <field name="sequence">48</field>
+        </record>
+
+        <record id="privilege_tcrm_offer" model="res.groups.privilege">
+            <field name="name">Teklif Paneli</field>
+            <field name="category_id" ref="module_category_tcrm_offer"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_offer_user" model="res.groups">
+            <field name="name">Teklif Kullanıcısı</field>
+            <field name="privilege_id" ref="privilege_tcrm_offer"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Teklifleri görüntüle, oluştur ve düzenle (taslak).</field>
+        </record>
+
+        <record id="group_offer_manager" model="res.groups">
+            <field name="name">Teklif Yöneticisi</field>
+            <field name="privilege_id" ref="privilege_tcrm_offer"/>
+            <field name="implied_ids" eval="[(4, ref('group_offer_user'))]"/>
+            <field name="comment">Teklif yayınla, duraklat, kapat ve passcode yenile.</field>
+        </record>
+
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_offer_manager'))]"/>
+        </record>
+    </data>
+</odoo>

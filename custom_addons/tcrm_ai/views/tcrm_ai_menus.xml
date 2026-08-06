@@ -1,28 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="action_tcrm_ai_client" model="ir.actions.client">
-        <field name="name">Ask TCRM AI</field>
+        <field name="name">TCRM AI Asistan</field>
         <field name="tag">tcrm_ai.chat</field>
+    </record>
+
+    <record id="action_tcrm_ai_settings_client" model="ir.actions.client">
+        <field name="name">TCRM AI Settings Client</field>
+        <field name="tag">tcrm_ai.settings</field>
     </record>
 
     <menuitem id="menu_tcrm_ai_root"
               name="TCRM AI"
-              sequence="5"/>
+              sequence="5"
+              groups="tcrm_ai.group_tcrm_ai_user,base.group_system"/>
+
     <menuitem id="menu_tcrm_ai_chat"
-              name="Ask TCRM AI"
+              name="TCRM AI Asistan"
               parent="menu_tcrm_ai_root"
               action="action_tcrm_ai_client"
-              sequence="10"/>
-    <menuitem id="menu_tcrm_ai_settings"
-              name="AI Settings"
+              sequence="10"
+              groups="tcrm_ai.group_tcrm_ai_user,base.group_system"/>
+
+    <menuitem id="menu_tcrm_ai_conversations"
+              name="Sohbetler"
               parent="menu_tcrm_ai_root"
-              action="action_tcrm_ai_config"
+              action="action_tcrm_ai_conversation"
+              sequence="20"
+              groups="tcrm_ai.group_tcrm_ai_user"/>
+
+    <menuitem id="menu_tcrm_ai_usage"
+              name="Kullanım"
+              parent="menu_tcrm_ai_root"
+              action="action_tcrm_ai_usage"
+              sequence="30"
+              groups="tcrm_ai.group_tcrm_ai_admin"/>
+
+    <menuitem id="menu_tcrm_ai_reports"
+              name="Raporlar"
+              parent="menu_tcrm_ai_root"
+              action="action_tcrm_ai_report"
+              sequence="40"
+              groups="tcrm_ai.group_tcrm_ai_user"/>
+
+    <menuitem id="menu_tcrm_ai_settings"
+              name="Ayarlar"
+              parent="menu_tcrm_ai_root"
+              action="action_tcrm_ai_config_open"
               sequence="90"
-              groups="base.group_system"/>
+              groups="tcrm_ai.group_tcrm_ai_admin,base.group_system"/>
+
     <menuitem id="menu_tcrm_ai_providers"
               name="AI Providers"
               parent="menu_tcrm_ai_root"
               action="action_tcrm_ai_provider"
-              sequence="85"
+              sequence="95"
               groups="base.group_system"/>
+
+    <!-- Settings > TCRM AI -->
+    <menuitem id="menu_tcrm_ai_settings_root"
+              name="TCRM AI"
+              parent="base.menu_administration"
+              action="action_tcrm_ai_config_open"
+              sequence="60"
+              groups="tcrm_ai.group_tcrm_ai_admin,base.group_system"/>
 </odoo>

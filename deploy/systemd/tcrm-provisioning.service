@@ -1,0 +1,30 @@
+[Unit]
+Description=TCRM tenant provisioning worker (privileged, one-shot)
+After=network.target postgresql.service tcrm.service
+Wants=postgresql.service
+
+[Service]
+Type=oneshot
+User=tcrm
+Group=tcrm
+WorkingDirectory=/opt/tcrm
+Environment=PYTHONPATH=/opt/tcrm/tcrm-src
+Environment=HOME=/opt/tcrm
+EnvironmentFile=-/opt/tcrm/.env
+# Processes one queued job per timer tick, then exits.
+# Triggered periodically by tcrm-provisioning.timer.
+ExecStart=/opt/tcrm/venv/bin/python \
+  /opt/tcrm/custom_addons/tcrm_saas_provisioning/worker/run_worker.py \
+  -c /opt/tcrm/tcrm.prod.conf \
+  --control-db tcrm_master \
+  --odoo-bin /opt/tcrm/tcrm-src/tcrm-bin \
+  --http-port 8899 \
+  --once
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

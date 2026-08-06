@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the TCRM tenant provisioning worker periodically
+
+[Timer]
+# Poll for queued provisioning jobs every minute.
+OnBootSec=90
+OnUnitActiveSec=60
+AccuracySec=15
+Unit=tcrm-provisioning.service
+
+[Install]
+WantedBy=timers.target

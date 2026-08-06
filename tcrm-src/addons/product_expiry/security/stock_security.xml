@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tcrm>
+<data noupdate="0">
+    <record id="group_expiry_date_on_delivery_slip" model="res.groups">
+        <field name="name">Include expiration dates on delivery slip</field>
+    </record>
+</data>
+</tcrm>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend the tenant form: db name, provisioning status, and the action. -->
+    <record id="view_tcrm_tenant_form_provisioning" model="ir.ui.view">
+        <field name="name">tcrm.tenant.form.provisioning</field>
+        <field name="model">tcrm.tenant</field>
+        <field name="inherit_id" ref="tcrm_saas_core.view_tcrm_tenant_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="class">o_tcrm_master_form tcrm-form-sheet</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <field name="provision_state" widget="statusbar"
+                         statusbar_visible="unprovisioned,queued,provisioning,provisioned,failed"/>
+                <button name="action_request_provisioning" type="object"
+                        string="Request Provisioning" class="btn-primary"
+                        invisible="provision_state == 'provisioned'"
+                        confirm="Queue a signed provisioning job for this tenant? The background worker will create the dedicated database and install the version-locked module set."/>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_provisioning_jobs" type="object"
+                            class="oe_stat_button" icon="fa-server">
+                        <field name="provisioning_job_count" widget="statinfo" string="Jobs"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//sheet/group[last()]" position="after">
+                <group name="db_info" string="Dedicated Database (DB-per-tenant)">
+                    <field name="db_name" placeholder="e.g. acme_estates (lowercase, no hyphens)"/>
+                    <field name="provision_state"/>
+                </group>
+            </xpath>
+            <!-- Domains stay on the full-width notebook page from the base form. -->
+        </field>
+    </record>
+
+    <record id="view_provisioning_job_list" model="ir.ui.view">
+        <field name="name">tcrm.provisioning.job.list</field>
+        <field name="model">tcrm.provisioning.job</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0"
+                  decoration-success="state == 'succeeded'"
+                  decoration-danger="state == 'failed'"
+                  decoration-info="state in ('queued','running')"
+                  decoration-muted="state == 'cancelled'">
+                <field name="display_name"/>
+                <field name="tenant_id"/>
+                <field name="db_name"/>
+                <field name="state" widget="badge"/>
+                <field name="attempts"/>
+                <field name="started_at"/>
+                <field name="finished_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_provisioning_job_form" model="ir.ui.view">
+        <field name="name">tcrm.provisioning.job.form</field>
+        <field name="model">tcrm.provisioning.job</field>
+        <field name="arch" type="xml">
+            <form class="o_tcrm_master_form" create="0" delete="0">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_retry" type="object" string="Retry"
+                            class="btn-primary" invisible="state not in ('failed','cancelled')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('succeeded','cancelled')"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Jobs are created from <strong>Command Center → New Tenant</strong>
+                        (domain + DB + admin credentials) or from the tenant form via
+                        <strong>Request Provisioning</strong>. Manual create here is disabled.
+                        The background worker builds the database; credentials below are
+                        applied when the job succeeds.
+                    </div>
+                    <group>
+                        <group string="Target">
+                            <field name="tenant_id" readonly="1"/>
+                            <field name="db_name" readonly="1"/>
+                            <field name="module_set" readonly="1"/>
+                        </group>
+                        <group string="Execution">
+                            <field name="attempts"/>
+                            <field name="max_attempts"/>
+                            <field name="worker_host"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                        </group>
+                    </group>
+                    <group string="Tenant Administrator (Software Owner only)"
+                           groups="base.group_system">
+                        <field name="admin_login" readonly="1"
+                                  placeholder="Set when creating the tenant"/>
+                        <field name="admin_password" password="True" readonly="1"
+                                  placeholder="Set when creating the tenant"/>
+                    </group>
+                    <notebook>
+                        <page string="Log">
+                            <field name="log" widget="text" nolabel="1"/>
+                        </page>
+                        <page string="Error" invisible="not error">
+                            <field name="error" widget="text" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_provisioning_job" model="ir.actions.act_window">
+        <field name="name">Provisioning Jobs</field>
+        <field name="res_model">tcrm.provisioning.job</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': False, 'delete': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No provisioning jobs yet
+            </p>
+            <p>
+                Use <strong>Command Center → New Tenant</strong> (recommended) or open a
+                tenant and click <strong>Request Provisioning</strong>.
+                Jobs cannot be created manually from this screen.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_tcrm_provisioning" name="Provisioning"
+              parent="tcrm_saas_core.menu_tcrm_root"
+              action="action_provisioning_job" sequence="30"
+              groups="base.group_system"/>
+</odoo>

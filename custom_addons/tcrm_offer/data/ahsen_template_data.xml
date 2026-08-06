@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="template_ahsen_magaza" model="tcrm.offer.template">
+        <field name="name">Ahsen Mağaza — E-ticaret Başlangıç Paketi</field>
+        <field name="code">ahsen_magaza</field>
+        <field name="partner_label">Yunus Bey</field>
+        <field name="title">Ahsen Mağaza Dijital Pazarlama ve İçerik Teklifi</field>
+        <field name="validity_days">15</field>
+        <field name="ad_budget_default">50000</field>
+        <field name="ad_budget_min">0</field>
+        <field name="ad_budget_max">500000</field>
+        <field name="summary" type="html"><![CDATA[
+<p>Ahsen Mağaza'nın e-ticaret altyapısı satışa başlayabilecek seviyededir. Reklam bütçesini ölçeklemeden önce ürün sayfalarında güven unsurlarının güçlendirilmesi, beden ve stok bilgilerinin netleştirilmesi, teslimat–iade bilgilerinin görünür hâle getirilmesi, demo içeriklerin kaldırılması ve Meta Pixel/dönüşüm ölçümünün doğrulanması önerilir.</p>
+]]></field>
+        <field name="scope_html" type="html"><![CDATA[
+<p><strong>Sektör:</strong> Ayakkabı e-ticareti, dropshipping</p>
+<p>Bu teklif; Meta reklam yönetimi, sosyal medya grafik tasarım paketleri, profesyonel ürün fotoğraf çekimi ve video prodüksiyon hizmetlerini kapsar. Reklam bütçesi hizmet bedeline dahil değildir ve müşteri tarafından Meta'ya doğrudan ödenir.</p>
+]]></field>
+        <field name="terms_html" type="html"><![CDATA[
+<ul>
+  <li>Tüm fiyatlar aksi belirtilmedikçe <strong>KDV hariçtir</strong>.</li>
+  <li>Reklam bütçesi Meta'ya müşteri tarafından doğrudan ödenir; AKOD yönetim bedeline dahil değildir.</li>
+  <li>Sosyal medya paket fiyatları, müşterinin doğru ürün fotoğraflarını, videolarını ve ürün bilgilerini zamanında sağlaması şartıyla geçerlidir.</li>
+  <li>Birbiriyle çakışan sosyal medya paketlerinden aynı anda yalnızca biri seçilebilir.</li>
+  <li>Fotoğraf ve video seans kapsamları, hariç tutulanlar ve revizyon kuralları ilgili kalem açıklamalarında belirtilmiştir.</li>
+  <li>Teklif onaylandıktan sonra seçimler ve fiyatlar kilitlenir; değişiklik için yeni revizyon gerekir.</li>
+</ul>
+]]></field>
+    </record>
+
+    <!-- Meta reklam yönetimi -->
+    <record id="tmpl_item_meta_ads" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_ahsen_magaza"/>
+        <field name="name">Meta Reklam Yönetimi</field>
+        <field name="code">meta_ads</field>
+        <field name="category">Reklam</field>
+        <field name="pricing_type">meta_budget</field>
+        <field name="unit_price">0</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">required</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">10</field>
+        <field name="description" type="html"><![CDATA[
+<p>Aylık Meta reklam yönetimi. Yönetim bedeli seçilen reklam bütçesine göre hesaplanır:</p>
+<ul>
+  <li>0–50.000 TL → 20.000 TL sabit</li>
+  <li>50.001–69.999 TL → bütçenin %35'i</li>
+  <li>70.000–99.999 TL → bütçenin %32'si</li>
+  <li>100.000–500.000 TL → bütçenin %31'i</li>
+  <li>500.000 TL üzeri → özel teklif</li>
+</ul>
+]]></field>
+        <field name="includes_html" type="html"><![CDATA[
+<ul>
+  <li>Business Manager, reklam hesabı, katalog ve varlık erişimi kontrolü</li>
+  <li>Meta Pixel ve temel dönüşüm olaylarının kontrolü</li>
+  <li>Kampanya mimarisi, hedef kitle, yeniden pazarlama ve katalog reklamları</li>
+  <li>Kreatif yönlendirmesi, A/B testleri, bütçe dağılımı ve optimizasyon</li>
+  <li>Aylık performans raporu ve ayda bir çevrim içi değerlendirme toplantısı</li>
+</ul>
+]]></field>
+        <field name="excludes_html" type="html"><![CDATA[
+<p>Reklam medya bütçesi hizmet bedeline dahil değildir.</p>
+]]></field>
+    </record>
+
+    <!-- Sosyal medya paketleri -->
+    <record id="tmpl_item_sm_baslangic" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_ahsen_magaza"/>
+        <field name="name">Sosyal Medya — Başlangıç (10 post + 10 story)</field>
+        <field name="code">sm_baslangic</field>
+        <field name="category">Sosyal Medya</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">20000</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">optional</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">20</field>
+        <field name="exclusive_group">social_media</field>
+        <field name="description" type="html"><![CDATA[
+<p>Aylık 10 post + 10 story grafik tasarım paketi.</p>
+]]></field>
+    </record>
+
+    <record id="tmpl_item_sm_buyume" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_ahsen_magaza"/>
+        <field name="name">Sosyal Medya — Büyüme (15 post + 30 story)</field>
+        <field name="code">sm_buyume</field>
+        <field name="category">Sosyal Medya</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">27000</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">21</field>
+        <field name="exclusive_group">social_media</field>
+    </record>
+
+    <record id="tmpl_item_sm_yogun" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_ahsen_magaza"/>
+        <field name="name">Sosyal Medya — Yoğun (30 post + 30 story)</field>
+        <field name="code">sm_yogun</field>
+        <field name="category">Sosyal Medya</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">40000</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">22</field>
+        <field name="exclusive_group">social_media</field>
+    </record>
+
+    <!-- Fotoğraf -->
+    <record id="tmpl_item_photo" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_ahsen_magaza"/>
+        <field name="name">Profesyonel Ürün Fotoğraf Çekimi</field>
+        <field name="code">photo_session</field>
+        <field name="category">Prodüksiyon</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">20000</field>
+        <field name="billing_period">per_session</field>
+        <field name="selection_type">optional</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">30</field>
+        <field name="description" type="html"><![CDATA[
+<p>09.00–15.00, toplam 6 saatlik seans. Ürün adedi, lokasyon ve çekim listesi önceden netleştirilir.</p>
+]]></field>
+        <field name="excludes_html" type="html"><![CDATA[
+<ul>
+  <li>Stüdyo, model, makyaj, styling, dekor, özel ekipman</li>
+  <li>Ulaşım/kargo ve şehir dışı giderleri</li>
+</ul>
+<p>Kesin teslim adedi ve teslim süresi çekim briefinde yazılı olarak teyit edilir.</p>
+]]></field>
+    </record>
+
+    <!-- Video -->
+    <record id="tmpl_item_video" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_ahsen_magaza"/>
+        <field name="name">Video Prodüksiyon + Profesyonel Montaj</field>
+        <field name="code">video_session</field>
+        <field name="category">Prodüksiyon</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">20000</field>
+        <field name="billing_period">per_session</field>
+        <field name="selection_type">optional</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">40</field>
+        <field name="description" type="html"><![CDATA[
+<p>Profesyonel video çekimi ve montaj. Gerektiğinde ve koşullar uygunsa drone çekimi dahil edilebilir. Toplam nihai video süresi en fazla <strong>300 saniye</strong>.</p>
+<p>Paket en fazla iki makul kurgu revizyon turu içerir.</p>
+]]></field>
+        <field name="excludes_html" type="html"><![CDATA[
+<ul>
+  <li>Müzik/lisans, oyuncu/model, seslendirme, özel mekân, izin/ruhsat</li>
+  <li>Seyahat, konaklama, özel ekipman ve üçüncü taraf prodüksiyon giderleri</li>
+  <li>Ham görüntüler ve proje dosyaları (ayrıca kararlaştırılmadıkça)</li>
+</ul>
+<p>Drone kullanımı uçuş izni, güvenlik, hava şartları ve bölgesel kısıtlamalara bağlıdır.</p>
+]]></field>
+    </record>
+</odoo>

@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Provider list -->
     <record id="view_tcrm_ai_provider_tree" model="ir.ui.view">
-        <field name="name">tcrm.ai.provider.tree</field>
+        <field name="name">tcrm.ai.provider.list</field>
         <field name="model">tcrm.ai.provider</field>
         <field name="arch" type="xml">
-            <tree string="AI Providers" create="1" delete="1">
+            <list string="AI Providers" create="1" delete="1">
                 <field name="name"/>
                 <field name="provider_code"/>
                 <field name="priority"/>
                 <field name="active_key_count"/>
                 <field name="health_status"/>
                 <field name="active" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
-    <!-- Provider form with keys -->
     <record id="view_tcrm_ai_provider_form" model="ir.ui.view">
         <field name="name">tcrm.ai.provider.form</field>
         <field name="model">tcrm.ai.provider</field>
@@ -47,11 +45,10 @@
                         <page string="API Keys" name="keys">
                             <field name="active_key_count" invisible="1"/>
                             <p class="text-muted">
-                                You can add multiple API keys for this provider. Use "Add a line" below to add each key.
-                                When one key hits rate limit or quota, the system automatically uses the next key (round-robin).
+                                Multiple API keys per provider are supported. Keys are never shown in full after save.
                             </p>
                             <field name="key_ids" nolabel="1">
-                                <tree create="1" delete="1" editable="bottom">
+                                <list create="1" delete="1" editable="bottom">
                                     <field name="name" placeholder="e.g. Key 1, Production Key"/>
                                     <field name="api_key" password="True" placeholder="Paste API key"/>
                                     <field name="key_display"/>
@@ -59,7 +56,7 @@
                                     <field name="usage_display"/>
                                     <field name="cooldown_until"/>
                                     <field name="active"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -68,19 +65,14 @@
         </field>
     </record>
 
-    <!-- Action: AI Providers -->
     <record id="action_tcrm_ai_provider" model="ir.actions.act_window">
         <field name="name">AI Providers</field>
         <field name="res_model">tcrm.ai.provider</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_active': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create AI providers (Gemini, OpenAI, Anthropic, Groq, Mistral) and add one or more API keys per provider.
-            </p>
-            <p>
-                When a key hits its rate limit or quota, the system automatically tries the next key of the same provider.
-                When all keys of a provider are exhausted, it falls over to the next provider by priority.
+                Create AI providers and add API keys. Primary path is Groq via Ayarlar &gt; TCRM AI.
             </p>
         </field>
     </record>

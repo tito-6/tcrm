@@ -1,0 +1,44 @@
+kaç tane satışımız var
+  direct=True
+  answer=Toplam 7 onaylı satışımız var.
+
+satışlarımızı listele
+  direct=True
+  answer=7 onaylı satış listelendi.
+
+hangi daireler müsait
+  direct=True
+  answer=10 müsait daire (toplam 18 birim).
+
+Mavi Bahçe projesi hakkında bilgi ver
+  direct=True
+  answer=Mavi Bahçe Rezidans: şehir=İstanbul, tip=Rezidans, aşama=İnşaat, birim=10 (müsait=4, satılan=5).
+
+gecikmiş ödemeler var mı
+  direct=True
+  answer=6 gecikmiş taksit var.
+
+toplam tahsilat ne kadar
+  direct=True
+  answer=Toplam tahsilat (posted): 768,204.18.
+
+Mehmet Yılmaz ödeme planı
+  direct=True
+  answer=Mehmet Yılmaz — PROP-2026/0055 ödeme planı (14 taksit).
+
+OVER-999 kontratı
+  direct=True
+  answer="OVER-999" kontratı bulunamadı.
+
+iptal satışlar
+  direct=True
+  answer=İptal satış kaydı bulunamadı.
+
+kaç satışımız var
+  direct=True
+  answer=Toplam 7 onaylı satışımız var.
+
+müşterilerimizi listele
+  direct=False
+  answer=None
+

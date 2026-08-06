@@ -62,15 +62,41 @@
         </field>
     </record>
 
-    <!-- Won stage button label -->
+    <!--
+        Single status line: keep stage_id statusbar only.
+        Hide the duplicate Won header button (same meaning as Won stage "Satış Yapıldı").
+        Lost stays — it is not a pipeline stage.
+        Green ribbon: Won/Kazanıldı → Satış Yapıldı.
+    -->
     <record id="crm_lead_view_form_won_label" model="ir.ui.view">
-        <field name="name">crm.lead.form.won.label</field>
+        <field name="name">crm.lead.form.single.status.line</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="priority">31</field>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">
-                <attribute name="string">Satış Yapıldı</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Replace (not attributes): CRM tr.po maps title="Won" → Kazanıldı -->
+            <xpath expr="//widget[@name='web_ribbon'][@invisible=&quot;won_status != 'won'&quot;]" position="replace">
+                <widget name="web_ribbon" id="tcrm_sold_ribbon"
+                        title="Satış Yapıldı" bg_color="text-bg-success"
+                        invisible="won_status != 'won'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Forecast kanban ribbon (same wording) -->
+    <record id="crm_lead_view_kanban_won_ribbon_label" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.won.ribbon.label</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_kanban_forecast"/>
+        <field name="priority">40</field>
+        <field name="arch" type="xml">
+            <xpath expr="//widget[@id='won_ribbon']" position="replace">
+                <widget name="web_ribbon" id="won_ribbon"
+                        title="Satış Yapıldı" bg_color="text-bg-success"
+                        invisible="won_status != 'won'"/>
             </xpath>
         </field>
     </record>

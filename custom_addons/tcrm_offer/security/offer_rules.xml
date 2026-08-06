@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="rule_offer_company" model="ir.rule">
+            <field name="name">Teklif: company</field>
+            <field name="model_id" ref="model_tcrm_offer"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_offer_item_company" model="ir.rule">
+            <field name="name">Teklif Kalemi: company</field>
+            <field name="model_id" ref="model_tcrm_offer_item"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_offer_session_company" model="ir.rule">
+            <field name="name">Teklif Session: company</field>
+            <field name="model_id" ref="model_tcrm_offer_access_session"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_offer_approval_company" model="ir.rule">
+            <field name="name">Teklif Onay: company</field>
+            <field name="model_id" ref="model_tcrm_offer_approval"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_offer_event_company" model="ir.rule">
+            <field name="name">Teklif Event: company</field>
+            <field name="model_id" ref="model_tcrm_offer_event"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_offer_template_company" model="ir.rule">
+            <field name="name">Teklif Şablon: company</field>
+            <field name="model_id" ref="model_tcrm_offer_template"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_offer_catalogue_company" model="ir.rule">
+            <field name="name">Teklif Katalog: company</field>
+            <field name="model_id" ref="model_tcrm_offer_catalogue"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'Propertio',
-    'version': '1.3.5',
+    'version': '1.4.0',
     'category': 'Real Estate',
     'summary': 'The TCRM Real Estate Engine',
     'author': 'Tcrm S.A.',
@@ -60,6 +60,7 @@
             'tcrm_propertio/static/src/dashboard/propertio_dashboard.xml',
             'tcrm_propertio/static/src/reports_center/propertio_reports_center.js',
             'tcrm_propertio/static/src/reports_center/propertio_reports_center.xml',
+            'tcrm_propertio/static/src/crm_havuzu/crm_havuzu_list.js',
         ],
     },
     'post_init_hook': 'post_init_hook',

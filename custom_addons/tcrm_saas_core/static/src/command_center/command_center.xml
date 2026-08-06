@@ -64,7 +64,7 @@
                     <div class="text-muted text-uppercase fw-bold" style="font-size:0.625rem;letter-spacing:0.08em">Command Center</div>
                 </div>
             </div>
-            <nav class="nav flex-column gap-1 p-2">
+            <nav class="nav flex-column gap-1 p-2 flex-grow-1">
                 <t t-foreach="screens" t-as="s" t-key="s.id">
                     <button t-att-class="'nav-link ' + (state.screen === s.id or (state.screen === 'tenant_detail' and s.id === 'tenants') ? 'active' : '')"
                             t-on-click="() => this.navigateTo(s.id)">
@@ -73,7 +73,7 @@
                     </button>
                 </t>
             </nav>
-            <div class="mt-auto p-2 border-top">
+            <div class="mt-auto p-2 border-top flex-shrink-0">
                 <small class="text-success d-flex align-items-center gap-2">
                     <span class="o_tcrm_status_dot"/> System Operational
                 </small>
@@ -83,14 +83,14 @@
         <!-- Mobile backdrop -->
         <div t-if="state.isMobile and state.sidebarOpen" class="o_tcrm_backdrop" t-on-click="toggleSidebar"/>
 
-        <!-- Main content area — scrolls with the whole page via .o_content -->
-        <div class="d-flex flex-column flex-grow-1 o_tcrm_cc_main" style="min-width:0">
+        <!-- Main column: toolbar fixed, body scrolls (bottoms reachable) -->
+        <div class="o_tcrm_cc_main" style="min-width:0">
             <!-- Header bar -->
-            <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom bg-white flex-wrap">
-                <button type="button" class="btn btn-link text-reset p-1" t-on-click="toggleSidebar">
+            <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom bg-white flex-wrap o_tcrm_cc_toolbar">
+                <button type="button" class="btn btn-link text-reset p-1" t-on-click="toggleSidebar" aria-label="Toggle menu">
                     <i class="fa fa-bars"/>
                 </button>
-                <h5 class="mb-0 fw-bold">
+                <h5 class="mb-0 fw-bold text-truncate flex-grow-1" style="min-width:0">
                     <t t-if="state.screen === 'dashboard'">Command Center Dashboard</t>
                     <t t-elif="state.screen === 'portfolio'">Executive Portfolio</t>
                     <t t-elif="state.screen === 'tenants'">Tenant Hub</t>
@@ -104,13 +104,15 @@
                     <t t-elif="state.screen === 'db_console'">DB Management</t>
                     <t t-elif="state.screen === 'analytics'">Analytics &amp; Reports</t>
                 </h5>
-                <div class="ms-auto d-flex gap-2">
+                <div class="ms-auto d-flex gap-2 flex-shrink-0">
                     <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="openCreateTenant">
-                        <i class="fa fa-plus me-1"/> New Tenant
+                        <i class="fa fa-plus me-1"/><span class="d-none d-sm-inline"> New Tenant</span>
                     </button>
                 </div>
             </div>
 
+            <!-- Scrollable page body -->
+            <div class="o_tcrm_cc_scroll">
             <!-- Loading -->
             <t t-if="state.loading and !state.dashboard and !state.tenants.length">
                 <div class="p-4 text-muted d-flex align-items-center gap-2">
@@ -119,7 +121,6 @@
                 </div>
             </t>
 
-            <!-- Page body (no nested tiny scroller) -->
             <div class="p-3 o_tcrm_cc_body">
 
 <!-- ─── DASHBOARD ─── -->
@@ -200,7 +201,8 @@
                         <i class="fa fa-th"/><span t-esc="lblMetricSnapshot"/>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table table-sm mb-0">
+                        <div class="table-responsive">
+                        <table class="table table-sm mb-0" style="min-width:0">
                             <tbody>
                                 <tr>
                                     <td class="text-center text-primary" style="width:40px"><i class="fa fa-line-chart"/></td>
@@ -237,6 +239,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -261,8 +264,9 @@
                     <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
                         <i class="fa fa-history"/><span t-esc="lblLiveActivity"/>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <t t-if="state.dashboard.activities and state.dashboard.activities.length">
+                            <div class="table-responsive">
                             <table class="table table-sm table-hover mb-0">
                                 <thead><tr>
                                     <th t-esc="strThEvent"/><th t-esc="strThTenant"/><th t-esc="strThStatus"/><th t-esc="strThTime"/>
@@ -271,12 +275,14 @@
                                     <t t-foreach="state.dashboard.activities" t-as="a" t-key="a.id + '_' + a.type">
                                         <tr>
                                             <td><t t-esc="a.event"/></td>
-                                            <td class="d-flex align-items-center gap-2">
-                                                <span t-esc="a.tenant_name"/>
-                                                <button t-if="a.tenant_id" type="button" class="btn btn-link btn-sm p-0" t-att-title="strGhostTitle"
-                                                        t-on-click="() => this.onTenantWorkspace(a.tenant_id)">
-                                                    <i class="fa fa-external-link"/>
-                                                </button>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span t-esc="a.tenant_name"/>
+                                                    <button t-if="a.tenant_id" type="button" class="btn btn-link btn-sm p-0" t-att-title="strGhostTitle"
+                                                            t-on-click="() => this.onTenantWorkspace(a.tenant_id)">
+                                                        <i class="fa fa-external-link"/>
+                                                    </button>
+                                                </div>
                                             </td>
                                             <td><span t-att-class="'badge ' + stateBadgeClass(a.status)" t-esc="stateLabel(a.status)"/></td>
                                             <td class="text-muted"><t t-esc="dashboardShortDate(a.timestamp)"/></td>
@@ -284,8 +290,9 @@
                                     </t>
                                 </tbody>
                             </table>
+                            </div>
                         </t>
-                        <t t-else=""><div class="text-muted" t-esc="strNoActivity"/></t>
+                        <t t-else=""><div class="text-muted p-3" t-esc="strNoActivity"/></t>
                     </div>
                 </div>
             </div>
@@ -333,8 +340,9 @@
                     <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
                         <i class="fa fa-rocket"/><span t-esc="lblRecentTenants"/>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <t t-if="state.dashboard.recent_tenants and state.dashboard.recent_tenants.length">
+                            <div class="table-responsive">
                             <table class="table table-sm table-hover mb-0">
                                 <thead><tr><th>Tenant</th><th>State</th><th>Plan</th><th>Users</th><th>Added</th><th/></tr></thead>
                                 <tbody>
@@ -350,8 +358,9 @@
                                     </t>
                                 </tbody>
                             </table>
+                            </div>
                         </t>
-                        <t t-else=""><div class="text-muted" t-esc="strNoTenantsYet"/></t>
+                        <t t-else=""><div class="text-muted p-3" t-esc="strNoTenantsYet"/></t>
                     </div>
                 </div>
             </div>
@@ -453,8 +462,8 @@
                     <input type="text" class="form-control form-control-sm mb-2" placeholder="Search tenants…"
                            t-att-value="state.portfolioGhostSearch"
                            t-on-input="onPortfolioGhostSearch"/>
-                    <div style="max-height:220px;overflow-y:auto">
-                        <table class="table table-sm table-hover mb-0">
+                    <div class="table-responsive" style="max-height:220px">
+                        <table class="table table-sm table-hover mb-0" style="min-width:0">
                             <thead><tr><th>Tenant</th><th>Domain</th><th>Status</th><th></th></tr></thead>
                             <tbody>
                                 <t t-foreach="filteredGhostTenants" t-as="gtn" t-key="gtn.id">
@@ -555,6 +564,7 @@
                     </div>
                     <div class="card-body p-0">
                         <t t-if="state.dashboard.activities and state.dashboard.activities.length">
+                            <div class="table-responsive">
                             <table class="table table-hover mb-0">
                                 <thead><tr>
                                     <th t-esc="strThEvent"/><th t-esc="strThTenantEntity"/><th t-esc="strThStatus"/><th class="text-end" t-esc="strThTime"/>
@@ -576,6 +586,7 @@
                                     </t>
                                 </tbody>
                             </table>
+                            </div>
                         </t>
                         <div t-else="" class="p-3 text-muted" t-esc="strNoActivity"/>
                     </div>
@@ -635,7 +646,7 @@
 
 <!-- ─── TENANT HUB ─── -->
 <t t-if="state.screen === 'tenants'">
-    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3 o_tcrm_filter_bar">
         <div class="input-group" style="max-width:420px">
             <span class="input-group-text"><i class="fa fa-search"/></span>
             <input type="text" class="form-control" placeholder="Search tenants…"
@@ -738,8 +749,9 @@
             <div class="col-lg-6">
                 <div class="card h-100">
                     <div class="card-header fw-bold small py-2">Tenant Information</div>
-                    <div class="card-body">
-                        <table class="table table-sm mb-0">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                        <table class="table table-sm mb-0" style="min-width:0">
                             <tbody>
                                 <tr><td class="text-muted">Company</td><td t-esc="state.tenantDetail.company_name"/></tr>
                                 <tr><td class="text-muted">Sector</td><td t-esc="state.tenantDetail.sector || 'N/A'"/></tr>
@@ -747,12 +759,62 @@
                                 <tr><td class="text-muted">Phone</td><td t-esc="state.tenantDetail.support_phone || 'N/A'"/></tr>
                                 <tr><td class="text-muted">Primary Domain</td><td t-esc="state.tenantDetail.primary_domain || 'None'"/></tr>
                                 <tr><td class="text-muted">Database</td><td t-esc="state.tenantDetail.db_name || 'Shared'"/></tr>
+                                <tr t-if="state.tenantDetail.provision and state.tenantDetail.provision.state">
+                                    <td class="text-muted">Provisioning</td>
+                                    <td><span t-att-class="'badge ' + stateBadgeClass(state.tenantDetail.provision.state)" t-esc="state.tenantDetail.provision.state"/></td>
+                                </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
+                <div class="card h-100 mb-3" t-if="state.tenantDetail.db_name">
+                    <div class="card-header fw-bold small py-2 d-flex align-items-center gap-2">
+                        <i class="fa fa-key text-primary"/> Tenant DB Admin Credentials
+                    </div>
+                    <div class="card-body">
+                        <div class="small text-muted mb-2">
+                            Control the subdomain login for this dedicated tenant database
+                            (not master Command Center users).
+                        </div>
+                        <div class="mb-2">
+                            <div class="text-muted small">Login URL</div>
+                            <a t-if="state.tenantDetail.provision and state.tenantDetail.provision.login_url"
+                               t-att-href="state.tenantDetail.provision.login_url" target="_blank" rel="noopener"
+                               class="font-monospace small">
+                                <t t-esc="state.tenantDetail.provision.login_url"/>
+                            </a>
+                            <span t-else="" class="text-muted">—</span>
+                        </div>
+                        <div class="mb-2">
+                            <div class="text-muted small">Stored password (last provision / reset)</div>
+                            <code class="user-select-all" t-esc="(state.tenantDetail.provision and state.tenantDetail.provision.admin_password) || '(not stored — set below)'"/>
+                        </div>
+                        <div class="row g-2 align-items-end">
+                            <div class="col-sm-4">
+                                <label class="form-label small text-muted mb-1">Admin username</label>
+                                <input type="text" class="form-control form-control-sm"
+                                       autocomplete="username"
+                                       t-att-value="state.tenantAdminResetLogin"
+                                       t-on-input="onTenantAdminLoginInput"/>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="form-label small text-muted mb-1">New password</label>
+                                <input type="password" class="form-control form-control-sm"
+                                       placeholder="min. 8 characters" autocomplete="new-password"
+                                       t-att-value="state.tenantAdminResetPassword"
+                                       t-on-input="onTenantAdminResetInput"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-primary btn-sm w-100" t-on-click="() => this.resetTenantAdminPassword()">
+                                    <i class="fa fa-key me-1"/> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card h-100">
                     <div class="card-header fw-bold small py-2">Subscriptions</div>
                     <div class="card-body">
@@ -887,6 +949,10 @@
                 <button class="btn btn-sm btn-primary" t-on-click="grantModuleToTenant" t-att-disabled="!state.grantModuleId">
                     Grant App
                 </button>
+                <button class="btn btn-sm btn-outline-primary"
+                        t-on-click="() => this.syncTenantEntitlements(state.tenantDetail.id, false)">
+                    Sync from Provision
+                </button>
                 <button class="btn btn-sm btn-outline-secondary" t-on-click="() => this._loadAppsCatalog()">
                     Refresh Catalog
                 </button>
@@ -969,7 +1035,16 @@
                                         <td><span t-if="d.is_primary" class="badge bg-success">Primary</span></td>
                                         <td><i t-if="d.verified" class="fa fa-check-circle text-success"/><i t-else="" class="fa fa-clock text-muted"/></td>
                                         <td><span t-att-class="'badge ' + stateBadgeClass(d.ssl_status)" t-esc="d.ssl_status"/></td>
-                                        <td><button class="btn btn-outline-danger btn-sm" t-on-click="() => this.deleteDomain(d.id)">Remove</button></td>
+                                        <td>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <button class="btn btn-outline-primary btn-sm"
+                                                        title="Queue SSL certificate expand"
+                                                        t-on-click="() => this.requestDomainSsl(d.id)">
+                                                    <i class="fa fa-lock me-1"/> SSL
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm" t-on-click="() => this.deleteDomain(d.id)">Remove</button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </t>
                             </tbody>
@@ -984,7 +1059,7 @@
 
 <!-- ─── USER MANAGEMENT ─── -->
 <t t-if="state.screen === 'users'">
-    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3 o_tcrm_filter_bar">
         <div class="input-group" style="max-width:420px">
             <span class="input-group-text"><i class="fa fa-search"/></span>
             <input type="text" class="form-control" placeholder="Filter users…"
@@ -1039,7 +1114,7 @@
 
 <!-- ─── GLOBAL EMPLOYEES ─── -->
 <t t-if="state.screen === 'employees'">
-    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3 o_tcrm_filter_bar">
         <div class="input-group" style="max-width:380px">
             <span class="input-group-text"><i class="fa fa-search"/></span>
             <input type="text" class="form-control" placeholder="Search employees…"
@@ -1052,7 +1127,7 @@
             </t>
         </select>
         <button class="btn btn-primary btn-sm" t-on-click="searchEmployees"><i class="fa fa-refresh me-1"/> Refresh</button>
-        <span class="badge bg-secondary ms-auto"><t t-esc="state.employees.length"/> employees</span>
+        <span class="badge bg-secondary ms-sm-auto"><t t-esc="state.employees.length"/> employees</span>
     </div>
     <div class="card">
         <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small">
@@ -1136,25 +1211,70 @@
 <t t-if="state.screen === 'access'">
     <t t-if="state.accessData">
         <div class="card mb-3">
-            <div class="card-header d-flex align-items-center gap-2 py-2 fw-bold small"><i class="fa fa-shield"/> Tenant Access Matrix</div>
+            <div class="card-header d-flex flex-wrap align-items-center gap-2 py-2 fw-bold small">
+                <i class="fa fa-shield"/> Tenant Access Matrix
+                <input type="search" class="form-control form-control-sm ms-md-auto" style="max-width:220px"
+                       placeholder="Filter apps…" t-att-value="state.accessAppSearch"
+                       t-on-input="onAccessAppSearchInput"/>
+                <button class="btn btn-sm btn-outline-primary" t-on-click="() => this.syncTenantEntitlements(null, true)">
+                    <i class="fa fa-refresh me-1"/> Sync All from Provision
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" t-on-click="() => this._loadAccess()">
+                    Reload
+                </button>
+            </div>
             <div class="card-body p-0">
                 <t t-if="state.accessData.access_matrix and state.accessData.access_matrix.length">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead><tr><th>Tenant</th><th>Package</th><th>Users</th><th>Modules</th></tr></thead>
+                    <div class="table-responsive tcrm-access-matrix">
+                        <table class="table table-sm table-hover mb-0 align-middle">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">Tenant</th>
+                                    <th>Package</th>
+                                    <th>Users</th>
+                                    <th>Credentials</th>
+                                    <t t-foreach="filteredAccessCatalog" t-as="app" t-key="app.id">
+                                        <th class="text-center small" style="min-width:96px" t-att-title="app.name">
+                                            <t t-esc="app.display_name"/>
+                                        </th>
+                                    </t>
+                                    <th></th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <t t-foreach="state.accessData.access_matrix" t-as="row" t-key="row.id">
                                     <tr>
-                                        <td><a href="#" class="text-primary fw-semibold text-decoration-none" t-on-click.prevent="() => this.openTenantDetail(row.id)" t-esc="row.name"/></td>
+                                        <td class="sticky-col">
+                                            <a href="#" class="text-primary fw-semibold text-decoration-none"
+                                               t-on-click.prevent="() => this.openTenantDetail(row.id)"
+                                               t-esc="row.name"/>
+                                            <div t-if="row.db_name" class="text-muted small font-monospace" t-esc="row.db_name"/>
+                                        </td>
                                         <td><t t-esc="row.package || 'None'"/></td>
                                         <td><t t-esc="row.user_count"/></td>
                                         <td>
-                                            <t t-foreach="row.modules" t-as="m" t-key="m.id">
-                                                <div class="form-check form-switch d-inline-flex align-items-center gap-2 me-3">
-                                                    <input class="form-check-input" type="checkbox" role="switch" t-att-checked="m.state === 'allowed'" t-on-change="() => this.toggleModuleAccess(m.id)"/>
-                                                    <label class="form-check-label small" t-esc="m.name"/>
+                                            <button t-if="row.db_name" class="btn btn-outline-primary btn-sm"
+                                                    t-on-click="() => this.openAccessCredModal(row)"
+                                                    title="Set tenant DB admin credentials">
+                                                <i class="fa fa-key me-1"/> Set
+                                            </button>
+                                            <span t-else="" class="text-muted small">Shared</span>
+                                        </td>
+                                        <t t-foreach="filteredAccessCatalog" t-as="app" t-key="app.id">
+                                            <td class="text-center">
+                                                <div class="form-check form-switch d-inline-flex justify-content-center m-0">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                           t-att-checked="moduleForTenant(row, app).entitled || moduleForTenant(row, app).state === 'allowed'"
+                                                           t-on-change="() => this.toggleModuleAccess(row, this.moduleForTenant(row, app))"/>
                                                 </div>
-                                            </t>
+                                            </td>
+                                        </t>
+                                        <td>
+                                            <button class="btn btn-link btn-sm text-decoration-none"
+                                                    t-on-click="() => this.syncTenantEntitlements(row.id, false)"
+                                                    title="Sync entitlements from provision module set">
+                                                Sync
+                                            </button>
                                         </td>
                                     </tr>
                                 </t>
@@ -1162,6 +1282,7 @@
                         </table>
                     </div>
                 </t>
+                <div t-else="" class="text-muted p-3">No tenants yet</div>
             </div>
         </div>
 
@@ -1201,7 +1322,7 @@
     <div class="card mb-3">
         <div class="card-header fw-bold small py-2 d-flex flex-wrap gap-2 align-items-center">
             <span><i class="fa fa-shopping-cart me-1"/> Free App Catalog (<t t-esc="state.appsCatalogTotal"/> installed)</span>
-            <input type="search" class="form-control form-control-sm ms-auto" style="max-width:240px"
+            <input type="search" class="form-control form-control-sm ms-md-auto w-100" style="max-width:240px"
                    placeholder="Search apps…" t-att-value="state.appsCatalogSearch"
                    t-on-input="onAppsCatalogSearchInput"/>
         </div>
@@ -1247,6 +1368,79 @@
                 </t>
             </div>
             <div t-if="!filteredAppsCatalog.length" class="text-muted">No apps match the search.</div>
+        </div>
+    </div>
+</t>
+
+<!-- ─── TCRM AI (Tenant Yönetimi) ─── -->
+<t t-if="state.screen === 'tcrm_ai'">
+    <div class="card mb-3">
+        <div class="card-header fw-bold small py-2 d-flex justify-content-between align-items-center">
+            <span><i class="fa fa-bolt me-1"/> TCRM Master › Tenant Yönetimi › TCRM AI</span>
+            <button class="btn btn-sm btn-outline-secondary" t-on-click="_loadAiTenants">
+                <i class="fa fa-refresh"/> Yenile
+            </button>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tenant</th>
+                            <th>Domain</th>
+                            <th>Entitlement</th>
+                            <th>Module</th>
+                            <th>Provider</th>
+                            <th>Model</th>
+                            <th>Configured</th>
+                            <th>Enabled</th>
+                            <th>Req / mo</th>
+                            <th>Tokens / mo</th>
+                            <th>Connection</th>
+                            <th>Last error</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="state.aiTenants" t-as="row" t-key="row.tenant_id">
+                            <tr>
+                                <td class="fw-semibold" t-esc="row.tenant"/>
+                                <td class="small text-muted" t-esc="row.domain || '—'"/>
+                                <td><span class="badge text-bg-secondary" t-esc="aiEntitlementLabel(row.entitlement)"/></td>
+                                <td t-esc="row.module_installed ? 'Yes' : 'No'"/>
+                                <td t-esc="row.provider || '—'"/>
+                                <td class="small font-monospace" t-esc="row.model || '—'"/>
+                                <td t-esc="row.configured ? 'Yes' : 'No'"/>
+                                <td t-esc="row.enabled ? 'Yes' : 'No'"/>
+                                <td t-esc="row.requests_this_month || 0"/>
+                                <td t-esc="row.tokens_this_month || 0"/>
+                                <td t-esc="row.last_connection_status || '—'"/>
+                                <td class="small text-danger" t-esc="row.last_safe_error || ''"/>
+                                <td class="text-nowrap">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-success" title="Erişim Ver"
+                                                t-att-disabled="state.aiBusyId === row.tenant_id"
+                                                t-on-click="() => this.onAiGrant(row)">Erişim Ver</button>
+                                        <button class="btn btn-outline-danger" title="Erişimi Kaldır"
+                                                t-att-disabled="state.aiBusyId === row.tenant_id"
+                                                t-on-click="() => this.onAiRevoke(row)">Erişimi Kaldır</button>
+                                        <button class="btn btn-outline-primary" title="Yapılandırmayı Yönet"
+                                                t-on-click="() => this.onAiManageConfig(row)">Yapılandırmayı Yönet</button>
+                                        <button class="btn btn-outline-warning" title="AI’ı Askıya Al"
+                                                t-on-click="() => this.onAiSuspend(row)">Askıya Al</button>
+                                        <button class="btn btn-outline-secondary" title="Kullanımı Görüntüle"
+                                                t-on-click="() => this.onAiUsage(row)">Kullanım</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            <div t-if="!state.aiTenants.length" class="text-muted p-3">Henüz tenant yok.</div>
+            <div class="small text-muted p-3 border-top">
+                API anahtarları yalnızca tenant veritabanında saklanır. Master kontrol düzleminde anahtar gösterilmez veya kopyalanmaz.
+            </div>
         </div>
     </div>
 </t>
@@ -1549,7 +1743,7 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-end gap-2 mb-3">
+        <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
             <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.exportAnalytics('csv')"><i class="fa fa-download me-1"/> Export CSV</button>
             <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.exportAnalytics('excel')"><i class="fa fa-download me-1"/> Export Excel</button>
         </div>
@@ -1581,54 +1775,132 @@
     </t>
 </t>
 
-            </div><!-- /scrollable content -->
+            </div><!-- /o_tcrm_cc_body -->
+            </div><!-- /o_tcrm_cc_scroll -->
         </div><!-- /main -->
     </div><!-- /o_tcrm_command_center -->
 
-    <!-- ═══ Create Tenant Modal ═══ -->
+    <!-- ═══ Create + Provision Tenant Modal (one screen) ═══ -->
     <t t-if="state.showCreateTenant">
         <div class="modal d-block" tabindex="-1" role="dialog">
             <div class="modal-backdrop show" t-on-click="closeCreateTenant"/>
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
                 <div class="modal-content" t-on-click.stop="">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create New Tenant</h5>
-                        <button type="button" class="btn-close" t-on-click="closeCreateTenant"/>
+                        <h5 class="modal-title">New Tenant — Create &amp; Provision</h5>
+                        <button type="button" class="btn-close" t-on-click="closeCreateTenant" t-att-disabled="state.createTenantBusy"/>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Tenant Name *</label>
-                            <input type="text" class="form-control" t-att-value="state.newTenant.name"
-                                   t-on-input="(ev) => this.onNewTenantInput('name', ev)" placeholder="e.g. Skyline Developments"/>
+                        <div class="alert alert-secondary small mb-3">
+                            One step: set domain, database name, and tenant admin credentials.
+                            The worker creates the DB, maps routing, and queues SSL.
+                            Prefer a platform wildcard cert (<code>*.tcrm.online</code>);
+                            otherwise each subdomain is auto-expanded via Let's Encrypt.
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Client Name</label>
-                            <input type="text" class="form-control" t-att-value="state.newTenant.client_name"
-                                   t-on-input="(ev) => this.onNewTenantInput('client_name', ev)" placeholder="Display name"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Support Email</label>
-                            <input type="email" class="form-control" t-att-value="state.newTenant.support_email"
-                                   t-on-input="(ev) => this.onNewTenantInput('support_email', ev)"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Support Phone</label>
-                            <input type="text" class="form-control" t-att-value="state.newTenant.support_phone"
-                                   t-on-input="(ev) => this.onNewTenantInput('support_phone', ev)"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Sector</label>
-                            <select class="form-select" t-on-change="(ev) => this.onNewTenantSelect('sector_id', ev)">
-                                <option value="">-- Select --</option>
-                                <t t-foreach="state.sectors" t-as="s" t-key="s.id">
-                                    <option t-att-value="s.id" t-esc="s.name"/>
-                                </t>
-                            </select>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tenant Name *</label>
+                                <input type="text" class="form-control" t-att-value="state.newTenant.name"
+                                       t-on-input="(ev) => this.onNewTenantInput('name', ev)" placeholder="e.g. Skyline Developments"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Client Name</label>
+                                <input type="text" class="form-control" t-att-value="state.newTenant.client_name"
+                                       t-on-input="(ev) => this.onNewTenantInput('client_name', ev)" placeholder="Display name"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Primary Domain *</label>
+                                <input type="text" class="form-control font-monospace" t-att-value="state.newTenant.domain"
+                                       t-on-input="(ev) => this.onNewTenantInput('domain', ev)" placeholder="skyline.tcrm.online"/>
+                                <div class="form-text">Bare labels auto-append <code>.tcrm.online</code></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Database Name *</label>
+                                <input type="text" class="form-control font-monospace" t-att-value="state.newTenant.db_name"
+                                       t-on-input="(ev) => this.onNewTenantInput('db_name', ev)" placeholder="skyline_db"/>
+                                <div class="form-text">lowercase, digits, underscores only</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Admin Username *</label>
+                                <input type="text" class="form-control font-monospace" t-att-value="state.newTenant.admin_login"
+                                       t-on-input="(ev) => this.onNewTenantInput('admin_login', ev)" placeholder="admin" autocomplete="off"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Admin Password *</label>
+                                <input type="password" class="form-control" t-att-value="state.newTenant.admin_password"
+                                       t-on-input="(ev) => this.onNewTenantInput('admin_password', ev)" placeholder="min. 8 characters" autocomplete="new-password"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Support Email</label>
+                                <input type="email" class="form-control" t-att-value="state.newTenant.support_email"
+                                       t-on-input="(ev) => this.onNewTenantInput('support_email', ev)"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Support Phone</label>
+                                <input type="text" class="form-control" t-att-value="state.newTenant.support_phone"
+                                       t-on-input="(ev) => this.onNewTenantInput('support_phone', ev)"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Sector</label>
+                                <select class="form-select" t-on-change="(ev) => this.onNewTenantSelect('sector_id', ev)">
+                                    <option value="">-- Select --</option>
+                                    <t t-foreach="state.sectors" t-as="s" t-key="s.id">
+                                        <option t-att-value="s.id" t-esc="s.name"/>
+                                    </t>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" t-on-click="closeCreateTenant">Cancel</button>
-                        <button class="btn btn-primary" t-on-click="saveTenant">Create Tenant</button>
+                        <button class="btn btn-secondary" t-on-click="closeCreateTenant" t-att-disabled="state.createTenantBusy">Cancel</button>
+                        <button class="btn btn-primary" t-on-click="saveTenant" t-att-disabled="state.createTenantBusy">
+                            <t t-if="state.createTenantBusy"><span class="spinner-border spinner-border-sm me-1"/> Queuing…</t>
+                            <t t-else=""><i class="fa fa-rocket me-1"/> Create &amp; Provision</t>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- ═══ Access Management: Tenant DB Credentials ═══ -->
+    <t t-if="state.accessCredModal">
+        <div class="modal d-block" tabindex="-1" role="dialog">
+            <div class="modal-backdrop show" t-on-click="closeAccessCredModal"/>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" t-on-click.stop="">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fa fa-key me-2"/>Tenant Credentials —
+                            <t t-esc="state.accessCredModal.name"/>
+                        </h5>
+                        <button type="button" class="btn-close" t-on-click="closeAccessCredModal"/>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted small mb-3" t-if="state.accessCredModal.login_url">
+                            Login URL:
+                            <a t-att-href="state.accessCredModal.login_url" target="_blank" rel="noopener"
+                               class="font-monospace" t-esc="state.accessCredModal.login_url"/>
+                        </p>
+                        <div class="mb-3">
+                            <label class="form-label">Admin username</label>
+                            <input type="text" class="form-control"
+                                   t-att-value="state.accessCredModal.login"
+                                   t-on-input="onAccessCredLoginInput"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">New password *</label>
+                            <input type="password" class="form-control" placeholder="Min. 8 characters"
+                                   autocomplete="new-password"
+                                   t-att-value="state.accessCredModal.password"
+                                   t-on-input="onAccessCredPasswordInput"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" t-on-click="closeAccessCredModal">Cancel</button>
+                        <button class="btn btn-primary" t-on-click="saveAccessCredModal">
+                            <i class="fa fa-save me-1"/> Save Credentials
+                        </button>
                     </div>
                 </div>
             </div>

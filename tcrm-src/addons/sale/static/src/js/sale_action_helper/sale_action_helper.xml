@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <t t-name="sale.SaleActionHelper">
+        <div class="o_view_nocontent flex-wrap pt-5">
+            <div class="container">
+                <div class="o_nocontent_help">
+                    <div>
+                        <t t-out="props.noContentHelp"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

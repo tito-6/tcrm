@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_debug_meta_creative" model="ir.actions.server">
+        <field name="name">Debug Meta Creative Data</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+# Diagnostic Server Action for Meta Creative Data Verification
+lead = record
+
+# Log initial state
+_logger.info("=== DEBUGGING META CREATIVE DATA FOR LEAD %s ===", lead.id)
+_logger.info("Lead Name: %s", lead.name)
+_logger.info("Meta Ad ID: %s", lead.meta_ad_id)
+
+# Check if we have basic meta data
+if not lead.meta_ad_id:
+    raise UserError("❌ DIAGNOSIS: No Meta Ad ID found on this lead. Cannot fetch creative data.")
+
+# Force refresh creative data
+_logger.info("🔄 Force refreshing creative data...")
+try:
+    refresh_result = lead.action_refresh_ad_creative()
+    _logger.info("Refresh result: %s", refresh_result)
+except Exception as e:
+    _logger.error("❌ REFRESH FAILED: %s", str(e))
+    raise UserError(f"❌ REFRESH FAILED: {str(e)}")
+
+# Reload the record to get fresh data
+lead = lead.browse(lead.id)
+
+# Collect diagnostic data
+diagnostic_data = {
+    'meta_creative_id': lead.meta_creative_id or 'None',
+    'meta_creative_type': lead.meta_creative_type or 'None',
+    'meta_creative_media_url': (lead.meta_creative_media_url or 'None')[:50] + '...' if lead.meta_creative_media_url else 'None',
+    'meta_creative_high_res_url': (lead.meta_creative_high_res_url or 'None')[:50] + '...' if lead.meta_creative_high_res_url else 'None',
+    'meta_creative_resolution_quality': lead.meta_creative_resolution_quality or 'None',
+    'meta_creative_fetch_method': lead.meta_creative_fetch_method or 'None',
+}
+
+# Log all field values
+for field_name, field_value in diagnostic_data.items():
+    _logger.info("Field %s: %s", field_name, field_value)
+
+# Check computed preview field
+preview_content = lead.meta_creative_preview or ''
+_logger.info("Creative Preview HTML length: %s", len(preview_content))
+
+# Prepare user-friendly diagnosis
+diagnosis = []
+diagnosis.append(f"🆔 Creative ID: {diagnostic_data['meta_creative_id']}")
+diagnosis.append(f"🖼️ High-Res URL: {diagnostic_data['meta_creative_high_res_url']}")
+diagnosis.append(f"📱 Basic URL: {diagnostic_data['meta_creative_media_url']}")
+diagnosis.append(f"🎯 Quality: {diagnostic_data['meta_creative_resolution_quality']}")
+diagnosis.append(f"🔧 Method: {diagnostic_data['meta_creative_fetch_method']}")
+diagnosis.append(f"📄 Preview HTML: {len(preview_content)} chars")
+
+if lead.meta_creative_type == 'video':
+    video_html_length = len(lead.meta_creative_video_embed_html or '')
+    diagnosis.append(f"🎬 Video HTML: {video_html_length} chars")
+
+# Final diagnosis message
+diagnosis_message = "META CREATIVE DIAGNOSTIC RESULTS:\n\n" + "\n".join(diagnosis)
+
+# Check if any data was actually fetched
+has_data = any([
+    lead.meta_creative_id,
+    lead.meta_creative_high_res_url,
+    lead.meta_creative_media_url,
+    lead.meta_creative_resolution_quality
+])
+
+if not has_data:
+    diagnosis_message += "\n\n❌ NO CREATIVE DATA FOUND - SERVICE LIKELY FAILING"
+elif not preview_content:
+    diagnosis_message += "\n\n⚠️ DATA EXISTS BUT NO PREVIEW HTML - VIEW ISSUE"
+else:
+    diagnosis_message += "\n\n✅ DATA AND PREVIEW EXIST - CHECK VIEW RENDERING"
+
+raise UserError(diagnosis_message)
+        </field>
+    </record>
+</odoo>

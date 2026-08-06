@@ -18,6 +18,8 @@ access_marketing_ad_account_user,tcrm.marketing.ad.account.user,model_tcrm_marke
 access_marketing_ad_account_manager,tcrm.marketing.ad.account.manager,model_tcrm_marketing_ad_account,group_marketing_manager,1,1,1,1
 access_marketing_campaign_user,tcrm.marketing.campaign.user,model_tcrm_marketing_campaign,group_marketing_user,1,0,0,0
 access_marketing_campaign_manager,tcrm.marketing.campaign.manager,model_tcrm_marketing_campaign,group_marketing_manager,1,1,1,1
+access_marketing_adset_user,tcrm.marketing.adset.user,model_tcrm_marketing_adset,group_marketing_user,1,0,0,0
+access_marketing_adset_manager,tcrm.marketing.adset.manager,model_tcrm_marketing_adset,group_marketing_manager,1,1,1,1
 access_marketing_meta_ad_user,tcrm.marketing.meta.ad.user,model_tcrm_marketing_meta_ad,group_marketing_user,1,0,0,0
 access_marketing_meta_ad_manager,tcrm.marketing.meta.ad.manager,model_tcrm_marketing_meta_ad,group_marketing_manager,1,1,1,1
 access_marketing_analytics_user,tcrm.marketing.analytics.user,model_tcrm_marketing_analytics,group_marketing_user,1,0,0,0
@@ -31,3 +33,15 @@ access_marketing_lead_form_user,tcrm.marketing.lead.form.user,model_tcrm_marketi
 access_marketing_lead_form_manager,tcrm.marketing.lead.form.manager,model_tcrm_marketing_lead_form,group_marketing_manager,1,1,1,1
 access_marketing_meta_lead_user,tcrm.marketing.meta.lead.user,model_tcrm_marketing_meta_lead,group_marketing_user,1,1,1,0
 access_marketing_meta_lead_manager,tcrm.marketing.meta.lead.manager,model_tcrm_marketing_meta_lead,group_marketing_manager,1,1,1,1
+access_marketing_meta_lead_base_user,tcrm.marketing.meta.lead.base.user,model_tcrm_marketing_meta_lead,base.group_user,1,0,0,0
+access_marketing_lead_form_base_user,tcrm.marketing.lead.form.base.user,model_tcrm_marketing_lead_form,base.group_user,1,0,0,0
+access_marketing_campaign_base_user,tcrm.marketing.campaign.base.user,model_tcrm_marketing_campaign,base.group_user,1,0,0,0
+access_marketing_adset_base_user,tcrm.marketing.adset.base.user,model_tcrm_marketing_adset,base.group_user,1,0,0,0
+access_marketing_meta_ad_base_user,tcrm.marketing.meta.ad.base.user,model_tcrm_marketing_meta_ad,base.group_user,1,0,0,0
+access_marketing_ad_account_base_user,tcrm.marketing.ad.account.base.user,model_tcrm_marketing_ad_account,base.group_user,1,0,0,0
+access_marketing_google_keyword_user,tcrm.marketing.google.keyword.user,model_tcrm_marketing_google_keyword,group_marketing_user,1,0,0,0
+access_marketing_google_keyword_manager,tcrm.marketing.google.keyword.manager,model_tcrm_marketing_google_keyword,group_marketing_manager,1,1,1,1
+access_marketing_google_keyword_base,tcrm.marketing.google.keyword.base,model_tcrm_marketing_google_keyword,base.group_user,1,0,0,0
+access_marketing_creative_user,tcrm.marketing.creative.user,model_tcrm_marketing_creative,group_marketing_user,1,0,0,0
+access_marketing_creative_manager,tcrm.marketing.creative.manager,model_tcrm_marketing_creative,group_marketing_manager,1,1,1,1
+access_marketing_creative_base,tcrm.marketing.creative.base,model_tcrm_marketing_creative,base.group_user,1,0,0,0

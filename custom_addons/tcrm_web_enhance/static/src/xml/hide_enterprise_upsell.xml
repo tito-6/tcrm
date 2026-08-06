@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Empty the Enterprise upsell dialog (was embedding a YouTube promo). -->
+    <t t-inherit="web.UpgradeDialog" t-inherit-mode="extension">
+        <xpath expr="//div[@role='status']" position="replace">
+            <div class="d-none"/>
+        </xpath>
+        <xpath expr="//t[@t-set-slot='footer']" position="replace">
+            <t t-set-slot="footer">
+                <button class="btn btn-secondary" t-on-click="this.props.close">Kapat</button>
+            </t>
+        </xpath>
+    </t>
+
+    <!-- Hide Enterprise badge next to setting labels. -->
+    <t t-inherit="web.FormLabelHighlightText" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('o_enterprise_label')]" position="replace">
+            <t/>
+        </xpath>
+    </t>
+</templates>

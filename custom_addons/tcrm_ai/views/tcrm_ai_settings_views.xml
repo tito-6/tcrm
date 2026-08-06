@@ -4,42 +4,170 @@
         <field name="name">tcrm.ai.config.form</field>
         <field name="model">tcrm.ai.config</field>
         <field name="arch" type="xml">
-            <form string="TCRM AI Settings">
+            <form string="TCRM AI Ayarları">
+                <header>
+                    <button name="action_save_settings" string="Kaydet" type="object" class="btn-primary"/>
+                    <button name="action_test_connection" string="Bağlantıyı Test Et" type="object" class="btn-secondary"/>
+                    <button name="action_change_key" string="Anahtarı Değiştir" type="object"/>
+                    <button name="action_delete_key" string="Anahtarı Sil" type="object"/>
+                    <button name="action_disable_ai" string="AI’ı Devre Dışı Bırak" type="object" class="btn-warning"/>
+                </header>
                 <sheet>
                     <field name="company_id" invisible="1"/>
-                    <group string="Gemini (fallback when no providers have keys)" name="legacy_gemini">
-                        <field name="gemini_api_key" password="True" placeholder="Your Google AI Studio API key"/>
-                        <field name="gemini_model" options="{'no_create': True}"/>
-                    </group>
-                    <div class="alert alert-info" role="alert">
-                        Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. Used when no AI providers are configured.
+                    <field name="has_api_key" invisible="1"/>
+                    <div class="oe_title">
+                        <h1>TCRM AI</h1>
+                        <field name="status_summary" readonly="1" class="text-muted"/>
                     </div>
 
-                    <group string="Local AI / RAG proxy" name="local_ai">
-                        <field name="ai_base_url" placeholder="e.g. http://45.9.191.119:8000"/>
+                    <group string="Durum">
+                        <group>
+                            <field name="entitlement_status" readonly="1"/>
+                            <field name="module_installed" readonly="1"/>
+                            <field name="ai_enabled"/>
+                            <field name="has_api_key" readonly="1"/>
+                            <field name="api_key_masked" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="last_connection_status" readonly="1"/>
+                            <field name="last_connection_test" readonly="1"/>
+                            <field name="last_connection_latency_ms" readonly="1"/>
+                            <field name="last_safe_error" readonly="1"/>
+                        </group>
                     </group>
 
-                    <group string="AI providers (Gemini, OpenAI, Anthropic, Groq, Mistral, Ollama)" name="providers">
-                        <field name="provider_summary" readonly="1" nolabel="1" placeholder="—"/>
-                        <button name="%(tcrm_ai.action_tcrm_ai_provider)d" string="Manage AI providers" type="action" class="btn-link" icon="oi-settings"/>
+                    <group string="Sağlayıcı">
+                        <group>
+                            <field name="provider"/>
+                            <field name="base_url"/>
+                            <field name="model" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="api_key_input" password="True" placeholder="gsk_..."/>
+                        </group>
+                        <group>
+                            <field name="default_language"/>
+                            <field name="default_reasoning_level"/>
+                            <field name="max_output_tokens"/>
+                            <field name="request_timeout"/>
+                            <field name="max_tool_calls"/>
+                            <field name="temperature"/>
+                        </group>
                     </group>
 
-                    <group string="Generation (timeout, temperature, max tokens)" name="generation">
-                        <field name="request_timeout" placeholder="45"/>
-                        <field name="temperature"/>
-                        <field name="max_tokens" placeholder="4096"/>
+                    <group string="Limitler">
+                        <group>
+                            <field name="daily_request_limit"/>
+                            <field name="daily_token_limit"/>
+                            <field name="monthly_usage_limit"/>
+                            <field name="rpm_limit"/>
+                        </group>
+                        <group>
+                            <field name="conversation_retention_days"/>
+                            <field name="save_conversation_history"/>
+                            <field name="mask_personal_data"/>
+                        </group>
+                    </group>
+
+                    <group string="Veri İzinleri">
+                        <group>
+                            <field name="allow_crm_data"/>
+                            <field name="allow_sales_data"/>
+                            <field name="allow_property_data"/>
+                        </group>
+                        <group>
+                            <field name="allow_payment_data"/>
+                            <field name="allow_reports"/>
+                            <field name="allow_internet_research"/>
+                        </group>
+                    </group>
+
+                    <group string="İnternet Araştırması">
+                        <group>
+                            <field name="search_enabled"/>
+                            <field name="search_provider"/>
+                            <field name="search_api_key_input" password="True" placeholder="Arama API anahtarı (opsiyonel)"/>
+                            <field name="search_timeout"/>
+                        </group>
+                        <group>
+                            <field name="search_max_results"/>
+                            <field name="search_monthly_quota"/>
+                            <field name="search_allowed_domains" placeholder="ornek.com, haber.com"/>
+                            <field name="search_blocked_domains" placeholder="evil.com"/>
+                        </group>
+                    </group>
+
+                    <group string="Eski / Gelişmiş" groups="base.group_system">
+                        <field name="gemini_api_key" password="True"/>
+                        <field name="gemini_model"/>
+                        <field name="ai_base_url"/>
+                        <field name="provider_summary" readonly="1"/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
+    <record id="view_tcrm_ai_key_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.key.wizard.form</field>
+        <field name="model">tcrm.ai.key.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Anahtarı Değiştir">
+                <group>
+                    <field name="config_id" invisible="1"/>
+                    <field name="api_key_input" password="True" placeholder="gsk_..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Kaydet" type="object" class="btn-primary"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_ai_key_delete_wizard_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.key.delete.wizard.form</field>
+        <field name="model">tcrm.ai.key.delete.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Anahtarı Sil">
+                <group>
+                    <field name="config_id" invisible="1"/>
+                    <field name="confirm"/>
+                    <div class="alert alert-warning" role="alert">
+                        API anahtarı silinecek. Sohbet geçmişi korunur. Devam etmek için onaylayın.
+                    </div>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Anahtarı Sil" type="object" class="btn-danger"/>
+                    <button string="İptal" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record id="action_tcrm_ai_config" model="ir.actions.act_window">
-        <field name="name">TCRM AI Settings</field>
+        <field name="name">TCRM AI</field>
         <field name="res_model">tcrm.ai.config</field>
         <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{}</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Configure TCRM AI: Gemini fallback key, Local AI URL, providers, and generation options.</p>
+            <p class="o_view_nocontent_smiling_face">TCRM AI: Groq API anahtarı, model ve veri izinlerini yapılandırın.</p>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_config_open" model="ir.actions.server">
+        <field name="name">Open TCRM AI Settings</field>
+        <field name="model_id" ref="model_tcrm_ai_config"/>
+        <field name="state">code</field>
+        <field name="code">
+config = env['tcrm.ai.config'].get_config()
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'TCRM AI',
+    'res_model': 'tcrm.ai.config',
+    'res_id': config.id,
+    'view_mode': 'form',
+    'target': 'current',
+}
         </field>
     </record>
 </odoo>

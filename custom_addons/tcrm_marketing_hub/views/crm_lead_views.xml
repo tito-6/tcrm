@@ -11,7 +11,7 @@
                     <field name="marketing_has_meta_lead" invisible="1"/>
                     <field name="marketing_meta_lead_ids" invisible="1"/>
                     <div class="alert alert-info" role="alert" invisible="marketing_has_meta_lead">
-                        Bu lead’e bağlı Marketing Hub / Zernio kaynağı yok.
+                        Bu lead’e bağlı Marketing Hub / Meta API kaynağı yok.
                     </div>
                     <group invisible="not marketing_has_meta_lead">
                         <group string="Kaynak / Platform">
@@ -36,13 +36,12 @@
                         </group>
                         <group string="Form / Sayfa">
                             <field name="mh_form_name"/>
-                            <field name="mh_form_zernio_id"/>
+                            <field name="mh_form_zernio_id" string="TCRM Meta Form ID"/>
                             <field name="mh_page_name"/>
-                            <field name="mh_page_zernio_id"/>
+                            <field name="mh_page_zernio_id" string="TCRM Sayfa ID"/>
                             <field name="mh_profile_name"/>
                         </group>
                     </group>
-                    <!-- Creative preview lives under Kaynak Bilgileri (no separate tab) -->
                     <group string="Reklam Kreatifi" invisible="not marketing_has_meta_lead">
                         <group>
                             <field name="mh_creative_media_type"/>
@@ -62,6 +61,35 @@
                                invisible="not marketing_has_meta_lead"/>
                     </div>
                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Won ribbon on CRM form: force Satış Yapıldı (CRM tr maps Won → Kazanıldı) -->
+    <record id="view_crm_lead_form_won_satis_yapildi" model="ir.ui.view">
+        <field name="name">crm.lead.form.won.satis.yapildi</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">45</field>
+        <field name="arch" type="xml">
+            <xpath expr="//widget[@name='web_ribbon'][@invisible=&quot;won_status != 'won'&quot;]" position="replace">
+                <widget name="web_ribbon" id="tcrm_mh_sold_ribbon"
+                        title="Satış Yapıldı" bg_color="text-bg-success"
+                        invisible="won_status != 'won'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_crm_lead_kanban_won_satis_yapildi" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.won.satis.yapildi</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_kanban_forecast"/>
+        <field name="priority">45</field>
+        <field name="arch" type="xml">
+            <xpath expr="//widget[@id='won_ribbon']" position="replace">
+                <widget name="web_ribbon" id="won_ribbon"
+                        title="Satış Yapıldı" bg_color="text-bg-success"
+                        invisible="won_status != 'won'"/>
             </xpath>
         </field>
     </record>

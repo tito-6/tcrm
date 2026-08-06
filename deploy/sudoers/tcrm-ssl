@@ -1,0 +1,4 @@
+# Allow the provisioning worker (user tcrm) to kick the SSL expander immediately
+# after queueing a new tenant domain. Install:
+#   install -m 440 deploy/sudoers/tcrm-ssl /etc/sudoers.d/tcrm-ssl
+tcrm ALL=(root) NOPASSWD: /bin/systemctl start tcrm-ssl.service, /bin/systemctl start tcrm-ssl.timer

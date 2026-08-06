@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="public_teklif_closed" name="Teklif Kapalı">
+        <t t-call="website.layout">
+            <div id="wrap" class="tcrm-teklif-closed">
+                <div class="container py-5 text-center">
+                    <img src="/web/static/img/akkod_logo_tiny.png" alt="AKOD" class="teklif-logo mb-4"/>
+                    <h1 class="teklif-heading">Bu teklif artık erişime açık değil</h1>
+                    <p class="teklif-muted">
+                        Teklif kapatılmış, süresi dolmuş veya geçici olarak durdurulmuş olabilir.
+                        Sorularınız için lütfen AKOD ile iletişime geçin.
+                    </p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="public_teklif_passcode" name="Teklif Passcode">
+        <t t-call="website.layout">
+            <div id="wrap" class="tcrm-teklif-passcode">
+                <div class="container py-5">
+                    <div class="teklif-passcode-card mx-auto">
+                        <img src="/web/static/img/akkod_logo_tiny.png" alt="AKOD" class="teklif-logo mb-3"/>
+                        <h1 class="teklif-heading">Teklif Erişimi</h1>
+                        <p class="teklif-muted">Devam etmek için size iletilen passcode'u girin.</p>
+                        <t t-if="error">
+                            <div class="alert alert-danger" role="alert"><t t-esc="error"/></div>
+                        </t>
+                        <form t-att-action="'/teklif/%s/unlock' % token" method="post" class="mt-3">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label for="passcode" class="form-label">Passcode</label>
+                                <input type="text" id="passcode" name="passcode"
+                                       class="form-control form-control-lg text-center teklif-passcode-input"
+                                       autocomplete="one-time-code" inputmode="text"
+                                       maxlength="8" minlength="6" required="required" aria-required="true"/>
+                            </div>
+                            <button type="submit" class="btn btn-teklif w-100 btn-lg">Devam Et</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="public_teklif_view" name="Teklif Görünümü">
+        <t t-call="website.layout">
+            <div id="wrap" class="tcrm-teklif-view"
+                 t-att-data-token="token"
+                 t-att-data-readonly="'1' if readonly else '0'"
+                 t-att-data-csrf="request.csrf_token()">
+
+                <div class="teklif-hero">
+                    <div class="container">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <img src="/web/static/img/akkod_logo_tiny.png" alt="AKOD" class="teklif-logo"/>
+                            <div class="teklif-meta text-end">
+                                <div class="teklif-doc-label">DİJİTAL HİZMET TEKLİFİ</div>
+                                <div><strong t-esc="offer.offer_number"/></div>
+                                <div class="teklif-muted small">Geçerlilik: <t t-esc="offer.valid_until"/></div>
+                            </div>
+                        </div>
+                        <h1 class="teklif-title mt-3">
+                            <t t-esc="offer.provider_short_name or 'AKOD'"/>
+                            <span class="teklif-times">×</span>
+                            <t t-esc="offer.partner_id.name"/>
+                        </h1>
+                        <p class="teklif-customer mb-0" t-esc="offer.title"/>
+                    </div>
+                </div>
+
+                <div class="container teklif-body py-4">
+                    <t t-if="readonly and approval">
+                        <div class="alert alert-success">Bu teklif <strong t-esc="approval.approved_at"/> tarihinde onaylandı. Seçimler kilitlidir.</div>
+                    </t>
+
+                    <!-- Parties -->
+                    <section class="teklif-section teklif-parties">
+                        <h2>Taraflar</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="teklif-party-card">
+                                    <div class="teklif-party-role">Hizmet Sağlayıcı</div>
+                                    <strong t-esc="offer.provider_legal_name or 'AKOD'"/>
+                                    <div class="teklif-muted small mt-1">Kısa ad: <t t-esc="offer.provider_short_name or 'AKOD'"/></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="teklif-party-card">
+                                    <div class="teklif-party-role">Müşteri</div>
+                                    <strong t-esc="offer.partner_id.name"/>
+                                    <div class="teklif-muted small mt-1" t-if="offer.partner_contact_name">
+                                        Yetkili: <t t-esc="offer.partner_contact_name"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="teklif-section" t-if="offer.summary">
+                        <h2>Yönetici Özeti</h2>
+                        <div t-out="offer.summary"/>
+                    </section>
+
+                    <section class="teklif-section" t-if="offer.contract_intro_html">
+                        <h2>Sözleşme Çerçevesi</h2>
+                        <div class="teklif-contract" t-out="offer.contract_intro_html"/>
+                    </section>
+
+                    <section class="teklif-section" t-if="offer.scope_html">
+                        <h2>Kapsam</h2>
+                        <div t-out="offer.scope_html"/>
+                    </section>
+
+                    <!-- Budget -->
+                    <t t-set="has_meta" t-value="any(i['pricing_type'] == 'meta_budget' for i in payload['items'])"/>
+                    <section class="teklif-section" t-if="has_meta">
+                        <h2>Aylık Reklam Bütçesi</h2>
+                        <p class="teklif-muted">Reklam bütçesi Meta/Google'a doğrudan sizin tarafınızdan ödenir; yönetim bedeline dahil değildir.</p>
+                        <label for="ad_budget" class="form-label">Aylık medya bütçesi (TL)</label>
+                        <input type="number" id="ad_budget" class="form-control form-control-lg"
+                               t-att-value="offer.ad_budget_default"
+                               t-att-min="offer.ad_budget_min"
+                               t-att-max="offer.ad_budget_max"
+                               t-att-disabled="'disabled' if readonly else None"
+                               step="1000"/>
+                        <div class="form-text">≤ 50.000 TL bütçede yönetim bedeli 30.000 TL/ay (zorunlu paket).</div>
+                    </section>
+
+                    <!-- Required package -->
+                    <section class="teklif-section teklif-required-block">
+                        <div class="teklif-section-head">
+                            <h2>Zorunlu Temel Paket</h2>
+                            <span class="badge teklif-badge-required">Dahil</span>
+                        </div>
+                        <p class="teklif-muted">Bu kalemler teklifin minimum paketidir ve her zaman seçilidir.</p>
+                        <div class="teklif-items" id="teklif-items-required">
+                            <t t-foreach="payload['items']" t-as="item">
+                                <t t-if="item['selection_type'] == 'required' or item.get('package_group') == 'basic_required'">
+                                    <article class="teklif-item teklif-item-required"
+                                             t-att-data-id="item['id']"
+                                             t-att-data-group="item.get('exclusive_group') or ''"
+                                             data-required="1">
+                                        <div class="teklif-item-head">
+                                            <div class="form-check">
+                                                <input class="form-check-input teklif-item-check" type="checkbox"
+                                                       t-att-id="'item_%s' % item['id']"
+                                                       t-att-value="item['id']"
+                                                       checked="checked" disabled="disabled"/>
+                                                <label class="form-check-label" t-att-for="'item_%s' % item['id']">
+                                                    <strong t-esc="item['name']"/>
+                                                </label>
+                                            </div>
+                                            <div class="teklif-item-price">
+                                                <t t-if="item['pricing_type'] == 'meta_budget'">Bütçeye göre</t>
+                                                <t t-else="">
+                                                    <t t-esc="'{:,.0f}'.format(item['unit_price']).replace(',', '.')"/> TL
+                                                    <span class="teklif-muted small">
+                                                        / <t t-esc="{'monthly': 'ay', 'per_session': 'seans', 'one_time': 'tek'}.get(item['billing_period'], '')"/>
+                                                        · KDV hariç
+                                                    </span>
+                                                </t>
+                                            </div>
+                                        </div>
+                                        <div class="teklif-item-body" t-if="item.get('description')" t-out="item['description']"/>
+                                        <div t-if="item.get('includes_html')" class="mt-2">
+                                            <h3 class="h6">Dahil</h3>
+                                            <div t-out="item['includes_html']"/>
+                                        </div>
+                                        <div class="mt-2" t-if="item.get('client_choice_options')">
+                                            <label class="form-label" t-esc="item.get('client_choice_label') or 'Seçim'"/>
+                                            <select class="form-select teklif-client-choice"
+                                                    t-att-data-item-id="item['id']"
+                                                    t-att-disabled="'disabled' if readonly else None">
+                                                <t t-foreach="item['client_choice_options']" t-as="opt">
+                                                    <option t-att-value="opt" t-esc="opt"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </article>
+                                </t>
+                            </t>
+                        </div>
+                    </section>
+
+                    <!-- Optional -->
+                    <section class="teklif-section">
+                        <div class="teklif-section-head">
+                            <h2>Opsiyonel Hizmetler</h2>
+                            <span class="badge teklif-badge">İsteğe bağlı</span>
+                        </div>
+                        <p class="teklif-muted">Seçtiğiniz kalemler anlık olarak genel toplama eklenir.</p>
+                        <div class="teklif-items" id="teklif-items">
+                            <t t-foreach="payload['items']" t-as="item">
+                                <t t-if="item['selection_type'] != 'required' and item.get('package_group') != 'basic_required'">
+                                    <article class="teklif-item"
+                                             t-att-data-id="item['id']"
+                                             t-att-data-group="item.get('exclusive_group') or ''"
+                                             data-required="0">
+                                        <div class="teklif-item-head">
+                                            <div class="form-check">
+                                                <input class="form-check-input teklif-item-check" type="checkbox"
+                                                       t-att-id="'item_%s' % item['id']"
+                                                       t-att-value="item['id']"
+                                                       t-att-checked="item.get('default_selected')"
+                                                       t-att-disabled="'disabled' if readonly else None"/>
+                                                <label class="form-check-label" t-att-for="'item_%s' % item['id']">
+                                                    <strong t-esc="item['name']"/>
+                                                    <span class="badge teklif-badge ms-2" t-esc="item.get('category') or 'Opsiyonel'"/>
+                                                </label>
+                                            </div>
+                                            <div class="teklif-item-price">
+                                                <t t-esc="'{:,.0f}'.format(item['unit_price']).replace(',', '.')"/> TL
+                                                <span class="teklif-muted small">
+                                                    / <t t-esc="{'monthly': 'ay', 'per_session': 'seans', 'one_time': 'tek'}.get(item['billing_period'], '')"/>
+                                                    · KDV hariç
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="teklif-item-body" t-if="item.get('description')" t-out="item['description']"/>
+                                        <div class="row" t-if="item.get('includes_html') or item.get('excludes_html')">
+                                            <div class="col-md-6" t-if="item.get('includes_html')">
+                                                <h3 class="h6">Dahil</h3>
+                                                <div t-out="item['includes_html']"/>
+                                            </div>
+                                            <div class="col-md-6" t-if="item.get('excludes_html')">
+                                                <h3 class="h6">Hariç</h3>
+                                                <div t-out="item['excludes_html']"/>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </t>
+                            </t>
+                        </div>
+                    </section>
+
+                    <!-- Catalogues -->
+                    <section class="teklif-section" t-if="payload.get('catalogues')">
+                        <h2>Hizmet Katalogları</h2>
+                        <p class="teklif-muted">Referans fiyat bantları. Detaylı kapsam keşif sonrası netleşir.</p>
+                        <div class="accordion" id="teklifCatalogues">
+                            <t t-foreach="payload['catalogues']" t-as="cat">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                t-att-data-bs-target="'#cat_%s' % cat['id']"
+                                                t-att-aria-controls="'cat_%s' % cat['id']">
+                                            <t t-esc="cat['name']"/>
+                                        </button>
+                                    </h3>
+                                    <div t-att-id="'cat_%s' % cat['id']" class="accordion-collapse collapse"
+                                         data-bs-parent="#teklifCatalogues">
+                                        <div class="accordion-body">
+                                            <div t-if="cat.get('summary')" t-out="cat['summary']"/>
+                                            <div class="table-responsive">
+                                                <table class="table table-sm teklif-cat-table">
+                                                    <thead>
+                                                        <tr><th>Hizmet</th><th>Fiyat</th><th>Not</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <t t-foreach="cat['items']" t-as="ci">
+                                                            <tr t-att-class="'table-active' if ci.get('highlight') else None">
+                                                                <td t-esc="ci['name']"/>
+                                                                <td>
+                                                                    <t t-if="ci.get('price_from')">
+                                                                        <t t-esc="'{:,.0f}'.format(ci['price_from']).replace(',', '.')"/> TL
+                                                                        <t t-if="ci.get('price_to')">
+                                                                            – <t t-esc="'{:,.0f}'.format(ci['price_to']).replace(',', '.')"/> TL
+                                                                        </t>
+                                                                        <t t-if="ci.get('billing_period') == 'from'">+</t>
+                                                                    </t>
+                                                                    <t t-else="">Keşif sonrası</t>
+                                                                </td>
+                                                                <td t-esc="ci.get('price_note') or ''"/>
+                                                            </tr>
+                                                        </t>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </section>
+
+                    <section class="teklif-section" t-if="offer.terms_html">
+                        <h2>Ticari Şartlar</h2>
+                        <div class="teklif-contract" t-out="offer.terms_html"/>
+                    </section>
+
+                    <!-- Approval form -->
+                    <section class="teklif-section" t-if="not readonly">
+                        <h2>Onay</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="approver_name">Yetkili Ad Soyad *</label>
+                                <input id="approver_name" class="form-control" required="required"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="approver_company">Firma / Unvan</label>
+                                <input id="approver_company" class="form-control" t-att-value="offer.partner_id.name"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="approver_email">E-posta *</label>
+                                <input id="approver_email" type="email" class="form-control" required="required"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="approver_phone">Telefon</label>
+                                <input id="approver_phone" type="tel" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="accepted_services"/>
+                            <label class="form-check-label" for="accepted_services">Seçtiğim hizmetleri ve fiyatları kontrol ettim</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="accepted_terms"/>
+                            <label class="form-check-label" for="accepted_terms">Ticari şartları okudum ve kabul ediyorum</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="accepted_kvkk"/>
+                            <label class="form-check-label" for="accepted_kvkk">
+                                <a t-att-href="offer.kvkk_url" target="_blank" rel="noopener">KVKK aydınlatma metnini</a> okudum ve kabul ediyorum
+                            </label>
+                        </div>
+                        <button type="button" id="btn-approve" class="btn btn-teklif btn-lg mt-3">Teklifi Onayla</button>
+                    </section>
+                </div>
+
+                <aside class="teklif-sticky" id="teklif-sticky" aria-live="polite">
+                    <div class="container">
+                        <div class="teklif-sticky-grid">
+                            <div><span class="teklif-muted">Aylık</span><strong id="sum-monthly" t-esc="format_try(quote['monthly']['net'])"/></div>
+                            <div><span class="teklif-muted">Tek seferlik</span><strong id="sum-onetime" t-esc="format_try(quote['one_time']['net'])"/></div>
+                            <div><span class="teklif-muted">Seans</span><strong id="sum-session" t-esc="format_try(quote['per_session']['net'])"/></div>
+                            <div><span class="teklif-muted">KDV</span><strong id="sum-tax" t-esc="format_try(quote['tax_kurus'])"/></div>
+                            <div class="teklif-sticky-total">
+                                <span class="teklif-muted">Genel toplam</span>
+                                <strong id="sum-gross" t-esc="format_try(quote['gross_kurus'])"/>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="modal fade" id="teklifConfirmModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Son Kontrol</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"/>
+                            </div>
+                            <div class="modal-body">
+                                <p>Onay sonrası teklif kilitlenecektir.</p>
+                                <ul id="confirm-lines" class="list-unstyled"/>
+                                <dl class="row mb-0">
+                                    <dt class="col-6">Aylık</dt><dd class="col-6" id="confirm-monthly"/>
+                                    <dt class="col-6">Tek seferlik</dt><dd class="col-6" id="confirm-onetime"/>
+                                    <dt class="col-6">Seans</dt><dd class="col-6" id="confirm-session"/>
+                                    <dt class="col-6">KDV</dt><dd class="col-6" id="confirm-tax"/>
+                                    <dt class="col-6">Genel toplam</dt><dd class="col-6"><strong id="confirm-gross"/></dd>
+                                </dl>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Geri Dön</button>
+                                <button type="button" class="btn btn-teklif" id="btn-confirm-approve">Onayı Kesinleştir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="public_teklif_receipt" name="Teklif Onay Özeti">
+        <t t-call="website.layout">
+            <div id="wrap" class="tcrm-teklif-receipt">
+                <div class="container py-5">
+                    <img src="/web/static/img/akkod_logo_tiny.png" alt="AKOD" class="teklif-logo mb-3"/>
+                    <h1 class="teklif-heading">Teklif Onaylandı</h1>
+                    <p><strong t-esc="offer.offer_number"/> — <t t-esc="offer.title"/></p>
+                    <div class="teklif-receipt-card">
+                        <p><strong>Yetkili:</strong> <t t-esc="approval.approver_name"/></p>
+                        <p t-if="approval.approver_company"><strong>Firma:</strong> <t t-esc="approval.approver_company"/></p>
+                        <p><strong>E-posta:</strong> <t t-esc="approval.approver_email"/></p>
+                        <p><strong>Onay zamanı:</strong> <t t-esc="approval.approved_at"/></p>
+                        <hr/>
+                        <p class="fs-4"><strong>Genel toplam:</strong>
+                            <t t-esc="'{:,.2f}'.format(approval.gross_total).replace(',', 'X').replace('.', ',').replace('X', '.')"/> ₺
+                        </p>
+                    </div>
+                    <button type="button" class="btn btn-teklif d-print-none mt-3" onclick="window.print()">Yazdır</button>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

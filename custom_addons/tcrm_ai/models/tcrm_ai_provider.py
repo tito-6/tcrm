@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta, timezone
 
-from tcrm import api, fields, models
+from tcrm import _, api, fields, models
 
 
 PROVIDER_CODES = [
@@ -108,15 +108,49 @@ class TcrmAiProvider(models.Model):
         return True
 
     def action_test_all_keys(self):
-        """Test each key with a minimal request; post results as message."""
+        """Test each key with a minimal request; show results as a notification."""
         self.ensure_one()
         results = self.env['tcrm.ai.engine']._test_provider_keys(self)
-        lines = []
-        for name, ok, err in results:
-            lines.append(f"• {name}: {'OK' if ok else 'Failed'}" + (f" — {err}" if err else ""))
-        body = "<p>" + "<br/>".join(lines) + "</p>"
-        self.message_post(body=body, message_type='notification')
-        return True
+        if not results:
+            message = _('No keys to test.')
+            notif_type = 'warning'
+        else:
+            lines = []
+            for name, ok, err in results:
+                line = '• %s: %s' % (name, _('OK') if ok else _('Failed'))
+                if err:
+                    line = '%s — %s' % (line, err)
+                lines.append(line)
+            message = '\n'.join(lines)
+            notif_type = 'success' if all(ok for _, ok, _ in results) else 'warning'
+            # Groq provider OK must also unlock Settings/Asistan (same key path).
+            if self.provider_code == 'groq' and any(ok for _, ok, _ in results):
+                config = self.env['tcrm.ai.config'].sudo().get_config()
+                try:
+                    key = config._ensure_valid_groq_key()
+                    if key and key.startswith('gsk_'):
+                        vals = {
+                            'last_connection_test': fields.Datetime.now(),
+                            'last_connection_status': 'ok',
+                            'last_safe_error': False,
+                        }
+                        if not config.ai_enabled:
+                            vals['ai_enabled'] = True
+                        config.sudo().write(vals)
+                        from ..services import entitlement as entitlement_svc
+                        entitlement_svc.set_entitlement_state(self.env, 'active')
+                except Exception:
+                    pass
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Key Test Results'),
+                'message': message,
+                'type': notif_type,
+                'sticky': True,
+            },
+        }
 
 
 class TcrmAiKey(models.Model):

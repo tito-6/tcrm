@@ -231,7 +231,7 @@ msgstr "Anahtar ile Giriş Yap"
 #. module: auth_passkey
 #: model_terms:ir.ui.view,arch_db:auth_passkey.auth_passkey_login_oauth
 msgid "Use a Passkey"
-msgstr "Geçiş Anahtarı Kullan"
+msgstr "Geçiş Anahtarı Kullanma"
 
 #. module: auth_passkey
 #: model_terms:ir.ui.view,arch_db:auth_passkey.res_users_identitycheck_view_form_passkey

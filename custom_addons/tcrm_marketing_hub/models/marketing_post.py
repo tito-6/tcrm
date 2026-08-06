@@ -99,8 +99,29 @@ class MarketingPost(models.Model):
         accounts = self.env['tcrm.marketing.account'].search([
             ('zernio_id', 'in', account_zids),
         ]) if account_zids else self.env['tcrm.marketing.account']
-        scheduled = item.get('scheduledFor') or item.get('scheduled_for')
-        published = item.get('publishedAt') or item.get('published_at')
+        # Extract media URLs from payload
+        raw_media = (
+            item.get('media')
+            or item.get('mediaUrls')
+            or item.get('images')
+            or item.get('media_urls')
+            or []
+        )
+        if isinstance(raw_media, str):
+            raw_media = [raw_media]
+        m_list = []
+        for m in raw_media:
+            if isinstance(m, dict):
+                u = m.get('url') or m.get('src') or m.get('imageUrl') or m.get('fullUrl')
+                if u:
+                    m_list.append(str(u))
+            elif m:
+                m_list.append(str(m))
+        if item.get('thumbnailUrl') and item.get('thumbnailUrl') not in m_list:
+            m_list.append(str(item['thumbnailUrl']))
+        if item.get('videoUrl') and item.get('videoUrl') not in m_list:
+            m_list.append(str(item['videoUrl']))
+
         vals = {
             'name': (content[:60] + '…') if len(content) > 60 else (content or f'Gönderi {zid[-6:]}'),
             'zernio_id': zid,
@@ -110,6 +131,7 @@ class MarketingPost(models.Model):
             'scheduled_for': fields.Datetime.to_datetime(scheduled) if scheduled else False,
             'published_at': fields.Datetime.to_datetime(published) if published else False,
             'platform_post_url': urls[0] if urls else (item.get('platformPostUrl') or False),
+            'media_urls': '\n'.join(m_list) if m_list else False,
             'company_id': self.env.company.id,
             'account_ids': [(6, 0, accounts.ids)],
             'last_sync_at': fields.Datetime.now(),

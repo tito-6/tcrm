@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_ai.TcrmAiSettings">
+        <div class="o_tcrm_ai_settings p-4">
+            <h3>TCRM AI Ayarları</h3>
+            <div class="alert alert-info" t-if="state.status">
+                Entitlement: <t t-esc="state.status.entitlement_status"/> |
+                Configured: <t t-esc="state.status.configured ? 'yes' : 'no'"/> |
+                Key: <t t-esc="state.status.api_key_masked || '—'"/> |
+                Connection: <t t-esc="state.status.last_connection_status"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Provider</label>
+                <select class="form-select" t-model="state.provider">
+                    <option value="groq">Groq</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Model</label>
+                <select class="form-select" t-model="state.model">
+                    <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option>
+                    <option value="openai/gpt-oss-120b">openai/gpt-oss-120b</option>
+                    <option value="openai/gpt-oss-20b">openai/gpt-oss-20b</option>
+                    <option value="qwen/qwen3-32b">qwen/qwen3-32b</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">API Key</label>
+                <input type="password" class="form-control" placeholder="gsk_..." t-model="state.apiKeyInput"/>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" t-model="state.aiEnabled" id="aiEnabled"/>
+                <label class="form-check-label" for="aiEnabled">AI Enabled</label>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" t-att-disabled="state.saving" t-on-click="onSave">Kaydet</button>
+                <button class="btn btn-secondary" t-att-disabled="state.testing" t-on-click="onTest">Bağlantıyı Test Et</button>
+            </div>
+            <div class="text-success mt-3" t-if="state.message" t-esc="state.message"/>
+            <div class="text-danger mt-3" t-if="state.error" t-esc="state.error"/>
+        </div>
+    </t>
+</templates>

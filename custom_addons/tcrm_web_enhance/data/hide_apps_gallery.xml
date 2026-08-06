@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Primary SaaS rule: hide Apps Gallery on tenant DBs.
+      Runs on every install/upgrade of tcrm_web_enhance. Master DB is a no-op.
+    -->
+    <function model="ir.module.module" name="_tcrm_hide_apps_gallery_for_tenants"/>
+</odoo>

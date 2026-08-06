@@ -34,11 +34,11 @@
         <record id="provider_groq" model="tcrm.ai.provider">
             <field name="name">Groq</field>
             <field name="provider_code">groq</field>
-            <field name="default_model">llama-3.3-70b-versatile</field>
-            <field name="priority">4</field>
+            <field name="default_model">openai/gpt-oss-20b</field>
+            <field name="priority">1</field>
             <field name="active">True</field>
-            <field name="rpm_limit">30</field>
-            <field name="rpd_limit">14400</field>
+            <field name="rpm_limit">10</field>
+            <field name="rpd_limit">200</field>
             <field name="tpm_limit">6000</field>
         </record>
         <record id="provider_mistral" model="tcrm.ai.provider">

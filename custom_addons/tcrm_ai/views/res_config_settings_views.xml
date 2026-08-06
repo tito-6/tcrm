@@ -8,28 +8,13 @@
             <xpath expr="//div[@id='invite_users']" position="after">
                 <div id="tcrm_ai_settings">
                     <block title="TCRM AI" id="tcrm_ai_block" name="tcrm_ai_settings">
-                        <setting id="tcrm_ai_overview" string="AI status" help="Current AI providers and keys.">
+                        <setting id="tcrm_ai_overview" string="AI status" help="Current Groq configuration status (key never shown in full).">
                             <field name="ai_health_status" readonly="1" class="oe_inline"/>
                             <span class="ms-2"/>
                             <field name="ai_provider_summary" readonly="1" class="oe_inline" placeholder="—"/>
                         </setting>
-                        <setting id="tcrm_ai_gemini_api_key" string="Gemini API Key (fallback)" help="Used when no AI providers have keys. Get one at Google AI Studio." documentation="https://aistudio.google.com/apikey">
-                            <field name="gemini_api_key" password="True" placeholder="Paste your API key" class="w-100"/>
-                        </setting>
-                        <setting id="tcrm_ai_gemini_model" string="Gemini model (fallback)" help="Model used with the key above.">
-                            <field name="gemini_model" class="oe_inline"/>
-                        </setting>
-                        <setting id="tcrm_ai_base_url" string="Local AI / RAG proxy URL" help="Base URL for Ollama or RAG proxy (e.g. http://host:8000).">
-                            <field name="ai_base_url" placeholder="http://host:8000" class="w-100"/>
-                        </setting>
-                        <setting id="tcrm_ai_timeout" string="Request timeout (seconds)" help="Timeout per AI request (default 45).">
-                            <field name="ai_request_timeout" placeholder="45"/>
-                        </setting>
-                        <setting id="tcrm_ai_manage_providers" string="AI providers" help="Add Gemini, OpenAI, Anthropic, Groq, Mistral, Ollama and their API keys.">
-                            <button name="%(tcrm_ai.action_tcrm_ai_provider)d" string="Manage AI providers" type="action" class="btn-link" icon="oi-settings"/>
-                        </setting>
-                        <setting id="tcrm_ai_open_full" string="Full AI configuration" help="All options: Gemini, generation (timeout, temperature, max tokens).">
-                            <button name="%(tcrm_ai.action_tcrm_ai_config)d" string="Open TCRM AI settings" type="action" class="btn-link" icon="oi-arrow-right"/>
+                        <setting id="tcrm_ai_open_full" string="TCRM AI settings" help="Groq API key, model, limits and data permissions.">
+                            <button name="%(tcrm_ai.action_tcrm_ai_config_open)d" string="Ayarlar > TCRM AI" type="action" class="btn-link" icon="oi-arrow-right"/>
                         </setting>
                     </block>
                 </div>

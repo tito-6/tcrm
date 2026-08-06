@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tcrm>
+    <record id="base.main_company" model="res.company">
+        <field name="social_twitter">https://twitter.com/Tcrm</field>
+        <field name="social_facebook">https://www.facebook.com/Tcrm</field>
+        <field name="social_linkedin">https://www.linkedin.com/company/tcrm</field>
+        <field name="social_youtube">https://www.youtube.com/user/OpenERPonline</field>
+        <field name="social_github">https://github.com/tcrm</field>
+        <field name="social_instagram">https://www.instagram.com/explore/tags/tcrm/</field>
+        <field name="social_tiktok">https://www.tiktok.com/@tcrm</field>
+        <field name="social_discord">https://discord.com/servers/discord-town-hall-169256939211980800</field>
+    </record>
+</tcrm>

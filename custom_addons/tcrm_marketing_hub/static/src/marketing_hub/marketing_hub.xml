@@ -7,7 +7,7 @@
                     <span class="o_tcrm_mh_mark">MH</span>
                     <div>
                         <strong>Marketing Hub</strong>
-                        <small>Meta · Instagram · Facebook</small>
+                        <small>Meta · Google Ads</small>
                     </div>
                 </div>
                 <nav class="o_tcrm_mh_nav_scroll">
@@ -28,7 +28,12 @@
                     <header class="o_tcrm_mh_header">
                         <div>
                             <h1 t-esc="sections.find(s => s.id === state.section)?.label or 'Marketing Hub'"/>
-                            <p t-if="selectedAd">
+                            <p t-if="showGoogleAccountSelect and selectedGoogleAd">
+                                Google Ads hesabı:
+                                <strong t-esc="selectedGoogleAd.name"/>
+                                <span class="text-muted" t-esc="' · ' + (selectedGoogleAd.customer_id || selectedGoogleAd.meta_act_id || '')"/>
+                            </p>
+                            <p t-elif="selectedAd">
                                 Reklam hesabı:
                                 <strong t-esc="selectedAd.name"/>
                                 <span class="text-muted" t-esc="' · ' + selectedAd.meta_act_id"/>
@@ -36,12 +41,22 @@
                             <p t-else="" class="text-muted">İzlemek için bir reklam hesabı seçin.</p>
                         </div>
                         <div class="o_tcrm_mh_actions">
-                            <select class="form-select form-select-sm o_tcrm_mh_ad_select"
+                            <select t-if="showMetaAccountSelect"
+                                    class="form-select form-select-sm o_tcrm_mh_ad_select"
                                     t-att-value="state.selectedAdAccountId or ''"
                                     t-on-change="onSelectAdAccount">
-                                <option value="">Reklam hesabı seç…</option>
+                                <option value="">Meta reklam hesabı…</option>
                                 <t t-foreach="state.data?.ad_accounts or []" t-as="aa" t-key="aa.id">
                                     <option t-att-value="aa.id" t-esc="aa.name + ' (' + aa.meta_act_id + ')'"/>
+                                </t>
+                            </select>
+                            <select t-if="showGoogleAccountSelect"
+                                    class="form-select form-select-sm o_tcrm_mh_ad_select"
+                                    t-att-value="state.selectedGoogleAdAccountId or ''"
+                                    t-on-change="onSelectGoogleAdAccount">
+                                <option value="">Google Ads hesabı…</option>
+                                <t t-foreach="state.googleData?.ad_accounts || []" t-as="ga" t-key="ga.id">
+                                    <option t-att-value="ga.id" t-esc="ga.name + ' (' + (ga.customer_id || ga.meta_act_id || '') + ')'"/>
                                 </t>
                             </select>
                             <button class="btn btn-outline-secondary" t-att-disabled="state.syncing" t-on-click="syncCampaigns">
@@ -101,50 +116,192 @@
                             </div>
                             <div class="o_tcrm_mh_chart_grid">
                                 <div class="o_tcrm_mh_chart_card">
-                                    <canvas t-ref="chartSource"/>
+                                    <canvas t-ref="chartSourceOverview"/>
                                 </div>
                                 <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
-                                    <canvas t-ref="chartDay"/>
+                                    <canvas t-ref="chartDayOverview"/>
                                 </div>
                             </div>
                             <div class="o_tcrm_mh_quick">
                                 <button class="btn btn-primary" t-on-click="syncCampaigns">Kampanyaları Çek</button>
                                 <button class="btn btn-secondary" t-on-click="() => this.setSection('leads')">Leadleri Gör</button>
-                                <button class="btn btn-secondary" t-on-click="() => this.setSection('reports')">Grafik Raporlar</button>
-                                <button class="btn btn-secondary" t-on-click="openCrmLeads">CRM Lead Listesi</button>
-                                <button class="btn btn-secondary" t-on-click="openCampaignsWindow">Kampanyalar Penceresi</button>
+                                <button class="btn btn-secondary" t-on-click="() => this.setSection('reports')">Raporlar</button>
+                                <button class="btn btn-secondary" t-on-click="() => this.setSection('campaigns')">Kampanyalar</button>
                                 <button class="btn btn-secondary" t-on-click="openConnectInstagram">Instagram Bağla</button>
                                 <button class="btn btn-secondary" t-on-click="openConnectFacebook">Facebook Bağla</button>
                             </div>
                         </section>
 
                         <!-- REPORTS -->
-                        <section t-if="state.section === 'reports'" class="o_tcrm_mh_section">
-                            <div class="o_tcrm_mh_quick mb-3">
-                                <button class="btn btn-secondary" t-on-click="openLeadGraph">Odoo Graph / Pivot Aç</button>
-                                <button class="btn btn-secondary" t-on-click="openLeadsWindow">Lead Listesi</button>
-                                <span class="text-muted small align-self-center">
-                                    Toplam lead (filtre): <strong t-esc="charts.total_leads or 0"/>
-                                </span>
+                        <section t-if="state.section === 'reports'" class="o_tcrm_mh_section o_tcrm_mh_reports">
+                            <div class="o_tcrm_mh_reports_toolbar">
+                                <div class="o_tcrm_mh_view_switch" role="tablist">
+                                    <button t-foreach="reportViews" t-as="rv" t-key="rv.id"
+                                            type="button"
+                                            t-att-class="'o_tcrm_mh_view_btn' + (state.reportsView === rv.id ? ' active' : '')"
+                                            t-on-click="() => this.setReportsView(rv.id)">
+                                        <strong t-esc="rv.label"/>
+                                        <small t-esc="rv.hint"/>
+                                    </button>
+                                </div>
+                                <div class="o_tcrm_mh_reports_actions">
+                                    <button class="btn btn-sm btn-outline-secondary" t-on-click="openLeadGraph">Grafik / Pivot</button>
+                                    <button class="btn btn-sm btn-outline-secondary" t-on-click="openLeadsWindow">Lead Listesi</button>
+                                </div>
                             </div>
-                            <div class="o_tcrm_mh_chart_grid">
-                                <div class="o_tcrm_mh_chart_card">
-                                    <canvas t-ref="chartSource"/>
+
+                            <div class="o_tcrm_mh_kpi_strip">
+                                <div class="o_tcrm_mh_kpi">
+                                    <span class="o_tcrm_mh_kpi_value" t-esc="reportKpis.total_leads or charts.total_leads or 0"/>
+                                    <span class="o_tcrm_mh_kpi_label">Toplam Lead</span>
                                 </div>
-                                <div class="o_tcrm_mh_chart_card">
-                                    <canvas t-ref="chartState"/>
+                                <div class="o_tcrm_mh_kpi">
+                                    <span class="o_tcrm_mh_kpi_value" t-esc="reportKpis.imported or 0"/>
+                                    <span class="o_tcrm_mh_kpi_label">CRM’e Aktarılan</span>
                                 </div>
+                                <div class="o_tcrm_mh_kpi">
+                                    <span class="o_tcrm_mh_kpi_value" t-esc="(reportKpis.import_rate or 0) + '%'"/>
+                                    <span class="o_tcrm_mh_kpi_label">Aktarım Oranı</span>
+                                </div>
+                                <div class="o_tcrm_mh_kpi">
+                                    <span class="o_tcrm_mh_kpi_value" t-esc="reportKpis.avg_per_day or 0"/>
+                                    <span class="o_tcrm_mh_kpi_label">Günlük Ort.</span>
+                                </div>
+                                <div class="o_tcrm_mh_kpi">
+                                    <span class="o_tcrm_mh_kpi_value" t-esc="reportKpis.top_source or '—'"/>
+                                    <span class="o_tcrm_mh_kpi_label">Öne Çıkan Kaynak</span>
+                                </div>
+                                <div class="o_tcrm_mh_kpi">
+                                    <span class="o_tcrm_mh_kpi_value" t-esc="(reportKpis.spend_total || 0).toLocaleString('tr-TR')"/>
+                                    <span class="o_tcrm_mh_kpi_label">Kampanya Harcaması</span>
+                                </div>
+                            </div>
+
+                            <div t-if="state.reportsView === 'summary'" class="o_tcrm_mh_chart_grid">
                                 <div class="o_tcrm_mh_chart_card">
-                                    <canvas t-ref="chartCreative"/>
+                                    <canvas t-ref="chartSourceSummary"/>
                                 </div>
                                 <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
-                                    <canvas t-ref="chartDay"/>
+                                    <canvas t-ref="chartDaySummary"/>
+                                </div>
+                            </div>
+
+                            <div t-if="state.reportsView === 'leads'" class="o_tcrm_mh_chart_grid">
+                                <div class="o_tcrm_mh_chart_card">
+                                    <canvas t-ref="chartStateLeads"/>
                                 </div>
                                 <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
-                                    <canvas t-ref="chartForm"/>
+                                    <canvas t-ref="chartFormLeads"/>
                                 </div>
                                 <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
-                                    <canvas t-ref="chartSpend"/>
+                                    <canvas t-ref="chartDayLeads"/>
+                                </div>
+                            </div>
+
+                            <div t-if="state.reportsView === 'performance'">
+                                <div class="o_tcrm_mh_chart_grid mb-3">
+                                    <div class="o_tcrm_mh_chart_card o_tcrm_mh_chart_wide">
+                                        <canvas t-ref="chartSpend"/>
+                                    </div>
+                                </div>
+                                <div class="o_tcrm_mh_report_table card border-0 shadow-sm mb-3">
+                                    <div class="card-header bg-white border-bottom py-2 px-3 d-flex justify-content-between align-items-center">
+                                        <strong>Kampanya Performansı</strong>
+                                        <span class="text-muted small">Lead · harcama · tıklama</span>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm mb-0 align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kampanya</th>
+                                                    <th class="text-end">Lead</th>
+                                                    <th class="text-end">CRM</th>
+                                                    <th class="text-end">Harcama</th>
+                                                    <th class="text-end">Tıklama</th>
+                                                    <th style="width:28%">Lead payı</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr t-if="!campaignReportRows.length">
+                                                    <td colspan="6" class="text-muted text-center py-3">Bu filtrede kampanya verisi yok.</td>
+                                                </tr>
+                                                <tr t-foreach="campaignReportRows" t-as="row" t-key="row.name">
+                                                    <td>
+                                                        <div class="fw-semibold" t-esc="row.name"/>
+                                                        <div class="text-muted small" t-esc="row.status || ''"/>
+                                                    </td>
+                                                    <td class="text-end fw-semibold" t-esc="row.leads"/>
+                                                    <td class="text-end" t-esc="row.imported || 0"/>
+                                                    <td class="text-end" t-esc="(row.spend || 0).toLocaleString('tr-TR')"/>
+                                                    <td class="text-end" t-esc="row.clicks || 0"/>
+                                                    <td>
+                                                        <div class="progress" style="height:6px">
+                                                            <div class="progress-bar o_tcrm_mh_bar"
+                                                                 t-att-style="'width:' + this.campaignLeadShare(row.leads) + '%'"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div t-if="state.reportsView === 'creative'">
+                                <div class="o_tcrm_mh_chart_grid mb-3">
+                                    <div class="o_tcrm_mh_chart_card">
+                                        <canvas t-ref="chartCreative"/>
+                                    </div>
+                                    <div class="o_tcrm_mh_chart_card">
+                                        <div class="o_tcrm_mh_creative_kpis p-3 h-100 d-flex flex-column justify-content-center gap-3">
+                                            <div>
+                                                <div class="text-muted small">Video / Reel lead</div>
+                                                <div class="fs-3 fw-bold" t-esc="reportKpis.video_creatives or 0"/>
+                                            </div>
+                                            <div>
+                                                <div class="text-muted small">Görsel lead</div>
+                                                <div class="fs-3 fw-bold" t-esc="reportKpis.image_creatives or 0"/>
+                                            </div>
+                                            <div>
+                                                <div class="text-muted small">Aktif kreatif</div>
+                                                <div class="fs-3 fw-bold" t-esc="reportKpis.creative_assets or 0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_tcrm_mh_creative_report_grid row g-3">
+                                    <div class="col-12 col-md-6 col-xl-4" t-foreach="creativeReportRows" t-as="cr" t-key="cr.ad_id + cr.ad_name">
+                                        <article class="o_tcrm_mh_creative_report_card card border-0 shadow-sm h-100 overflow-hidden">
+                                            <div class="o_tcrm_mh_creative_report_media ratio ratio-16x9 bg-light">
+                                                <img t-if="cr.thumbnail_url or cr.image_url"
+                                                     t-att-src="cr.thumbnail_url or cr.image_url"
+                                                     t-att-alt="cr.ad_name"
+                                                     class="object-fit-cover w-100 h-100"
+                                                     loading="lazy"
+                                                     referrerpolicy="no-referrer"
+                                                     t-on-error="(ev) => ev.target.style.display='none'"/>
+                                                <div t-else="" class="d-flex align-items-center justify-content-center text-muted small">Kreatif yok</div>
+                                            </div>
+                                            <div class="card-body p-2">
+                                                <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                                                    <strong class="small text-truncate" t-esc="cr.ad_name"/>
+                                                    <span class="badge text-bg-light text-nowrap" t-esc="this.creativeBadge(cr.media_type)"/>
+                                                </div>
+                                                <div class="text-muted small text-truncate mb-2" t-esc="cr.campaign_name or '—'"/>
+                                                <div class="d-flex justify-content-between small">
+                                                    <span><strong t-esc="cr.leads"/> lead</span>
+                                                    <span class="text-muted"><t t-esc="cr.imported"/> CRM</span>
+                                                </div>
+                                                <div class="progress mt-2" style="height:6px">
+                                                    <div class="progress-bar o_tcrm_mh_bar"
+                                                         t-att-style="'width:' + this.campaignLeadShare(cr.leads) + '%'"/>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                                <div t-if="!creativeReportRows.length" class="alert alert-info mt-2">
+                                    Bu filtrede kreatif–lead eşleşmesi yok.
                                 </div>
                             </div>
                         </section>
@@ -190,7 +347,7 @@
                                      t-att-class="'alert mb-3 ' + (state.connectionTest.success ? 'alert-success' : 'alert-danger')"
                                      t-esc="state.connectionTest.message"/>
                                 <div t-if="!state.pageMgmt.can_manage" class="alert alert-warning mb-3">
-                                    Sayfa seçimini değiştirmek için Marketing Yönetici yetkisi gerekir. Görüntüleme serbest.
+                                    Sayfa seçimini değiştirmek için TCRM Yönetici yetkisi gerekir. Görüntüleme serbest.
                                 </div>
                                 <div class="table-responsive o_tcrm_mh_table_scroll mb-4">
                                     <table class="table table-sm o_tcrm_mh_table">
@@ -217,7 +374,10 @@
                                                     <small class="text-muted" t-esc="pg.profile_name or ''"/>
                                                 </td>
                                                 <td>
-                                                    <span t-att-class="sourceBadgeClass(pg.platform)" t-esc="pg.platform"/>
+                                                    <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                                        <t t-set="key" t-value="pg.platform"/>
+                                                        <t t-set="label" t-value="pg.platform"/>
+                                                    </t>
                                                 </td>
                                                 <td t-esc="pg.status"/>
                                                 <td t-esc="pg.last_sync_at or '—'"/>
@@ -230,7 +390,7 @@
                                     </table>
                                 </div>
                                 <div t-if="!(state.pageMgmt.accounts || []).length" class="alert alert-info mb-4">
-                                    Henüz sayfa yok. <strong>Sayfaları Yenile</strong> ile Zernio’dan çekin.
+                                    Henüz sayfa yok. <strong>Sayfaları Yenile</strong> ile TCRM Meta API'den çekin.
                                 </div>
                             </t>
 
@@ -245,7 +405,10 @@
                                                  t-on-error="(ev) => ev.target.style.display='none'"/>
                                             <strong t-esc="acc.name"/>
                                         </div>
-                                        <span t-att-class="sourceBadgeClass(acc.platform)" t-esc="acc.platform"/>
+                                        <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                            <t t-set="key" t-value="acc.platform"/>
+                                            <t t-set="label" t-value="acc.platform"/>
+                                        </t>
                                     </div>
                                     <div class="text-muted" t-esc="'@' + (acc.username or '-')"/>
                                     <div>Durum: <t t-esc="acc.status"/> · Takipçi: <t t-esc="acc.followers"/></div>
@@ -305,51 +468,463 @@
                             </div>
                         </section>
 
-                        <!-- ADS / CAMPAIGNS -->
-                        <section t-if="state.section === 'ads'" class="o_tcrm_mh_section">
+                        <!-- CAMPAIGNS (Meta + Google under one section) -->
+                        <section t-if="state.section === 'campaigns'" class="o_tcrm_mh_section">
+                            <div class="o_tcrm_mh_platform_switch mb-3" role="tablist">
+                                <button type="button"
+                                        t-att-class="'o_tcrm_mh_platform_btn' + (state.campaignsPlatform === 'meta' ? ' active' : '')"
+                                        t-on-click="() => this.setCampaignsPlatform('meta')">
+                                    <span class="o_tcrm_mh_platform_title">Meta</span>
+                                    <span class="o_tcrm_mh_platform_sub">Facebook · Instagram kampanyaları</span>
+                                </button>
+                                <button type="button"
+                                        t-att-class="'o_tcrm_mh_platform_btn' + (state.campaignsPlatform === 'google' ? ' active' : '')"
+                                        t-on-click="() => this.setCampaignsPlatform('google')">
+                                    <span class="o_tcrm_mh_platform_title">Google Ads</span>
+                                    <span class="o_tcrm_mh_platform_sub">Search · Display · YouTube</span>
+                                </button>
+                            </div>
+
+                        <t t-if="state.campaignsPlatform === 'meta'">
                             <div class="o_tcrm_mh_quick mb-3">
                                 <button class="btn btn-primary" t-att-disabled="state.syncing" t-on-click="syncCampaigns">
                                     Tüm Kampanyaları Çek
                                 </button>
                                 <button class="btn btn-secondary" t-on-click="openCampaignsWindow">Liste Penceresinde Aç</button>
                                 <span class="text-muted small align-self-center">
-                                    Üstteki Odoo tarih seçici ile kampanya listesini filtreleyin.
+                                    Meta Ads Manager yapısında Kampanyalar, Reklam Setleri ve Reklam Kreatifleri.
                                 </span>
                             </div>
                             <div class="alert alert-info" t-if="!filteredCampaigns.length">
-                                Bu reklam hesabında / tarih aralığında henüz kampanya yok.
-                                <strong>Tüm Kampanyaları Çek</strong> ile Meta’dan senkronize edin.
+                                Bu Meta reklam hesabında kampanya görünmüyor.
+                                Hesap seçiciden <strong>kampanyası olan</strong> hesabı seçin (ör. Fortis Sinanlı)
+                                veya <strong>Tüm Kampanyaları Çek</strong> ile senkronize edin.
                             </div>
-                            <div class="table-responsive o_tcrm_mh_table_scroll" t-if="filteredCampaigns.length">
-                                <table class="table table-sm o_tcrm_mh_table">
-                                    <thead>
-                                        <tr>
-                                            <th>Kampanya</th>
-                                            <th>Platform</th>
-                                            <th>Durum</th>
-                                            <th>Harcama</th>
-                                            <th>Gösterim</th>
-                                            <th>Tıklama</th>
-                                            <th>Dönüşüm</th>
-                                            <th>ROAS</th>
-                                            <th>Son Senkron</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr t-foreach="filteredCampaigns" t-as="c" t-key="c.id"
-                                            class="o_tcrm_mh_row_click" t-on-click="() => this.openCampaign(c.id)">
-                                            <td t-esc="c.name"/>
-                                            <td><span t-att-class="sourceBadgeClass(c.platform_key)" t-esc="c.platform"/></td>
-                                            <td t-esc="c.status"/>
-                                            <td t-esc="(c.spend || 0) + ' ' + (c.currency || '')"/>
-                                            <td t-esc="c.impressions"/>
-                                            <td t-esc="c.clicks"/>
-                                            <td t-esc="c.conversions"/>
-                                            <td t-esc="c.roas"/>
-                                            <td t-esc="c.last_sync_at"/>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+                            <div t-if="filteredCampaigns.length" class="o_tcrm_mh_campaign_cards d-flex flex-column gap-3">
+                                <article t-foreach="filteredCampaigns" t-as="c" t-key="c.id" class="card shadow-sm border-0 rounded-3 overflow-hidden">
+                                    <div class="card-header bg-white border-bottom p-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                                <t t-set="key" t-value="c.platform_key"/>
+                                                <t t-set="label" t-value="c.platform"/>
+                                            </t>
+                                            <h5 class="mb-0 fw-bold" t-esc="c.name"/>
+                                            <span class="badge bg-light text-dark border" t-esc="c.status"/>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <a t-if="c.meta_ads_manager_url" t-att-href="c.meta_ads_manager_url" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary py-1 px-2 text-nowrap">
+                                                <i class="fa fa-external-link me-1"/>Meta Ads Manager'da Aç
+                                            </a>
+                                            <button class="btn btn-sm btn-light border py-1 px-2" t-on-click="() => this.openCampaign(c.id)">
+                                                TCRM Kaydı
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <!-- Campaign Metrics Summary Bar -->
+                                        <div class="row g-2 text-center mb-3 p-2 rounded-2 bg-light">
+                                            <div class="col">
+                                                <small class="text-muted d-block">Harcama</small>
+                                                <strong class="text-primary" t-esc="(c.spend || 0) + ' ' + (c.currency || '')"/>
+                                            </div>
+                                            <div class="col">
+                                                <small class="text-muted d-block">Gösterim</small>
+                                                <strong t-esc="c.impressions || 0"/>
+                                            </div>
+                                            <div class="col">
+                                                <small class="text-muted d-block">Tıklama</small>
+                                                <strong t-esc="c.clicks || 0"/>
+                                            </div>
+                                            <div class="col">
+                                                <small class="text-muted d-block">Dönüşüm</small>
+                                                <strong t-esc="c.conversions || 0"/>
+                                            </div>
+                                            <div class="col">
+                                                <small class="text-muted d-block">ROAS</small>
+                                                <strong t-esc="c.roas || 0"/>
+                                            </div>
+                                            <div class="col">
+                                                <small class="text-muted d-block">Reklam Setleri</small>
+                                                <strong t-esc="c.adset_count || 0"/>
+                                            </div>
+                                            <div class="col">
+                                                <small class="text-muted d-block">Reklamlar</small>
+                                                <strong t-esc="c.ad_count || 0"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- AdSets & Ads Tree -->
+                                        <t t-if="c.adsets &amp;&amp; c.adsets.length">
+                                            <div class="o_tcrm_mh_adsets_container d-flex flex-column gap-3">
+                                                <div t-foreach="c.adsets" t-as="aset" t-key="aset.id" class="border rounded-2 p-2 bg-white">
+                                                    <div class="d-flex align-items-center justify-content-between mb-2 pb-1 border-bottom">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="badge bg-secondary">Reklam Seti</span>
+                                                            <strong t-esc="aset.name"/>
+                                                            <span class="text-muted small" t-esc="'(' + (aset.status || 'ACTIVE') + ')'"/>
+                                                        </div>
+                                                        <div class="text-muted small">
+                                                            Harcama: <strong t-esc="(aset.spend || 0) + ' ' + (c.currency || '')"/> · Gösterim: <span t-esc="aset.impressions || 0"/> · Tıklama: <span t-esc="aset.clicks || 0"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Ad Artworks Cards Grid -->
+                                                    <div class="row g-2" t-if="aset.ads &amp;&amp; aset.ads.length">
+                                                        <div t-foreach="aset.ads" t-as="ad" t-key="ad.id" class="col-12 col-md-6 col-lg-4">
+                                                            <div class="card h-100 border shadow-none rounded-2 overflow-hidden">
+                                                                <!-- Artwork Media Header -->
+                                                                <div class="position-relative bg-dark text-center" style="min-height:140px;max-height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+                                                                    <img t-if="ad.creative_thumb" t-att-src="ad.creative_thumb" alt="Artwork" style="width:100%;height:160px;object-fit:cover" loading="lazy" referrerpolicy="no-referrer"/>
+                                                                    <div t-else="" class="p-3 text-white-50 small">
+                                                                        <i class="fa fa-image fa-2x mb-1 d-block"/>Görsel / Video Sanat Eseri
+                                                                    </div>
+                                                                    <span t-if="ad.creative_type === 'video'" class="position-absolute top-0 start-0 m-2 badge bg-purple text-white">VİDEO / REEL</span>
+                                                                    <span t-if="ad.creative_type === 'image'" class="position-absolute top-0 start-0 m-2 badge bg-info text-dark">GÖRSEL</span>
+                                                                </div>
+                                                                <div class="card-body p-2">
+                                                                    <strong class="d-block text-truncate small mb-1" t-esc="ad.name" t-att-title="ad.name"/>
+                                                                    <p t-if="ad.creative_body" class="text-muted extra-small mb-2" style="font-size:0.75rem;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" t-esc="ad.creative_body"/>
+                                                                    <div class="d-flex align-items-center justify-content-between small text-muted">
+                                                                        <span>Harcama: <strong class="text-dark" t-esc="(ad.spend || 0) + ' ' + (c.currency || '')"/></span>
+                                                                        <a t-if="ad.meta_ads_manager_url" t-att-href="ad.meta_ads_manager_url" target="_blank" rel="noopener" class="btn btn-link btn-xs p-0">Ads Manager &#8594;</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+
+                                        <!-- Direct Ads (if any without AdSet) -->
+                                        <t t-if="c.direct_ads &amp;&amp; c.direct_ads.length">
+                                            <div class="row g-2 mt-2">
+                                                <div t-foreach="c.direct_ads" t-as="ad" t-key="ad.id" class="col-12 col-md-6 col-lg-4">
+                                                    <div class="card h-100 border shadow-none rounded-2 overflow-hidden">
+                                                        <div class="position-relative bg-dark text-center" style="min-height:140px;max-height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+                                                            <img t-if="ad.creative_thumb" t-att-src="ad.creative_thumb" alt="Artwork" style="width:100%;height:160px;object-fit:cover" loading="lazy" referrerpolicy="no-referrer"/>
+                                                            <div t-else="" class="p-3 text-white-50 small">
+                                                                <i class="fa fa-image fa-2x mb-1 d-block"/>Görsel / Video Sanat Eseri
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body p-2">
+                                                            <strong class="d-block text-truncate small mb-1" t-esc="ad.name"/>
+                                                            <div class="d-flex align-items-center justify-content-between small text-muted">
+                                                                <span>Harcama: <strong class="text-dark" t-esc="(ad.spend || 0) + ' ' + (c.currency || '')"/></span>
+                                                                <a t-if="ad.meta_ads_manager_url" t-att-href="ad.meta_ads_manager_url" target="_blank" rel="noopener" class="btn btn-link btn-xs p-0">Ads Manager &#8594;</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </article>
+                            </div>
+                        </t>
+
+                        <t t-if="state.campaignsPlatform === 'google'">
+                            <div class="o_tcrm_mh_google">
+                            <div class="o_tcrm_mh_quick mb-3 d-flex flex-wrap gap-2 align-items-center">
+                                <button class="btn btn-primary" t-att-disabled="state.syncing" t-on-click="syncGoogleAds">
+                                    Google Ads Senkronize Et
+                                </button>
+                                <button class="btn btn-secondary" t-on-click="refreshGoogleAds" t-att-disabled="state.googleLoading">
+                                    Yenile
+                                </button>
+                                <button class="btn btn-secondary" t-on-click="openGoogleCampaignsWindow">Kampanya Listesi</button>
+                                <button class="btn btn-secondary" t-on-click="openGoogleKeywordsWindow">Kelime Listesi</button>
+                                <select class="form-select form-select-sm w-auto"
+                                        t-on-change="onSelectGoogleAdAccount"
+                                        t-att-disabled="state.googleLoading">
+                                    <option value="">Müşteri hesabı seçin</option>
+                                    <t t-foreach="state.googleData?.ad_accounts || []" t-as="ga" t-key="ga.id">
+                                        <option t-att-value="ga.id"
+                                                t-att-selected="ga.id === state.selectedGoogleAdAccountId"
+                                                t-esc="ga.name + ' (' + ga.customer_id + ')'"/>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div class="alert alert-warning" t-if="state.googleLoading">Google Ads verisi yükleniyor…</div>
+                            <div class="alert alert-info" t-if="!state.googleLoading and !(state.googleData?.connections || []).length">
+                                Zernio’da henüz Google Ads bağlantısı yok. Zernio panelinden Google Ads OAuth bağlayın, sonra
+                                <strong>Google Ads Senkronize Et</strong> çalıştırın.
+                            </div>
+
+                            <div class="o_tcrm_mh_stats row g-2 mb-3" t-if="state.googleData">
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Kampanya</span><strong t-esc="googleStats.campaigns || 0"/></div></div>
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Aktif</span><strong t-esc="googleStats.active_campaigns || 0"/></div></div>
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Anahtar Kelime</span><strong t-esc="googleStats.keywords || 0"/></div></div>
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Harcama (ağaç)</span><strong t-esc="(googleStats.spend || 0).toLocaleString('tr-TR')"/></div></div>
+                            </div>
+
+                            <ul class="nav nav-tabs mb-3">
+                                <li class="nav-item"><button type="button" t-att-class="'nav-link' + (state.googleTab === 'settings' ? ' active' : '')" t-on-click="() => this.setGoogleTab('settings')">Ayarlar</button></li>
+                                <li class="nav-item"><button type="button" t-att-class="'nav-link' + (state.googleTab === 'campaigns' ? ' active' : '')" t-on-click="() => this.setGoogleTab('campaigns')">Kampanyalar</button></li>
+                                <li class="nav-item"><button type="button" t-att-class="'nav-link' + (state.googleTab === 'keywords' ? ' active' : '')" t-on-click="() => this.setGoogleTab('keywords')">Anahtar Kelimeler</button></li>
+                                <li class="nav-item"><button type="button" t-att-class="'nav-link' + (state.googleTab === 'insights' ? ' active' : '')" t-on-click="() => this.setGoogleTab('insights')">Performans</button></li>
+                                <li class="nav-item"><button type="button" t-att-class="'nav-link' + (state.googleTab === 'ads' ? ' active' : '')" t-on-click="() => this.setGoogleTab('ads')">Reklamlar / RSA</button></li>
+                                <li class="nav-item"><button type="button" t-att-class="'nav-link' + (state.googleTab === 'features' ? ' active' : '')" t-on-click="() => this.setGoogleTab('features')">Özellikler</button></li>
+                            </ul>
+
+                            <div t-if="state.googleTab === 'settings'">
+                                <div class="row g-3">
+                                    <div class="col-md-6" t-foreach="state.googleData?.connections || []" t-as="conn" t-key="conn.id">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-1" t-esc="conn.name"/>
+                                                <p class="text-muted small mb-2" t-esc="conn.username"/>
+                                                <div class="d-flex gap-2 flex-wrap">
+                                                    <span class="badge text-bg-success" t-if="conn.status === 'connected'">Bağlı</span>
+                                                    <span class="badge text-bg-secondary" t-else="" t-esc="conn.status"/>
+                                                    <span class="badge text-bg-light text-dark border">Zernio: <t t-esc="conn.zernio_id"/></span>
+                                                </div>
+                                                <p class="small text-muted mt-2 mb-0">Son senkron: <t t-esc="conn.last_sync_at || '—'"/></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" t-foreach="state.googleData?.ad_accounts || []" t-as="ga" t-key="'cust-' + ga.id">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-1" t-esc="ga.name"/>
+                                                <p class="mb-1"><strong>Müşteri ID:</strong> <t t-esc="ga.customer_id"/></p>
+                                                <p class="mb-1"><strong>Para birimi:</strong> <t t-esc="ga.currency || '—'"/></p>
+                                                <p class="mb-1"><strong>Durum:</strong> <t t-esc="ga.account_status || '—'"/></p>
+                                                <p class="mb-2"><strong>Kampanya:</strong> <t t-esc="ga.campaign_count"/></p>
+                                                <a t-att-href="ga.google_ads_url" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">Google Ads’te Aç</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div t-if="state.googleTab === 'campaigns'">
+                                <div class="alert alert-info" t-if="!googleCampaigns.length">Henüz Google kampanyası yok. Senkronize edin.</div>
+                                <div class="table-responsive" t-if="googleCampaigns.length">
+                                    <table class="table table-sm table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Kampanya</th>
+                                                <th>Kanal</th>
+                                                <th>Durum</th>
+                                                <th class="text-end">Bütçe</th>
+                                                <th class="text-end">Harcama</th>
+                                                <th class="text-end">Gösterim</th>
+                                                <th class="text-end">Tıklama</th>
+                                                <th/>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="googleCampaigns" t-as="c" t-key="c.id">
+                                                <td>
+                                                    <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                                        <t t-set="key" t-value="'google'"/>
+                                                        <t t-set="label" t-value="'Google'"/>
+                                                    </t>
+                                                    <strong class="ms-1" t-esc="c.name"/>
+                                                </td>
+                                                <td><span class="badge bg-light text-dark border" t-esc="c.channel_type || '—'"/></td>
+                                                <td t-esc="c.status"/>
+                                                <td class="text-end"><t t-esc="c.budget"/> <t t-esc="c.currency"/></td>
+                                                <td class="text-end" t-esc="c.spend"/>
+                                                <td class="text-end" t-esc="c.impressions"/>
+                                                <td class="text-end" t-esc="c.clicks"/>
+                                                <td class="text-nowrap">
+                                                    <a t-if="c.ads_manager_url" t-att-href="c.ads_manager_url" target="_blank" rel="noopener" class="btn btn-sm btn-link">Aç</a>
+                                                    <button class="btn btn-sm btn-link" t-on-click="() => this.openCampaign(c.id)">TCRM</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div t-if="state.googleTab === 'keywords'">
+                                <div class="mb-2">
+                                    <input type="search" class="form-control form-control-sm" style="max-width:320px"
+                                           placeholder="Kelime / kampanya ara…"
+                                           t-att-value="state.googleKeywordSearch"
+                                           t-on-input="(ev) => this.state.googleKeywordSearch = ev.target.value"/>
+                                </div>
+                                <div class="alert alert-info" t-if="!googleKeywords.length">Anahtar kelime yok veya filtre boş.</div>
+                                <div class="table-responsive" t-if="googleKeywords.length">
+                                    <table class="table table-sm table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Kelime</th>
+                                                <th>Eşleme</th>
+                                                <th>Durum</th>
+                                                <th>Kampanya</th>
+                                                <th>Reklam Grubu</th>
+                                                <th>Negatif</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="googleKeywords" t-as="k" t-key="k.id">
+                                                <td><strong t-esc="k.keyword"/></td>
+                                                <td t-esc="k.match_type"/>
+                                                <td t-esc="k.status"/>
+                                                <td t-esc="k.campaign_name"/>
+                                                <td t-esc="k.adset_name"/>
+                                                <td><span t-if="k.negative" class="badge text-bg-warning">Negatif</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div t-if="state.googleTab === 'insights'">
+                                <p class="text-muted small">Son 30 gün GAQL performansı (Zernio <code>/ads/insights</code>).</p>
+                                <div class="alert alert-warning" t-if="state.googleData?.insights_error" t-esc="state.googleData.insights_error"/>
+                                <div class="alert alert-info" t-if="!googleInsights.length and !state.googleData?.insights_error">Performans satırı yok.</div>
+                                <div class="table-responsive" t-if="googleInsights.length">
+                                    <table class="table table-sm table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Kampanya</th>
+                                                <th>Durum</th>
+                                                <th class="text-end">Gösterim</th>
+                                                <th class="text-end">Tıklama</th>
+                                                <th class="text-end">Maliyet</th>
+                                                <th class="text-end">Ort. CPC</th>
+                                                <th class="text-end">Dönüşüm</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="googleInsights" t-as="row" t-key="row.campaign_id + row.name">
+                                                <td t-esc="row.name"/>
+                                                <td t-esc="row.status"/>
+                                                <td class="text-end" t-esc="row.impressions"/>
+                                                <td class="text-end" t-esc="row.clicks"/>
+                                                <td class="text-end" t-esc="row.cost"/>
+                                                <td class="text-end" t-esc="row.avg_cpc"/>
+                                                <td class="text-end" t-esc="row.conversions"/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div t-if="state.googleTab === 'ads'">
+                                <div class="alert alert-info" t-if="!googleAdsList.length">Google reklamı henüz yok.</div>
+                                <div class="row g-3">
+                                    <div class="col-md-6" t-foreach="googleAdsList" t-as="ad" t-key="ad.id">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="row g-0">
+                                                <div class="col-4" t-if="ad.thumbnail_url or ad.image_url">
+                                                    <img t-att-src="ad.thumbnail_url or ad.image_url" class="img-fluid rounded-start h-100 object-fit-cover" t-att-alt="ad.name"/>
+                                                </div>
+                                                <div t-att-class="(ad.thumbnail_url or ad.image_url) ? 'col-8' : 'col-12'">
+                                                    <div class="card-body">
+                                                        <h6 class="mb-1" t-esc="ad.name"/>
+                                                        <p class="small text-muted mb-2">
+                                                            <t t-esc="ad.campaign"/> · <t t-esc="ad.adset"/> · <t t-esc="ad.status"/>
+                                                        </p>
+                                                        <div class="mb-2" t-if="ad.headlines?.length">
+                                                            <div class="small text-uppercase text-muted">Başlıklar</div>
+                                                            <ul class="small mb-0 ps-3">
+                                                                <li t-foreach="ad.headlines" t-as="h" t-key="h_index" t-esc="h"/>
+                                                            </ul>
+                                                        </div>
+                                                        <div t-if="ad.descriptions?.length">
+                                                            <div class="small text-uppercase text-muted">Açıklamalar</div>
+                                                            <ul class="small mb-0 ps-3">
+                                                                <li t-foreach="ad.descriptions" t-as="d" t-key="d_index" t-esc="d"/>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div t-if="state.googleTab === 'features'">
+                                <p class="text-muted">Zernio Google Ads API üzerinden kullanılabilir özellikler:</p>
+                                <div class="row g-2">
+                                    <div class="col-md-6" t-foreach="googleFeatures" t-as="f" t-key="f.id">
+                                        <div class="p-3 border rounded-3 bg-white h-100">
+                                            <strong t-esc="f.label"/>
+                                            <p class="small text-muted mb-0" t-esc="f.desc"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="small text-muted mt-3 mb-0">
+                                    Kaynak: <a href="https://docs.zernio.com/platforms/google-ads" target="_blank" rel="noopener">docs.zernio.com/platforms/google-ads</a>
+                                </p>
+                            </div>
+                            </div>
+                        </t>
+                        </section>
+
+                        <!-- CREATIVES GALLERY -->
+                        <section t-if="state.section === 'creatives'" class="o_tcrm_mh_section o_tcrm_mh_creatives">
+                            <div class="o_tcrm_mh_quick mb-3 d-flex flex-wrap gap-2 align-items-center">
+                                <button class="btn btn-primary" t-att-disabled="state.syncing" t-on-click="syncCreatives">
+                                    Tüm Kreatifleri Çek
+                                </button>
+                                <button class="btn btn-secondary" t-on-click="refreshCreatives" t-att-disabled="state.creativesLoading">
+                                    Yenile
+                                </button>
+                                <select class="form-select form-select-sm w-auto" t-on-change="onCreativesProviderChange">
+                                    <option value="" t-att-selected="!state.creativesProvider">Tümü (Meta + Google)</option>
+                                    <option value="meta" t-att-selected="state.creativesProvider === 'meta'">Meta</option>
+                                    <option value="google" t-att-selected="state.creativesProvider === 'google'">Google Ads</option>
+                                </select>
+                                <span class="text-muted small">Görseller, videolar, reels ve Google asset’ler</span>
+                            </div>
+
+                            <div class="alert alert-warning" t-if="state.creativesLoading">Kreatifler yükleniyor…</div>
+
+                            <div class="o_tcrm_mh_stats row g-2 mb-3" t-if="state.creativesData">
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Toplam</span><strong t-esc="creativesStats.total || 0"/></div></div>
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Görsel</span><strong t-esc="creativesStats.images || 0"/></div></div>
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Video / Reel</span><strong t-esc="creativesStats.videos || 0"/></div></div>
+                                <div class="col-6 col-md-3"><div class="o_tcrm_mh_stat"><span class="label">Reklam medyası</span><strong t-esc="creativesStats.ads_with_media || 0"/></div></div>
+                            </div>
+
+                            <div class="alert alert-info" t-if="!state.creativesLoading and !creativesItems.length">
+                                Henüz kreatif yok. <strong>Tüm Kreatifleri Çek</strong> ile Meta kütüphanesi + Google asset’leri + reklam medyalarını senkronize edin.
+                            </div>
+
+                            <div class="o_tcrm_mh_gallery row g-3" t-if="creativesItems.length">
+                                <div class="col-6 col-md-4 col-xl-3" t-foreach="creativesItems" t-as="item" t-key="item.id">
+                                    <article class="o_tcrm_mh_gallery_card card border-0 shadow-sm h-100 overflow-hidden">
+                                        <div class="o_tcrm_mh_gallery_media_wrap position-relative">
+                                            <div class="o_tcrm_mh_gallery_media ratio ratio-1x1 bg-light">
+                                                <img t-if="item.thumbnail_url or item.image_url"
+                                                     t-att-src="item.thumbnail_url or item.image_url"
+                                                     t-att-alt="item.name"
+                                                     class="object-fit-cover w-100 h-100"
+                                                     loading="lazy"
+                                                     referrerpolicy="no-referrer"
+                                                     t-on-error="(ev) => ev.target.style.display='none'"/>
+                                                <div t-else="" class="d-flex align-items-center justify-content-center text-muted small p-2 text-center" t-esc="item.name"/>
+                                            </div>
+                                            <span class="o_tcrm_mh_gallery_badge badge"
+                                                  t-att-class="'o_tcrm_mh_gallery_badge badge ' + (item.media_type === 'video' ? 'text-bg-dark' : 'text-bg-secondary')"
+                                                  t-esc="this.creativeBadge(item.media_type)"/>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div class="d-flex align-items-center gap-1 mb-1">
+                                                <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                                    <t t-set="key" t-value="item.provider === 'google' ? 'google' : 'meta'"/>
+                                                    <t t-set="label" t-value="item.provider === 'google' ? 'Google' : 'Meta'"/>
+                                                </t>
+                                                <span class="small text-muted text-truncate" t-esc="item.source === 'library' ? 'Meta Library' : 'Reklam'"/>
+                                            </div>
+                                            <div class="fw-semibold small text-truncate" t-esc="item.name"/>
+                                            <div class="small text-muted text-truncate" t-esc="item.campaign_name || item.title || ''"/>
+                                            <div class="mt-1 d-flex gap-2">
+                                                <a t-if="item.permalink" t-att-href="item.permalink" target="_blank" rel="noopener" class="btn btn-link btn-sm p-0">Aç</a>
+                                                <a t-if="item.video_url" t-att-href="item.video_url" target="_blank" rel="noopener" class="btn btn-link btn-sm p-0">Video</a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
                             </div>
                         </section>
 
@@ -395,7 +970,10 @@
                                             t-on-click="() => this.openLeadPreview(l.id)">
                                             <td t-esc="l.name"/>
                                             <td>
-                                                <span t-att-class="sourceBadgeClass(l.source_platform)" t-esc="l.source"/>
+                                                <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                                    <t t-set="key" t-value="l.source_platform"/>
+                                                    <t t-set="label" t-value="l.source"/>
+                                                </t>
                                             </td>
                                             <td>
                                                 <span class="o_tcrm_mh_creative_chip" t-esc="creativeBadge(l.creative_type)"/>
@@ -431,14 +1009,27 @@
                             </div>
                             <div class="o_tcrm_mh_cards" t-if="(state.data.conversations || []).length">
                                 <article t-foreach="state.data.conversations" t-as="cv" t-key="cv.id"
-                                         class="o_tcrm_mh_card o_tcrm_mh_row_click"
+                                         class="o_tcrm_mh_card o_tcrm_mh_inbox_card o_tcrm_mh_row_click"
                                          t-on-click="() => this.openConversation(cv.id)">
-                                    <div class="o_tcrm_mh_card_title">
-                                        <strong t-esc="cv.name"/>
-                                        <span t-att-class="sourceBadgeClass(cv.platform)" t-esc="cv.platform"/>
+                                    <div class="o_tcrm_mh_inbox_row">
+                                        <img class="o_tcrm_mh_inbox_avatar"
+                                             t-att-src="cv.avatar_url or cv.participant_picture"
+                                             t-att-alt="cv.name"
+                                             loading="lazy"
+                                             referrerpolicy="no-referrer"
+                                             t-on-error="(ev) => ev.target.src='https://ui-avatars.com/api/?name=' + encodeURIComponent(cv.name || 'U') + '&amp;background=0D9488&amp;color=fff&amp;size=64'"/>
+                                        <div class="o_tcrm_mh_inbox_body">
+                                            <div class="o_tcrm_mh_card_title">
+                                                <strong t-esc="cv.name"/>
+                                                <t t-call="tcrm_marketing_hub.PlatformBadge">
+                                                    <t t-set="key" t-value="cv.platform"/>
+                                                    <t t-set="label" t-value="cv.platform"/>
+                                                </t>
+                                            </div>
+                                            <div class="text-muted small" t-esc="cv.participant_username ? '@' + cv.participant_username : (cv.last_message_at || '')"/>
+                                            <div class="o_tcrm_mh_inbox_preview" t-esc="cv.last_message"/>
+                                        </div>
                                     </div>
-                                    <div class="text-muted small" t-esc="cv.last_message_at"/>
-                                    <div t-esc="cv.last_message"/>
                                 </article>
                             </div>
                             <div t-else="" class="alert alert-info">
@@ -484,7 +1075,10 @@
                     <t t-set="d" t-value="state.leadDetail"/>
                     <div class="o_tcrm_mh_drawer_title">
                         <strong t-esc="d.name"/>
-                        <span t-att-class="sourceBadgeClass(d.source_platform)" t-esc="d.source"/>
+                        <t t-call="tcrm_marketing_hub.PlatformBadge">
+                            <t t-set="key" t-value="d.source_platform"/>
+                            <t t-set="label" t-value="d.source"/>
+                        </t>
                     </div>
                     <dl class="o_tcrm_mh_dl">
                         <div><dt>Gönderim (Meta)</dt><dd t-esc="d.created_time_display or d.created_time or '—'"/></div>
@@ -508,6 +1102,7 @@
                                target="_blank" rel="noopener" class="o_tcrm_mh_creative_media">
                                 <img t-if="d.creative.thumbnail_url or d.creative.image_url"
                                      t-att-src="d.creative.thumbnail_url or d.creative.image_url"
+                                     referrerpolicy="no-referrer"
                                      alt="Video kreatif"/>
                                 <span class="o_tcrm_mh_play">▶ Video</span>
                             </a>
@@ -515,6 +1110,7 @@
                         <t t-elif="d.creative.media_type === 'image'">
                             <img class="o_tcrm_mh_creative_img"
                                  t-att-src="d.creative.image_url or d.creative.thumbnail_url"
+                                 referrerpolicy="no-referrer"
                                  alt="Görsel kreatif"/>
                         </t>
                         <t t-else="">
@@ -543,5 +1139,63 @@
                 </div>
             </aside>
         </div>
+    </t>
+
+    <!-- Official Platform SVG Brand Badge Template -->
+    <t t-name="tcrm_marketing_hub.PlatformBadge">
+        <t t-set="k" t-value="(key || '').toLowerCase()"/>
+        <t t-if="k.includes('ig') || k.includes('instagram')">
+            <span class="o_tcrm_mh_badge o_tcrm_mh_badge_ig">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <radialGradient id="ig-b-grad" cx="12" cy="12" r="12" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FFDD55"/>
+                        <stop offset="25%" stop-color="#FF543E"/>
+                        <stop offset="50%" stop-color="#C837AB"/>
+                        <stop offset="100%" stop-color="#3771C8"/>
+                    </radialGradient>
+                    <rect width="24" height="24" rx="6" fill="url(#ig-b-grad)"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7ZM9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12Z" fill="white"/>
+                    <circle cx="17.5" cy="6.5" r="1.25" fill="white"/>
+                </svg>
+                <t t-esc="label || 'Instagram'"/>
+            </span>
+        </t>
+        <t t-elif="k.includes('fb') || k.includes('facebook')">
+            <span class="o_tcrm_mh_badge o_tcrm_mh_badge_fb">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="12" fill="#1877F2"/>
+                    <path d="M15.5 12H13.25V20H10V12H8.5V9.25H10V7.5C10 5.84315 11.3431 4.5 13 4.5H15.5V7.25H14C13.5858 7.25 13.25 7.58579 13.25 8V9.25H15.75L15.5 12Z" fill="white"/>
+                </svg>
+                <t t-esc="label || 'Facebook'"/>
+            </span>
+        </t>
+        <t t-elif="k.includes('google')">
+            <span class="o_tcrm_mh_badge o_tcrm_mh_badge_google">
+                <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <t t-esc="label || 'Google Ads'"/>
+            </span>
+        </t>
+        <t t-elif="k.includes('wa') || k.includes('whatsapp')">
+            <span class="o_tcrm_mh_badge o_tcrm_mh_badge_wa">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="12" fill="#25D366"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C7.58172 4 4 7.58172 4 12C4 13.5255 4.4273 14.9515 5.1706 16.1666L4.35 19.1666L7.4491 18.354C8.6186 19.032 9.9712 19.4166 11.4166 19.4166C15.8349 19.4166 19.4166 15.8349 19.4166 11.4166C19.4166 6.99832 15.8349 4 12 4ZM15.4855 14.1528C15.2751 14.0476 14.2393 13.5385 14.0463 13.4683C13.8532 13.3981 13.7128 13.363 13.5724 13.5736C13.432 13.7842 13.0284 14.258 12.9056 14.3984C12.7828 14.5388 12.66 14.5563 12.4495 14.4511C12.2391 14.3458 11.5606 14.123 10.7554 13.4052C10.1287 12.8465 9.7056 12.1566 9.5828 11.9462C9.46 11.7357 9.5696 11.6221 9.6753 11.5173C9.7702 11.4231 9.8864 11.2713 9.9917 11.1485C10.097 11.0257 10.1321 10.938 10.2023 10.7976C10.2725 10.6572 10.2374 10.5344 10.1848 10.4291C10.1321 10.3238 9.711 9.2882 9.5355 8.8671C9.3644 8.4565 9.1906 8.5122 9.0608 8.5057C8.9379 8.4992 8.7975 8.4992 8.6571 8.4992C8.5167 8.4992 8.2886 8.5518 8.0956 8.7624C7.9026 8.973 7.3586 9.4819 7.3586 10.5173C7.3586 11.5527 8.1131 12.553 8.2184 12.6934C8.3237 12.8338 9.7027 14.9585 11.8152 15.8711C12.3175 16.088 12.7057 16.2163 13.0116 16.3134C13.5157 16.4739 13.974 16.451 14.3364 16.3968C14.7408 16.3363 15.5807 15.8879 15.7562 15.3965C15.9317 14.9051 15.9317 14.4839 15.8791 14.3962C15.8264 14.3085 15.6959 14.258 15.4855 14.1528Z" fill="white"/>
+                </svg>
+                <t t-esc="label || 'WhatsApp'"/>
+            </span>
+        </t>
+        <t t-else="">
+            <span class="o_tcrm_mh_badge o_tcrm_mh_badge_meta">
+                <svg width="15" height="12" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M26.2428 3.00391C23.0117 3.00391 20.3168 4.79294 18.0003 7.82025C15.6838 4.79294 12.9889 3.00391 9.75781 3.00391C4.36862 3.00391 0 7.37253 0 12.7617C0 18.1509 4.36862 22.5195 9.75781 22.5195C12.9889 22.5195 15.6838 20.7305 18.0003 17.7032C20.3168 20.7305 23.0117 22.5195 26.2428 22.5195C31.632 22.5195 36 18.1509 36 12.7617C36 7.37253 31.632 3.00391 26.2428 3.00391ZM9.75781 18.7617C6.4441 18.7617 3.75781 16.0754 3.75781 12.7617C3.75781 9.44801 6.4441 6.76172 9.75781 6.76172C11.9688 6.76172 13.9782 8.08779 15.6023 10.3734L13.1118 13.4866C12.1643 12.2132 10.9787 11.5117 9.75781 11.5117C9.06846 11.5117 8.51172 12.0685 8.51172 12.7617C8.51172 13.4549 9.06846 14.0117 9.75781 14.0117C10.9787 14.0117 12.1643 13.3103 13.1118 12.0368L15.6023 15.15C13.9782 17.4356 11.9688 18.7617 9.75781 18.7617ZM26.2428 18.7617C23.0318 18.7617 21.0224 17.4356 19.3983 15.15L21.8888 12.0368C22.8363 13.3103 24.0219 14.0117 25.2428 14.0117C25.9322 14.0117 26.4889 13.4549 26.4889 12.7617C26.4889 12.0685 25.9322 11.5117 25.2428 11.5117C24.0219 11.5117 22.8363 12.2132 21.8888 13.4866L19.3983 10.3734C21.0224 8.08779 23.0318 6.76172 26.2428 6.76172C29.5565 6.76172 32.2428 9.44801 32.2428 12.7617C32.2428 16.0754 29.5565 18.7617 26.2428 18.7617Z" fill="white"/>
+                </svg>
+                <t t-esc="label || 'Meta'"/>
+            </span>
+        </t>
     </t>
 </templates>

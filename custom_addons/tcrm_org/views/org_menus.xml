@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Rename CRM Sales → Teams menu to Organizasyon hub -->
+    <!--
+      CRM no longer hosts HR org screens (Departmanlar / Ekipler / Personel /
+      Organizasyon Şeması). Those live under Çalışanlar (hr).
+      Erişim Yönetimi stays under CRM > Yapılandırma.
+    -->
+
     <record id="crm.sales_team_menu_team_pipeline" model="ir.ui.menu">
-        <field name="name">Organizasyon</field>
+        <field name="active" eval="False"/>
         <field name="action" eval="False"/>
-        <field name="sequence">4</field>
     </record>
 
+    <!-- Also hide stock CRM Configuration team menus (managed via Çalışanlar). -->
+    <record id="crm.crm_team_config" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="crm.crm_team_member_config" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- Keep XML IDs but hide from CRM sidebar -->
     <menuitem id="menu_tcrm_org_chart"
               name="Organizasyon Şeması"
               parent="crm.sales_team_menu_team_pipeline"
               action="action_tcrm_org_chart"
               sequence="1"
+              active="False"
               groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
 
     <menuitem id="menu_tcrm_org_departments"
@@ -19,6 +33,7 @@
               parent="crm.sales_team_menu_team_pipeline"
               action="action_tcrm_org_department"
               sequence="10"
+              active="False"
               groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
 
     <menuitem id="menu_tcrm_org_teams"
@@ -26,6 +41,7 @@
               parent="crm.sales_team_menu_team_pipeline"
               action="action_tcrm_org_teams"
               sequence="20"
+              active="False"
               groups="sales_team.group_sale_salesman"/>
 
     <menuitem id="menu_tcrm_org_users"
@@ -33,12 +49,13 @@
               parent="crm.sales_team_menu_team_pipeline"
               action="action_tcrm_org_users"
               sequence="30"
+              active="False"
               groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
 
     <menuitem id="menu_tcrm_org_access"
               name="Erişim Yönetimi"
-              parent="crm.sales_team_menu_team_pipeline"
+              parent="crm.crm_menu_config"
               action="action_tcrm_org_access_grants"
-              sequence="40"
+              sequence="90"
               groups="sales_team.group_sale_manager,tcrm_saas_core.group_tcrm_tenant_admin"/>
 </odoo>

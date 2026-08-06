@@ -19,3 +19,7 @@ access_tcrm_tenant_module_entitlement_admin,tcrm.tenant.module.entitlement.admin
 access_tcrm_tenant_module_entitlement_system,tcrm.tenant.module.entitlement.system,model_tcrm_tenant_module_entitlement,base.group_system,1,1,1,1
 access_tcrm_tenant_invoice_admin,tcrm.tenant.invoice.admin,model_tcrm_tenant_invoice,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,0
 access_tcrm_tenant_invoice_system,tcrm.tenant.invoice.system,model_tcrm_tenant_invoice,base.group_system,1,1,1,1
+access_tcrm_tenant_ai_status_admin,tcrm.tenant.ai.status.admin,model_tcrm_tenant_ai_status,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,0
+access_tcrm_tenant_ai_status_system,tcrm.tenant.ai.status.system,model_tcrm_tenant_ai_status,base.group_system,1,1,1,1
+access_tcrm_tenant_app_inventory_admin,tcrm.tenant.app.inventory.admin,model_tcrm_tenant_app_inventory,tcrm_saas_core.group_tcrm_tenant_admin,1,1,1,0
+access_tcrm_tenant_app_inventory_system,tcrm.tenant.app.inventory.system,model_tcrm_tenant_app_inventory,base.group_system,1,1,1,1

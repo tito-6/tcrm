@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_tcrm_offer_root"
+              name="Teklifler"
+              web_icon="tcrm_offer,static/description/icon.png"
+              sequence="45"
+              groups="tcrm_offer.group_offer_user"/>
+
+    <menuitem id="menu_tcrm_offer_offers"
+              name="Teklifler"
+              parent="menu_tcrm_offer_root"
+              action="action_tcrm_offer"
+              sequence="10"/>
+
+    <menuitem id="menu_tcrm_offer_from_template"
+              name="Şablondan Oluştur"
+              parent="menu_tcrm_offer_root"
+              action="action_offer_from_template"
+              sequence="15"/>
+
+    <menuitem id="menu_tcrm_offer_templates"
+              name="Şablonlar"
+              parent="menu_tcrm_offer_root"
+              action="action_tcrm_offer_template"
+              sequence="20"
+              groups="tcrm_offer.group_offer_manager"/>
+
+    <menuitem id="menu_tcrm_offer_catalogues"
+              name="Kataloglar"
+              parent="menu_tcrm_offer_root"
+              action="action_tcrm_offer_catalogue"
+              sequence="25"
+              groups="tcrm_offer.group_offer_manager"/>
+</odoo>

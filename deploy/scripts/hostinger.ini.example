@@ -1,0 +1,4 @@
+# Copy to /etc/letsencrypt/hostinger.ini and chmod 600.
+# Create token: https://hpanel.hostinger.com/profile/api
+# Required permission: DNS zone management for tcrm.online
+dns_hostinger_api_token = REPLACE_WITH_HOSTINGER_API_TOKEN

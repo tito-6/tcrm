@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_tenant_ai_status_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.ai.status.list</field>
+        <field name="model">tcrm.tenant.ai.status</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="tenant_id"/>
+                <field name="domain"/>
+                <field name="entitlement_state"/>
+                <field name="module_installed"/>
+                <field name="provider"/>
+                <field name="model"/>
+                <field name="configured"/>
+                <field name="enabled"/>
+                <field name="requests_this_month"/>
+                <field name="tokens_this_month"/>
+                <field name="last_connection_status"/>
+                <field name="last_safe_error"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_ai_status_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.ai.status.form</field>
+        <field name="model">tcrm.tenant.ai.status</field>
+        <field name="arch" type="xml">
+            <form string="TCRM AI">
+                <header>
+                    <button name="action_grant_access" string="Erişim Ver" type="object" class="btn-primary"/>
+                    <button name="action_revoke_access" string="Erişimi Kaldır" type="object"/>
+                    <button name="action_manage_configuration" string="Yapılandırmayı Yönet" type="object"/>
+                    <button name="action_suspend" string="AI’ı Askıya Al" type="object" class="btn-warning"/>
+                    <button name="action_refresh_safe_status" string="Kullanımı Görüntüle" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tenant_id"/>
+                            <field name="domain"/>
+                            <field name="entitlement_state"/>
+                            <field name="module_installed"/>
+                        </group>
+                        <group>
+                            <field name="provider"/>
+                            <field name="model"/>
+                            <field name="configured"/>
+                            <field name="enabled"/>
+                            <field name="requests_this_month"/>
+                            <field name="tokens_this_month"/>
+                            <field name="last_connection_status"/>
+                            <field name="last_request_date"/>
+                            <field name="last_safe_error"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        API anahtarları master veritabanında saklanmaz ve burada gösterilmez.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_tenant_ai_status" model="ir.actions.act_window">
+        <field name="name">TCRM AI</field>
+        <field name="res_model">tcrm.tenant.ai.status</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_tcrm_master_ai"
+              name="TCRM AI"
+              parent="menu_tcrm_root"
+              action="action_tcrm_tenant_ai_status"
+              sequence="25"
+              groups="tcrm_saas_core.group_tcrm_tenant_admin,base.group_system"/>
+</odoo>

@@ -1,0 +1,1 @@
+SELECT company_id, recording_enabled, dual_channel_recording, recording_announcement_enabled FROM tcrm_call_provider_config;

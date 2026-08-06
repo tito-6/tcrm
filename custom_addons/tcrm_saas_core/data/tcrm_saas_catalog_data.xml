@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- noupdate=0 for packages so empty module lists can be repaired on upgrade -->
     <data noupdate="1">
         <record id="sector_real_estate" model="tcrm.tenant.sector">
             <field name="name">Real Estate</field>
@@ -22,7 +23,7 @@
             <field name="yearly_price">2490</field>
             <field name="user_limit">5</field>
             <field name="storage_limit_gb">20</field>
-            <field name="module_ids" eval="[(6, 0, [ref('base.module_tcrm_saas_core'), ref('base.module_tcrm_propertio')])]"/>
+            <!-- Modules filled at runtime by tcrm.saas.package._ensure_default_package_modules() -->
         </record>
 
         <record id="package_growth" model="tcrm.saas.package">
@@ -33,7 +34,7 @@
             <field name="yearly_price">5990</field>
             <field name="user_limit">25</field>
             <field name="storage_limit_gb">100</field>
-            <field name="module_ids" eval="[(6, 0, [ref('base.module_tcrm_saas_core'), ref('base.module_tcrm_propertio'), ref('base.module_tcrm_ai')])]"/>
+            <!-- Modules filled at runtime by tcrm.saas.package._ensure_default_package_modules() -->
         </record>
 
         <!-- Catalog package is filled at runtime via _ensure_all_apps_package(); stub ensures XML id exists -->

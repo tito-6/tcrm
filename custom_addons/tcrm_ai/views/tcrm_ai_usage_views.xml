@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_ai_usage_list" model="ir.ui.view">
+        <field name="name">tcrm.ai.usage.list</field>
+        <field name="model">tcrm.ai.usage</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0">
+                <field name="create_date"/>
+                <field name="user_id"/>
+                <field name="provider"/>
+                <field name="model"/>
+                <field name="prompt_tokens"/>
+                <field name="completion_tokens"/>
+                <field name="total_tokens"/>
+                <field name="duration_ms"/>
+                <field name="tool_count"/>
+                <field name="success"/>
+                <field name="safe_error_code"/>
+                <field name="estimated_cost"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_usage" model="ir.actions.act_window">
+        <field name="name">AI Kullanım</field>
+        <field name="res_model">tcrm.ai.usage</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

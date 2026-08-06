@@ -4,11 +4,29 @@ import logging
 
 from tcrm import api, models
 
+from .ir_module_module import APPS_GALLERY_MENU_XMLIDS, _is_master_database
+
 _logger = logging.getLogger(__name__)
+
+# Also strip Import Module from tenant app switcher.
+APPS_SIDEBAR_BLOCK_XMLIDS = APPS_GALLERY_MENU_XMLIDS + (
+    'base_import_module.menu_view_base_module_import',
+)
 
 
 class IrUiMenu(models.Model):
     _inherit = "ir.ui.menu"
+
+    def _load_menus_blacklist(self):
+        """Hard-hide Apps Store from the tenant app sidebar (belt-and-suspenders)."""
+        res = super()._load_menus_blacklist()
+        if _is_master_database(self.env):
+            return res
+        for xmlid in APPS_SIDEBAR_BLOCK_XMLIDS:
+            menu = self.env.ref(xmlid, raise_if_not_found=False)
+            if menu:
+                res.append(menu.id)
+        return res
 
     @api.model
     def _tcrm_fix_missing_web_icons(self):

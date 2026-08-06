@@ -73,6 +73,11 @@
         <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
         <field name="priority">20</field>
         <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="js_class">crm_havuzu_list</attribute>
+                <attribute name="limit">80</attribute>
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="type" optional="show" string="Tip"/>
             </xpath>
@@ -86,6 +91,11 @@
         <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
         <field name="priority">20</field>
         <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="js_class">crm_havuzu_list</attribute>
+                <attribute name="limit">80</attribute>
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="type" optional="show" string="Tip"/>
             </xpath>
@@ -105,13 +115,14 @@
         </field>
     </record>
 
-    <!-- Primary merged action -->
+    <!-- Primary merged action: high limit + infinite-scroll list -->
     <record id="action_lead_havuzu" model="ir.actions.act_window">
         <field name="name">Lead Havuzu</field>
         <field name="res_model">crm.lead</field>
         <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
+        <field name="limit">80</field>
         <field name="search_view_id" ref="view_crm_lead_havuzu_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -124,10 +135,30 @@
         </field>
     </record>
 
+    <!-- Dedicated list arch with scroll-load js_class (no pager arrows). -->
+    <record id="view_crm_lead_havuzu_list" model="ir.ui.view">
+        <field name="name">crm.lead.list.havuzu.scroll</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="mode">primary</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="js_class">crm_havuzu_list</attribute>
+                <attribute name="limit">80</attribute>
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+            <xpath expr="//field[@name='create_date']" position="attributes">
+                <attribute name="string">Oluşturma Tarihi</attribute>
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="action_lead_havuzu_view_list" model="ir.actions.act_window.view">
         <field name="sequence" eval="0"/>
         <field name="view_mode">list</field>
-        <field name="view_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="view_id" ref="view_crm_lead_havuzu_list"/>
         <field name="act_window_id" ref="action_lead_havuzu"/>
     </record>
     <record id="action_lead_havuzu_view_kanban" model="ir.actions.act_window.view">
@@ -159,18 +190,20 @@
     <record id="crm.crm_lead_all_leads" model="ir.actions.act_window">
         <field name="name">Lead Havuzu</field>
         <field name="res_model">crm.lead</field>
-        <field name="view_mode">kanban,list,form,activity,calendar,graph,pivot</field>
+        <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
+        <field name="limit">80</field>
         <field name="search_view_id" ref="view_crm_lead_havuzu_search"/>
     </record>
 
     <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
         <field name="name">Lead Havuzu</field>
         <field name="res_model">crm.lead</field>
-        <field name="view_mode">kanban,list,form,activity,calendar,graph,pivot</field>
+        <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
+        <field name="limit">80</field>
         <field name="search_view_id" ref="view_crm_lead_havuzu_search"/>
     </record>
 

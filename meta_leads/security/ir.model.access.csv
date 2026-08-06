@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meta_lead_mapping_user,meta.lead.mapping user,model_meta_lead_mapping,base.group_user,1,1,1,0
+access_meta_lead_mapping_manager,meta.lead.mapping manager,model_meta_lead_mapping,base.group_system,1,1,1,1
+access_tcrm_integration_request_user,tcrm.integration.request user,model_tcrm_integration_request,base.group_user,1,1,1,0
+access_tcrm_integration_request_manager,tcrm.integration.request manager,model_tcrm_integration_request,base.group_system,1,1,1,1

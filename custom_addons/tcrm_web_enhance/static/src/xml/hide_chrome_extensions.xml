@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Hide Discuss Push-to-Talk Chrome extension promo banner -->
+    <t t-inherit="discuss.pttAdBanner" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('o-discuss-PttAdBanner')]" position="replace">
+            <t/>
+        </xpath>
+    </t>
+
+    <!-- Hide Chrome Web Store download hint in voice settings -->
+    <t t-inherit="discuss.CallSettings" t-inherit-mode="extension">
+        <xpath expr="//span[@t-out='pttExtService.downloadText']" position="replace">
+            <t/>
+        </xpath>
+    </t>
+</templates>

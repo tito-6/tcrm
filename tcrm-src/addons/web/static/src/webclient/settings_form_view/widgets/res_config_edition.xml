@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <div t-name='res_config_edition'>
+        <Setting addLabel="false">
+                <div class="user-heading">
+                    <h3 class="px-0">
+                        TCRM <t t-esc="serverVersion"/>
+                        (Connect . Grow . Win)
+                    </h3>
+                </div>
+                <div>
+                    <div class="tab-content">
+                        <div role="tabpanel" id="settings" class="tab-pane active text-muted o_web_settings_compact_subtitle">
+                            <small>Copyright © 2026 <a target="_blank" href="#" style="text-decoration: underline;">TCRM</a> <span style="text-decoration: underline;">Multi-Tenant SaaS</span></small>
+                        </div>
+                    </div>
+                </div>
+        </Setting>
+    </div>
+</template>

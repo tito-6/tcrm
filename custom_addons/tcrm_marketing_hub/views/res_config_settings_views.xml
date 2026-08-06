@@ -8,9 +8,9 @@
             <xpath expr="//form" position="inside">
                 <app string="Marketing Hub" name="tcrm_marketing_hub"
                      groups="tcrm_marketing_hub.group_marketing_admin,base.group_system">
-                    <block title="Zernio Bağlantısı" name="tcrm_marketing_zernio">
+                    <block title="TCRM Meta API Bağlantısı" name="tcrm_marketing_zernio">
                         <setting string="API Anahtarı"
-                                 help="Zernio dashboard → API Keys. Ortam değişkeni: ZERNIO_API_KEY.">
+                                 help="TCRM Meta API Paneli → API Keys. Ortam değişkeni: ZERNIO_API_KEY.">
                             <field name="tcrm_marketing_zernio_api_key" password="True"/>
                         </setting>
                         <setting string="API URL">

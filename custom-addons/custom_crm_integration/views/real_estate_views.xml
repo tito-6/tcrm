@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    # GAYRİMENKUL PROJELERİ VIEWS
+    <!-- ============================================================ -->
+
+    <record id="view_tcrm_real_estate_project_form" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.project.form</field>
+        <field name="model">tcrm.real.estate.project</field>
+        <field name="arch" type="xml">
+            <form string="Gayrimenkul Projesi">
+                <sheet>
+                    <field name="project_image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" string="Proje Adı"/>
+                        <h1><field name="name" placeholder="Örn: AKOD Kule Evleri"/></h1>
+                        <h3><field name="code" placeholder="Proje Kodu (Örn: AK-KULE)"/></h3>
+                    </div>
+                    <group>
+                        <group string="Lokasyon ve Genel Bilgiler">
+                            <field name="city"/>
+                            <field name="district"/>
+                            <field name="address"/>
+                            <field name="developer_company"/>
+                            <field name="delivery_date"/>
+                        </group>
+                        <group string="Stok ve Kapasite Özeti">
+                            <field name="total_blocks"/>
+                            <field name="total_units"/>
+                            <field name="available_units"/>
+                            <field name="reserved_units"/>
+                            <field name="sold_units"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bağımsız Bölümler (Daireler)" name="units">
+                            <field name="unit_ids">
+                                <list string="Daireler" decoration-success="state == 'satilik'" decoration-warning="state in ['opsiyonlu','rezerve']" decoration-muted="state == 'satildi'">
+                                    <field name="block_name"/>
+                                    <field name="floor_number"/>
+                                    <field name="unit_number"/>
+                                    <field name="unit_type"/>
+                                    <field name="gross_m2"/>
+                                    <field name="facade"/>
+                                    <field name="list_price" widget="monetary"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Dokümanlar &amp; Mimari Planlar" name="docs">
+                            <group>
+                                <field name="master_plan_file" filename="master_plan_filename"/>
+                                <field name="master_plan_filename" invisible="1"/>
+                                <field name="description" placeholder="Projenin öne çıkan mimari, sosyal donatı ve ulaşım detayları..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_real_estate_project_list" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.project.list</field>
+        <field name="model">tcrm.real.estate.project</field>
+        <field name="arch" type="xml">
+            <list string="Gayrimenkul Projeleri">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="city"/>
+                <field name="district"/>
+                <field name="total_units"/>
+                <field name="available_units"/>
+                <field name="reserved_units"/>
+                <field name="sold_units"/>
+                <field name="delivery_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_real_estate_project" model="ir.actions.act_window">
+        <field name="name">Gayrimenkul Projeleri</field>
+        <field name="res_model">tcrm.real.estate.project</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Yeni bir Gayrimenkul Projesi Tanımlayın!
+            </p>
+            <p>Projelerinizi tanımlayarak blok, daire ve stok takibini anlık yürütebilirsiniz.</p>
+        </field>
+    </record>
+
+
+    <!-- ============================================================ -->
+    <!-- BAĞIMSIZ BÖLÜM (DAİRE) STOK VIEWS &amp; KANBAN -->
+    <!-- ============================================================ -->
+
+    <record id="view_tcrm_real_estate_unit_form" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.unit.form</field>
+        <field name="model">tcrm.real.estate.unit</field>
+        <field name="arch" type="xml">
+            <form string="Bağımsız Bölüm (Daire)">
+                <header>
+                    <button name="action_set_reserved" string="Rezerve Et" type="object" class="oe_highlight" invisible="state in ['rezerve','satildi']"/>
+                    <button name="action_set_sold" string="Satıldı İşaretle" type="object" class="btn-success" invisible="state == 'satildi'"/>
+                    <button name="action_set_available" string="Satılığa Çıkar (Temizle)" type="object" class="btn-secondary" invisible="state == 'satilik'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="satilik,opsiyonlu,rezerve,satildi"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Proje ve Daire Konumu">
+                            <field name="project_id"/>
+                            <field name="block_name"/>
+                            <field name="floor_number"/>
+                            <field name="unit_number"/>
+                            <field name="unit_type"/>
+                        </group>
+                        <group string="Teknik Özellikler ve Fiyat">
+                            <field name="gross_m2"/>
+                            <field name="net_m2"/>
+                            <field name="facade"/>
+                            <field name="list_price" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Rezervasyon Bilgileri" invisible="state == 'satilik'">
+                        <group>
+                            <field name="reservation_partner_id"/>
+                            <field name="reservation_date"/>
+                            <field name="reservation_expiry_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Daire Planı &amp; Notlar" name="plan">
+                            <group>
+                                <field name="floor_plan_image" widget="image"/>
+                                <field name="notes" placeholder="Daire içi ekstra özellikler (Ankastre, Akıllı Ev, Balkon M² vb.)"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_real_estate_unit_list" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.unit.list</field>
+        <field name="model">tcrm.real.estate.unit</field>
+        <field name="arch" type="xml">
+            <list string="Daire Stok Takibi" decoration-success="state == 'satilik'" decoration-warning="state in ['opsiyonlu','rezerve']" decoration-muted="state == 'satildi'">
+                <field name="project_id"/>
+                <field name="block_name"/>
+                <field name="floor_number"/>
+                <field name="unit_number"/>
+                <field name="unit_type"/>
+                <field name="gross_m2"/>
+                <field name="facade"/>
+                <field name="list_price" widget="monetary"/>
+                <field name="state"/>
+                <field name="reservation_partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_real_estate_unit_kanban" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.unit.kanban</field>
+        <field name="model">tcrm.real.estate.unit</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="unit_type"/>
+                <field name="gross_m2"/>
+                <field name="list_price"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click o_kanban_card">
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div>
+                                    <span>Tip: <field name="unit_type"/> | <field name="gross_m2"/> m²</span>
+                                </div>
+                                <div class="text-muted">
+                                    <span>Fiyat: <field name="list_price" widget="monetary"/></span>
+                                </div>
+                                <div class="mt-2">
+                                    <span t-if="record.state.raw_value == 'satilik'" class="badge bg-success">SATILIK</span>
+                                    <span t-if="record.state.raw_value == 'rezerve'" class="badge bg-warning text-dark">REZERVE</span>
+                                    <span t-if="record.state.raw_value == 'opsiyonlu'" class="badge bg-info">OPSİYONLU</span>
+                                    <span t-if="record.state.raw_value == 'satildi'" class="badge bg-secondary">SATILDI</span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_tcrm_real_estate_unit_search" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.unit.search</field>
+        <field name="model">tcrm.real.estate.unit</field>
+        <field name="arch" type="xml">
+            <search string="Daire Ara / Filtrele">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="block_name"/>
+                <field name="unit_type"/>
+                <filter string="Satılık (Mevcut Stok)" name="available" domain="[('state', '=', 'satilik')]"/>
+                <filter string="Rezerve &amp; Opsiyonlu" name="reserved" domain="[('state', 'in', ['rezerve', 'opsiyonlu'])]"/>
+                <filter string="Satılanlar" name="sold" domain="[('state', '=', 'satildi')]"/>
+                <group>
+                    <filter string="Proje" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Blok" name="group_block" context="{'group_by': 'block_name'}"/>
+                    <filter string="Daire Tipi" name="group_type" context="{'group_by': 'unit_type'}"/>
+                    <filter string="Stok Durumu" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tcrm_real_estate_unit" model="ir.actions.act_window">
+        <field name="name">Daire &amp; Stok Takibi</field>
+        <field name="res_model">tcrm.real.estate.unit</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_tcrm_real_estate_unit_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Dairelerinizi Kanban ve Liste görünümünde yönetin!
+            </p>
+        </field>
+    </record>
+
+
+    <!-- ============================================================ -->
+    # ÖDEME PLANLARI VIEWS
+    <!-- ============================================================ -->
+
+    <record id="view_tcrm_real_estate_payment_plan_form" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.payment.plan.form</field>
+        <field name="model">tcrm.real.estate.payment.plan</field>
+        <field name="arch" type="xml">
+            <form string="Gayrimenkul Ödeme Planı Hesaplama">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Seçilen Gayrimenkul &amp; Müşteri">
+                            <field name="unit_id"/>
+                            <field name="lead_id"/>
+                            <field name="payment_type"/>
+                        </group>
+                        <group string="Fiyat ve İndirim Yapılandırması">
+                            <field name="total_price" widget="monetary"/>
+                            <field name="discount_rate"/>
+                            <field name="discounted_price" widget="monetary"/>
+                        </group>
+                    </group>
+                    <group string="Ödeme Senaryosu Hesaplayıcı">
+                        <group string="Peşinat ve Taksitler">
+                            <field name="down_payment_rate"/>
+                            <field name="down_payment_amount" widget="monetary"/>
+                            <field name="installment_count"/>
+                            <field name="monthly_installment_amount" widget="monetary"/>
+                        </group>
+                        <group string="Ara Ödemeler ve Teslimat">
+                            <field name="interim_payment_count"/>
+                            <field name="interim_payment_amount" widget="monetary"/>
+                            <field name="delivery_payment_amount" widget="monetary"/>
+                        </group>
+                    </group>
+                    <group string="Ödeme Koşulları ve Notlar">
+                        <field name="notes" placeholder="Müşteriye teklif edilen özel vade, senet ve peşinat koşulları..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_real_estate_payment_plan_list" model="ir.ui.view">
+        <field name="name">tcrm.real.estate.payment.plan.list</field>
+        <field name="model">tcrm.real.estate.payment.plan</field>
+        <field name="arch" type="xml">
+            <list string="Ödeme Planları">
+                <field name="name"/>
+                <field name="unit_id"/>
+                <field name="lead_id"/>
+                <field name="payment_type"/>
+                <field name="discounted_price" widget="monetary"/>
+                <field name="down_payment_amount" widget="monetary"/>
+                <field name="installment_count"/>
+                <field name="monthly_installment_amount" widget="monetary"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tcrm_real_estate_payment_plan" model="ir.actions.act_window">
+        <field name="name">Ödeme Planları &amp; Senaryoları</field>
+        <field name="res_model">tcrm.real.estate.payment.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- ============================================================ -->
+    # CRM LEAD FORM ENHANCEMENT (Gayrimenkul CRM Sekmesi)
+    <!-- ============================================================ -->
+
+    <record id="view_crm_lead_form_real_estate" model="ir.ui.view">
+        <field name="name">crm.lead.form.real.estate</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Gayrimenkul CRM &amp; Tercihler" name="real_estate_tab">
+                    <group>
+                        <group string="Müşteri Tercihleri ve Bütçe">
+                            <field name="interested_project_id"/>
+                            <field name="interested_unit_type"/>
+                            <field name="budget_min" widget="monetary"/>
+                            <field name="budget_max" widget="monetary"/>
+                            <field name="preferred_facade"/>
+                        </group>
+                        <group string="Seçilen Daire &amp; Ödeme Seçeneği">
+                            <field name="selected_unit_id" domain="[('project_id', '=', interested_project_id)] if interested_project_id else []"/>
+                        </group>
+                    </group>
+                    <group string="Görüşme ve Sunum Notları">
+                        <field name="meeting_notes" placeholder="Müşterinin daire sunumu sırasındaki görüşleri, beğendiği cephe ve ödeme beklentileri..."/>
+                    </group>
+                    <group string="Hazırlanan Ödeme Planları">
+                        <field name="payment_plan_ids" nolabel="1">
+                            <list string="Ödeme Planları">
+                                <field name="unit_id"/>
+                                <field name="payment_type"/>
+                                <field name="discounted_price" widget="monetary"/>
+                                <field name="down_payment_amount" widget="monetary"/>
+                                <field name="installment_count"/>
+                                <field name="monthly_installment_amount" widget="monetary"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- ============================================================ -->
+    # MENÜ YAPISI (CRM MAIN MENU UNDER GAYRİMENKUL YÖNETİMİ)
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_tcrm_real_estate_root"
+              name="🏢 Gayrimenkul Yönetimi"
+              parent="crm.crm_menu_root"
+              sequence="3"/>
+
+    <menuitem id="menu_tcrm_real_estate_projects"
+              name="🏢 Projeler"
+              parent="menu_tcrm_real_estate_root"
+              action="action_tcrm_real_estate_project"
+              sequence="1"/>
+
+    <menuitem id="menu_tcrm_real_estate_units"
+              name="🏠 Daire &amp; Stok Takibi"
+              parent="menu_tcrm_real_estate_root"
+              action="action_tcrm_real_estate_unit"
+              sequence="2"/>
+
+    <menuitem id="menu_tcrm_real_estate_payment_plans"
+              name="💳 Ödeme Planları"
+              parent="menu_tcrm_real_estate_root"
+              action="action_tcrm_real_estate_payment_plan"
+              sequence="3"/>
+
+</odoo>

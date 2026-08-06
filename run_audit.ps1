@@ -1,0 +1,1 @@
+ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no root@public-staging.tcrm.online "su -s /bin/bash tcrm-public -c 'cd /opt/tcrm-public/current && COREPACK_HOME=/tmp/corepack npm_config_cache=/tmp/npm-cache pnpm run audit:content'"

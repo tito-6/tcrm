@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_tenant_app_inventory_list" model="ir.ui.view">
+        <field name="name">tcrm.tenant.app.inventory.list</field>
+        <field name="model">tcrm.tenant.app.inventory</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="tenant_id"/>
+                <field name="name"/>
+                <field name="technical_name"/>
+                <field name="category" optional="show"/>
+                <field name="version" optional="hide"/>
+                <field name="installed_state"/>
+                <field name="entitlement_state"/>
+                <field name="access_state"
+                         decoration-success="access_state == 'granted_installed'"
+                         decoration-warning="access_state in ('granted_not_installed','to_upgrade','to_install')"
+                         decoration-danger="access_state in ('installed_not_granted','install_failed','unreachable')"
+                         widget="badge"/>
+                <field name="is_technical" optional="hide"/>
+                <field name="last_sync"/>
+                <field name="last_sync_result"/>
+                <field name="stale" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_app_inventory_form" model="ir.ui.view">
+        <field name="name">tcrm.tenant.app.inventory.form</field>
+        <field name="model">tcrm.tenant.app.inventory</field>
+        <field name="arch" type="xml">
+            <form class="o_tcrm_master_form">
+                <header>
+                    <button name="action_grant_access" type="object" string="Grant Access" class="btn-primary"/>
+                    <button name="action_revoke_access" type="object" string="Revoke Entitlement" class="btn-warning"
+                            confirm="Block entitlement only? The module stays installed until you Uninstall."/>
+                    <button name="action_revoke_and_uninstall" type="object" string="Revoke &amp; Uninstall"
+                            class="btn-danger"
+                            confirm="Block entitlement AND uninstall this app from the tenant database? Dependent modules may also be removed. This cannot be undone from here."/>
+                    <button name="action_queue_uninstall" type="object" string="Uninstall App" class="btn-danger"
+                            confirm="Uninstall this module from the tenant database now?"/>
+                    <button name="action_queue_install" type="object" string="Queue Installation"/>
+                    <button name="action_queue_upgrade" type="object" string="Queue Upgrade"/>
+                    <button name="action_view_dependencies" type="object" string="View Dependencies"/>
+                    <button name="action_view_last_sync_error" type="object" string="View Last Sync Error"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tenant_id"/>
+                            <field name="name"/>
+                            <field name="technical_name"/>
+                            <field name="category"/>
+                            <field name="version"/>
+                        </group>
+                        <group>
+                            <field name="installed_state"/>
+                            <field name="entitlement_state"/>
+                            <field name="access_state"/>
+                            <field name="is_application"/>
+                            <field name="is_technical"/>
+                            <field name="source"/>
+                            <field name="last_sync"/>
+                            <field name="last_sync_result"/>
+                            <field name="last_safe_error"/>
+                            <field name="stale"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcrm_tenant_app_inventory_search" model="ir.ui.view">
+        <field name="name">tcrm.tenant.app.inventory.search</field>
+        <field name="model">tcrm.tenant.app.inventory</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="technical_name"/>
+                <field name="tenant_id"/>
+                <filter name="user_facing" string="User-facing apps" domain="[('is_technical','=',False)]"/>
+                <filter name="technical" string="Include technical modules" domain="[('is_technical','=',True)]"/>
+                <filter name="sync_error" string="Sync error / unreachable"
+                        domain="[('last_sync_result','in',['error','unreachable','stale'])]"/>
+                <filter name="never_synced" string="Never synchronized" domain="[('last_sync','=',False)]"/>
+                <filter name="granted_installed" string="Granted and installed" domain="[('access_state','=','granted_installed')]"/>
+                <filter name="installed_not_granted" string="Installed but not granted" domain="[('access_state','=','installed_not_granted')]"/>
+                <filter name="granted_not_installed" string="Granted but not installed" domain="[('access_state','=','granted_not_installed')]"/>
+                <group>
+                    <filter name="group_tenant" string="Tenant" context="{'group_by': 'tenant_id'}"/>
+                    <filter name="group_access" string="Access State" context="{'group_by': 'access_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tcrm_tenant_app_inventory" model="ir.actions.act_window">
+        <field name="name">Tenant Application Inventory</field>
+        <field name="res_model">tcrm.tenant.app.inventory</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_user_facing': 1}</field>
+    </record>
+
+    <menuitem id="menu_tcrm_tenant_app_inventory"
+              name="App Inventory"
+              parent="menu_tcrm_root"
+              action="action_tcrm_tenant_app_inventory"
+              sequence="35"
+              groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
+
+    <!-- Tenant form inherit intentionally omitted: prod tenant form layout
+         may not contain //notebook. Use App Inventory menu + Sync API instead. -->
+
+    <record id="ir_cron_tcrm_tenant_app_inventory_sync" model="ir.cron">
+        <field name="name">TCRM: sync tenant application inventory</field>
+        <field name="model_id" ref="model_tcrm_tenant_app_inventory"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_sync_all_tenants()</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

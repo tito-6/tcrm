@@ -1,6 +1,6 @@
 <odoo>
     <!-- Menus -->
-    <menuitem id="menu_propertio_root" name="Propertio" sequence="10" web_icon="tcrm_propertio,static/description/icon.png"/>
+    <menuitem id="menu_propertio_root" name="Propertio" sequence="2" web_icon="tcrm_propertio,static/description/icon.png"/>
     <menuitem id="menu_propertio_inventory" name="Proje stok ve takibi" parent="menu_propertio_root" sequence="10"/>
     <menuitem id="menu_propertio_sales" name="Satışlar" parent="menu_propertio_root" sequence="20"/>
     <menuitem id="menu_propertio_collections" name="Tahsilat" parent="menu_propertio_root" sequence="30"/>

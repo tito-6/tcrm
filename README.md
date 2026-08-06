@@ -6,7 +6,7 @@ TCRM is a white-labeled, multi-tenant SaaS platform built on a customized Odoo-b
 core (`tcrm-src`), with TCRM branding and a suite of custom modules for real-estate
 CRM, sales, call center, marketing, AI, and multi-tenant SaaS operations.
 
-Operated by **AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.** — https://tcrm.online
+Operated by **AKOD YAZILIM BİLİŞİM LTD. ŞTİ.** — https://tcrm.online
 
 ## Repository layout
 
@@ -47,4 +47,4 @@ documents the required keys with `CHANGE_ME_*` placeholders. Secrets are provide
 ## License
 
 Platform core based on Odoo Community Edition (LGPL-3).
-TCRM customizations © AK KOD YAZILIM BİLİŞİM LTD. ŞTİ.
+TCRM customizations © AKOD YAZILIM BİLİŞİM LTD. ŞTİ.

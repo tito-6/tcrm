@@ -538,6 +538,36 @@ class TcrmMasterAPI(http.Controller):
                 'next_invoice': str(s.next_invoice_date) if s.next_invoice_date else '',
             })
 
+        # Dedicated-DB admin credentials live on the provisioning job (not master users).
+        can_see_creds = (
+            request.env.user.has_group('base.group_system')
+            or request.env.user.has_group('tcrm_saas_core.group_tcrm_tenant_admin')
+        )
+        provision = {
+            'state': getattr(tenant, 'provision_state', '') or '',
+            'admin_login': '',
+            'admin_password': '',
+            'job_id': False,
+            'job_state': '',
+            'login_url': '',
+            'can_manage': can_see_creds and bool(tenant.db_name),
+        }
+        if can_see_creds and 'tcrm.provisioning.job' in env:
+            job = env['tcrm.provisioning.job'].sudo().search(
+                [('tenant_id', '=', tenant.id)], order='id desc', limit=1)
+            if job:
+                provision.update({
+                    'job_id': job.id,
+                    'job_state': job.state,
+                    'admin_login': job.admin_login or 'admin',
+                    'admin_password': job.admin_password or '',
+                })
+            elif tenant.db_name:
+                provision['admin_login'] = 'admin'
+        primary = tenant.primary_domain or ''
+        if primary:
+            provision['login_url'] = 'https://%s/web/login' % primary
+
         return {
             'id': tenant.id,
             'name': tenant.name,
@@ -564,6 +594,7 @@ class TcrmMasterAPI(http.Controller):
             'invoices': invoices,
             'subscriptions': subscriptions,
             'user_count': len(users),
+            'provision': provision,
         }
 
     # ── Tenant CRUD ────────────────────────────────────────────────
@@ -669,24 +700,61 @@ class TcrmMasterAPI(http.Controller):
 
     @http.route('/tcrm_master/access', type='jsonrpc', auth='user')
     def get_access_data(self):
+        """Full tenant × catalog app matrix (not only existing entitlement rows)."""
         self._check_master_access()
         env = self._sudo_env()
-        tenants = env['tcrm.tenant'].sudo().search([], limit=50)
+        Package = env['tcrm.saas.package'].sudo()
+        Package._ensure_all_apps_package()
+
+        catalog = Package._installed_application_modules()
+        # Also surface product modules even if application=False (e.g. tcrm_web_enhance).
+        product_extras = env['ir.module.module'].sudo().search([
+            ('name', 'in', [
+                'tcrm_propertio', 'tcrm_call_center', 'tcrm_web_enhance',
+                'tcrm_saas_core', 'tcrm_ai',
+            ]),
+            ('state', '=', 'installed'),
+        ])
+        catalog = (catalog | product_extras).sorted(key=lambda m: ((m.shortdesc or m.name or '').lower(), m.name))
+
+        tenants = env['tcrm.tenant'].sudo().search([], order='name')
         access_matrix = []
         for t in tenants:
             sub = t.active_subscription_id
-            modules = t.module_entitlement_ids
+            by_module = {e.module_id.id: e for e in t.module_entitlement_ids}
+            modules = []
+            for app in catalog:
+                ent = by_module.get(app.id)
+                modules.append({
+                    'id': ent.id if ent else False,
+                    'module_id': app.id,
+                    'name': app.shortdesc or app.name,
+                    'technical': app.name,
+                    'state': ent.state if ent else 'blocked',
+                    'source': ent.source if ent else '',
+                    'entitled': bool(ent and ent.state == 'allowed'),
+                })
+            provision = {
+                'db_name': t.db_name or '',
+                'admin_login': '',
+                'has_password': False,
+                'login_url': ('https://%s/web/login' % t.primary_domain) if t.primary_domain else '',
+            }
+            if 'tcrm.provisioning.job' in env and t.db_name:
+                job = env['tcrm.provisioning.job'].sudo().search(
+                    [('tenant_id', '=', t.id)], order='id desc', limit=1)
+                if job:
+                    provision['admin_login'] = job.admin_login or 'admin'
+                    provision['has_password'] = bool(job.admin_password)
             access_matrix.append({
                 'id': t.id,
                 'name': t.name,
                 'package': sub.package_id.name if sub and sub.package_id else '',
-                'modules': [{
-                    'id': m.id,
-                    'name': m.module_id.shortdesc or m.module_id.name,
-                    'state': m.state,
-                    'source': m.source,
-                } for m in modules],
+                'package_id': sub.package_id.id if sub and sub.package_id else False,
+                'db_name': t.db_name or '',
+                'modules': modules,
                 'user_count': len(t.user_ids.filtered(lambda u: u.active)),
+                'provision': provision,
             })
 
         perm_sets = env['tcrm.permission.set'].sudo().search([])
@@ -708,20 +776,71 @@ class TcrmMasterAPI(http.Controller):
             })
 
         return {
+            'catalog': [{
+                'id': m.id,
+                'name': m.name,
+                'display_name': m.shortdesc or m.name,
+            } for m in catalog],
             'access_matrix': access_matrix,
             'permission_sets': permissions,
         }
 
     @http.route('/tcrm_master/module_entitlement/toggle', type='jsonrpc', auth='user')
-    def toggle_module_entitlement(self, entitlement_id):
+    def toggle_module_entitlement(self, entitlement_id=None, tenant_id=None, module_id=None):
+        """Toggle allow/block. Accepts entitlement id OR tenant_id+module_id (creates row)."""
         self._check_master_access()
         env = self._sudo_env()
-        ent = env['tcrm.tenant.module.entitlement'].sudo().browse(entitlement_id)
-        if not ent.exists():
+        Ent = env['tcrm.tenant.module.entitlement'].sudo()
+        ent = Ent.browse()
+        if entitlement_id:
+            ent = Ent.browse(int(entitlement_id))
+        if (not ent or not ent.exists()) and tenant_id and module_id:
+            tenant = env['tcrm.tenant'].sudo().browse(int(tenant_id))
+            module = env['ir.module.module'].sudo().browse(int(module_id))
+            if not tenant.exists():
+                return {'error': _('Tenant not found')}
+            if not module.exists():
+                return {'error': _('Module not found')}
+            ent = Ent.search([
+                ('tenant_id', '=', tenant.id),
+                ('module_id', '=', module.id),
+            ], limit=1)
+            if not ent:
+                ent = tenant.action_grant_module(module, state='allowed')
+                return {
+                    'ok': True,
+                    'new_state': ent.state,
+                    'entitlement_id': ent.id,
+                    'module_id': module.id,
+                    'tenant_id': tenant.id,
+                }
+        if not ent or not ent.exists():
             return {'error': _('Entitlement not found')}
         new_state = 'blocked' if ent.state == 'allowed' else 'allowed'
-        ent.write({'state': new_state})
-        return {'ok': True, 'new_state': new_state}
+        ent.write({'state': new_state, 'source': 'manual'})
+        return {
+            'ok': True,
+            'new_state': new_state,
+            'entitlement_id': ent.id,
+            'module_id': ent.module_id.id,
+            'tenant_id': ent.tenant_id.id,
+        }
+
+    @http.route('/tcrm_master/tenant/sync_entitlements', type='jsonrpc', auth='user')
+    def sync_tenant_entitlements(self, tenant_id=None, all_tenants=False):
+        """Backfill granted apps from provision module set + default package."""
+        if not request.env.user.has_group('base.group_system') and not request.env.user.has_group(
+                'tcrm_saas_core.group_tcrm_tenant_admin'):
+            return {'error': _('Access denied.')}
+        env = self._sudo_env()
+        if all_tenants:
+            tenants = env['tcrm.tenant'].sudo().search([])
+        else:
+            tenants = env['tcrm.tenant'].sudo().browse(int(tenant_id))
+            if not tenants.exists():
+                return {'error': _('Tenant not found')}
+        tenants.action_sync_entitlements_from_provision()
+        return {'ok': True, 'count': len(tenants)}
 
     # ── Financial Console ──────────────────────────────────────────
 
@@ -1239,12 +1358,21 @@ class TcrmMasterAPI(http.Controller):
     def create_domain(self, tenant_id, domain, is_primary=False):
         self._check_master_access()
         env = self._sudo_env()
-        d = env['tcrm.tenant.domain'].sudo().create({
+        Domain = env['tcrm.tenant.domain'].sudo()
+        normalized = Domain._normalize_domain(domain)
+        if normalized and '.' not in normalized:
+            normalized = '%s.tcrm.online' % normalized
+        ssl_status = 'active' if (
+            normalized.endswith('.tcrm.online') or normalized == 'tcrm.online'
+        ) else 'pending'
+        d = Domain.create({
             'tenant_id': tenant_id,
-            'domain': domain,
+            'domain': normalized,
             'is_primary': is_primary,
+            'ssl_status': ssl_status,
+            'active': True,
         })
-        return {'id': d.id}
+        return {'id': d.id, 'domain': d.domain, 'ssl_status': d.ssl_status}
 
     @http.route('/tcrm_master/domain/delete', type='jsonrpc', auth='user')
     def delete_domain(self, domain_id):
@@ -1353,18 +1481,93 @@ class TcrmMasterAPI(http.Controller):
             'module_ids': package.module_ids.ids,
         }
 
+    @http.route('/tcrm_master/tenant/apps/sync', type='jsonrpc', auth='user')
+    def sync_tenant_apps(self, tenant_id=None, include_technical=False):
+        """Sync actual installed applications from the tenant DB into master inventory."""
+        self._check_master_access()
+        env = self._sudo_env()
+        Inventory = env['tcrm.tenant.app.inventory'].sudo()
+        if tenant_id:
+            tenants = env['tcrm.tenant'].sudo().browse(int(tenant_id)).exists()
+        else:
+            tenants = env['tcrm.tenant'].sudo().search([])
+        results = []
+        for tenant in tenants:
+            res = Inventory.action_sync_tenant(tenant)
+            domain = [('tenant_id', '=', tenant.id)]
+            if not include_technical:
+                domain.append(('is_technical', '=', False))
+            apps = Inventory.search(domain)
+            results.append({
+                'tenant_id': tenant.id,
+                'tenant_name': tenant.name,
+                'sync': res,
+                'stale': bool(tenant.app_inventory_stale),
+                'apps': [{
+                    'id': a.id,
+                    'technical_name': a.technical_name,
+                    'display_name': a.name,
+                    'version': a.version or '',
+                    'category': a.category or '',
+                    'installed_state': a.installed_state or '',
+                    'entitlement_state': a.entitlement_state,
+                    'access_state': a.access_state,
+                    'is_technical': a.is_technical,
+                    'last_sync': fields.Datetime.to_string(a.last_sync) if a.last_sync else '',
+                    'last_sync_result': a.last_sync_result,
+                    'last_safe_error': a.last_safe_error or '',
+                    'stale': a.stale,
+                } for a in apps],
+            })
+        return {'ok': True, 'tenants': results}
+
+    @http.route('/tcrm_master/tenant/apps/inventory', type='jsonrpc', auth='user')
+    def tenant_apps_inventory(self, tenant_id, include_technical=False):
+        """Read mirrored inventory (does not hit tenant DB)."""
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].sudo().browse(int(tenant_id))
+        if not tenant.exists():
+            return {'error': _('Tenant not found')}
+        domain = [('tenant_id', '=', tenant.id)]
+        if not include_technical:
+            domain.append(('is_technical', '=', False))
+        apps = env['tcrm.tenant.app.inventory'].sudo().search(domain)
+        return {
+            'tenant_id': tenant.id,
+            'stale': bool(tenant.app_inventory_stale),
+            'apps': [{
+                'id': a.id,
+                'technical_name': a.technical_name,
+                'display_name': a.name,
+                'installed_state': a.installed_state or '',
+                'entitlement_state': a.entitlement_state,
+                'access_state': a.access_state,
+                'is_technical': a.is_technical,
+                'last_sync': fields.Datetime.to_string(a.last_sync) if a.last_sync else '',
+                'stale': a.stale,
+            } for a in apps],
+        }
+
     @http.route('/tcrm_master/tenant/module/grant', type='jsonrpc', auth='user')
     def grant_tenant_module(self, tenant_id, module_id, state='allowed'):
         """Manually grant/block an app on a tenant profile (super-admin)."""
-        if not request.env.user.has_group('base.group_system'):
-            return {'error': _('Only System Administrator can grant tenant apps.')}
+        if not (
+            request.env.user.has_group('base.group_system')
+            or request.env.user.has_group('tcrm_saas_core.group_tcrm_tenant_admin')
+        ):
+            return {'error': _('Only Master Administrator can grant tenant apps.')}
         env = self._sudo_env()
         tenant = env['tcrm.tenant'].browse(int(tenant_id))
         module = env['ir.module.module'].browse(int(module_id))
         if not tenant.exists():
             return {'error': _('Tenant not found')}
-        if not module.exists() or not module.application or module.state != 'installed':
-            return {'error': _('Module is not an installed application')}
+        if not module.exists() or module.state != 'installed':
+            return {'error': _('Module is not installed')}
+        # Allow application=True apps and known product modules (application=False).
+        product_ok = module.name.startswith('tcrm_') or module.application
+        if not product_ok:
+            return {'error': _('Module is not an assignable application')}
         if state == 'blocked':
             ent = tenant.action_revoke_module(module)
         else:
@@ -1389,28 +1592,155 @@ class TcrmMasterAPI(http.Controller):
 
     @http.route('/tcrm_master/tenant/ghost_login', type='jsonrpc', auth='user')
     def ghost_login(self, tenant_id):
-        """Return a URL to open the tenant's company context in a new tab."""
+        """Return a URL to open the tenant workspace in a new tab."""
         if not request.env.user.has_group('base.group_system'):
             return {'error': _('Ghost Login requires System Administrator privileges.')}
         env = self._sudo_env()
         tenant = env['tcrm.tenant'].browse(int(tenant_id))
         if not tenant.exists():
             return {'error': _('Tenant not found.')}
+        # Dedicated DBs are reached via host routing — never ?db= on the master host.
+        if tenant.db_name and tenant.primary_domain:
+            return {
+                'action': 'open_tab',
+                'url': 'https://%s/web/login' % tenant.primary_domain,
+                'label': _('Opening tenant login: %s') % tenant.primary_domain,
+            }
         company = tenant.company_id
         if not company:
             return {'error': _('Tenant has no linked company.')}
         base_url = env['ir.config_parameter'].sudo().get_param('web.base.url', '').rstrip('/')
-        if tenant.db_name:
-            return {
-                'action': 'open_tab',
-                'url': f'{base_url}/tcrm?db={tenant.db_name}',
-                'label': _('Opening dedicated DB: %s') % tenant.db_name,
-            }
         return {
             'action': 'open_tab',
             'url': f'{base_url}/tcrm?cids={company.id}',
             'label': _('Switching to company: %s') % company.name,
         }
+
+    @http.route('/tcrm_master/tenant/reset_admin_password', type='jsonrpc', auth='user')
+    def reset_tenant_admin_password(self, tenant_id, new_password, admin_login=None):
+        """Force-set the dedicated tenant DB administrator password (and optional login)."""
+        if not (
+            request.env.user.has_group('base.group_system')
+            or request.env.user.has_group('tcrm_saas_core.group_tcrm_tenant_admin')
+        ):
+            return {'error': _('Password reset requires Master Administrator privileges.')}
+        if not new_password or len(new_password) < 8:
+            return {'error': _('New password must be at least 8 characters.')}
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        db_name = (tenant.db_name or '').strip()
+        if not db_name:
+            return {'error': _('Tenant has no dedicated database. Shared-company tenants use master users.')}
+        try:
+            from tcrm.modules.registry import Registry
+            from tcrm import api, SUPERUSER_ID
+            registry = Registry(db_name)
+            with registry.cursor() as cr:
+                tenv = api.Environment(cr, SUPERUSER_ID, {})
+                login = (admin_login or '').strip()
+                admin = None
+                if login:
+                    admin = tenv['res.users'].search([('login', '=', login)], limit=1)
+                if not admin:
+                    admin = tenv.ref('base.user_admin', raise_if_not_found=False)
+                if not admin:
+                    admin = tenv['res.users'].search([('login', '=', 'admin')], limit=1)
+                if not admin:
+                    return {'error': _('Administrator user not found in tenant database.')}
+                write_vals = {'password': new_password}
+                if login and admin.login != login:
+                    # Prefer renaming existing admin to the requested login.
+                    conflict = tenv['res.users'].search([
+                        ('login', '=', login), ('id', '!=', admin.id),
+                    ], limit=1)
+                    if conflict:
+                        return {'error': _('Login %s already exists in tenant database.') % login}
+                    write_vals['login'] = login
+                admin.write(write_vals)
+                # Keep ANY latest provisioning job in sync for Command Center display.
+                if 'tcrm.provisioning.job' in env:
+                    job = env['tcrm.provisioning.job'].sudo().search(
+                        [('tenant_id', '=', tenant.id)],
+                        order='id desc', limit=1)
+                    if job:
+                        job.sudo().write({
+                            'admin_login': admin.login,
+                            'admin_password': new_password,
+                        })
+                cr.commit()
+                return {
+                    'ok': True,
+                    'admin_login': admin.login,
+                    'admin_password': new_password,
+                    'message': _('Credentials updated for %s on %s.') % (admin.login, db_name),
+                }
+        except Exception as exc:  # noqa: BLE001
+            _logger.exception('tenant admin password reset failed tenant=%s', tenant_id)
+            return {'error': _('Could not reset tenant admin password: %s') % exc}
+
+    @http.route('/tcrm_master/tenant/get_admin_credentials', type='jsonrpc', auth='user')
+    def get_tenant_admin_credentials(self, tenant_id):
+        """Return stored tenant DB admin credentials for Command Center control."""
+        if not (
+            request.env.user.has_group('base.group_system')
+            or request.env.user.has_group('tcrm_saas_core.group_tcrm_tenant_admin')
+        ):
+            return {'error': _('Access denied.')}
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        if not tenant.db_name:
+            return {'error': _('Tenant has no dedicated database.')}
+        result = {
+            'ok': True,
+            'db_name': tenant.db_name,
+            'login_url': ('https://%s/web/login' % tenant.primary_domain) if tenant.primary_domain else '',
+            'admin_login': 'admin',
+            'admin_password': '',
+            'job_state': '',
+        }
+        if 'tcrm.provisioning.job' in env:
+            job = env['tcrm.provisioning.job'].sudo().search(
+                [('tenant_id', '=', tenant.id)], order='id desc', limit=1)
+            if job:
+                result.update({
+                    'admin_login': job.admin_login or 'admin',
+                    'admin_password': job.admin_password or '',
+                    'job_state': job.state,
+                })
+        return result
+
+    @http.route('/tcrm_master/domain/request_ssl', type='jsonrpc', auth='user')
+    def request_domain_ssl(self, domain_id):
+        """Re-queue SSL expand for a platform subdomain (spool file for root timer)."""
+        if not request.env.user.has_group('base.group_system'):
+            return {'error': _('SSL request requires System Administrator privileges.')}
+        env = self._sudo_env()
+        dom = env['tcrm.tenant.domain'].browse(int(domain_id))
+        if not dom.exists():
+            return {'error': _('Domain not found.')}
+        domain = (dom.domain or '').strip().lower()
+        if not (domain.endswith('.tcrm.online') or domain in ('tcrm.online', 'www.tcrm.online')):
+            return {'error': _('Auto-SSL only supports *.tcrm.online hostnames.')}
+        spool_dir = os.environ.get('TCRM_SSL_SPOOL_DIR', '/var/lib/tcrm/ssl-pending')
+        try:
+            os.makedirs(spool_dir, mode=0o755, exist_ok=True)
+            safe = domain.replace('/', '_').replace('\\', '_')
+            path = os.path.join(spool_dir, '%s.domain' % safe)
+            with open(path, 'w', encoding='utf-8') as fh:
+                fh.write(domain + '\n')
+            dom.write({'ssl_status': 'pending'})
+            return {
+                'ok': True,
+                'domain': domain,
+                'message': _('SSL expand queued for %s. The platform timer will issue/reload the cert.') % domain,
+            }
+        except Exception as exc:  # noqa: BLE001
+            _logger.exception('SSL spool failed for %s', domain)
+            return {'error': _('Could not queue SSL: %s') % exc}
 
     @http.route('/tcrm_master/tenant/freeze', type='jsonrpc', auth='user')
     def freeze_tenant(self, tenant_id, freeze=True):
@@ -1559,20 +1889,23 @@ class TcrmMasterAPI(http.Controller):
 
     @http.route('/tcrm_master/ai_health', type='jsonrpc', auth='user')
     def get_ai_health(self):
-        """Return health status of all configured AI providers."""
+        """Return health status of master-local AI providers (never exposes API keys)."""
         self._check_master_access()
         env = self._sudo_env()
         providers = []
         try:
+            if 'tcrm.ai.provider' not in env:
+                return {'providers': [], 'total': 0}
             Provider = env['tcrm.ai.provider'].sudo()
             for p in Provider.search([('active', '=', True)]):
                 keys = p.key_ids.filtered(lambda k: k.active)
                 key_statuses = []
                 for k in keys:
                     key_statuses.append({
-                        'name': k.name or k.api_key[:8] + '…',
+                        'name': k.name or _('Key %s') % k.id,
                         'status': k.status if hasattr(k, 'status') else 'active',
                         'last_used': str(k.last_used) if hasattr(k, 'last_used') and k.last_used else '',
+                        'has_key': bool(k.api_key),
                     })
                 providers.append({
                     'id': p.id,
@@ -1584,6 +1917,118 @@ class TcrmMasterAPI(http.Controller):
                     'key_statuses': key_statuses,
                     'health': 'ok' if keys else 'no_keys',
                 })
+            # Master-local config status (safe)
+            if 'tcrm.ai.config' in env:
+                try:
+                    pub = env['tcrm.ai.config'].sudo().get_public_status()
+                    providers.append({
+                        'id': 0,
+                        'name': 'Master TCRM AI Config',
+                        'provider_code': pub.get('provider') or 'groq',
+                        'active': bool(pub.get('ai_enabled')),
+                        'default_model': pub.get('model') or '',
+                        'key_count': 1 if pub.get('configured') else 0,
+                        'key_statuses': [{'name': pub.get('api_key_masked') or '—', 'status': pub.get('last_connection_status') or 'unknown', 'has_key': bool(pub.get('configured'))}],
+                        'health': 'ok' if pub.get('configured') else 'no_keys',
+                    })
+                except Exception:
+                    pass
         except Exception as e:
             _logger.warning('AI health check failed: %s', e)
         return {'providers': providers, 'total': len(providers)}
+
+    @http.route('/tcrm_master/ai/tenants', type='jsonrpc', auth='user')
+    def list_tenant_ai_status(self):
+        """Safe TCRM AI matrix for all tenants — no secrets, no conversation content."""
+        self._check_master_access()
+        env = self._sudo_env()
+        Status = env['tcrm.tenant.ai.status']
+        rows = []
+        for tenant in env['tcrm.tenant'].search([]):
+            status = Status.get_or_create(tenant)
+            rows.append(status.to_safe_dict())
+        return {'rows': rows, 'total': len(rows)}
+
+    @http.route('/tcrm_master/ai/grant', type='jsonrpc', auth='user')
+    def grant_tenant_ai(self, tenant_id=None):
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id or 0))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        status = env['tcrm.tenant.ai.status'].get_or_create(tenant)
+        status.action_grant_access()
+        return {'ok': True, 'status': status.to_safe_dict()}
+
+    @http.route('/tcrm_master/ai/revoke', type='jsonrpc', auth='user')
+    def revoke_tenant_ai(self, tenant_id=None):
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id or 0))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        status = env['tcrm.tenant.ai.status'].get_or_create(tenant)
+        status.action_revoke_access()
+        return {'ok': True, 'status': status.to_safe_dict()}
+
+    @http.route('/tcrm_master/ai/suspend', type='jsonrpc', auth='user')
+    def suspend_tenant_ai(self, tenant_id=None):
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id or 0))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        status = env['tcrm.tenant.ai.status'].get_or_create(tenant)
+        status.action_suspend()
+        return {'ok': True, 'status': status.to_safe_dict()}
+
+    @http.route('/tcrm_master/ai/refresh', type='jsonrpc', auth='user')
+    def refresh_tenant_ai(self, tenant_id=None):
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id or 0))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        status = env['tcrm.tenant.ai.status'].get_or_create(tenant)
+        status.action_refresh_safe_status()
+        return {'ok': True, 'status': status.to_safe_dict()}
+
+    @http.route('/tcrm_master/ai/manage_config', type='jsonrpc', auth='user')
+    def manage_tenant_ai_config(self, tenant_id=None):
+        """Return guidance to manage tenant-local AI config (secrets stay in tenant DB)."""
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id or 0))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        status = env['tcrm.tenant.ai.status'].get_or_create(tenant)
+        status.action_refresh_safe_status()
+        login_url = ('https://%s/web' % tenant.primary_domain) if tenant.primary_domain else ''
+        return {
+            'ok': True,
+            'status': status.to_safe_dict(),
+            'message': _(
+                'Yapılandırma yalnızca tenant veritabanında saklanır. Anahtar master’a kopyalanmaz. Tenant: %s'
+            ) % (login_url or tenant.db_name or tenant.name),
+            'login_url': login_url,
+        }
+
+    @http.route('/tcrm_master/ai/usage', type='jsonrpc', auth='user')
+    def tenant_ai_usage(self, tenant_id=None):
+        """Aggregated safe usage for one tenant (no conversation content)."""
+        self._check_master_access()
+        env = self._sudo_env()
+        tenant = env['tcrm.tenant'].browse(int(tenant_id or 0))
+        if not tenant.exists():
+            return {'error': _('Tenant not found.')}
+        status = env['tcrm.tenant.ai.status'].get_or_create(tenant)
+        status.action_refresh_safe_status()
+        return {
+            'ok': True,
+            'tenant': tenant.name,
+            'requests_this_month': status.requests_this_month,
+            'tokens_this_month': status.tokens_this_month,
+            'last_connection_status': status.last_connection_status or '',
+            'last_safe_error': status.last_safe_error or '',
+            'entitlement': status.entitlement_state,
+        }

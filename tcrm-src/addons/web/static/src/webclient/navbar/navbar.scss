@@ -1,0 +1,325 @@
+
+// = Main Navbar
+// ============================================================================
+.o_main_navbar {
+    @include print-variable(o-navbar-height, $o-navbar-height);
+
+    --Dropdown_menu-margin-y: 0;
+
+    display: flex;
+    height: var(--o-navbar-height);
+    padding-top: $o-navbar-padding-v;
+    padding-bottom: $o-navbar-padding-v;
+    border-bottom: $o-navbar-border-bottom;
+    background: $o-navbar-background;
+    font-size: $o-navbar-font-size;
+
+    @include media-breakpoint-up(md) {
+        min-width: min-content;
+    }
+
+    // = Reset browsers defaults
+    // --------------------------------------------------------------------------
+    > ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    // = General components & behaviours
+    // --------------------------------------------------------------------------
+
+    .o_menu_toggle {
+        --NavBar-entry-padding-left: #{$o-horizontal-padding};
+        --NavBar-entry-padding-right: #{$o-horizontal-padding * .5};
+
+        @extend %-main-navbar-entry-base;
+        @extend %-main-navbar-entry-spacing;
+        color: var(--NavBar-entry-color, #{$o-navbar-entry-color});
+
+        rect, g {
+            transform-origin: 0 50%;
+        }
+
+        // Define a local mixin to handle the toggle state
+        // --------------------------------------------------------------------
+        @mixin o_main_navbar_toggler_toggled() {
+            rect {
+                width: 6px;
+                height: 3px;
+
+                &:first-child {
+                    transform: translate(12%,0) #{"/* rtl:translate(-6%, 0) */"};
+                    rx: 1;
+                }
+            }
+
+            #o_menu_toggle_row_0 {
+                transform:  scale3d(.5, 1, 1) translate(0, 45%) skewY(-22deg) #{"/* rtl:scale3d(.5, 1, 1) translate(0, 41%) skewY(22deg) */"};
+
+                + g rect {
+                    width: 0;
+                    height: 0;
+                }
+            }
+
+            #o_menu_toggle_row_2 {
+                transform:  scale3d(.5, 1, 1) translate(0, -37%) skewY(22deg) #{"/* rtl:scale3d(.5, 1, 1) translate(0, -35%) skewY(-22deg) */"};
+            }
+        }
+
+        &.o_menu_toggle_back {
+            @include o_main_navbar_toggler_toggled();
+            transform: translateX(25%) rotateY(-180deg);
+        }
+
+        // Animate on large screen without 'reduced-motion' only.
+        // --------------------------------------------------------------------
+        @include media-breakpoint-up(md) {
+            &.hasImage:not(.o_menu_toggle_back) {
+                .o_menu_toggle_icon {
+                    opacity: 0;
+                }
+
+                &:hover {
+                    .o_menu_toggle_icon {
+                        opacity: 1;
+                    }
+
+                    .o_menu_brand_icon {
+                        opacity: 0;
+                    }
+                }
+            }
+
+            @media screen and (prefers-reduced-motion: no-preference) {
+                &:hover {
+                    @include o_main_navbar_toggler_toggled();
+                }
+
+                &, g {
+                    transition: all .3s;
+                }
+
+                rect {
+                    transition: all .1s;
+                }
+
+                &.hasImage:not(.o_menu_toggle_back) {
+                    transform: none;
+                    transition: none;
+
+                    .o_menu_toggle_icon, .o_menu_brand_icon, .o_menu_brand {
+                        will-change: transform;
+                        transition: all 0.1s;
+                    }
+
+                    .o_menu_toggle_icon {
+                        transform: translateX(75%);
+                    }
+
+                    &:hover {
+                        .o_menu_toggle_icon {
+                            transform: translateX(25%);
+                            transition: all .4s;
+                        }
+
+                        .o_menu_brand_icon {
+                            transform: rotateY(-90deg);
+                            transition: all .2s;
+                        }
+
+                        .o_menu_brand {
+                            transform: translateX(-#{map-get($spacers, 2)});
+                            transition: all .4s;
+                        }
+                    }
+                }
+            }
+
+            .o_menu_brand_icon {
+                width: calc(var(--o-navbar-height) - #{$o-navbar-padding-v * 2} + #{map-get($spacers, 1)});
+                object-fit: cover;
+            }
+        }
+    }
+
+    .o_nav_entry, .dropdown-toggle:not(.o-dropdown-toggle-custo) {
+        @extend %-main-navbar-entry-base;
+        @extend %-main-navbar-entry-spacing;
+        border-color: transparent;
+    }
+
+    .o_menu_sections {
+        .o_nav_entry, .dropdown-toggle {
+            background: var(--NavBar-entry-backgroundColor, #{$o-navbar-background});
+            border: $border-width solid transparent;
+
+            &:hover {
+                background: var(--NavBar-entry-backgroundColor--hover, #{$o-navbar-entry-bg--hover});
+            }
+
+            &:focus {
+                background: var(--NavBar-entry-backgroundColor--focus, #{$o-navbar-entry-bg--hover});
+            }
+
+            &:active {
+                background: var(--NavBar-entry-backgroundColor--active, #{$o-navbar-entry-bg--active});
+            }
+        }
+
+        .dropdown.show.dropdown-toggle {
+            border-color: var(--NavBar-entry-borderColor-active, transparent);
+            background: var(--NavBar-entry-backgroundColor--active, #{$o-navbar-entry-bg--active});
+            color: var(--NavBar-entry-color--active, #{$o-navbar-entry-color--active});
+        }
+    }
+
+    .dropdown-header.dropdown-menu_group {
+      margin-top: 0;
+    }
+
+    .dropdown-item + .dropdown-header:not(.o_more_dropdown_section_group) {
+      margin-top: .3em;
+    }
+
+    .o_dropdown_menu_group_entry.dropdown-item {
+        padding-left: $o-dropdown-hpadding * 1.5;
+
+        + .dropdown-item:not(.o_dropdown_menu_group_entry) {
+            margin-top: .8em;
+        }
+    }
+
+    // = Navbar Sections & Children
+    // --------------------------------------------------------------------------
+    .o_navbar_apps_menu .dropdown-toggle {
+        --NavBar-entry-padding-left: #{$o-horizontal-padding};
+
+        @extend %-main-navbar-entry-base;
+        font-size: $o-navbar-brand-font-size;
+    }
+
+    .o_menu_brand {
+        @extend %-main-navbar-entry-base;
+        @extend %-main-navbar-entry-spacing;
+        padding-left: 0;
+        font-size: $o-navbar-brand-font-size;
+
+        &:hover {
+            background: none;
+        }
+    }
+
+    .o_menu_brand, .o_navbar_breadcrumbs, .o_navbar_breadcrumbs .btn {
+        color: var(--NavBar-brand-color, #{$o-navbar-brand-color});
+    }
+
+    .o_menu_sections {
+        .o_more_dropdown_section_group {
+            margin-top: .8em;
+
+            &:first-child {
+                margin-top: $dropdown-padding-y * -1;
+                padding-top: $dropdown-padding-y * 1.5;
+            }
+        }
+    }
+
+    .o_menu_systray {
+        --NavBar-entry-padding-left: #{$o-navbar-entry-padding-h * 0.5};
+        --NavBar-entry-padding-right: #{$o-navbar-entry-padding-h * 0.5};
+
+        .badge {
+            margin-right: -.5em;
+            border: 0;
+            padding: ($o-navbar-badge-padding * .5) $o-navbar-badge-padding;
+            background-color: var(--o-navbar-badge-bg, #{$o-navbar-badge-bg});
+            font-size: $o-navbar-badge-size;
+            color: var(--o-navbar-badge-color, $o-navbar-badge-color);
+            text-shadow: var(--o-navbar-badge-text-shadow, #{$o-navbar-badge-text-shadow});
+            transform: translate(-0.6em, -30%);
+        }
+    }
+}
+
+
+// = SuperUser Design
+// ============================================================================
+body.o_is_superuser .o_menu_systray {
+    border-image: repeating-linear-gradient(135deg, #d9b904, #d9b904 10px, #373435 10px, #373435 20px) 2;
+    border-image-width: map-get($border-widths, 2);
+}
+
+/* TCRM Apps Star Icon Styling */
+.o_tcrm_apps_star {
+    font-size: 1.5rem;
+    color: #E30A17 !important; /* Turkish Flag Red */
+    transform: rotate(-15deg); /* Slight tilt like the flag */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 0 0 2px rgba(0,0,0,0.2);
+
+    &:hover {
+        color: #ff3333 !important;
+        transform: rotate(0deg) scale(1.3);
+        text-shadow: 0 0 15px rgba(227, 10, 23, 0.6);
+        filter: drop-shadow(0 0 5px rgba(227, 10, 23, 0.5));
+    }
+
+    &:active {
+        transform: rotate(360deg) scale(0.9);
+        transition: all 0.2s ease;
+    }
+}
+
+/* Compact icons in the red-star apps dropdown.
+   Owl Dropdown portals the menu outside `.o_navbar_apps_menu`, so target item/icon classes directly. */
+$tcrm-apps-icon: 1.25rem;
+
+.o_tcrm_app_item,
+.dropdown-item.o_app.o_tcrm_app_item,
+a.dropdown-item.o_tcrm_app_item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    min-height: 2rem;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    gap: 0.5rem !important;
+
+    img,
+    .o_app_icon,
+    .o_tcrm_app_switcher_icon {
+        width: $tcrm-apps-icon !important;
+        height: $tcrm-apps-icon !important;
+        max-width: $tcrm-apps-icon !important;
+        max-height: $tcrm-apps-icon !important;
+        min-width: $tcrm-apps-icon !important;
+        min-height: $tcrm-apps-icon !important;
+        object-fit: contain !important;
+        flex: 0 0 $tcrm-apps-icon !important;
+        border-radius: 0.2rem;
+        display: block !important;
+        margin: 0 !important;
+    }
+
+    > span,
+    span {
+        text-align: left !important;
+        flex: 1 1 auto;
+        line-height: $tcrm-apps-icon;
+        white-space: nowrap;
+    }
+}
+
+img.o_tcrm_app_switcher_icon,
+img.o_app_icon.o_tcrm_app_switcher_icon {
+    width: $tcrm-apps-icon !important;
+    height: $tcrm-apps-icon !important;
+    max-width: $tcrm-apps-icon !important;
+    max-height: $tcrm-apps-icon !important;
+    object-fit: contain !important;
+}
+

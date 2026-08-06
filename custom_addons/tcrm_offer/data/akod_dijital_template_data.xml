@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- noupdate=0 so contract HTML and catalogue links refresh on module upgrade -->
+<odoo noupdate="0">
+    <record id="template_akod_dijital" model="tcrm.offer.template">
+        <field name="name">AKOD Dijital Hizmet Teklifi (Temel Paket)</field>
+        <field name="code">akod_dijital_temel</field>
+        <field name="title">Dijital Hizmet Teklifi — AKOD</field>
+        <field name="validity_days">15</field>
+        <field name="ad_budget_default">50000</field>
+        <field name="ad_budget_min">0</field>
+        <field name="ad_budget_max">500000</field>
+        <field name="provider_legal_name">AKOD Yazılım Bilişim ve Dijital Pazarlama Ticaret Limited Şirketi</field>
+        <field name="provider_short_name">AKOD</field>
+        <field name="catalogue_ids" eval="[(6, 0, [
+            ref('catalogue_social_media'),
+            ref('catalogue_digital_ads'),
+            ref('catalogue_software'),
+            ref('catalogue_ai'),
+        ])]"/>
+        <field name="summary" type="html"><![CDATA[
+<p>Bu teklif; <strong>zorunlu temel paket</strong> (kurulum + reklam yönetimi + içerik/platform yönetimi) ile isteğe bağlı ek hizmetleri içerir. Reklam medya bütçesi hizmet bedeline dahil değildir.</p>
+<p>Aşağıdaki seçimlerle aylık, tek seferlik ve genel toplamı anında görebilirsiniz. Onay sonrası seçimler kilitlenir.</p>
+]]></field>
+        <field name="scope_html" type="html"><![CDATA[
+<p><strong>Zorunlu temel paket</strong> her teklifte varsayılandır:</p>
+<ul>
+  <li>Kurulum / hesap set-up — 50.000 TL (tek seferlik)</li>
+  <li>Reklam yönetimi (Meta + Google) — bütçe ≤ 50.000 TL için 30.000 TL/ay</li>
+  <li>İçerik &amp; paylaşım (IG/FB + bir ek platform) — 20.000 TL/ay</li>
+</ul>
+<p>Opsiyonel kalemler yalnızca seçildiğinde genel toplama eklenir.</p>
+]]></field>
+        <field name="contract_intro_html" type="html"><![CDATA[
+<section class="teklif-madde">
+  <h3>MADDE 1 — Taraflar</h3>
+  <p>İşbu teklif / dijital hizmet sözleşmesi taslağı; AKOD Yazılım Bilişim ve Dijital Pazarlama Ticaret Limited Şirketi ("Hizmet Sağlayıcı" / "AKOD") ile teklifte adı geçen Müşteri arasında akdedilmek üzere hazırlanmıştır.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 2 — Konu</h3>
+  <p>AKOD tarafından sunulacak dijital büyüme hizmetlerinin kapsamı, ücretlendirme, hak ve yükümlülükler, gizlilik, fikri mülkiyet ve sona erme koşulları.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 3 — Tanımlar</h3>
+  <ul>
+    <li><strong>Reklam Bütçesi:</strong> Müşteri'nin Meta/Google vb. platformlara doğrudan ödediği medya harcaması; aylık hizmet bedeline dahil değildir.</li>
+    <li><strong>Hizmet Ayı:</strong> Ücretin peşin ödendiği takvim ayı.</li>
+    <li><strong>Ham Materyal:</strong> Müşteri'nin temin etmesi gereken fotoğraf, video ve marka varlıkları.</li>
+  </ul>
+</section>
+]]></field>
+        <field name="terms_html" type="html"><![CDATA[
+<section class="teklif-madde">
+  <h3>MADDE 4 — Hizmet kapsamı (özet)</h3>
+  <p>Seçilen kalemlere göre Meta/Google reklam yönetimi, sosyal medya içerik ve yayın, raporlama/toplantı, isteğe bağlı prodüksiyon ve web/yazılım hizmetleri.</p>
+  <p><strong>Önemli:</strong> Temel içerik paketinde fiziksel çekim/prodüksiyon zorunlu değildir; ham görseller Müşteri sorumluluğundadır (aksi seçilmedikçe).</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 5 — Başlangıç ön koşulları</h3>
+  <ul>
+    <li>Teklifin onaylanması / sözleşmenin imzası</li>
+    <li>İlk ay bedeli + kurulum ücretinin ödenmesi</li>
+    <li>Meta Business Manager / Google Ads yönetici erişimi</li>
+    <li>Marka materyallerinin iletilmesi</li>
+  </ul>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 6 — Yükümlülükler</h3>
+  <p><strong>AKOD:</strong> profesyonel yürütme, aylık rapor, gizlilik, erişimin yalnızca hizmet için kullanımı.</p>
+  <p><strong>Müşteri:</strong> peşin ödeme, reklam bütçesini platformlara yatırma, ham materyal ve erişim, içerik onay sürelerine uyum, ticari koşulların gizliliği.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 7 — Ücretler ve ödeme</h3>
+  <ul>
+    <li>Tüm fiyatlar aksi belirtilmedikçe <strong>KDV hariçtir</strong>.</li>
+    <li>Aylık bedel peşin; ilk ödeme onaydan sonra makul sürede.</li>
+    <li>Reklam bütçesi hizmet bedeline dahil değildir.</li>
+    <li>Gecikmede temerrüt faizi ve hizmet askıya alma hakkı saklıdır.</li>
+  </ul>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 8–10 — Reklam / sosyal / web özel hükümler</h3>
+  <p>AKOD belirli ROAS, satış, takipçi veya lead taahhüt etmez; süreç ve optimizasyon sorumluluğunu üstlenir. Platform politikaları üçüncü taraf riskidir. Web fiyatları tech stack, sektör ve tahmini üretim saatine göre değişir.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 11–13 — Gizlilik ve fikri mülkiyet</h3>
+  <p>Ticari koşullar, yöntemler ve know-how gizli tutulur. Onaylı çıktılar Müşteri'nin kendi tanıtımı için kullanılabilir; AKOD yöntemleri üzerinde hak iddia edilemez.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 14 — KVKK</h3>
+  <p>Taraflar 6698 sayılı KVKK'ya uygun hareket eder. Aydınlatma metni teklif onayında bağlantı ile sunulur.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 15–16 — Üçüncü taraf &amp; performans reddi</h3>
+  <p>Google/Meta bağımsız platformlardır. Belirli iş sonucu garantisi verilmez.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 17 — Süre ve fesih</h3>
+  <p>Aylık yenilenir; 15 gün önceden yazılı bildirim ile sonraki ay itibarıyla sona erdirilebilir. Peşin ücretler iade edilmez.</p>
+</section>
+<section class="teklif-madde">
+  <h3>MADDE 18–20 — Mücbir sebep, bildirim, yetkili mahkeme</h3>
+  <p>Türk Hukuku uygulanır; yetkili merciler İstanbul mahkemeleri ve icra daireleridir.</p>
+</section>
+<p class="teklif-terms-foot">Bu metin teklif amaçlı özet hükümlerdir. Kesin sözleşme, onay sonrası taraflarca imzalanacak nihai metinde yer alır.</p>
+]]></field>
+    </record>
+
+    <!-- ZORUNLU: Kurulum -->
+    <record id="tmpl_akod_setup" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Kurulum &amp; Sistem / Reklam Hesabı Set-up</field>
+        <field name="code">setup_fee</field>
+        <field name="category">Kurulum</field>
+        <field name="package_group">basic_required</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">50000</field>
+        <field name="billing_period">one_time</field>
+        <field name="selection_type">required</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">5</field>
+        <field name="description" type="html"><![CDATA[
+<p>İlk ay için tek seferlik kurulum: Business Manager / reklam hesapları, pixel-etiket kontrolleri, marka brifing ve sistem hazırlığı.</p>
+]]></field>
+    </record>
+
+    <!-- ZORUNLU: Ads management -->
+    <record id="tmpl_akod_ads" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Reklam Yönetimi (Meta + Google)</field>
+        <field name="code">ads_mgmt</field>
+        <field name="category">Reklam</field>
+        <field name="package_group">basic_required</field>
+        <field name="pricing_type">meta_budget</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">required</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">10</field>
+        <field name="description" type="html"><![CDATA[
+<p>Aylık Meta + Google reklam yönetimi. Bütçe ≤ 50.000 TL için <strong>30.000 TL/ay</strong>. Daha yüksek bütçelerde dilim oranları uygulanır. Medya bütçesi ayrıca platformlara ödenir.</p>
+]]></field>
+        <field name="includes_html" type="html"><![CDATA[
+<ul>
+  <li>Hesap kurulumu / erişim kontrolü</li>
+  <li>Kampanya mimarisi, hedef kitle, optimizasyon</li>
+  <li>Pixel / dönüşüm kontrolü</li>
+  <li>Aylık performans raporu</li>
+</ul>
+]]></field>
+    </record>
+
+    <!-- ZORUNLU: Content + platform -->
+    <record id="tmpl_akod_content" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">İçerik &amp; Paylaşım Yönetimi (IG/FB + 1 ek platform)</field>
+        <field name="code">content_mgmt</field>
+        <field name="category">Sosyal Medya</field>
+        <field name="package_group">basic_required</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">20000</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">required</field>
+        <field name="default_selected" eval="True"/>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">15</field>
+        <field name="client_choice_label">Ek platform seçimi</field>
+        <field name="client_choice_options">TikTok, LinkedIn, YouTube, X (Twitter)</field>
+        <field name="description" type="html"><![CDATA[
+<p>Instagram &amp; Facebook içerik/paylaşım yönetimi + seçtiğiniz bir ek platform. Ham görseller müşteri tarafından sağlanır.</p>
+]]></field>
+    </record>
+
+    <!-- Optional social packages -->
+    <record id="tmpl_akod_sm_b" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Sosyal Medya Paketi — Büyüme (15 post + 30 story)</field>
+        <field name="code">sm_buyume</field>
+        <field name="category">Sosyal Medya</field>
+        <field name="package_group">optional</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">27000</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">20</field>
+        <field name="exclusive_group">social_upgrade</field>
+    </record>
+    <record id="tmpl_akod_sm_y" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Sosyal Medya Paketi — Yoğun (30 post + 30 story)</field>
+        <field name="code">sm_yogun</field>
+        <field name="category">Sosyal Medya</field>
+        <field name="package_group">optional</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">40000</field>
+        <field name="billing_period">monthly</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">21</field>
+        <field name="exclusive_group">social_upgrade</field>
+    </record>
+
+    <!-- Production optional -->
+    <record id="tmpl_akod_photo" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Profesyonel Ürün Fotoğraf Çekimi</field>
+        <field name="code">photo_session</field>
+        <field name="package_group">production</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">20000</field>
+        <field name="billing_period">per_session</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">30</field>
+    </record>
+    <record id="tmpl_akod_video" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Video Prodüksiyon + Montaj</field>
+        <field name="code">video_session</field>
+        <field name="package_group">production</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">20000</field>
+        <field name="billing_period">per_session</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">40</field>
+    </record>
+
+    <!-- Web optional -->
+    <record id="tmpl_akod_web_single" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Tek Sayfa Web (Landing)</field>
+        <field name="code">web_single</field>
+        <field name="package_group">web</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">55000</field>
+        <field name="billing_period">one_time</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">50</field>
+        <field name="exclusive_group">web_package</field>
+        <field name="description" type="html"><![CDATA[<p>Tek sayfalık landing. Fiyat net kapsam için geçerlidir.</p>]]></field>
+    </record>
+    <record id="tmpl_akod_web_basic" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Çok Sayfalı Temel Kurumsal Site (başlangıç)</field>
+        <field name="code">web_basic</field>
+        <field name="package_group">web</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">60000</field>
+        <field name="billing_period">one_time</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">51</field>
+        <field name="exclusive_group">web_package</field>
+        <field name="description" type="html"><![CDATA[
+<p>60.000–150.000 TL aralığının başlangıç bandı. Kapsam, sayfa sayısı ve özelliklere göre netleşir.</p>
+]]></field>
+    </record>
+    <record id="tmpl_akod_web_adv" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Gelişmiş Web (çok dil / formlar) — başlangıç</field>
+        <field name="code">web_advanced</field>
+        <field name="package_group">web</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">200000</field>
+        <field name="billing_period">one_time</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">52</field>
+        <field name="exclusive_group">web_package</field>
+    </record>
+    <record id="tmpl_akod_web_app" model="tcrm.offer.template.item">
+        <field name="template_id" ref="template_akod_dijital"/>
+        <field name="name">Web Uygulaması — başlangıç</field>
+        <field name="code">web_app</field>
+        <field name="package_group">web</field>
+        <field name="pricing_type">fixed</field>
+        <field name="unit_price">300000</field>
+        <field name="billing_period">one_time</field>
+        <field name="selection_type">optional</field>
+        <field name="taxable" eval="True"/>
+        <field name="sort_order">53</field>
+        <field name="exclusive_group">web_package</field>
+        <field name="description" type="html"><![CDATA[
+<p>Başlangıç fiyatı. Tech stack, sektör ve tahmini üretim saatine göre değişir.</p>
+]]></field>
+    </record>
+</odoo>

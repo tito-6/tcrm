@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_tcrm_offer" model="ir.ui.view">
+        <field name="name">res.config.settings.tcrm.offer</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Teklif Paneli" name="tcrm_offer"
+                     groups="tcrm_offer.group_offer_manager,base.group_system">
+                    <block title="Teklif Ayarları" name="tcrm_offer_settings">
+                        <setting string="Varsayılan KDV Oranı">
+                            <field name="tcrm_offer_default_tax_rate"/>
+                        </setting>
+                        <setting string="Public Base URL">
+                            <field name="tcrm_offer_public_base_url" placeholder="https://akod.tcrm.online"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

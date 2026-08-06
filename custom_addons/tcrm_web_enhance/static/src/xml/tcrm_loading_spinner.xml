@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="tcrm_web_enhance.Spinner" t-inherit="web.BlockUI" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_spinner')]" position="replace">
+            <div class="tcrm-spinner-container">
+                <svg class="tcrm-logo-spinner" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="tcrmSpinGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3B82F6"/>
+                            <stop offset="50%" stop-color="#101E55"/>
+                            <stop offset="100%" stop-color="#E00000"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Outer Rotating Ring -->
+                    <circle class="tcrm-outer-ring" cx="50" cy="50" r="42" fill="none" stroke="url(#tcrmSpinGrad1)" stroke-width="5" stroke-linecap="round" stroke-dasharray="180 70"/>
+                    <!-- Inner Brand TCRM Emblem -->
+                    <g class="tcrm-inner-brand">
+                        <polygon points="50,22 74,36 74,64 50,78 26,64 26,36" fill="#101E55" stroke="#3B82F6" stroke-width="2.5"/>
+                        <text x="50" y="56" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, Roboto, sans-serif" font-weight="900" font-size="19" letter-spacing="1">TCRM</text>
+                    </g>
+                </svg>
+            </div>
+        </xpath>
+    </t>
+</templates>

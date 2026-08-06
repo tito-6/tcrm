@@ -1,0 +1,239 @@
+/* AKOD public teklif experience */
+:root {
+  --teklif-navy: #101E55;
+  --teklif-navy-deep: #0e142c;
+  --teklif-surface: #f3f5f9;
+  --teklif-border: #d7dde8;
+  --teklif-text: #1a1f36;
+  --teklif-muted: #5b647a;
+}
+
+.tcrm-teklif-passcode,
+.tcrm-teklif-view,
+.tcrm-teklif-closed,
+.tcrm-teklif-receipt {
+  color: var(--teklif-text);
+  background:
+    radial-gradient(1200px 400px at 10% -10%, rgba(16, 30, 85, 0.08), transparent 60%),
+    linear-gradient(180deg, #fff 0%, var(--teklif-surface) 100%);
+  min-height: 70vh;
+}
+
+.teklif-logo {
+  height: 40px;
+  width: auto;
+}
+
+.teklif-heading,
+.teklif-title {
+  color: var(--teklif-navy);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.teklif-muted {
+  color: var(--teklif-muted);
+}
+
+.teklif-passcode-card,
+.teklif-receipt-card {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--teklif-border);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(16, 30, 85, 0.06);
+}
+
+.teklif-passcode-input {
+  letter-spacing: 0.35em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.btn-teklif {
+  background: var(--teklif-navy);
+  border-color: var(--teklif-navy);
+  color: #fff;
+}
+.btn-teklif:hover,
+.btn-teklif:focus {
+  background: var(--teklif-navy-deep);
+  border-color: var(--teklif-navy-deep);
+  color: #fff;
+}
+
+.teklif-hero {
+  background: linear-gradient(135deg, var(--teklif-navy) 0%, var(--teklif-navy-deep) 55%, #1a2458 100%);
+  color: #fff;
+  padding: 2rem 0 2.25rem;
+}
+.teklif-hero .teklif-title,
+.teklif-hero .teklif-muted,
+.teklif-hero .teklif-customer {
+  color: #fff;
+}
+.teklif-hero .teklif-muted {
+  opacity: 0.8;
+}
+
+.teklif-section {
+  background: #fff;
+  border: 1px solid var(--teklif-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.teklif-section h2 {
+  color: var(--teklif-navy);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.teklif-item {
+  border: 1px solid var(--teklif-border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.85rem;
+  background: #fbfcfe;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.teklif-item:focus-within {
+  border-color: var(--teklif-navy);
+  box-shadow: 0 0 0 3px rgba(16, 30, 85, 0.12);
+}
+.teklif-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.teklif-badge {
+  background: var(--teklif-surface);
+  color: var(--teklif-navy);
+  font-weight: 600;
+}
+
+.teklif-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid var(--teklif-border);
+  backdrop-filter: blur(8px);
+  padding: 0.75rem 0;
+}
+.teklif-sticky-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: center;
+}
+.teklif-sticky-grid span {
+  display: block;
+  font-size: 0.75rem;
+}
+.teklif-sticky-total strong {
+  color: var(--teklif-navy);
+  font-size: 1.15rem;
+}
+
+@media (max-width: 768px) {
+  .teklif-sticky-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .teklif-sticky-total {
+    grid-column: 1 / -1;
+  }
+  .teklif-body {
+    padding-bottom: 7rem !important;
+  }
+}
+
+.teklif-doc-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.teklif-times {
+  opacity: 0.55;
+  margin: 0 0.35rem;
+}
+.teklif-party-card {
+  border: 1px solid var(--teklif-border);
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fbfcfe;
+  height: 100%;
+}
+.teklif-party-role {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teklif-muted);
+  margin-bottom: 0.35rem;
+}
+.teklif-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.teklif-section-head h2 {
+  margin-bottom: 0;
+}
+.teklif-badge-required {
+  background: var(--teklif-navy);
+  color: #fff;
+}
+.teklif-item-required {
+  border-color: rgba(16, 30, 85, 0.35);
+  background: #f5f7fc;
+}
+.teklif-contract h3 {
+  color: var(--teklif-navy);
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+.teklif-madde {
+  margin-bottom: 0.75rem;
+}
+.teklif-terms-foot {
+  font-size: 0.85rem;
+  color: var(--teklif-muted);
+  margin-top: 1rem;
+}
+.teklif-cat-table th {
+  color: var(--teklif-navy);
+}
+.teklif-required-block {
+  border-left: 4px solid var(--teklif-navy);
+}
+
+@media print {
+  .teklif-sticky,
+  #teklifConfirmModal,
+  .navbar,
+  footer,
+  .d-print-none,
+  #btn-approve {
+    display: none !important;
+  }
+  .teklif-hero {
+    background: #fff !important;
+    color: #000 !important;
+    border-bottom: 2px solid var(--teklif-navy);
+  }
+  .teklif-hero * {
+    color: #000 !important;
+  }
+  .teklif-section,
+  .teklif-item {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}

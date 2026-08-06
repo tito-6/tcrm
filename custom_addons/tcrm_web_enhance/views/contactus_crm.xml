@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Force contact form to create crm.lead (default website form uses mail.mail). -->
+    <template id="tcrm_contactus_crm_lead" inherit_id="website.contactus" name="TCRM Contact Form → CRM Lead" priority="99">
+        <xpath expr="//form[@id='contactus_form']" position="attributes">
+            <attribute name="data-model_name">crm.lead</attribute>
+        </xpath>
+    </template>
+</odoo>

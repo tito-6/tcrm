@@ -5,11 +5,15 @@ db_host = localhost
 db_port = 5432
 db_user = tcrm
 db_password = CHANGE_ME_DB_PASSWORD
-db_name = tcrm_master
-# Control-plane + multi-company tenants live in tcrm_master.
-# Dedicated tenant DBs are opened via existing ?db= / ghost-login flow.
-dbfilter = ^tcrm_master$
+# db_name left unset so host-based routing (tcrm_saas_routing) can open
+# the control DB or a dedicated tenant DB from the Host header.
+#db_name = tcrm_master
+# Do NOT pin dbfilter to the master DB — that makes tenant subdomains
+# authenticate against tcrm_master and fail with "Database not found".
+# tcrm_saas_routing.db_filter enforces the host → DB mapping instead.
+dbfilter =
 list_db = False
+server_wide_modules = base,web,tcrm_saas_routing
 http_port = 8069
 http_interface = 127.0.0.1
 proxy_mode = True

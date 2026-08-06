@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_meta_lead_mapping_tree" model="ir.ui.view">
+        <field name="name">meta.lead.mapping.tree</field>
+        <field name="model">meta.lead.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="active"/>
+                <field name="page_id"/>
+                <field name="form_id"/>
+                <field name="team_id"/>
+                <field name="user_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_meta_lead_mapping_form" model="ir.ui.view">
+        <field name="name">meta.lead.mapping.form</field>
+        <field name="model">meta.lead.mapping</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Meta IDs">
+                        <field name="page_id"/>
+                        <field name="form_id"/>
+                    </group>
+                    <group string="Assignment">
+                        <field name="team_id"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_meta_lead_mapping" model="ir.actions.act_window">
+        <field name="name">Meta Lead Assignment Rules</field>
+        <field name="res_model">meta.lead.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Define assignment rules to map Facebook Page/Form to a Sales Team and Salesperson.</p>
+        </field>
+    </record>
+
+</odoo>

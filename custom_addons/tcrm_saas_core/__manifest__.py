@@ -1,6 +1,6 @@
 {
     'name': 'TCRM SaaS Core',
-    'version': '1.3.1',
+    'version': '1.3.13',
     'summary': 'Master module for TCRM Multi-tenancy with Command Center',
     'depends': ['base', 'web', 'tcrm_propertio'],
     'author': 'Tcrm S.A.',
@@ -12,6 +12,8 @@
         'data/tcrm_saas_command_center_assets.xml',
         'views/tenant_views.xml',
         'views/tcrm_saas_ops_views.xml',
+        'views/tcrm_ai_master_views.xml',
+        'views/tcrm_tenant_app_inventory_views.xml',
         'views/permission_set_views.xml',
         'views/propertio_security_views.xml',
         'views/command_center_views.xml',
@@ -22,6 +24,7 @@
     'assets': {
         'web.assets_backend': [
             'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+            'tcrm_saas_core/static/src/scss/master_forms.scss',
             'tcrm_saas_core/static/src/command_center/command_center.scss',
             'tcrm_saas_core/static/src/js/tcrm_command_palette.js',
             'tcrm_saas_core/static/src/command_center/dashboard/sparkline_utils.js',

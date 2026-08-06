@@ -4974,7 +4974,14 @@ msgstr "Satış Yapıldı"
 #. module: tcrm_propertio
 #: glossary
 msgid "Kazanıldı"
-msgstr "Kazanıldı"
+msgstr "Satış Yapıldı"
+
+#. module: crm
+#: model:ir.model.fields.selection,name:crm.selection__crm_lead__won_status__won
+#: model_terms:ir.ui.view,arch_db:crm.crm_lead_view_form
+#: model_terms:ir.ui.view,arch_db:crm.crm_lead_view_kanban_forecast
+msgid "Won"
+msgstr "Satış Yapıldı"
 
 #. module: tcrm_propertio
 #: glossary

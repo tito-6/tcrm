@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+    <!-- Force-disable seeded Tcrm.com OAuth button on every upgrade of this module.
+         Safe when auth_oauth is not installed (xmlid missing → skip via function). -->
+    <function model="ir.module.module" name="_tcrm_disable_tcrm_com_oauth_login"/>
+</odoo>

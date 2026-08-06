@@ -179,7 +179,7 @@ def _page(title, heading, message, accent='#0b1f3a'):
         "a{color:%s;text-decoration:none;font-weight:600}"
         "</style></head><body><div class='card'><div class='brand'>TCRM</div>"
         "<h1>%s</h1><p>%s</p>"
-        "<p class='hint'>TCRM · Powered by AK KOD &nbsp;|&nbsp; <a href='https://tcrm.online'>tcrm.online</a></p>"
+        "<p class='hint'>TCRM · Powered by AKOD &nbsp;|&nbsp; <a href='https://tcrm.online'>tcrm.online</a></p>"
         "</div></body></html>"
     ) % (title, accent, accent, accent, heading, message)
 
@@ -203,7 +203,12 @@ PAGE_ERROR = _page(
     "We could not route your request right now. Please try again shortly.",
     accent='#5b6577')
 
-_STATUS_LINE = {200: '200 OK', 404: '404 Not Found', 503: '503 Service Unavailable'}
+_STATUS_LINE = {
+    200: '200 OK',
+    403: '403 Forbidden',
+    404: '404 Not Found',
+    503: '503 Service Unavailable',
+}
 
 
 def _serve(start_response, code, html):
@@ -216,6 +221,26 @@ def _serve(start_response, code, html):
     ]
     start_response(_STATUS_LINE.get(code, '%d Error' % code), headers)
     return [body]
+
+
+PAGE_APPS_BLOCKED = _page(
+    "Apps Store disabled", "Apps Store disabled",
+    "The Apps Store is not available on tenant workspaces. "
+    "Modules are managed exclusively by TCRM Master.",
+    accent='#101E55')
+
+
+def _is_apps_store_path(path):
+    """True for tenant Apps Gallery deep links that must be blocked."""
+    p = (path or '').rstrip('/')
+    if p in ('/tcrm/apps', '/web/apps', '/odoo/apps', '/apps'):
+        return True
+    if p.startswith('/tcrm/apps/') or p.startswith('/web/apps/') or p.startswith('/odoo/apps/'):
+        return True
+    # Action path variants used by the web client.
+    if 'open_module_tree' in p and ('/tcrm/' in p or '/web/' in p or '/odoo/' in p):
+        return True
+    return False
 
 
 def _middleware(environ, start_response):
@@ -234,6 +259,10 @@ def _middleware(environ, start_response):
 
         host = environ.get('HTTP_HOST', '')
         status, _db = resolve_host(host)
+
+        # 3) Primary SaaS rule: tenants cannot open the Apps Gallery / Store.
+        if status == S_OK and _is_apps_store_path(path):
+            return _serve(start_response, 403, PAGE_APPS_BLOCKED)
 
         if status in (S_CONTROL, S_OK):
             return None  # pass through to Odoo (db_filter enforces the DB)

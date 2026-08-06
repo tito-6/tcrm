@@ -1,0 +1,182 @@
+// TCRM Master — full-width responsive form layouts
+// Applied to Command Center / Tenants / Catalog / Provisioning / Permission Sets.
+
+// Ensure standard Odoo form/list actions under TCRM Master can scroll.
+// Note: avoid :has() and clamp(px, vw, px) — libsass rejects mixed units.
+.o_action_manager {
+  min-height: 0;
+}
+
+.o_action_manager .o_action {
+  min-height: 0;
+  max-height: 100%;
+}
+
+.o_action_manager .o_action > .o_content {
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.o_form_view.o_tcrm_master_form {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  .o_form_sheet_bg {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @media (min-width: 768px) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    @media (min-width: 1200px) {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+  }
+
+  .o_form_sheet,
+  .o_form_sheet.tcrm-form-sheet {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  // Nested editable lists (Domains, package lines, etc.) fill the sheet.
+  .o_field_one2many,
+  .o_field_x2many,
+  .o_list_view,
+  .o_list_renderer,
+  .o_list_table {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .o_list_renderer {
+    overflow-x: auto;
+  }
+
+  .o_list_table {
+    min-width: 100%;
+    table-layout: auto;
+  }
+
+  .o_notebook,
+  .o_notebook .tab-content,
+  .o_notebook .tab-pane,
+  .o_notebook .tab-pane.active {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  // ---- Domains strip: force full sheet width + readable headers ----
+  .o_tcrm_domains_page,
+  .o_notebook .tab-pane[name="domains"],
+  .o_notebook .o_notebook_content {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .o_tcrm_domains_x2many,
+  .o_field_widget.o_tcrm_domains_x2many,
+  .o_field_x2many.o_tcrm_domains_x2many {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    flex: 1 1 100% !important;
+  }
+
+  .o_tcrm_domains_x2many .o_list_renderer,
+  .o_tcrm_domains_list .o_list_renderer,
+  .o_tcrm_domains_x2many .o_list_table {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: none !important;
+  }
+
+  .o_tcrm_domains_x2many .o_list_table th,
+  .o_tcrm_domains_x2many .o_list_table td,
+  .o_tcrm_domains_list .o_list_table th,
+  .o_tcrm_domains_list .o_list_table td {
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .o_tcrm_domains_x2many .o_list_table th[data-name="domain"],
+  .o_tcrm_domains_x2many .o_list_table td[name="domain"],
+  .o_tcrm_domains_x2many .o_data_cell[name="domain"],
+  .o_tcrm_domains_list .o_list_table th[data-name="domain"],
+  .o_tcrm_domains_list .o_list_table .o_data_cell[name="domain"] {
+    min-width: 22rem;
+    width: 55%;
+    white-space: normal;
+  }
+
+  .o_tcrm_domains_x2many .o_list_table th[data-name="is_primary"],
+  .o_tcrm_domains_x2many .o_list_table th[data-name="active"],
+  .o_tcrm_domains_x2many .o_list_table th[data-name="verified"],
+  .o_tcrm_domains_x2many .o_list_table th[data-name="ssl_status"],
+  .o_tcrm_domains_list .o_list_table th[data-name="is_primary"],
+  .o_tcrm_domains_list .o_list_table th[data-name="active"],
+  .o_tcrm_domains_list .o_list_table th[data-name="verified"],
+  .o_tcrm_domains_list .o_list_table th[data-name="ssl_status"] {
+    min-width: 6.5rem;
+  }
+}
+
+// List views under TCRM Master apps also use available width + horizontal scroll.
+.o_action_manager .o_list_view {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  .o_list_renderer {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .o_list_table {
+    min-width: 640px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .o_form_view.o_tcrm_master_form {
+    .o_form_sheet_bg {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .o_inner_group {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .o_group {
+      display: block;
+    }
+
+    .o_notebook .nav-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .o_tcrm_domains_x2many .o_list_table th,
+    .o_tcrm_domains_x2many .o_list_table td {
+      white-space: normal;
+    }
+  }
+}

@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
+import re
+import time
 from datetime import datetime
+from urllib.parse import quote
 
+from markupsafe import Markup, escape
 from tcrm import _, api, fields, models
 from tcrm.exceptions import UserError
 
 from ..services.zernio_client import ZernioError
-from .marketing_ad import detect_placement_platform, extract_creative_preview
+from .marketing_ad import detect_placement_platform, extract_creative_preview, prefer_display_image_url
 
 _logger = logging.getLogger(__name__)
 
@@ -16,6 +20,75 @@ SOURCE_LABELS = {
     'facebook': 'Facebook',
     'meta': 'Meta',
 }
+
+
+# Meta Lead Forms often use locale-specific keys (TR: adı_soyadı, telefon_numarası, e-posta).
+_NAME_KEYS = (
+    'full_name', 'fullname', 'name', 'adı_soyadı', 'adi_soyadi', 'ad_soyad',
+    'adınız_soyadınız', 'adiniz_soyadiniz', 'first_name', 'last_name',
+)
+_EMAIL_KEYS = (
+    'email', 'e-posta', 'e_posta', 'eposta', 'email_address', 'work_email',
+)
+_PHONE_KEYS = (
+    'phone_number', 'phone', 'telefon_numarası', 'telefon_numarasi', 'telefon',
+    'mobile', 'mobile_number', 'cep_telefonu', 'gsm',
+)
+_COMPANY_KEYS = (
+    'şirket_adı', 'sirket_adi', 'company_name', 'company', 'işletme_adı', 'isletme_adi',
+)
+
+
+def _norm_field_key(key):
+    """Normalize Meta form field names for fuzzy matching."""
+    text = str(key or '').strip().lower()
+    # Common Turkish diacritics → ascii for matching
+    trans = str.maketrans({
+        'ı': 'i', 'İ': 'i', 'ş': 's', 'Ş': 's', 'ğ': 'g', 'Ğ': 'g',
+        'ü': 'u', 'Ü': 'u', 'ö': 'o', 'Ö': 'o', 'ç': 'c', 'Ç': 'c',
+    })
+    text = text.translate(trans)
+    text = re.sub(r'[^a-z0-9]+', '_', text)
+    return text.strip('_')
+
+
+def _fields_map_get(fields_map, candidates):
+    """Pick first non-empty value matching any candidate key (exact or normalized)."""
+    if not fields_map:
+        return False
+    # Exact keys first
+    for key in candidates:
+        val = fields_map.get(key)
+        if val not in (None, False, ''):
+            return str(val).strip() or False
+        # Case-insensitive exact
+        for raw_key, raw_val in fields_map.items():
+            if str(raw_key).lower() == key.lower() and raw_val not in (None, False, ''):
+                return str(raw_val).strip() or False
+    # Normalized fuzzy
+    wanted = {_norm_field_key(c) for c in candidates}
+    for raw_key, raw_val in fields_map.items():
+        if raw_val in (None, False, ''):
+            continue
+        if _norm_field_key(raw_key) in wanted:
+            return str(raw_val).strip() or False
+    return False
+
+
+def _extract_contact_from_fields(fields_map):
+    """Extract contact_name / email / phone / company from Meta lead field map."""
+    fields_map = fields_map or {}
+    first = _fields_map_get(fields_map, ('first_name', 'ad', 'adı', 'adi'))
+    last = _fields_map_get(fields_map, ('last_name', 'soyad', 'soyadı', 'soyadi'))
+    name = _fields_map_get(fields_map, _NAME_KEYS)
+    if not name and (first or last):
+        name = ' '.join(p for p in (first, last) if p).strip() or False
+    return {
+        'contact_name': name,
+        'email': _fields_map_get(fields_map, _EMAIL_KEYS),
+        'phone': _fields_map_get(fields_map, _PHONE_KEYS),
+        'company_name': _fields_map_get(fields_map, _COMPANY_KEYS),
+    }
 
 
 def _parse_meta_dt(value):
@@ -75,18 +148,32 @@ class MarketingLeadForm(models.Model):
             rec.imported_lead_count = len(rec.lead_ids.filtered('crm_lead_id'))
 
     @api.model
+    def _metaads_account_for_company(self):
+        """Connected Meta Ads Zernio account for this company (preferred lead-gen credential)."""
+        return self.env['tcrm.marketing.account'].sudo().search([
+            ('platform', '=', 'metaads'),
+            ('active', '=', True),
+            ('sync_enabled', '=', True),
+            ('company_id', '=', self.env.company.id),
+            ('status', '!=', 'disconnected'),
+        ], limit=1)
+
+    @api.model
     def action_sync_from_zernio(self):
         try:
             client = self.env['tcrm.marketing.profile']._get_zernio_client()
         except ZernioError as exc:
             raise UserError(str(exc)) from exc
 
+        metaads = self._metaads_account_for_company()
+        # Prefer Meta Ads credential first — Facebook page social may be disconnected
+        # while Meta Ads remains connected and can still pull /ads/lead-forms/{id}/leads.
         accounts = self.env['tcrm.marketing.account'].search([
-            ('platform', '=', 'facebook'),
+            ('platform', 'in', ('metaads', 'facebook')),
             ('active', '=', True),
             ('sync_enabled', '=', True),
             ('company_id', '=', self.env.company.id),
-        ])
+        ], order='platform desc, id asc')  # metaads before facebook
         synced = 0
         for social in accounts:
             try:
@@ -94,15 +181,18 @@ class MarketingLeadForm(models.Model):
             except ZernioError as exc:
                 _logger.warning('Lead forms sync failed for %s: %s', social.zernio_id, exc)
                 err = str(exc)
-                # Never persist secrets if a misconfigured client echoes them
                 for secret_key in ('api_key', 'apiKey', 'token', 'Bearer', 'authorization'):
                     if secret_key.lower() in err.lower():
                         err = _('Senkron hatası (ayrıntılar gizlendi).')
                         break
-                social.sudo().write({'sync_error': err[:2000]})
+                write_vals = {'sync_error': err[:2000]}
+                if 'not found' in err.lower() or 'social account' in err.lower():
+                    write_vals['status'] = 'disconnected'
+                social.sudo().write(write_vals)
                 continue
             social.sudo().write({
                 'sync_error': False,
+                'status': 'connected',
                 'last_sync_at': fields.Datetime.now(),
             })
             for item in data.get('forms') or []:
@@ -128,9 +218,43 @@ class MarketingLeadForm(models.Model):
                 if existing:
                     existing.write(vals)
                 else:
-                    self.sudo().create(vals)
+                    stale = self.sudo().search([
+                        ('zernio_form_id', '=', str(fid)),
+                        ('company_id', '=', self.env.company.id),
+                    ], limit=1)
+                    if stale:
+                        stale.write(vals)
+                    else:
+                        self.sudo().create(vals)
                 synced += 1
+
+        # If list_lead_forms is unavailable on Meta Ads but forms already exist
+        # (legacy Facebook social), remap them onto the connected Meta Ads account
+        # so lead pulls use a working credential.
+        if metaads:
+            stale_forms = self.sudo().search([
+                ('company_id', '=', self.env.company.id),
+                ('account_id.platform', '!=', 'metaads'),
+            ])
+            for form in stale_forms:
+                form.write({'account_id': metaads.id})
+                synced += 1
+                _logger.info(
+                    'Remapped lead form %s onto Meta Ads account %s',
+                    form.zernio_form_id,
+                    metaads.zernio_id,
+                )
         return synced
+
+    def _lead_pull_account(self):
+        """Zernio account id to use for form lead pulls (prefer Meta Ads)."""
+        self.ensure_one()
+        metaads = self._metaads_account_for_company()
+        if metaads:
+            if self.account_id.id != metaads.id:
+                self.sudo().write({'account_id': metaads.id})
+            return metaads
+        return self.account_id
 
     def action_sync_leads_button(self):
         for form in self:
@@ -145,30 +269,57 @@ class MarketingLeadForm(models.Model):
         except ZernioError as exc:
             raise UserError(str(exc)) from exc
 
+        pull_account = self._lead_pull_account()
+        if not pull_account or not pull_account.zernio_id:
+            raise UserError(_('Lead çekmek için bağlı bir Meta Ads hesabı bulunamadı.'))
+
         MetaLead = self.env['tcrm.marketing.meta.lead'].sudo()
         cursor = None
         created = 0
-        for _ in range(limit_pages):
-            data = client.list_form_leads(
+        bulk = MetaLead.with_context(marketing_skip_creative=True)
+        try:
+            for _ in range(limit_pages):
+                data = client.list_form_leads(
+                    self.zernio_form_id,
+                    account_id=pull_account.zernio_id,
+                    limit=50,
+                    cursor=cursor,
+                )
+                rows = data.get('leads') or []
+                for item in rows:
+                    lead = bulk._upsert_from_remote(item, form=self)
+                    if lead:
+                        created += 1
+                        if import_crm and not lead.crm_lead_id:
+                            lead.with_context(marketing_skip_creative=True).action_import_to_crm()
+                        elif import_crm and lead.crm_lead_id:
+                            lead._sync_crm_source()
+                pagination = data.get('pagination') or {}
+                cursor = pagination.get('cursor')
+                if not pagination.get('hasMore') or not cursor:
+                    break
+                # Gentle pacing between pages to reduce Zernio rate limits
+                time.sleep(1.5)
+        except ZernioError as exc:
+            err = str(exc)
+            _logger.warning(
+                'Lead pull failed form=%s account=%s: %s',
                 self.zernio_form_id,
-                account_id=self.account_id.zernio_id,
-                limit=50,
-                cursor=cursor,
+                pull_account.zernio_id,
+                exc,
             )
-            rows = data.get('leads') or []
-            for item in rows:
-                lead = MetaLead._upsert_from_remote(item, form=self)
-                if lead:
-                    created += 1
-                    if import_crm and not lead.crm_lead_id:
-                        lead.action_import_to_crm()
-                    elif import_crm and lead.crm_lead_id:
-                        lead._sync_crm_source()
-            pagination = data.get('pagination') or {}
-            cursor = pagination.get('cursor')
-            if not pagination.get('hasMore') or not cursor:
-                break
+            write_vals = {'sync_error': err[:2000]}
+            if 'not found' in err.lower() or 'social account' in err.lower():
+                write_vals['status'] = 'disconnected'
+            pull_account.sudo().write(write_vals)
+            raise
         self.last_sync_at = fields.Datetime.now()
+        if pull_account.sync_error:
+            pull_account.sudo().write({
+                'sync_error': False,
+                'status': 'connected',
+                'last_sync_at': fields.Datetime.now(),
+            })
         return created
 
 
@@ -219,30 +370,37 @@ class MarketingMetaLead(models.Model):
     creative_media_type = fields.Char(
         string='Kreatif Tipi',
         compute='_compute_creative_preview',
+        store=True,
     )
     creative_image_url = fields.Char(
-        string='Kreatif Görsel',
+        string='Kreatif Görsel URL',
         compute='_compute_creative_preview',
+        store=True,
     )
     creative_video_url = fields.Char(
-        string='Kreatif Video',
+        string='Kreatif Video URL',
         compute='_compute_creative_preview',
+        store=True,
     )
     creative_thumbnail_url = fields.Char(
-        string='Kreatif Önizleme',
+        string='Kreatif Önizleme URL',
         compute='_compute_creative_preview',
+        store=True,
     )
     creative_body = fields.Text(
         string='Kreatif Metin',
         compute='_compute_creative_preview',
+        store=True,
     )
     creative_permalink = fields.Char(
         string='Kreatif Bağlantı',
         compute='_compute_creative_preview',
+        store=True,
     )
     creative_html = fields.Html(
-        string='Kreatif Önizleme',
+        string='Kreatif Önizleme HTML',
         compute='_compute_creative_preview',
+        store=True,
         sanitize=False,
     )
 
@@ -312,6 +470,20 @@ class MarketingMetaLead(models.Model):
                 return ad
         return cached or MetaAd.browse()
 
+    def action_refresh_creative_preview(self):
+        """Recompute creative fields from cached Meta ads (optionally fetch missing)."""
+        skip_fetch = self.env.context.get('marketing_skip_creative')
+        for rec in self:
+            if rec.ad_id and not skip_fetch:
+                rec._ensure_ad_creative_cached(rec.ad_id)
+        self.invalidate_recordset([
+            'creative_media_type', 'creative_image_url', 'creative_video_url',
+            'creative_thumbnail_url', 'creative_body', 'creative_permalink', 'creative_html',
+        ])
+        self._compute_creative_preview()
+        return True
+
+    @api.depends('ad_id', 'ad_name', 'campaign_name', 'campaign_id_remote', 'form_id')
     def _compute_creative_preview(self):
         MetaAd = self.env['tcrm.marketing.meta.ad'].sudo()
         Campaign = self.env['tcrm.marketing.campaign'].sudo()
@@ -347,73 +519,71 @@ class MarketingMetaLead(models.Model):
                         cached = ad
                         preview = prev
                         break
-            from markupsafe import escape, Markup
 
             media_type = preview.get('media_type') or 'none'
             image_url = preview.get('image_url') or ''
-            thumb = preview.get('thumbnail_url') or image_url or ''
+            thumb_raw = preview.get('thumbnail_url') or ''
+            thumb = prefer_display_image_url(image_url, thumb_raw) or preview.get('display_image_url') or ''
             video_url = preview.get('video_url') or ''
             permalink = preview.get('permalink') or preview.get('link_url') or ''
             body = preview.get('body') or ''
             rec.creative_media_type = media_type
             rec.creative_image_url = image_url or False
             rec.creative_video_url = video_url or False
-            rec.creative_thumbnail_url = thumb or False
+            rec.creative_thumbnail_url = thumb or thumb_raw or False
             rec.creative_body = body or False
             rec.creative_permalink = permalink or False
             parts = []
-            if media_type == 'video' and (thumb or video_url):
-                href = escape(video_url or permalink or thumb)
-                img = escape(thumb or '')
-                parts.append(
-                    f'<div style="margin-bottom:8px">'
-                    f'<span style="display:inline-block;padding:2px 8px;border-radius:4px;'
-                    f'background:#ede9fe;color:#6d28d9;font-size:12px;font-weight:600">'
-                    f'VİDEO / REEL</span></div>'
-                )
+            v_id = preview.get('video_id') or ''
+
+            if media_type == 'video':
+                parts.append('<div style="margin-bottom:8px"><span style="background:#ede9fe;color:#6d28d9;padding:3px 10px;border-radius:4px;font-weight:600;font-size:11px"><i class="fa fa-video-camera me-1"></i>VİDEO / REEL KREATİF</span></div>')
+                if video_url and ('facebook.com' in video_url or 'fb.watch' in video_url or v_id):
+                    fb_video_href = video_url if 'facebook.com' in video_url else f'https://www.facebook.com/watch/?v={v_id}'
+                    encoded_href = quote(fb_video_href)
+                    parts.append(
+                        f'<div style="max-width:500px;margin:0 auto"><iframe src="https://www.facebook.com/plugins/video.php?href={encoded_href}&amp;show_text=0" '
+                        f'width="100%" height="280" style="border:none;overflow:hidden;border-radius:8px" scrolling="no" frameborder="0" allowfullscreen="true"></iframe></div>'
+                    )
+                elif video_url and video_url.endswith(('.mp4', '.mov', '.webm')):
+                    parts.append(
+                        f'<div style="max-width:500px;margin:0 auto"><video controls style="max-height:280px;width:100%;border-radius:8px" poster="{escape(thumb)}"><source src="{escape(video_url)}"/></video></div>'
+                    )
+                elif thumb:
+                    parts.append(
+                        f'<div style="max-width:480px;margin:0 auto"><a href="{escape(video_url or permalink or thumb)}" target="_blank" rel="noopener"><img src="{escape(thumb)}" referrerpolicy="no-referrer" style="max-height:260px;max-width:100%;border-radius:8px;object-fit:contain"/></a></div>'
+                    )
+                elif permalink and 'instagram.com' in permalink:
+                    clean_p = permalink.split('?')[0].rstrip('/')
+                    parts.append(
+                        f'<div style="max-width:400px;margin:0 auto"><iframe src="{clean_p}/embed" width="100%" height="380" style="border:none;border-radius:8px" frameborder="0" scrolling="no"></iframe></div>'
+                    )
+
+            elif media_type == 'image' or thumb:
+                parts.append('<div style="margin-bottom:8px"><span style="background:#cffafe;color:#0e7490;padding:3px 10px;border-radius:4px;font-weight:600;font-size:11px"><i class="fa fa-picture-o me-1"></i>GÖRSEL KREATİF</span></div>')
                 if thumb:
                     parts.append(
-                        f'<a href="{href}" target="_blank" rel="noopener">'
-                        f'<img src="{img}" alt="Video kreatif" '
-                        f'style="max-height:280px;max-width:100%;border-radius:8px;object-fit:contain"/>'
-                        f'</a>'
+                        f'<div style="max-width:480px;margin:0 auto"><a href="{escape(permalink or thumb)}" target="_blank" rel="noopener">'
+                        f'<img src="{escape(thumb)}" referrerpolicy="no-referrer" crossorigin="anonymous" style="max-height:280px;max-width:100%;border-radius:8px;object-fit:contain"/>'
+                        f'</a></div>'
                     )
-                elif video_url:
+                elif permalink and 'instagram.com' in permalink:
+                    clean_p = permalink.split('?')[0].rstrip('/')
                     parts.append(
-                        f'<video controls style="max-height:280px;max-width:100%;border-radius:8px">'
-                        f'<source src="{escape(video_url)}"/></video>'
+                        f'<div style="max-width:400px;margin:0 auto"><iframe src="{clean_p}/embed" width="100%" height="380" style="border:none;border-radius:8px" frameborder="0" scrolling="no"></iframe></div>'
                     )
-            elif media_type == 'image' and thumb:
-                parts.append(
-                    f'<div style="margin-bottom:8px">'
-                    f'<span style="display:inline-block;padding:2px 8px;border-radius:4px;'
-                    f'background:#cffafe;color:#0e7490;font-size:12px;font-weight:600">'
-                    f'GÖRSEL</span></div>'
-                    f'<img src="{escape(thumb)}" alt="Görsel kreatif" '
-                    f'style="max-height:280px;max-width:100%;border-radius:8px;object-fit:contain"/>'
-                )
+
             elif permalink:
                 parts.append(
-                    f'<div style="margin-bottom:8px">'
-                    f'<span style="display:inline-block;padding:2px 8px;border-radius:4px;'
-                    f'background:#fce7f3;color:#9d174d;font-size:12px;font-weight:600">'
-                    f'INSTAGRAM / FACEBOOK</span></div>'
-                    f'<p><a class="btn btn-sm btn-primary" href="{escape(permalink)}" '
-                    f'target="_blank" rel="noopener">Orijinal gönderiyi / reeli aç</a></p>'
+                    f'<div style="margin-bottom:8px"><span style="background:#fce7f3;color:#9d174d;padding:3px 10px;border-radius:4px;font-weight:600;font-size:11px"><i class="fa fa-link me-1"></i>META AD</span></div>'
+                    f'<p><a class="btn btn-sm btn-outline-primary" href="{escape(permalink)}" target="_blank" rel="noopener">Kreatif Bağlantısını Aç &rarr;</a></p>'
                 )
             else:
-                parts.append(
-                    '<p style="color:#64748b">Kreatif önizleme yok. '
-                    'Kampanyaları senkronize ederek reklam kreatifini yükleyin.</p>'
-                )
+                parts.append('<p style="color:#94a3b8;font-size:12px">Görsel / Video kreatif önizleme bilgisi henüz yüklenmedi.</p>')
+
             if body:
                 parts.append(
                     f'<p style="margin-top:10px;white-space:pre-wrap">{escape(body)}</p>'
-                )
-            if permalink and media_type != 'link':
-                parts.append(
-                    f'<p><a href="{escape(permalink)}" target="_blank" rel="noopener">'
-                    f'Orijinal gönderiyi aç</a></p>'
                 )
             rec.creative_html = Markup(''.join(parts))
 
@@ -431,8 +601,12 @@ class MarketingMetaLead(models.Model):
                 parts.append(rec.phone)
             try:
                 data = json.loads(rec.fields_json or '{}')
+                skip_norms = {
+                    _norm_field_key(k)
+                    for k in (_NAME_KEYS + _EMAIL_KEYS + _PHONE_KEYS + _COMPANY_KEYS)
+                }
                 for k, v in (data or {}).items():
-                    if k in ('full_name', 'email', 'phone_number', 'şirket_adı'):
+                    if _norm_field_key(k) in skip_norms:
                         continue
                     parts.append(f'{k}: {v}')
             except Exception:
@@ -441,19 +615,21 @@ class MarketingMetaLead(models.Model):
 
     @api.model
     def _resolve_source_from_ad(self, ad_id, item=None):
-        """Resolve Instagram/Facebook/Meta from cached ad, remote payload, or heuristics."""
+        """Resolve Instagram/Facebook/Meta from cached ad, remote payload, or explicit attributes."""
         item = item or {}
         explicit = (
             item.get('platform')
             or item.get('publisherPlatform')
             or item.get('publisher_platform')
+            or item.get('channel')
+            or item.get('source')
             or (item.get('ad') or {}).get('platform')
         )
         if isinstance(explicit, str):
             explicit = explicit.lower().strip()
-            if explicit in ('ig', 'instagram'):
+            if explicit in ('ig', 'instagram', 'instagram_lead_gen'):
                 return 'instagram', item.get('adName') or item.get('ad_name'), item.get('campaignName')
-            if explicit in ('fb', 'facebook'):
+            if explicit in ('fb', 'facebook', 'facebook_lead_gen', 'messenger'):
                 return 'facebook', item.get('adName') or item.get('ad_name'), item.get('campaignName')
 
         ad_name = item.get('adName') or item.get('ad_name') or False
@@ -463,30 +639,40 @@ class MarketingMetaLead(models.Model):
         if ad_id:
             MetaAd = self.env['tcrm.marketing.meta.ad'].sudo()
             cached = MetaAd.search([('platform_ad_id', '=', str(ad_id))], limit=1)
-            if cached:
+            if cached and cached.source_platform in ('facebook', 'instagram'):
                 return (
-                    cached.source_platform or 'meta',
+                    cached.source_platform,
                     cached.name,
                     cached.campaign_id.name if cached.campaign_id else camp_name,
                 )
-            # Try Zernio ad lookup (works for synced ads / alternate ID dialects)
-            try:
-                client = self.env['tcrm.marketing.profile']._get_zernio_client()
-                remote = client.get_ad(str(ad_id))
-                if remote:
-                    creative = remote.get('creative') or {}
-                    ad_name = ad_name or remote.get('name') or remote.get('adName')
-                    camp_name = camp_name or remote.get('campaignName')
-                    platform = detect_placement_platform(
-                        name=ad_name or '',
-                        campaign_name=camp_name or '',
-                        creative=creative,
-                    )
-                    return platform, ad_name, camp_name
-            except ZernioError:
-                pass
+            # Skip remote ad lookup during bulk lead sync (rate-limit heavy)
+            if not self.env.context.get('marketing_skip_creative'):
+                # Try Zernio ad lookup
+                try:
+                    client = self.env['tcrm.marketing.profile']._get_zernio_client()
+                    remote = client.get_ad(str(ad_id))
+                    if remote:
+                        creative = remote.get('creative') or {}
+                        ad_name = ad_name or remote.get('name') or remote.get('adName')
+                        camp_name = camp_name or remote.get('campaignName')
+                        platform = detect_placement_platform(
+                            name=ad_name or '',
+                            campaign_name=camp_name or '',
+                            creative=creative,
+                        )
+                        return platform, ad_name, camp_name
+                except Exception:
+                    pass
 
-        # Heuristic from any names present on the lead payload / form
+        # Check explicit naming in ad / campaign name
+        text = f"{ad_name or ''} {camp_name or ''}".lower()
+        if 'facebook' in text or r'\bfb\b' in text:
+            if 'instagram' not in text:
+                return 'facebook', ad_name, camp_name
+        if 'instagram' in text or 'insta' in text:
+            if 'facebook' not in text:
+                return 'instagram', ad_name, camp_name
+
         platform = detect_placement_platform(
             name=ad_name or '',
             campaign_name=camp_name or '',
@@ -497,16 +683,17 @@ class MarketingMetaLead(models.Model):
 
     @api.model
     def _fallback_source_for_form(self, form):
-        """When ad is unknown, infer from form-named campaigns on the same page."""
+        """When ad is unknown, infer from form-named campaigns or fallback to Page platform."""
         Campaign = self.env['tcrm.marketing.campaign'].sudo()
         AdAccount = self.env['tcrm.marketing.ad.account'].sudo()
         form_token = (form.name or '').split('|')[0].strip()
         page_name = (form.account_id.name or '').strip()
-        # Prefer the ad account that matches the Page name (e.g. Model Sanayi Merkezi)
+
         preferred_acts = AdAccount.search([
             ('account_id', '=', form.account_id.id),
             ('name', 'ilike', page_name[:20] if page_name else ''),
         ]) if page_name else AdAccount.browse()
+
         if preferred_acts:
             domain_base = [('ad_account_id', 'in', preferred_acts.ids)]
         else:
@@ -515,13 +702,13 @@ class MarketingMetaLead(models.Model):
                 ('account_id', '=', form.account_id.id),
                 ('ad_account_id.account_id', '=', form.account_id.id),
             ]
+
         camps = Campaign.search(
             domain_base + [
-                '|', '|', '|',
-                ('name', 'ilike', 'form'),
-                ('name', 'ilike', 'story'),
+                '|', '|',
                 ('name', 'ilike', 'instagram'),
                 ('name', 'ilike', 'facebook'),
+                ('name', 'ilike', 'form'),
             ],
             limit=80,
         )
@@ -530,30 +717,23 @@ class MarketingMetaLead(models.Model):
                 domain_base + [('name', 'ilike', form_token[:24])],
                 limit=40,
             )
-        if not camps:
-            return 'meta'
-        ig_hits = sum(
-            1 for c in camps
-            if c.platform == 'instagram'
-            or 'instagram' in (c.name or '').lower()
-            or (
-                'story' in (c.name or '').lower()
-                and 'facebook' not in (c.name or '').lower()
-            )
-        )
-        fb_hits = sum(
-            1 for c in camps
-            if c.platform == 'facebook'
-            or (
-                'facebook' in (c.name or '').lower()
-                and 'instagram' not in (c.name or '').lower()
-            )
-        )
-        if ig_hits and ig_hits > fb_hits:
-            return 'instagram'
-        if fb_hits and fb_hits > ig_hits:
-            return 'facebook'
-        return 'meta'
+
+        if camps:
+            ig_hits = sum(1 for c in camps if c.platform == 'instagram' or 'instagram' in (c.name or '').lower())
+            fb_hits = sum(1 for c in camps if c.platform == 'facebook' or 'facebook' in (c.name or '').lower())
+            if ig_hits > fb_hits:
+                return 'instagram'
+            if fb_hits > ig_hits:
+                return 'facebook'
+
+        # Default fallback: Meta Lead Gen forms are Facebook-owned even when
+        # pulled through a Meta Ads Zernio credential.
+        if form and form.account_id:
+            if form.account_id.platform in ('facebook', 'metaads'):
+                return 'facebook'
+            if form.account_id.platform == 'instagram':
+                return 'instagram'
+        return 'facebook'
 
     @api.model
     def _upsert_from_remote(self, item, form):
@@ -572,16 +752,14 @@ class MarketingMetaLead(models.Model):
         source, ad_name, camp_name = self._resolve_source_from_ad(ad_id, item)
         if source == 'meta' and not ad_name:
             source = self._fallback_source_for_form(form)
+        contact = _extract_contact_from_fields(fields_map)
         vals = {
             'leadgen_id': lid,
             'form_id': form.id,
-            'contact_name': fields_map.get('full_name') or fields_map.get('FULL_NAME') or False,
-            'email': fields_map.get('email') or fields_map.get('EMAIL') or False,
-            'phone': fields_map.get('phone_number') or fields_map.get('PHONE') or False,
-            'company_name': fields_map.get('şirket_adı')
-            or fields_map.get('company_name')
-            or fields_map.get('COMPANY_NAME')
-            or False,
+            'contact_name': contact['contact_name'],
+            'email': contact['email'],
+            'phone': contact['phone'],
+            'company_name': contact['company_name'],
             'ad_id': ad_id,
             'ad_name': ad_name or False,
             'campaign_id_remote': item.get('campaignId') and str(item.get('campaignId')) or False,
@@ -639,6 +817,39 @@ class MarketingMetaLead(models.Model):
             if write_vals:
                 rec.crm_lead_id.sudo().write(write_vals)
 
+    def action_reparse_contact_fields(self):
+        """Re-extract name/email/phone from fields_json (locale form keys) and push to CRM."""
+        records = self or self.search([])
+        updated = 0
+        for rec in records:
+            try:
+                data = json.loads(rec.fields_json or '{}')
+            except Exception:
+                data = {}
+            contact = _extract_contact_from_fields(data)
+            write_vals = {k: v for k, v in contact.items() if v}
+            if not write_vals:
+                continue
+            rec.write(write_vals)
+            updated += 1
+            if rec.crm_lead_id:
+                crm_vals = {}
+                if contact['contact_name']:
+                    # Replace placeholder "Meta Lead <id>" names with real contact
+                    cur = rec.crm_lead_id.name or ''
+                    if (not cur) or cur.startswith('Meta Lead ') or cur == rec.leadgen_id:
+                        crm_vals['name'] = contact['contact_name']
+                    crm_vals['contact_name'] = contact['contact_name']
+                if contact['email']:
+                    crm_vals['email_from'] = contact['email']
+                if contact['phone']:
+                    crm_vals['phone'] = contact['phone']
+                if contact['company_name']:
+                    crm_vals['partner_name'] = contact['company_name']
+                if crm_vals:
+                    rec.crm_lead_id.sudo().write(crm_vals)
+        return updated
+
     def action_import_to_crm(self):
         CrmLead = self.env['crm.lead'].sudo()
 
@@ -646,6 +857,21 @@ class MarketingMetaLead(models.Model):
             if rec.crm_lead_id:
                 rec.state = 'imported'
                 rec._sync_crm_source()
+                # Keep CRM contact fields in sync when Meta lead was reparsed
+                contact_vals = {}
+                if rec.contact_name and (
+                    not rec.crm_lead_id.contact_name
+                    or (rec.crm_lead_id.name or '').startswith('Meta Lead ')
+                ):
+                    contact_vals['contact_name'] = rec.contact_name
+                    if (rec.crm_lead_id.name or '').startswith('Meta Lead '):
+                        contact_vals['name'] = rec.contact_name
+                if rec.email and not rec.crm_lead_id.email_from:
+                    contact_vals['email_from'] = rec.email
+                if rec.phone and not rec.crm_lead_id.phone:
+                    contact_vals['phone'] = rec.phone
+                if contact_vals:
+                    rec.crm_lead_id.sudo().write(contact_vals)
                 continue
             # Re-resolve source in case ads were synced after lead pull
             if rec.ad_id:
@@ -686,9 +912,19 @@ class MarketingMetaLead(models.Model):
                 'company_id': rec.company_id.id,
                 'source_id': source.id,
             }
-            crm = CrmLead.create(vals)
-            # Ensure creative is fetched for this ad (image / video / reel)
-            if rec.ad_id:
+            # Oluşturma Tarihi = original Meta form fill time (not TCRM import time)
+            if rec.created_time:
+                vals['create_date'] = rec.created_time
+            crm = CrmLead.with_context(tracking_disable=True).create(vals)
+            if rec.created_time and crm.create_date != rec.created_time:
+                # Fallback for ORM builds that ignore create_date in vals
+                self.env.cr.execute(
+                    'UPDATE crm_lead SET create_date = %s WHERE id = %s',
+                    (fields.Datetime.to_string(rec.created_time), crm.id),
+                )
+                crm.invalidate_recordset(['create_date'])
+            # Creative fetch hits Zernio heavily — skip during bulk lead sync
+            if rec.ad_id and not self.env.context.get('marketing_skip_creative'):
                 rec._ensure_ad_creative_cached(rec.ad_id)
             if 'crm.tag' in self.env:
                 Tag = self.env['crm.tag'].sudo()
@@ -766,8 +1002,54 @@ class MarketingMetaLead(models.Model):
             ('account_id.sync_enabled', '=', True),
         ])
         for form in forms:
-            total += form.action_sync_leads(
-                limit_pages=max_pages_per_form,
-                import_crm=import_crm,
-            )
+            try:
+                total += form.action_sync_leads(
+                    limit_pages=max_pages_per_form,
+                    import_crm=import_crm,
+                )
+            except (ZernioError, UserError) as exc:
+                _logger.warning(
+                    'Skipping form %s during sync_all: %s',
+                    form.zernio_form_id,
+                    exc,
+                )
+                continue
         return total
+
+    @api.model
+    def _cron_sync_meta_leads_to_crm(self):
+        """Scheduled: pull Meta lead forms/leads from Zernio and create CRM opportunities.
+
+        Runs without requiring a manual Marketing Hub Sync click.
+        Prefers the connected Meta Ads Zernio credential for lead pulls.
+        """
+        companies = self.env['res.company'].sudo().search([])
+        grand_total = 0
+        for company in companies:
+            Lead = self.with_company(company).sudo()
+            Account = self.env['tcrm.marketing.account'].with_company(company).sudo()
+            try:
+                Account.action_sync_from_zernio()
+            except Exception as exc:
+                _logger.warning(
+                    'Marketing Hub account refresh failed company=%s: %s',
+                    company.id,
+                    exc,
+                )
+            try:
+                pulled = Lead.action_sync_all_forms(
+                    import_crm=True,
+                    max_pages_per_form=10,
+                )
+                grand_total += int(pulled or 0)
+                _logger.info(
+                    'Marketing Hub auto Meta→CRM sync company=%s pulled=%s',
+                    company.id,
+                    pulled,
+                )
+            except Exception:
+                _logger.exception(
+                    'Marketing Hub auto Meta→CRM sync failed company=%s',
+                    company.id,
+                )
+        return grand_total

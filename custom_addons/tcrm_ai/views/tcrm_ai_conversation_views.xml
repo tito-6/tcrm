@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tcrm_ai_conversation_list" model="ir.ui.view">
+        <field name="name">tcrm.ai.conversation.list</field>
+        <field name="model">tcrm.ai.assistant.conversation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="company_id"/>
+                <field name="message_count"/>
+                <field name="total_tokens"/>
+                <field name="last_message_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tcrm_ai_conversation_form" model="ir.ui.view">
+        <field name="name">tcrm.ai.conversation.form</field>
+        <field name="model">tcrm.ai.assistant.conversation</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_delete_conversation" string="Sil" type="object" class="btn-danger"
+                            confirm="Bu sohbet kalıcı olarak silinsin mi?"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="user_id" readonly="1"/>
+                        <field name="company_id" readonly="1"/>
+                        <field name="language"/>
+                        <field name="total_tokens" readonly="1"/>
+                    </group>
+                    <field name="message_ids">
+                        <list>
+                            <field name="role"/>
+                            <field name="content"/>
+                            <field name="tool_name"/>
+                            <field name="total_tokens"/>
+                            <field name="create_date"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tcrm_ai_conversation" model="ir.actions.act_window">
+        <field name="name">Sohbetler</field>
+        <field name="res_model">tcrm.ai.assistant.conversation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_tcrm_ai_report" model="ir.actions.act_window">
+        <field name="name">AI Raporları</field>
+        <field name="res_model">tcrm.ai.report</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_tcrm_ai_report_list" model="ir.ui.view">
+        <field name="name">tcrm.ai.report.list</field>
+        <field name="model">tcrm.ai.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="period_days"/>
+                <field name="record_count"/>
+                <field name="generation_date"/>
+            </list>
+        </field>
+    </record>
+</odoo>

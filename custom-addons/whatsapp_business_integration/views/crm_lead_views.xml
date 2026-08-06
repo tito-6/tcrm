@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend CRM Lead Form View with WhatsApp -->
+    <record id="view_crm_lead_form_whatsapp" model="ir.ui.view">
+        <field name="name">crm.lead.form.whatsapp</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add WhatsApp button to button box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_send_whatsapp_message" type="object" 
+                        class="oe_stat_button" icon="fa-whatsapp"
+                        invisible="not has_whatsapp">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Send WhatsApp</span>
+                    </div>
+                </button>
+                <button name="action_view_whatsapp_conversations" type="object" 
+                        class="oe_stat_button" icon="fa-comments"
+                        invisible="whatsapp_conversation_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="whatsapp_conversation_count"/>
+                        </span>
+                        <span class="o_stat_text">WhatsApp</span>
+                    </div>
+                </button>
+                <button name="action_view_whatsapp_messages" type="object" 
+                        class="oe_stat_button" icon="fa-envelope-o"
+                        invisible="whatsapp_message_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="whatsapp_message_count"/>
+                        </span>
+                        <span class="o_stat_text">Messages</span>
+                    </div>
+                </button>
+            </xpath>
+            
+            <!-- Add WhatsApp phone field -->
+            <xpath expr="//field[@name='mobile']" position="after">
+                <field name="whatsapp_number" placeholder="WhatsApp Number"/>
+                <field name="has_whatsapp" invisible="1"/>
+            </xpath>
+            
+            <!-- Add WhatsApp tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="WhatsApp" name="whatsapp" invisible="whatsapp_conversation_count == 0">
+                    <group>
+                        <group>
+                            <field name="last_whatsapp_message_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <button name="send_whatsapp_welcome_message" type="object" 
+                                    string="Send Welcome Message" class="btn-secondary"
+                                    invisible="not has_whatsapp"/>
+                        </group>
+                    </group>
+                    
+                    <separator string="Conversations"/>
+                    <field name="whatsapp_conversation_ids" readonly="1">
+                        <list>
+                            <field name="display_name"/>
+                            <field name="phone_number"/>
+                            <field name="message_count"/>
+                            <field name="unread_count" widget="badge"/>
+                            <field name="last_message_date"/>
+                            <field name="last_message_preview"/>
+                            <field name="status"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

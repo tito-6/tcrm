@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tcrm_integration_request_perla_admin,access_tcrm_integration_request_perla_admin,model_tcrm_integration_request,group_perla_integration_admin,1,1,1,1

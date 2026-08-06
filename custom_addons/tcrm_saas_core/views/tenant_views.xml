@@ -4,16 +4,45 @@
         <field name="name">tcrm.tenant.form</field>
         <field name="model">tcrm.tenant</field>
         <field name="arch" type="xml">
-            <form class="tcrm-form-sheet">
+            <form class="o_tcrm_master_form tcrm-form-sheet">
                 <header>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active"/>
                 </header>
                 <sheet>
-                    <group string="Tenant">
-                        <field name="name" placeholder="e.g. acme"/>
-                        <field name="client_name" placeholder="Client display name"/>
-                        <field name="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Tenant Code"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. perlavillalari" class="w-100"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="tenant_info" string="Tenant">
+                            <field name="client_name" placeholder="Client display name"/>
+                            <field name="active"/>
+                            <field name="primary_domain" readonly="1"/>
+                        </group>
+                        <group name="company_info" string="Company">
+                            <field name="company_id"/>
+                            <field name="sector_id"/>
+                            <field name="is_frozen"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Domains" name="domains" class="o_tcrm_domains_page">
+                            <field name="domain_ids" nolabel="1" mode="list"
+                                     class="o_tcrm_domains_x2many">
+                                <list editable="bottom" multi_edit="1"
+                                      class="o_tcrm_domains_list">
+                                    <field name="domain" string="Domain"
+                                             placeholder="e.g. perlavillalari.tcrm.online"/>
+                                    <field name="is_primary" string="Primary"/>
+                                    <field name="active" string="Active"/>
+                                    <field name="verified" string="Verified"/>
+                                    <field name="ssl_status" string="SSL" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -25,8 +54,10 @@
         <field name="arch" type="xml">
             <list class="tcrm-mt-2" create="1" delete="1" edit="1">
                 <header/>
-                <field name="name" string="Subdomain / DB"/>
+                <field name="name" string="Tenant Code"/>
                 <field name="client_name"/>
+                <field name="primary_domain" optional="show"/>
+                <field name="db_name" optional="show"/>
                 <field name="state" widget="badge" decoration-success="state == 'active'" decoration-muted="state == 'draft'"/>
                 <field name="active"/>
             </list>
@@ -39,6 +70,6 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_tcrm_root" name="TCRM Master" sequence="900" groups="base.group_system"/>
+    <menuitem id="menu_tcrm_root" name="TCRM Master" sequence="900" groups="base.group_system,tcrm_saas_core.group_tcrm_tenant_admin"/>
     <menuitem id="menu_tcrm_tenant" name="Tenants" parent="menu_tcrm_root" action="action_tcrm_tenant"/>
 </tcrm>

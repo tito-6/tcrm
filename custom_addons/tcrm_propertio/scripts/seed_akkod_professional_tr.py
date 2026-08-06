@@ -27,7 +27,7 @@ def find_or_create(model, domain, vals):
     return rec or S(model).create(vals)
 
 
-company = S("res.company").search([("name", "ilike", "AK KOD")], limit=1) or env.company
+company = S("res.company").search(["|", ("name", "ilike", "AKOD"), ("name", "ilike", "AK KOD")], limit=1) or env.company
 print("Şirket:", company.name)
 
 try_cur = S("res.currency").search([("name", "=", "TRY")], limit=1)

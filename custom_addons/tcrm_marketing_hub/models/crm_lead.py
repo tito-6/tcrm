@@ -178,6 +178,27 @@ class CrmLead(models.Model):
             lead.mh_last_sync_at = last_sync or False
             lead.mh_leadgen_id = meta.leadgen_id or False
             lead.mh_sync_state = state_labels.get(meta.state, meta.state) or False
+            # Prefer meta-lead stored creative; fall back to linked Meta ad cache
+            media_type = meta.creative_media_type or ''
+            creative_html = meta.creative_html or ''
+            if meta.ad_id and (
+                media_type in ('', 'none', 'link')
+                or not creative_html
+                or 'henüz yüklenmedi' in creative_html
+            ):
+                ad = self.env['tcrm.marketing.meta.ad'].sudo().search(
+                    [('platform_ad_id', '=', str(meta.ad_id))],
+                    limit=1,
+                )
+                if ad and (ad.creative_media_type or '') in ('image', 'video'):
+                    lead.mh_creative_media_type = ad.creative_media_type or False
+                    lead.mh_creative_image_url = ad.creative_image_url or False
+                    lead.mh_creative_video_url = ad.creative_video_url or False
+                    lead.mh_creative_thumbnail_url = ad.creative_thumbnail_url or False
+                    lead.mh_creative_body = ad.creative_body or False
+                    lead.mh_creative_permalink = ad.creative_permalink or False
+                    lead.mh_creative_html = ad.creative_html or False
+                    continue
             lead.mh_creative_media_type = meta.creative_media_type or False
             lead.mh_creative_image_url = meta.creative_image_url or False
             lead.mh_creative_video_url = meta.creative_video_url or False

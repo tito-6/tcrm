@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_offer_from_template_form" model="ir.ui.view">
+        <field name="name">tcrm.offer.from.template.form</field>
+        <field name="model">tcrm.offer.from.template</field>
+        <field name="arch" type="xml">
+            <form string="Şablondan Teklif">
+                <group>
+                    <field name="template_id"/>
+                    <field name="partner_id"/>
+                    <field name="partner_contact_name"/>
+                    <field name="title"/>
+                </group>
+                <footer>
+                    <button name="action_create" type="object" string="Teklif Oluştur" class="btn-primary"/>
+                    <button string="İptal" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_offer_from_template" model="ir.actions.act_window">
+        <field name="name">Şablondan Teklif</field>
+        <field name="res_model">tcrm.offer.from.template</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

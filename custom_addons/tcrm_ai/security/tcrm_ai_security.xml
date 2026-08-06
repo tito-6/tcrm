@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_tcrm_ai" model="ir.module.category">
+            <field name="name">TCRM AI</field>
+            <field name="sequence">55</field>
+        </record>
+
+        <record id="privilege_tcrm_ai" model="res.groups.privilege">
+            <field name="name">TCRM AI</field>
+            <field name="category_id" ref="module_category_tcrm_ai"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_tcrm_ai_user" model="res.groups">
+            <field name="name">TCRM AI User</field>
+            <field name="privilege_id" ref="privilege_tcrm_ai"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Can use TCRM AI Assistant chat when entitlement and configuration allow it.</field>
+        </record>
+
+        <record id="group_tcrm_ai_admin" model="res.groups">
+            <field name="name">TCRM AI Administrator</field>
+            <field name="privilege_id" ref="privilege_tcrm_ai"/>
+            <field name="implied_ids" eval="[(4, ref('group_tcrm_ai_user'))]"/>
+            <field name="comment">Can configure tenant-local Groq settings and manage AI keys.</field>
+            <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

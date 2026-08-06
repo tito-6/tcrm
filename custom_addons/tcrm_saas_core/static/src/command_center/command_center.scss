@@ -6,29 +6,53 @@
 $tcrm-navy: #0c1e3d !default;
 $tcrm-red:  #e63946 !default;
 
-// Odoo's Layout wraps our content in .o_action > .o_content.
-// Scroll the whole Command Center as one page (toolbar + sidebar + body)
-// instead of a tiny nested pane under a fixed header strip.
-.o_tcrm_cc_action {
+// Fill the Odoo client-action host (class added from JS — Layout className alone
+// is unreliable). Mirror the Marketing Hub host pattern so bottoms can scroll.
+.o_action_manager .o_action.o_tcrm_cc_host,
+.o_action_manager .o_content.o_tcrm_cc_host {
   height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+}
 
-  .o_content {
-    flex: 1 1 0;
+.o_action.o_tcrm_cc_action.o_tcrm_cc_host,
+.o_tcrm_cc_action.o_tcrm_cc_host {
+  > .o_control_panel {
+    flex: 0 0 auto;
+  }
+
+  > .o_content {
+    flex: 1 1 0%;
     min-height: 0;
-    overflow: auto !important;
-    height: auto !important;
-    display: block;
+    min-width: 0;
+    height: 0; // flex-child scroll constraint
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
   }
 }
 
 // ── Root scope ───────────────────────────────────────────────────────────────
 .o_tcrm_command_center {
-  min-height: 100%;
-  overflow: visible;
+  flex: 1 1 auto;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
   font-family: var(--o-font-family, inherit);
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   // ── Sidebar ──────────────────────────────────────────────────────────────
   .o_tcrm_sidebar {
@@ -39,11 +63,12 @@ $tcrm-red:  #e63946 !default;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    transition: margin-left 0.2s ease;
-    position: sticky;
-    top: 0;
-    align-self: flex-start;
-    max-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    transition: margin-left 0.2s ease, transform 0.2s ease;
+    height: 100%;
+    max-height: 100%;
+    align-self: stretch;
 
     &.is-collapsed { margin-left: -224px; }
 
@@ -141,8 +166,15 @@ $tcrm-red:  #e63946 !default;
 
   // ── Leaflet map wrapper ──────────────────────────────────────────────────
   .o_tcrm_map_wrap {
-    height: clamp(260px, 40vh, 460px);
+    height: 320px;
     position: relative;
+
+    @media (min-width: 768px) {
+      height: 400px;
+    }
+    @media (min-width: 1200px) {
+      height: 460px;
+    }
   }
 
   .o_tcrm_map_empty {
@@ -205,12 +237,12 @@ $tcrm-red:  #e63946 !default;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 12vh;
+    padding-top: 10%;
   }
 
   .o_tcrm_palette {
     width: 560px;
-    max-width: 94vw;
+    max-width: 94%;
     background: #fff;
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
@@ -465,33 +497,125 @@ $tcrm-red:  #e63946 !default;
 
   .o_tcrm_cc_main {
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .o_tcrm_cc_scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .o_tcrm_cc_body {
     width: 100%;
     max-width: 100%;
+    min-width: 0;
+    padding-bottom: 3.5rem;
   }
 
-  // Tables / KPI rows stay usable on narrow viewports
+  .o_tcrm_cc_toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #fff;
+    flex-shrink: 0;
+  }
+
+  // Filter / search rows stretch on narrow screens
+  .o_tcrm_filter_bar {
+    width: 100%;
+
+    .input-group,
+    .form-select,
+    .form-control {
+      max-width: 100% !important;
+      width: 100%;
+    }
+
+    @media (min-width: 576px) {
+      .input-group {
+        max-width: 420px !important;
+        width: auto;
+      }
+      .form-select {
+        max-width: 220px !important;
+        width: auto;
+      }
+    }
+  }
+
+  // Wide data tables: horizontal scroll + readable min width
   .table-responsive {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > .table {
+      margin-bottom: 0;
+      min-width: 720px;
+    }
+  }
+
+  .table {
+    th, td {
+      vertical-align: middle;
+    }
+  }
+
+  .card {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .card-body {
+    min-width: 0;
     max-width: 100%;
   }
 
-  // ── Responsive sidebar ───────────────────────────────────────────────────
+  .nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+
+    .nav-link {
+      white-space: nowrap;
+    }
+  }
+
+  // ── Responsive sidebar + mobile polish ───────────────────────────────────
   @media (max-width: 991.98px) {
     .o_tcrm_sidebar {
       position: fixed;
       left: 0;
       top: 0;
       bottom: 0;
+      width: 280px;
+      max-width: 86%;
       max-height: none;
+      height: 100%;
       z-index: 1030;
       box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-      transform: translateX(-100%);
+      transform: translateX(-105%);
       transition: transform 0.2s ease;
       margin-left: 0 !important;
 
       &.show { transform: translateX(0); }
+      &.is-collapsed { margin-left: 0 !important; }
     }
 
     .o_tcrm_backdrop {
@@ -502,12 +626,91 @@ $tcrm-red:  #e63946 !default;
     }
 
     .o_tcrm_cc_body {
-      padding-left: 0.75rem !important;
-      padding-right: 0.75rem !important;
+      padding: 0.75rem !important;
+    }
+
+    .o_tcrm_cc_toolbar {
+      h5 {
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+    }
+
+    .o_tcrm_fab {
+      right: 1rem;
+      bottom: 1rem;
+      width: 48px;
+      height: 48px;
+    }
+
+    .btn-group {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .table-responsive > .table {
+      min-width: 640px;
+      font-size: 0.8125rem;
+    }
+
+    .o_tcrm_cc_toolbar {
+      gap: 0.5rem !important;
+
+      .btn {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+
+    .o_tcrm_stat_card {
+      min-height: 0;
+    }
+
+    .o_tcrm_spark {
+      width: 96px;
+      height: 32px;
+    }
+
+    .modal-dialog {
+      margin: 0.5rem;
+      max-width: 100%;
     }
   }
 
   @media (min-width: 992px) {
     .o_tcrm_backdrop { display: none !important; }
+  }
+
+  // Access Management matrix: scrollable catalog of all apps per tenant
+  // libsass cannot evaluate CSS min() with mixed units — keep as literal CSS.
+  .tcrm-access-matrix {
+    max-height: #{"min(70vh, 720px)"};
+    overflow: auto;
+
+    th, td {
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--bs-body-bg, #fff);
+      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .sticky-col {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: var(--bs-body-bg, #fff);
+      min-width: 140px;
+    }
+
+    thead .sticky-col {
+      z-index: 3;
+    }
   }
 }

@@ -1,0 +1,7 @@
+allowBuilds:
+  sharp: set this to true or false
+  unrs-resolver: set this to true or false
+minimumReleaseAgeExclude:
+  - '@types/pg@8.20.2'
+packages:
+  - "."

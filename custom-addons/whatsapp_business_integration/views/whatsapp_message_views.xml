@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Message Tree View -->
+    <record id="view_whatsapp_message_tree" model="ir.ui.view">
+        <field name="name">whatsapp.message.tree</field>
+        <field name="model">whatsapp.message</field>
+        <field name="arch" type="xml">
+            <list string="WhatsApp Messages" default_order="create_date desc">
+                <field name="direction" widget="badge" decoration-info="direction == 'incoming'" decoration-success="direction == 'outgoing'"/>
+                <field name="preview"/>
+                <field name="message_type"/>
+                <field name="phone_number"/>
+                <field name="status" widget="badge" decoration-success="status == 'read'" decoration-info="status == 'delivered'" decoration-warning="status == 'sent'" decoration-danger="status == 'failed'"/>
+                <field name="timestamp"/>
+                <field name="user_id" optional="hide"/>
+                <field name="create_date" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- WhatsApp Message Form View -->
+    <record id="view_whatsapp_message_form" model="ir.ui.view">
+        <field name="name">whatsapp.message.form</field>
+        <field name="model">whatsapp.message</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Message" create="false" edit="false">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="pending,sent,delivered,read,failed"/>
+                    <button name="send_message" type="object" string="Resend" class="btn-primary" 
+                            invisible="status not in ('failed', 'pending') or direction != 'outgoing'"/>
+                    <button name="mark_as_read" type="object" string="Mark as Read" 
+                            invisible="direction != 'incoming' or status == 'read'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_conversation" type="object" class="oe_stat_button" icon="fa-comments">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Conversation</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="direction" readonly="1"/>
+                            <field name="message_type" readonly="1"/>
+                            <field name="conversation_id" readonly="1"/>
+                            <field name="phone_number" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="timestamp" readonly="1"/>
+                            <field name="user_id" readonly="1" invisible="direction != 'outgoing'"/>
+                            <field name="whatsapp_message_id" readonly="1" groups="base.group_no_one"/>
+                        </group>
+                    </group>
+                    
+                    <group name="relations">
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="lead_id" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Message Content" name="content">
+                            <group invisible="message_type != 'text'">
+                                <field name="body" readonly="1" nolabel="1" widget="text"/>
+                            </group>
+                            
+                            <group invisible="message_type not in ('image', 'document', 'audio', 'video')" string="Media">
+                                <field name="media_url" readonly="1"/>
+                                <field name="media_filename" readonly="1"/>
+                                <field name="media_mime_type" readonly="1"/>
+                                <field name="media_caption" readonly="1" invisible="message_type not in ('image', 'video')"/>
+                                <field name="media_id" readonly="1" groups="base.group_no_one"/>
+                            </group>
+                            
+                            <group invisible="message_type != 'template'" string="Template">
+                                <field name="template_name" readonly="1"/>
+                                <field name="template_language" readonly="1"/>
+                                <field name="template_parameters" readonly="1"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Technical Info" name="technical" groups="base.group_no_one">
+                            <group>
+                                <field name="error_message" readonly="1" invisible="not error_message"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter disabled for now -->
+                <!--<div class="oe_chatter">
+                    <field name="message_ids"/>
+                </div>-->
+            </form>
+        </field>
+    </record>
+
+    <!-- WhatsApp Message Search View -->
+    <record id="view_whatsapp_message_search" model="ir.ui.view">
+        <field name="name">whatsapp.message.search</field>
+        <field name="model">whatsapp.message</field>
+        <field name="arch" type="xml">
+            <search string="Search Messages">
+                <field name="body"/>
+                <field name="phone_number"/>
+                <field name="partner_id"/>
+                <field name="lead_id"/>
+                <field name="user_id"/>
+                
+                <filter string="Incoming" name="incoming" domain="[('direction', '=', 'incoming')]"/>
+                <filter string="Outgoing" name="outgoing" domain="[('direction', '=', 'outgoing')]"/>
+                <separator/>
+                <filter string="Text Messages" name="text" domain="[('message_type', '=', 'text')]"/>
+                <filter string="Media Messages" name="media" domain="[('message_type', 'in', ['image', 'document', 'audio', 'video'])]"/>
+                <filter string="Templates" name="templates" domain="[('message_type', '=', 'template')]"/>
+                <separator/>
+                <filter string="Failed" name="failed" domain="[('status', '=', 'failed')]"/>
+                <filter string="Pending" name="pending" domain="[('status', '=', 'pending')]"/>
+                <filter string="Unread" name="unread" domain="[('direction', '=', 'incoming'), ('status', '!=', 'read')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('create_date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="This Week" name="this_week" domain="[('create_date', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                
+                <group>
+                    <filter string="Direction" name="group_direction" context="{'group_by': 'direction'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'message_type'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Contact" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Lead" name="group_lead" context="{'group_by': 'lead_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- WhatsApp Message Action -->
+    <record id="action_whatsapp_message" model="ir.actions.act_window">
+        <field name="name">WhatsApp Messages</field>
+        <field name="res_model">whatsapp.message</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_whatsapp_message_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No WhatsApp messages yet!
+            </p>
+            <p>
+                WhatsApp messages will appear here once you start conversations with contacts.
+            </p>
+        </field>
+    </record>
+</odoo>

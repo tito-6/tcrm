@@ -1,4 +1,7 @@
 from tcrm import api, fields, models
+from tcrm.tools import config
+
+_logger = __import__('logging').getLogger(__name__)
 
 
 class ResUsers(models.Model):
@@ -12,6 +15,30 @@ class ResUsers(models.Model):
         string='Permission Sets',
         domain="[('company_id', '=', company_id)]",
     )
+
+    def _register_hook(self):
+        """On the control-plane DB, disable user company isolation.
+
+        That rule breaks Discuss/Meet invite search for Settings admins whenever
+        leftover tenant-company users exist on master.
+        """
+        super()._register_hook()
+        try:
+            control_db = config.get('tcrm_control_db') or 'tcrm_master'
+            if self.env.cr.dbname != control_db:
+                return
+            rule = self.env.ref(
+                'tcrm_saas_core.rule_res_users_tenant_isolation',
+                raise_if_not_found=False,
+            )
+            if rule and rule.active:
+                rule.sudo().write({'active': False})
+                _logger.info(
+                    'Disabled tcrm_saas_core.rule_res_users_tenant_isolation on control DB %s',
+                    self.env.cr.dbname,
+                )
+        except Exception:
+            _logger.exception('Failed syncing res.users tenant isolation rule')
 
     @api.model_create_multi
     def create(self, vals_list):

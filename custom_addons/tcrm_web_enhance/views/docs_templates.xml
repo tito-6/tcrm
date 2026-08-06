@@ -26,7 +26,7 @@
                                         <i class="fa fa-phone-square me-2 text-success"></i> Santral Call Center
                                     </a>
                                     <a href="/docs/marketing-hub" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/marketing-hub' else ''}">
-                                        <i class="fa fa-bullhorn me-2 text-warning"></i> Marketing Hub (Zernio)
+                                        <i class="fa fa-bullhorn me-2 text-warning"></i> Marketing Hub (Meta API)
                                     </a>
                                     <a href="/docs/ai" t-attf-class="list-group-item list-group-item-action #{'active fw-bold' if request.httprequest.path == '/docs/ai' else ''}">
                                         <i class="fa fa-magic me-2 text-danger"></i> TCRM AI &amp; Agentic Layer
@@ -60,7 +60,7 @@
                 <div class="card-body p-5">
                     <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">System Overview</span>
                     <h1 class="display-5 fw-bold mb-3" style="color: #101E55;">TCRM Enterprise Platform</h1>
-                    <p class="lead text-muted mb-4">Comprehensive technical &amp; operational documentation for the real estate ERP and agentic CRM platform powered by AK KOD YAZILIM.</p>
+                    <p class="lead text-muted mb-4">Comprehensive technical &amp; operational documentation for the real estate ERP and agentic CRM platform powered by AKOD YAZILIM.</p>
                     <hr class="my-4"/>
                     
                     <div class="row g-4 mt-2">
@@ -87,7 +87,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="p-4 rounded-3 bg-light border h-100">
-                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-bullhorn me-2"></i> Marketing Hub (Zernio API)</h5>
+                                <h5 class="fw-bold mb-2" style="color: #101E55;"><i class="fa fa-bullhorn me-2"></i> Marketing Hub (TCRM Meta API)</h5>
                                 <p class="text-muted small">Sync Meta/Instagram ad campaigns, view exact ad images/video creatives right inside the CRM opportunity card, track lead source attribution, and evaluate real campaign ROI.</p>
                                 <a href="/docs/marketing-hub" class="btn btn-sm text-white" style="background-color: #101E55;">Explore Marketing Hub Docs &#8594;</a>
                             </div>
@@ -271,13 +271,13 @@
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body p-5">
                     <span class="badge mb-2 px-3 py-2 text-white" style="background-color: #101E55;">Marketing Integration</span>
-                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-bullhorn me-2"></i> Marketing Hub &amp; Zernio API</h1>
+                    <h1 class="display-6 fw-bold mb-3" style="color: #101E55;"><i class="fa fa-bullhorn me-2"></i> Marketing Hub &amp; Meta API</h1>
                     <p class="lead text-muted mb-4">Meta, Facebook &amp; Instagram ad syncing, visual ad creative previews, and campaign ROI analytics.</p>
                     
                     <hr class="my-4"/>
 
                     <div class="p-4 bg-light rounded border mb-4">
-                        <h5 class="fw-bold mb-2" style="color: #101E55;">Zernio API Ad Sync &amp; Creative Previews</h5>
+                        <h5 class="fw-bold mb-2" style="color: #101E55;">TCRM Meta API Ad Sync &amp; Creative Previews</h5>
                         <p class="small text-muted mb-0">Leads captured from Facebook &amp; Instagram lead ads automatically sync campaign metadata. Sales representatives can see the exact ad image or video creative the prospect clicked on right inside the CRM opportunity card.</p>
                     </div>
                 </div>

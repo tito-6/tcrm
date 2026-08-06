@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Catalogues -->
+    <record id="catalogue_social_media" model="tcrm.offer.catalogue">
+        <field name="name">Sosyal Medya Hizmetleri</field>
+        <field name="code">social_media</field>
+        <field name="sequence">10</field>
+        <field name="summary" type="html"><![CDATA[
+<p>Instagram, Facebook ve seçilen ek platformda içerik üretimi, yayın planı ve topluluk yönetimi.</p>
+]]></field>
+    </record>
+    <record id="cat_sm_1" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_social_media"/>
+        <field name="name">Başlangıç — 10 post + 10 story</field>
+        <field name="price_from">20000</field>
+        <field name="billing_period">monthly</field>
+        <field name="sort_order">10</field>
+    </record>
+    <record id="cat_sm_2" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_social_media"/>
+        <field name="name">Büyüme — 15 post + 30 story</field>
+        <field name="price_from">27000</field>
+        <field name="billing_period">monthly</field>
+        <field name="sort_order">20</field>
+    </record>
+    <record id="cat_sm_3" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_social_media"/>
+        <field name="name">Yoğun — 30 post + 30 story</field>
+        <field name="price_from">40000</field>
+        <field name="billing_period">monthly</field>
+        <field name="sort_order">30</field>
+        <field name="highlight" eval="True"/>
+    </record>
+
+    <record id="catalogue_digital_ads" model="tcrm.offer.catalogue">
+        <field name="name">Dijital Reklam Yönetimi</field>
+        <field name="code">digital_ads</field>
+        <field name="sequence">20</field>
+        <field name="summary" type="html"><![CDATA[
+<p>Meta ve Google reklam yönetimi. Reklam bütçesi hizmet bedeline dahil değildir; platformlara müşteri tarafından ödenir.</p>
+<ul>
+  <li>Bütçe ≤ 50.000 TL → 30.000 TL/ay yönetim</li>
+  <li>50.001–69.999 → bütçenin %35'i</li>
+  <li>70.000–99.999 → %32</li>
+  <li>100.000–500.000 → %31</li>
+  <li>500.000+ → özel teklif</li>
+</ul>
+]]></field>
+    </record>
+    <record id="cat_ads_1" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_digital_ads"/>
+        <field name="name">Temel reklam yönetimi (≤ 50.000 TL bütçe)</field>
+        <field name="price_from">30000</field>
+        <field name="billing_period">monthly</field>
+        <field name="highlight" eval="True"/>
+        <field name="price_note">Zorunlu temel pakette dahildir</field>
+    </record>
+    <record id="cat_ads_2" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_digital_ads"/>
+        <field name="name">Ölçeklenen yönetim (50.001+ bütçe)</field>
+        <field name="billing_period">from</field>
+        <field name="price_note">Bütçe dilimine göre yüzde oranları uygulanır</field>
+    </record>
+
+    <record id="catalogue_software" model="tcrm.offer.catalogue">
+        <field name="name">Web &amp; Yazılım Geliştirme</field>
+        <field name="code">software</field>
+        <field name="sequence">30</field>
+        <field name="summary" type="html"><![CDATA[
+<p>Fiyatlar teknoloji yığınına, sektöre ve teslimata kadar tahmini üretim saatine göre değişir. Net fiyat keşif sonrası netleşir.</p>
+]]></field>
+    </record>
+    <record id="cat_web_1" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_software"/>
+        <field name="name">Tek sayfa (landing)</field>
+        <field name="price_from">55000</field>
+        <field name="billing_period">one_time</field>
+        <field name="sort_order">10</field>
+    </record>
+    <record id="cat_web_2" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_software"/>
+        <field name="name">Çok sayfalı temel kurumsal site</field>
+        <field name="price_from">60000</field>
+        <field name="price_to">150000</field>
+        <field name="billing_period">one_time</field>
+        <field name="sort_order">20</field>
+    </record>
+    <record id="cat_web_3" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_software"/>
+        <field name="name">Gelişmiş çok sayfa / çok dil / formlar</field>
+        <field name="price_from">200000</field>
+        <field name="billing_period">from</field>
+        <field name="sort_order">30</field>
+        <field name="highlight" eval="True"/>
+    </record>
+    <record id="cat_web_4" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_software"/>
+        <field name="name">Web uygulaması (web app)</field>
+        <field name="price_from">300000</field>
+        <field name="billing_period">from</field>
+        <field name="sort_order">40</field>
+    </record>
+
+    <record id="catalogue_ai" model="tcrm.offer.catalogue">
+        <field name="name">AI Otomasyon</field>
+        <field name="code">ai_automation</field>
+        <field name="sequence">40</field>
+        <field name="summary" type="html"><![CDATA[
+<p>CRM otomasyonu, lead yönlendirme, içerik asistanı ve iş akışı otomasyonları. Kapsam keşfine göre fiyatlanır.</p>
+]]></field>
+    </record>
+    <record id="cat_ai_1" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_ai"/>
+        <field name="name">Lead / CRM otomasyon paketi</field>
+        <field name="price_from">40000</field>
+        <field name="billing_period">from</field>
+        <field name="price_note">Entegrasyon sayısına göre değişir</field>
+    </record>
+    <record id="cat_ai_2" model="tcrm.offer.catalogue.item">
+        <field name="catalogue_id" ref="catalogue_ai"/>
+        <field name="name">İçerik / destek asistanı</field>
+        <field name="price_from">25000</field>
+        <field name="billing_period">monthly</field>
+    </record>
+</odoo>
