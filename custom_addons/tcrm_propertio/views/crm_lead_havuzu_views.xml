@@ -81,6 +81,10 @@
             <xpath expr="//field[@name='name']" position="after">
                 <field name="type" optional="show" string="Tip"/>
             </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="optional">show</attribute>
+                <attribute name="string">Etiketler</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -98,6 +102,10 @@
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="type" optional="show" string="Tip"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="optional">show</attribute>
+                <attribute name="string">Etiketler</attribute>
             </xpath>
         </field>
     </record>
@@ -120,6 +128,8 @@
         <field name="name">Lead Havuzu</field>
         <field name="res_model">crm.lead</field>
         <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
+        <!-- Odoo defaults mobile_view_mode to kanban; force list on phones/tablets. -->
+        <field name="mobile_view_mode">list</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
         <field name="limit">80</field>
@@ -191,6 +201,7 @@
         <field name="name">Lead Havuzu</field>
         <field name="res_model">crm.lead</field>
         <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
+        <field name="mobile_view_mode">list</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
         <field name="limit">80</field>
@@ -201,6 +212,7 @@
         <field name="name">Lead Havuzu</field>
         <field name="res_model">crm.lead</field>
         <field name="view_mode">list,kanban,form,activity,calendar,graph,pivot</field>
+        <field name="mobile_view_mode">list</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
         <field name="limit">80</field>

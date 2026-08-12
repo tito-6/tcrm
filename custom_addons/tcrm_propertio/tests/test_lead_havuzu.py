@@ -46,6 +46,14 @@ class TestLeadHavuzu(TransactionCase):
         self.assertIn('kanban', action.view_mode)
         self.assertIn('list', action.view_mode)
         self.assertIn('form', action.view_mode)
+        self.assertEqual(
+            action.mobile_view_mode, 'list',
+            'Lead Havuzu must open as list on mobile (not default kanban)',
+        )
+        self.assertTrue(
+            action.view_mode.startswith('list'),
+            'Desktop default view must remain list',
+        )
         self._domain_allows_both_types(action, 'tcrm_propertio.action_lead_havuzu')
 
     def test_02_old_actions_resolve_to_merged_behavior(self):
@@ -54,6 +62,10 @@ class TestLeadHavuzu(TransactionCase):
             action = self._action(xmlid)
             self.assertEqual(action.res_model, 'crm.lead')
             self.assertEqual(action.name, 'Lead Havuzu')
+            self.assertEqual(
+                action.mobile_view_mode, 'list',
+                '%s must open as list on mobile' % xmlid,
+            )
             self._domain_allows_both_types(action, xmlid)
             self.assertEqual(
                 action.search_view_id, havuzu.search_view_id,

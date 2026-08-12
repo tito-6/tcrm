@@ -23,6 +23,42 @@ def post_init_hook(env):
     _translate_master_data_labels(env)
     _force_sold_ribbon_label(env)
     _force_apps_sidebar_order(env)
+    _force_lead_havuzu_home(env)
+    _force_istanbul_timezone(env)
+
+
+def _force_istanbul_timezone(env):
+    """Align account timezone with Istanbul (GMT+3)."""
+    from .models.tcrm_timezone import tcrm_ensure_istanbul_tz
+    tcrm_ensure_istanbul_tz(env)
+
+
+def _force_lead_havuzu_home(env):
+    """All internal users land on Lead Havuzu after login (list on mobile too)."""
+    action = env.ref('tcrm_propertio.action_lead_havuzu', raise_if_not_found=False)
+    if not action:
+        return
+    _force_lead_havuzu_mobile_list(env)
+    users = env['res.users'].sudo().search([
+        ('share', '=', False),
+        ('active', '=', True),
+        '|', ('action_id', '=', False), ('action_id', '!=', action.id),
+    ])
+    if users:
+        users.write({'action_id': action.id})
+
+
+def _force_lead_havuzu_mobile_list(env):
+    """Prefer list (not kanban) when Lead Havuzu opens on small screens."""
+    xmlids = (
+        'tcrm_propertio.action_lead_havuzu',
+        'crm.crm_lead_all_leads',
+        'crm.crm_lead_action_pipeline',
+    )
+    for xmlid in xmlids:
+        action = env.ref(xmlid, raise_if_not_found=False)
+        if action and action.mobile_view_mode != 'list':
+            action.write({'mobile_view_mode': 'list'})
 
 
 def _force_apps_sidebar_order(env):
