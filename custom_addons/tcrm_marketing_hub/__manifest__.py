@@ -2,7 +2,7 @@
 # Part of TCRM. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Marketing Hub',
-    'version': '1.6.11',
+    'version': '1.6.12',
     'category': 'Marketing',
     'summary': 'Meta + Google Ads hub: kreatifler, reklamlar, lead formları (Zernio)',
     'description': """
