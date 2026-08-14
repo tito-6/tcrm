@@ -82,6 +82,24 @@ class ZernioClient:
                     payload = {'raw': (response.text or '')[:500]}
 
             if response.status_code in (401, 403):
+                # Some Meta Ads endpoints return 403 for unsupported routes even when
+                # the API key is valid (e.g. GET /ads/lead-forms on a metaads account).
+                detail = None
+                if isinstance(payload, dict):
+                    detail = (
+                        payload.get('error')
+                        or payload.get('message')
+                        or payload.get('msg')
+                    )
+                    if isinstance(detail, dict):
+                        detail = detail.get('message') or str(detail)
+                detail_text = str(detail or '').strip()
+                if response.status_code == 403 and detail_text:
+                    raise ZernioError(
+                        detail_text,
+                        status_code=response.status_code,
+                        payload=payload,
+                    )
                 raise ZernioError(
                     'Zernio kimlik doğrulama hatası. API anahtarını kontrol edin.',
                     status_code=response.status_code,

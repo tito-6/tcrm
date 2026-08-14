@@ -181,12 +181,22 @@ class MarketingLeadForm(models.Model):
             except ZernioError as exc:
                 _logger.warning('Lead forms sync failed for %s: %s', social.zernio_id, exc)
                 err = str(exc)
+                err_l = err.lower()
                 for secret_key in ('api_key', 'apiKey', 'token', 'Bearer', 'authorization'):
-                    if secret_key.lower() in err.lower():
+                    if secret_key.lower() in err_l:
                         err = _('Senkron hatası (ayrıntılar gizlendi).')
                         break
+                # Meta Ads often cannot list forms (403) but can still pull
+                # /ads/lead-forms/{id}/leads for known forms. Do not mark it
+                # disconnected or overwrite a healthy credential status.
+                if social.platform == 'metaads' and getattr(exc, 'status_code', None) in (401, 403):
+                    _logger.info(
+                        'Skipping lead-forms list for Meta Ads %s; known forms still sync via lead pull',
+                        social.zernio_id,
+                    )
+                    continue
                 write_vals = {'sync_error': err[:2000]}
-                if 'not found' in err.lower() or 'social account' in err.lower():
+                if 'not found' in err_l or 'social account' in err_l:
                     write_vals['status'] = 'disconnected'
                 social.sudo().write(write_vals)
                 continue
