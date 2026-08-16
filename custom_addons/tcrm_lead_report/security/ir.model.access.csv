@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lead_report_status_map_user,tcrm.lead.report.status.map.user,model_tcrm_lead_report_status_map,group_lead_report_user,1,0,0,0
+access_lead_report_status_map_manager,tcrm.lead.report.status.map.manager,model_tcrm_lead_report_status_map,group_lead_report_manager,1,1,1,1
+access_lead_report_service_user,tcrm.lead.report.user,model_tcrm_lead_report,group_lead_report_user,1,0,0,0

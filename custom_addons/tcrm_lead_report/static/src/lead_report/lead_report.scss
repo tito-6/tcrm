@@ -1,0 +1,98 @@
+.o_tcrm_lead_report {
+    background: var(--propertio-neutral, #f8f9fa);
+    min-height: 100%;
+    padding: 1rem 1.25rem 2rem;
+
+    .o_tlr_toolbar {
+        background: linear-gradient(135deg, #1b3f72 0%, #2a5298 100%);
+        border-radius: var(--propertio-radius-card, 8px);
+        color: #fff;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.25rem;
+        box-shadow: var(--propertio-shadow, 0 1px 3px rgba(0, 0, 0, 0.08));
+    }
+
+    .o_tlr_toolbar .btn-outline-light {
+        border-color: rgba(255, 255, 255, 0.45);
+        color: #fff;
+    }
+
+    .o_tlr_toolbar .btn-outline-light:hover,
+    .o_tlr_toolbar .btn-outline-light.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+    }
+
+    .o_tlr_kpi {
+        background: #fff;
+        border-radius: var(--propertio-radius-card, 8px);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: var(--propertio-shadow, 0 1px 3px rgba(0, 0, 0, 0.08));
+        padding: 1rem;
+        height: 100%;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .o_tlr_kpi_value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--propertio-text-dark, #2c3e50);
+            line-height: 1.2;
+        }
+
+        .o_tlr_kpi_label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .o_tlr_kpi_pct {
+            font-size: 0.85rem;
+            color: var(--propertio-primary, #1b3f72);
+        }
+    }
+
+    .o_tlr_chart_card {
+        background: #fff;
+        border-radius: var(--propertio-radius-card, 8px);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: var(--propertio-shadow, 0 1px 3px rgba(0, 0, 0, 0.08));
+        padding: 1rem;
+        height: 100%;
+
+        h6 {
+            font-weight: 600;
+            color: var(--propertio-text-dark, #2c3e50);
+            margin-bottom: 0.75rem;
+        }
+
+        canvas {
+            max-height: 280px;
+        }
+    }
+
+    .o_tlr_table_wrap {
+        background: #fff;
+        border-radius: var(--propertio-radius-card, 8px);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: var(--propertio-shadow, 0 1px 3px rgba(0, 0, 0, 0.08));
+        overflow-x: auto;
+    }
+
+    .o_tlr_freshness {
+        font-size: 0.8rem;
+        opacity: 0.85;
+    }
+
+    .o_tlr_empty {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #6c757d;
+    }
+}

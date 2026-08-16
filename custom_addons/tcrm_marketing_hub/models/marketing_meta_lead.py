@@ -3,7 +3,7 @@ import json
 import logging
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import quote
 
 from markupsafe import Markup, escape
@@ -265,6 +265,93 @@ class MarketingLeadForm(models.Model):
                 self.sudo().write({'account_id': metaads.id})
             return metaads
         return self.account_id
+
+    @api.model
+    def _discover_lead_ad_sources(self):
+        """Discover native-lead ad IDs when Meta Ads cannot list Page forms.
+
+        Zernio's Meta Ads credential can pull leads through
+        /ads/lead-forms/{ad_id}/leads even when /ads/lead-forms returns 403.
+        One ads-tree request per ad account keeps discovery rate-limit friendly.
+        """
+        metaads = self._metaads_account_for_company()
+        if not metaads:
+            return 0
+        try:
+            client = self.env['tcrm.marketing.profile']._get_zernio_client()
+        except ZernioError:
+            return 0
+
+        AdAccount = self.env['tcrm.marketing.ad.account'].sudo()
+        ad_accounts = AdAccount.search([
+            ('account_id', '=', metaads.id),
+            ('active', '=', True),
+            ('provider', '!=', 'google'),
+        ])
+        date_to = fields.Date.today()
+        date_from = date_to - timedelta(days=30)
+        created_cutoff = datetime.combine(date_from, datetime.min.time())
+        discovered = 0
+        discovered_ids = set()
+        successful_accounts = 0
+        for ad_account in ad_accounts:
+            try:
+                data = client.get_ads_tree(
+                    page=1,
+                    limit=50,
+                    source='all',
+                    account_id=metaads.zernio_id,
+                    ad_account_id=ad_account.meta_act_id,
+                    date_from=date_from.isoformat(),
+                    date_to=date_to.isoformat(),
+                )
+            except ZernioError as exc:
+                _logger.warning(
+                    'Lead ad discovery failed account=%s: %s',
+                    ad_account.meta_act_id,
+                    exc,
+                )
+                continue
+            successful_accounts += 1
+            for campaign in data.get('campaigns') or []:
+                objective = str(campaign.get('platformObjective') or '').upper()
+                if 'LEAD' not in objective:
+                    continue
+                for adset in campaign.get('adSets') or []:
+                    for ad in adset.get('ads') or []:
+                        ad_id = str(ad.get('platformAdId') or '').strip()
+                        if not ad_id:
+                            continue
+                        created_at = _parse_meta_dt(ad.get('platformCreatedAt'))
+                        if created_at and created_at < created_cutoff:
+                            continue
+                        discovered_ids.add(ad_id)
+                        vals = {
+                            'name': ad.get('adName') or f'Perla Meta Lead Ad {ad_id}',
+                            'zernio_form_id': ad_id,
+                            'status': 'AD_SOURCE_ACTIVE',
+                            'account_id': metaads.id,
+                            'last_sync_at': fields.Datetime.now(),
+                        }
+                        form = self.sudo().search([
+                            ('zernio_form_id', '=', ad_id),
+                            ('company_id', '=', self.env.company.id),
+                        ], limit=1)
+                        if form:
+                            form.write(vals)
+                        else:
+                            self.sudo().create(vals)
+                        discovered += 1
+        if successful_accounts:
+            stale = self.sudo().search([
+                ('company_id', '=', self.env.company.id),
+                ('account_id', '=', metaads.id),
+                ('status', '=', 'AD_SOURCE_ACTIVE'),
+                ('zernio_form_id', 'not in', list(discovered_ids) or ['0']),
+            ])
+            if stale:
+                stale.write({'status': 'AD_SOURCE_INACTIVE'})
+        return discovered
 
     def action_sync_leads_button(self):
         for form in self:
@@ -1005,11 +1092,13 @@ class MarketingMetaLead(models.Model):
     def action_sync_all_forms(self, *, import_crm: bool = True, max_pages_per_form: int = 5):
         Form = self.env['tcrm.marketing.lead.form']
         Form.action_sync_from_zernio()
+        Form._discover_lead_ad_sources()
         total = 0
         forms = Form.search([
             ('company_id', '=', self.env.company.id),
             ('account_id.active', '=', True),
             ('account_id.sync_enabled', '=', True),
+            ('status', '!=', 'AD_SOURCE_INACTIVE'),
         ])
         for form in forms:
             try:
@@ -1049,7 +1138,9 @@ class MarketingMetaLead(models.Model):
             try:
                 pulled = Lead.action_sync_all_forms(
                     import_crm=True,
-                    max_pages_per_form=10,
+                    # Sources are newest-first. Two pages cover up to 100 new
+                    # submissions per source/run without excessive API usage.
+                    max_pages_per_form=2,
                 )
                 grand_total += int(pulled or 0)
                 _logger.info(

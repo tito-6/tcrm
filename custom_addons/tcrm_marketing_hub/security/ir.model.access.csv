@@ -45,3 +45,6 @@ access_marketing_google_keyword_base,tcrm.marketing.google.keyword.base,model_tc
 access_marketing_creative_user,tcrm.marketing.creative.user,model_tcrm_marketing_creative,group_marketing_user,1,0,0,0
 access_marketing_creative_manager,tcrm.marketing.creative.manager,model_tcrm_marketing_creative,group_marketing_manager,1,1,1,1
 access_marketing_creative_base,tcrm.marketing.creative.base,model_tcrm_marketing_creative,base.group_user,1,0,0,0
+access_marketing_daily_metric_user,tcrm.marketing.daily.metric.user,model_tcrm_marketing_daily_metric,group_marketing_user,1,0,0,0
+access_marketing_daily_metric_manager,tcrm.marketing.daily.metric.manager,model_tcrm_marketing_daily_metric,group_marketing_manager,1,1,1,1
+access_marketing_daily_metric_base,tcrm.marketing.daily.metric.base,model_tcrm_marketing_daily_metric,base.group_user,1,0,0,0

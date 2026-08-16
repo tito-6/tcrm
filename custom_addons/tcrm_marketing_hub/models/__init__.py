@@ -10,6 +10,7 @@ from . import marketing_analytics
 from . import marketing_meta_lead
 from . import marketing_google
 from . import marketing_creative
+from . import marketing_daily_metric
 from . import crm_lead
 from . import marketing_hub
 from . import res_config_settings

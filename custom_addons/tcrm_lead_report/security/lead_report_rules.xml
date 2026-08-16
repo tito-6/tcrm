@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="rule_lead_report_status_map_company" model="ir.rule">
+            <field name="name">Lead Report Status Map: company</field>
+            <field name="model_id" ref="model_tcrm_lead_report_status_map"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_lead_report_user'))]"/>
+        </record>
+    </data>
+</odoo>

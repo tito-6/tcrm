@@ -24,7 +24,7 @@ STATES = [
 # Tenant DBs get the product stack — not the master Command Center module.
 DEFAULT_MODULE_SET = (
     'base,web,mail,contacts,crm,'
-    'tcrm_propertio,tcrm_call_center,tcrm_web_enhance'
+    'tcrm_propertio,tcrm_call_center,tcrm_marketing_hub,tcrm_lead_report,tcrm_web_enhance'
 )
 
 

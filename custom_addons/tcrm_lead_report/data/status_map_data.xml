@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- CRM tag mappings -->
+        <record id="status_map_tag_olumlu" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Olumlu</field>
+            <field name="sequence">10</field>
+            <field name="category">positive</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_olumlu"/>
+        </record>
+        <record id="status_map_tag_olumsuz" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Olumsuz</field>
+            <field name="sequence">20</field>
+            <field name="category">negative</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_olumsuz"/>
+        </record>
+        <record id="status_map_tag_ulasilamadi" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Ulaşılamadı</field>
+            <field name="sequence">30</field>
+            <field name="category">unreachable</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_ulasilamadi"/>
+        </record>
+        <record id="status_map_tag_musait_degil" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Müsait değil</field>
+            <field name="sequence">40</field>
+            <field name="category">not_available</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_musait_degil"/>
+        </record>
+        <record id="status_map_tag_ilgilenmiyor" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: İlgilenmiyor</field>
+            <field name="sequence">50</field>
+            <field name="category">not_interested</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_ilgilenmiyor"/>
+        </record>
+        <record id="status_map_tag_degerlendirilecek" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Değerlendirilecek</field>
+            <field name="sequence">60</field>
+            <field name="category">pending</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_degerlendirilecek"/>
+        </record>
+        <record id="status_map_tag_randevu" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Randevu verildi</field>
+            <field name="sequence">70</field>
+            <field name="category">appointment</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_randevu_verildi"/>
+        </record>
+        <record id="status_map_tag_sicak" model="tcrm.lead.report.status.map">
+            <field name="name">Etiket: Sıcak müşteri</field>
+            <field name="sequence">80</field>
+            <field name="category">hot</field>
+            <field name="tag_id" ref="tcrm_propertio.crm_tag_sicak_musteri"/>
+        </record>
+
+        <!-- Call outcome mappings -->
+        <record id="status_map_outcome_reached" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Ulaşıldı</field>
+            <field name="sequence">110</field>
+            <field name="category">reached</field>
+            <field name="call_outcome">reached</field>
+        </record>
+        <record id="status_map_outcome_not_reached" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Ulaşılamadı</field>
+            <field name="sequence">120</field>
+            <field name="category">unreachable</field>
+            <field name="call_outcome">not_reached</field>
+        </record>
+        <record id="status_map_outcome_busy" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Meşgul</field>
+            <field name="sequence">130</field>
+            <field name="category">unreachable</field>
+            <field name="call_outcome">busy</field>
+        </record>
+        <record id="status_map_outcome_no_answer" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Cevapsız</field>
+            <field name="sequence">140</field>
+            <field name="category">unreachable</field>
+            <field name="call_outcome">no_answer</field>
+        </record>
+        <record id="status_map_outcome_appointment" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Randevu Oluşturuldu</field>
+            <field name="sequence">150</field>
+            <field name="category">appointment</field>
+            <field name="call_outcome">appointment</field>
+        </record>
+        <record id="status_map_outcome_interested" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: İlgileniyor</field>
+            <field name="sequence">160</field>
+            <field name="category">positive</field>
+            <field name="call_outcome">interested</field>
+        </record>
+        <record id="status_map_outcome_not_interested" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: İlgilenmiyor</field>
+            <field name="sequence">170</field>
+            <field name="category">not_interested</field>
+            <field name="call_outcome">not_interested</field>
+        </record>
+        <record id="status_map_outcome_opportunity" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Satış Fırsatı</field>
+            <field name="sequence">180</field>
+            <field name="category">qualified</field>
+            <field name="call_outcome">opportunity</field>
+        </record>
+        <record id="status_map_outcome_callback" model="tcrm.lead.report.status.map">
+            <field name="name">Çağrı: Tekrar Aranacak</field>
+            <field name="sequence">190</field>
+            <field name="category">pending</field>
+            <field name="call_outcome">callback</field>
+        </record>
+    </data>
+</odoo>

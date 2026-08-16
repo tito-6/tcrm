@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tcrm_lead_report.LeadReportDashboard">
+        <div class="o_tcrm_lead_report o_action">
+            <!-- Toolbar -->
+            <div class="o_tlr_toolbar">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                    <div>
+                        <h4 class="mb-0 text-white">Lead Raporu</h4>
+                        <small class="o_tlr_freshness" t-if="state.data and state.data.marketing_freshness and state.data.marketing_freshness.message">
+                            Pazarlama verisi otomatik senkronize edilir · Son güncelleme: <t t-esc="state.data.marketing_freshness.message"/>
+                        </small>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-sm btn-outline-light" t-on-click="refresh" t-att-disabled="state.loading">
+                            <i class="fa fa-refresh"/> Yenile
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" t-on-click="() => this.exportReport('csv')" t-att-disabled="state.loading">
+                            CSV
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" t-on-click="() => this.exportReport('xlsx')" t-att-disabled="state.loading">
+                            Excel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Date presets -->
+                <div class="d-flex flex-wrap gap-1 mb-2">
+                    <t t-foreach="datePresets" t-as="preset" t-key="preset.key">
+                        <button type="button"
+                                t-att-class="'btn btn-sm btn-outline-light' + (state.activePreset === preset.key ? ' active' : '')"
+                                t-on-click="() => this.setDatePreset(preset.key)"
+                                t-esc="preset.label"/>
+                    </t>
+                </div>
+
+                <!-- Custom dates -->
+                <div class="row g-2 align-items-end">
+                    <div class="col-auto">
+                        <label class="form-label text-white-50 small mb-0">Başlangıç</label>
+                        <DateTimePicker t-props="dateFromPickerProps"/>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label text-white-50 small mb-0">Bitiş</label>
+                        <DateTimePicker t-props="dateToPickerProps"/>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-sm btn-light" t-on-click="applyCustomDates">Uygula</button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="row g-2 mt-2">
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" t-on-change="onFilterChange" data-filter="source_id">
+                            <option value="">Kaynak — Tümü</option>
+                            <t t-foreach="state.options.sources or []" t-as="src" t-key="src.id">
+                                <option t-att-value="src.id" t-att-selected="state.filters.source_id == src.id ? 'selected' : undefined" t-esc="src.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" t-on-change="onFilterChange" data-filter="campaign_id_remote">
+                            <option value="">Kampanya — Tümü</option>
+                            <t t-foreach="state.options.campaigns or []" t-as="camp" t-key="camp.id">
+                                <option t-att-value="camp.id" t-att-selected="state.filters.campaign_id_remote == camp.id ? 'selected' : undefined" t-esc="camp.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" t-on-change="onFilterChange" data-filter="user_id">
+                            <option value="">Satış Temsilcisi — Tümü</option>
+                            <t t-foreach="state.options.users or []" t-as="u" t-key="u.id">
+                                <option t-att-value="u.id" t-att-selected="state.filters.user_id == u.id ? 'selected' : undefined" t-esc="u.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" t-on-change="onFilterChange" data-filter="team_id">
+                            <option value="">Satış Takımı — Tümü</option>
+                            <t t-foreach="state.options.teams or []" t-as="team" t-key="team.id">
+                                <option t-att-value="team.id" t-att-selected="state.filters.team_id == team.id ? 'selected' : undefined" t-esc="team.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" t-on-change="onFilterChange" data-filter="stage_id">
+                            <option value="">Aşama — Tümü</option>
+                            <t t-foreach="state.options.stages or []" t-as="stage" t-key="stage.id">
+                                <option t-att-value="stage.id" t-att-selected="state.filters.stage_id == stage.id ? 'selected' : undefined" t-esc="stage.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" t-on-change="onFilterChange" data-filter="tag_id">
+                            <option value="">Etiket — Tümü</option>
+                            <t t-foreach="state.options.tags or []" t-as="tag" t-key="tag.id">
+                                <option t-att-value="tag.id" t-att-selected="state.filters.tag_id == tag.id ? 'selected' : undefined" t-esc="tag.name"/>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div t-if="state.loading" class="text-center py-5">
+                <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                <p class="text-muted mt-2">Rapor yükleniyor…</p>
+            </div>
+
+            <!-- Error -->
+            <div t-elif="state.error" class="alert alert-danger" role="alert">
+                <t t-esc="state.error"/>
+            </div>
+
+            <!-- Empty -->
+            <div t-elif="state.data and state.data.meta.empty" class="o_tlr_empty">
+                <i class="fa fa-inbox fa-3x mb-3 d-block"/>
+                <p>Seçilen tarih aralığında lead bulunamadı.</p>
+            </div>
+
+            <!-- Dashboard content -->
+            <t t-elif="state.data">
+                <!-- KPI Row 1 -->
+                <div class="row g-3 mb-3">
+                    <t t-foreach="state.data.kpis.slice(0, 6)" t-as="kpi" t-key="kpi.key">
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="o_tlr_kpi" t-on-click="() => this.drill(kpi.drill_key)">
+                                <div class="o_tlr_kpi_label" t-esc="kpi.label"/>
+                                <div class="o_tlr_kpi_value" t-esc="kpi.count"/>
+                                <div class="o_tlr_kpi_pct" t-if="kpi.percent !== null and kpi.percent !== undefined">
+                                    %<t t-esc="kpi.percent"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- KPI Row 2 -->
+                <div class="row g-3 mb-3">
+                    <t t-foreach="state.data.kpis.slice(6)" t-as="kpi" t-key="kpi.key">
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="o_tlr_kpi" t-on-click="() => this.drill(kpi.drill_key)">
+                                <div class="o_tlr_kpi_label" t-esc="kpi.label"/>
+                                <div class="o_tlr_kpi_value" t-esc="kpi.count"/>
+                                <div class="o_tlr_kpi_pct" t-if="kpi.percent !== null and kpi.percent !== undefined">
+                                    %<t t-esc="kpi.percent"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Cost KPIs -->
+                <div t-if="state.data.meta.can_view_spend and state.data.costs" class="row g-3 mb-3">
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <div class="o_tlr_kpi">
+                            <div class="o_tlr_kpi_label">Toplam Reklam Harcaması</div>
+                            <div class="o_tlr_kpi_value">
+                                <t t-esc="formatMoney(state.data.costs.spend_total)"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <div class="o_tlr_kpi">
+                            <div class="o_tlr_kpi_label">Lead Başına Maliyet</div>
+                            <div class="o_tlr_kpi_value" t-esc="formatRatio(state.data.costs.cpl)"/>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <div class="o_tlr_kpi">
+                            <div class="o_tlr_kpi_label">Randevu Maliyeti</div>
+                            <div class="o_tlr_kpi_value" t-esc="formatRatio(state.data.costs.cost_per_appointment)"/>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <div class="o_tlr_kpi">
+                            <div class="o_tlr_kpi_label">Satış Maliyeti</div>
+                            <div class="o_tlr_kpi_value" t-esc="formatRatio(state.data.costs.cost_per_sale)"/>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2" t-if="state.data.first_call">
+                        <div class="o_tlr_kpi">
+                            <div class="o_tlr_kpi_label">Ort. İlk Arama (dk)</div>
+                            <div class="o_tlr_kpi_value" t-esc="formatRatio(state.data.first_call.avg_first_call_minutes)"/>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2" t-if="state.data.first_call">
+                        <div class="o_tlr_kpi">
+                            <div class="o_tlr_kpi_label">İlk 15 Dk Aranan %</div>
+                            <div class="o_tlr_kpi_value" t-esc="formatRatio(state.data.first_call.within_15_pct)"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts row 1 -->
+                <div class="row g-3 mb-3">
+                    <div class="col-lg-8">
+                        <div class="o_tlr_chart_card">
+                            <h6>Lead Trendi</h6>
+                            <canvas t-ref="chartTimeline"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="o_tlr_chart_card">
+                            <h6>Arandı vs Aranmadı</h6>
+                            <canvas t-ref="chartCalled"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts row 2 -->
+                <div class="row g-3 mb-3">
+                    <div class="col-lg-4">
+                        <div class="o_tlr_chart_card">
+                            <h6>Kaynağa Göre Leadler</h6>
+                            <canvas t-ref="chartSource"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="o_tlr_chart_card">
+                            <h6>Arama Sonuçları</h6>
+                            <canvas t-ref="chartOutcomes"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="o_tlr_chart_card">
+                            <h6>Kampanya Performansı</h6>
+                            <canvas t-ref="chartCampaign"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts row 3 -->
+                <div class="row g-3 mb-3">
+                    <div class="col-lg-6" t-if="state.data.meta.can_view_spend">
+                        <div class="o_tlr_chart_card">
+                            <h6>Reklam Harcaması vs Leadler</h6>
+                            <canvas t-ref="chartSpend"/>
+                        </div>
+                    </div>
+                    <div t-att-class="state.data.meta.can_view_spend ? 'col-lg-6' : 'col-lg-12'">
+                        <div class="o_tlr_chart_card">
+                            <h6>Satış Temsilcisi Performansı</h6>
+                            <canvas t-ref="chartSalespeople"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="o_tlr_table_wrap">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Kaynak</th>
+                                <th>Kampanya</th>
+                                <th class="text-end">Lead</th>
+                                <th class="text-end">Arandı</th>
+                                <th class="text-end">Aranmadı</th>
+                                <th class="text-end">Olumlu</th>
+                                <th class="text-end">Randevu</th>
+                                <th class="text-end">Satış</th>
+                                <th t-if="state.data.meta.can_view_spend" class="text-end">Harcama</th>
+                                <th t-if="state.data.meta.can_view_spend" class="text-end">CPL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="state.data.table.rows" t-as="row" t-key="row_index">
+                                <tr class="cursor-pointer" t-on-click="() => this.drillRow(row)">
+                                    <td t-esc="row.kaynak"/>
+                                    <td t-esc="row.kampanya"/>
+                                    <td class="text-end" t-esc="row.lead"/>
+                                    <td class="text-end" t-esc="row.arandi"/>
+                                    <td class="text-end" t-esc="row.arandi !== undefined ? (row.lead - row.arandi) : row.aranmadi"/>
+                                    <td class="text-end" t-esc="row.olumlu"/>
+                                    <td class="text-end" t-esc="row.randevu"/>
+                                    <td class="text-end" t-esc="row.satis"/>
+                                    <td t-if="state.data.meta.can_view_spend" class="text-end" t-esc="formatMoney(row.harcama)"/>
+                                    <td t-if="state.data.meta.can_view_spend" class="text-end" t-esc="formatRatio(row.cpl)"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

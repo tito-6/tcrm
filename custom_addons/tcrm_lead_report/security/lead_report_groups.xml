@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_tcrm_lead_report" model="ir.module.category">
+            <field name="name">Lead Raporu</field>
+            <field name="sequence">43</field>
+        </record>
+
+        <record id="privilege_tcrm_lead_report" model="res.groups.privilege">
+            <field name="name">Lead Raporu</field>
+            <field name="category_id" ref="module_category_tcrm_lead_report"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_lead_report_user" model="res.groups">
+            <field name="name">Lead Raporu Kullanıcı</field>
+            <field name="privilege_id" ref="privilege_tcrm_lead_report"/>
+            <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="comment">Lead Raporu dashboard görüntüleme ve drill-down.</field>
+        </record>
+
+        <record id="group_lead_report_spend" model="res.groups">
+            <field name="name">Lead Raporu — Pazarlama Harcaması</field>
+            <field name="privilege_id" ref="privilege_tcrm_lead_report"/>
+            <field name="implied_ids" eval="[(4, ref('tcrm_marketing_hub.group_marketing_user'))]"/>
+            <field name="comment">Reklam harcaması, CPL ve ROAS metriklerini görüntüleyebilir.</field>
+        </record>
+
+        <record id="group_lead_report_manager" model="res.groups">
+            <field name="name">Lead Raporu Yönetici</field>
+            <field name="privilege_id" ref="privilege_tcrm_lead_report"/>
+            <field name="implied_ids" eval="[
+                (4, ref('group_lead_report_user')),
+                (4, ref('group_lead_report_spend')),
+                (4, ref('sales_team.group_sale_salesman_all_leads')),
+            ]"/>
+            <field name="comment">Tüm lead metrikleri ve pazarlama senkronizasyonu.</field>
+        </record>
+
+        <record id="sales_team.group_sale_manager" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_lead_report_manager'))]"/>
+        </record>
+    </data>
+</odoo>

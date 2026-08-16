@@ -104,5 +104,11 @@
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('group_marketing_user'))]"/>
         </record>
+        <record id="rule_marketing_daily_metric_company" model="ir.rule">
+            <field name="name">Marketing Daily Metric: company</field>
+            <field name="model_id" ref="model_tcrm_marketing_daily_metric"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_marketing_user'))]"/>
+        </record>
     </data>
 </odoo>

@@ -1,0 +1,73 @@
+# Translation of TCRM Lead Raporu module
+# Copyright (C) 2026 Tcrm S.A.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tcrm_lead_report 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-16 12:00+0000\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: tcrm_lead_report
+#: model:ir.actions.client,name:tcrm_lead_report.action_lead_report_dashboard
+msgid "Lead Raporu"
+msgstr "Lead Raporu"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Toplam Lead"
+msgstr "Toplam Lead"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Bugünkü Lead"
+msgstr "Bugünkü Lead"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Aranan Lead"
+msgstr "Aranan Lead"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Aranmayan Lead"
+msgstr "Aranmayan Lead"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Ulaşılan"
+msgstr "Ulaşılan"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Ulaşılamayan"
+msgstr "Ulaşılamayan"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Olumlu"
+msgstr "Olumlu"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Olumsuz"
+msgstr "Olumsuz"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Randevu Verildi"
+msgstr "Randevu Verildi"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Attribution Unknown"
+msgstr "Attribution Bilinmiyor"
+
+#. module: tcrm_lead_report
+#: code:addons/tcrm_lead_report/models/lead_report.py:0
+msgid "Seçilen tarih aralığında lead bulunamadı."
+msgstr "Seçilen tarih aralığında lead bulunamadı."
